@@ -1,0 +1,29 @@
+.custom-scrollbar::-webkit-scrollbar {
+  width: 6px;
+}
+
+.custom-scrollbar::-webkit-scrollbar-track {
+  background: #f1f1f1;
+  border-radius: 3px;
+}
+
+.custom-scrollbar::-webkit-scrollbar-thumb {
+  background: #cecece;
+  border-radius: 3px;
+}
+
+.custom-scrollbar::-webkit-scrollbar-thumb:hover {
+  background: #a7a7a7;
+}
+
+.MuiListItemText-primary {
+  font-size: 14.8px !important;
+  font-weight: 600 !important;
+  color: #6b7280 !important;
+}
+
+.MuiCollapse-root .MuiListItemText-primary {
+  font-size: 14.8px !important;
+  font-weight: 600 !important;
+  color: #6b7280 !important;
+}
