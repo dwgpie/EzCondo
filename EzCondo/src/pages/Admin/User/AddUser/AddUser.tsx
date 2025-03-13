@@ -1,59 +1,89 @@
 import { Button } from '@mui/material'
-import { useState } from 'react'
 import SideBarAdmin from '~/components/SideBar/SideBarAdmin'
+import { useForm } from 'react-hook-form'
+// import { Link, useNavigate } from 'react-router-dom'
+import Input from '~/components/Input'
+// import { getRules } from '~/utils/rules'
+import { yupResolver } from '@hookform/resolvers/yup'
+import { RegisterSchema, CitizenSchema, combinedSchema, MergedSchema, registerSchema } from '~/utils/rules'
+import { useMutation } from '@tanstack/react-query'
+import { registerAccount, addOrUpdateCitizen } from '~/apis/auth.api'
+import { ErrorRespone } from '~/types/utils.type'
+import { isAxiosUnprocessableEntityError } from '~/utils/utils'
+// import { useContext, useState } from 'react'
+// import InputAdornment from '@mui/material/InputAdornment'
+// import IconButton from '@mui/material/IconButton'
+// import { AppContext } from '~/contexts/app.context'
+// import { log } from 'node:console'
 
-interface FormData {
-  name: string
-  phone: string
-  dateOfBirth: string
-  email: string
-  gender: string
-  apartment: string
-  role: string
-  citizenId: string
-  dateOfIssue: string
-  dateOfExpiry: string
-  frontCardImage?: File
-  backCardImage?: File
-}
+// interface FormData {
+//   name: string
+//   phone: string
+//   dateOfBirth: string
+//   email: string
+//   gender: string
+//   apartment: string
+//   role: string
+//   citizenId: string
+//   dateOfIssue: string
+//   dateOfExpiry: string
+//   frontCardImage?: File
+//   backCardImage?: File
+// }
+
+type FormData = MergedSchema
 
 export default function AddUser() {
-  const [formData, setFormData] = useState<FormData>({
-    name: '',
-    phone: '',
-    dateOfBirth: '',
-    email: '',
-    gender: '',
-    apartment: '',
-    role: 'resident',
-    citizenId: '',
-    dateOfIssue: '',
-    dateOfExpiry: ''
+  // const [formData, setFormData] = useState<FormData>({
+  //   name: '',
+  //   phone: '',
+  //   dateOfBirth: '',
+  //   email: '',
+  //   gender: '',
+  //   apartment: '',
+  //   role: 'resident',
+  //   citizenId: '',
+  //   dateOfIssue: '',
+  //   dateOfExpiry: ''
+  // })
+
+  const {
+    register,
+    handleSubmit,
+    setError,
+    formState: { errors }
+  } = useForm<FormData>({ resolver: yupResolver(combinedSchema) })
+
+  const registerAccountMutation = useMutation({
+    mutationFn: async (body: FormData) => {
+      const userId = await registerAccount(body)
+      return userId.data // Return userId after processing
+    },
+    onSuccess: (userId) => {
+      console.log('User ID:', userId) // Handle the userId when the mutation is successful
+    }
   })
 
-  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
-    const { name, value } = e.target
-    setFormData((prev) => ({
-      ...prev,
-      [name]: value
-    }))
-  }
-
-  const handleImageUpload = (e: React.ChangeEvent<HTMLInputElement>, side: 'front' | 'back') => {
-    const file = e.target.files?.[0]
-    if (file) {
-      setFormData((prev) => ({
-        ...prev,
-        [side === 'front' ? 'frontCardImage' : 'backCardImage']: file
-      }))
-    }
-  }
-
-  const handleSubmit = (e: React.FormEvent) => {
-    e.preventDefault()
-    // Xử lý logic gửi form ở đây
-    console.log(formData)
-  }
+  const onSubmit = handleSubmit((data) => {
+    registerAccountMutation.mutate(data, {
+      onSuccess: () => {
+        console.log(data)
+      },
+      onError: (error) => {
+        if (isAxiosUnprocessableEntityError<ErrorRespone<FormData>>(error)) {
+          const formError = error.response?.data.data
+          if (formError) {
+            Object.keys(formError).forEach((key) => {
+              setError(key as keyof FormData, {
+                // message: formError[key as keyof typeof formError],
+                type: 'Server'
+              })
+            })
+          }
+        }
+      }
+    })
+  })
 
   return (
     <div className='bg-[#EDF2F9] pt-25 z-13'>
@@ -66,71 +96,78 @@ export default function AddUser() {
           <div className='text-2xl font-semibold mb-5 py-4 px-6 bg-white drop-shadow-md rounded-xl'>Add User</div>
           <div className='mb-6 p-6 bg-white drop-shadow-md rounded-xl'>
             <h2 className='text-xl mb-4 text-black font-semibold'>Account Information</h2>
-            <form onSubmit={handleSubmit}>
+            <form className='rounded' noValidate onSubmit={onSubmit}>
               <div className='grid grid-cols-3 gap-4'>
                 <div className='space-y-2'>
                   <label className='block text-sm font-medium'>Name</label>
-                  <input
-                    type='text'
-                    name='name'
-                    value={formData.name}
-                    onChange={handleInputChange}
-                    className='w-full p-2 border rounded-md'
+                  <Input
+                    name='fullName'
+                    type='fullName'
+                    placeholder='Name'
+                    register={register}
+                    className='mt-7'
+                    errorMessage={errors.fullName?.message}
                   />
                 </div>
+
                 <div className='space-y-2'>
                   <label className='block text-sm font-medium'>Phone number</label>
-                  <input
-                    type='tel'
-                    name='phone'
-                    value={formData.phone}
-                    onChange={handleInputChange}
-                    className='w-full p-2 border rounded-md'
+                  <Input
+                    name='phoneNumber'
+                    type='phoneNumber'
+                    placeholder='Phone Nunber'
+                    register={register}
+                    className='mt-7'
+                    errorMessage={errors.phoneNumber?.message}
                   />
                 </div>
                 <div className='space-y-2'>
                   <label className='block text-sm font-medium'>Date of birth</label>
-                  <input
-                    type='date'
+                  <Input
                     name='dateOfBirth'
-                    value={formData.dateOfBirth}
-                    onChange={handleInputChange}
-                    className='w-full p-2 border rounded-md'
+                    type='dateOfBirth'
+                    placeholder='Date of Birth'
+                    register={register}
+                    className='mt-7'
+                    errorMessage={errors.dateOfBirth?.message}
                   />
                 </div>
                 <div className='space-y-2'>
                   <label className='block text-sm font-medium'>Email</label>
-                  <input
-                    type='email'
+                  <Input
                     name='email'
-                    value={formData.email}
-                    onChange={handleInputChange}
-                    className='w-full p-2 border rounded-md'
+                    type='email'
+                    placeholder='Email'
+                    register={register}
+                    className='mt-7'
+                    errorMessage={errors.email?.message}
                   />
                 </div>
                 <div className='space-y-2'>
                   <label className='block text-sm font-medium'>Gender</label>
-                  <input
-                    type='text'
+                  <Input
                     name='gender'
-                    value={formData.gender}
-                    onChange={handleInputChange}
-                    className='w-full p-2 border rounded-md'
+                    type='gender'
+                    placeholder='Gender'
+                    register={register}
+                    className='mt-7'
+                    errorMessage={errors.gender?.message}
                   />
                 </div>
                 <div className='space-y-2'>
                   <label className='block text-sm font-medium'>Apartment</label>
-                  <input
-                    type='text'
-                    name='apartment'
-                    value={formData.apartment}
-                    onChange={handleInputChange}
-                    className='w-full p-2 border rounded-md'
+                  <Input
+                    name='apartmentNumber'
+                    type='apartmentNumber'
+                    placeholder='Apartment Number'
+                    register={register}
+                    className='mt-7'
+                    errorMessage={errors.apartmentNumber?.message}
                   />
                 </div>
                 <div className='space-y-2'>
                   <label className='block text-sm font-medium'>Role</label>
-                  <select
+                  {/* <select
                     name='role'
                     value={formData.role}
                     onChange={handleInputChange}
@@ -139,11 +176,77 @@ export default function AddUser() {
                     <option value='resident'>Resident</option>
                     <option value='admin'>Manager</option>
                     <option value='support_team'>Support team</option>
-                  </select>
+                  </select> */}
+                  <Input
+                    name='roleName'
+                    type='roleName'
+                    placeholder='Role Name'
+                    register={register}
+                    className='mt-7'
+                    errorMessage={errors.roleName?.message}
+                  />
                 </div>
               </div>
 
               <div className='mt-8'>
+                <h3 className='text-lg mb-4 font-semibold'>Citizen Identity Card</h3>
+                <div className='grid grid-cols-3 gap-4'>
+                  <div className='space-y-2'>
+                    <label className='block text-sm font-medium'>No</label>
+                    <Input
+                      name='no'
+                      type='no'
+                      placeholder='Citizen ID'
+                      register={register}
+                      className='mt-7'
+                      errorMessage={errors.no?.message}
+                    />
+                  </div>
+                  <div className='space-y-2'>
+                    <label className='block text-sm font-medium'>Date of issue</label>
+                    <Input
+                      name='dateOfIssue'
+                      type='dateOfIssue'
+                      placeholder='Date of Issue'
+                      register={register}
+                      className='mt-7'
+                      errorMessage={errors.dateOfIssue?.message}
+                    />
+                  </div>
+                  <div className='space-y-2'>
+                    <label className='block text-sm font-medium'>Date of expiry</label>
+                    <Input
+                      name='dateOfExpiry'
+                      type='dateOfExpiry'
+                      placeholder='Date of Expiry'
+                      register={register}
+                      className='mt-7'
+                      errorMessage={errors.dateOfExpiry?.message}
+                    />
+                  </div>
+                </div>
+              </div>
+
+              <div className='flex justify-end gap-4 mt-6'>
+                <Button
+                  variant='contained'
+                  onClick={() => {
+                    // Xử lý logic cancel
+                  }}
+                  style={{ color: 'white', background: 'red', fontWeight: 'semi-bold' }} // Add this line
+                >
+                  Cancel
+                </Button>
+                <Button
+                  type='submit'
+                  variant='contained'
+                  style={{ color: 'white', background: '#2976ce', fontWeight: 'semi-bold', width: '100%' }}
+                >
+                  Submit
+                </Button>
+              </div>
+
+              {/* <div className='mt-8'>
                 <h3 className='text-lg mb-4 font-semibold'>Citizen Identity Card</h3>
                 <div className='grid grid-cols-3 gap-4'>
                   <div className='space-y-2'>
@@ -230,26 +333,7 @@ export default function AddUser() {
                 </div>
               </div>
 
-              <div className='flex justify-end gap-4 mt-6'>
-                <Button
-                  variant='contained'
-                  onClick={() => {
-                    // Xử lý logic cancel
-                  }}
-                  style={{ color: 'white', background: 'red', fontWeight: 'semi-bold' }} // Add this line
-                >
-                  Cancel
-                </Button>
-                <Button
-                  variant='contained'
-                  onClick={() => {
-                    // Xử lý logic cancel
-                  }}
-                  style={{ color: 'white', fontWeight: 'semi-bold' }} // Add this line
-                >
-                  Add
-                </Button>
-              </div>
+              </div> */}
             </form>
           </div>
         </div>
