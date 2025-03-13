@@ -11,15 +11,15 @@ export const registerAccount = (body: {
   gender: 'Man' | 'Male' // Cập nhật để khớp với schema
   roleName: 'Admin' | 'Resident'
   apartmentNumber: string
-}) => http.post<AuthRespone>('/api/Admin/Add-User', body)
+}) => http.post('/api/Admin/Add-User', body)
 
 export const addOrUpdateCitizen = (body: {
   userId: string
   no: string
   dateOfIssue: string // YYYY-MM-DD format
   dateOfExpiry: string // YYYY-MM-DD format
-  frontImage: null
-  backImage: null
+  frontImage: string
+  backImage: string
 }) => {
   return http.post('/api/Admin/Add-Or-Update-Citizen', body)
 }

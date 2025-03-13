@@ -10,7 +10,7 @@ import { useMutation } from '@tanstack/react-query'
 import { registerAccount, addOrUpdateCitizen } from '~/apis/auth.api'
 import { ErrorRespone } from '~/types/utils.type'
 import { isAxiosUnprocessableEntityError } from '~/utils/utils'
-// import { useContext, useState } from 'react'
+import { useState } from 'react'
 // import InputAdornment from '@mui/material/InputAdornment'
 // import IconButton from '@mui/material/IconButton'
 // import { AppContext } from '~/contexts/app.context'
@@ -31,7 +31,16 @@ import { isAxiosUnprocessableEntityError } from '~/utils/utils'
 //   backCardImage?: File
 // }
 
-type FormData = MergedSchema
+type FormData = RegisterSchema
+
+interface CitizenData {
+  userId: string
+  no: string
+  dateOfIssue: string
+  dateOfExpiry: string
+  frontImage: string
+  backImage: string
+}
 
 export default function AddUser() {
   // const [formData, setFormData] = useState<FormData>({
@@ -52,37 +61,51 @@ export default function AddUser() {
     handleSubmit,
     setError,
     formState: { errors }
-  } = useForm<FormData>({ resolver: yupResolver(combinedSchema) })
+  } = useForm<FormData>({ resolver: yupResolver(registerSchema) })
 
+  // API 1: Đăng ký tài khoản
   const registerAccountMutation = useMutation({
-    mutationFn: async (body: FormData) => {
-      const userId = await registerAccount(body)
-      return userId.data // Return userId after processing
+    mutationFn: async (body: RegisterSchema) => {
+      const response = await registerAccount(body)
+      return response.data // API 1 trả về userId
     },
     onSuccess: (userId) => {
-      console.log('User ID:', userId) // Handle the userId when the mutation is successful
+      console.log('User ID:', userId)
+
+      // Tạo dữ liệu cho API 2 từ form
+      const citizenData: CitizenData = {
+        userId,
+        no: '',
+        dateOfIssue: new Date().toISOString().split('T')[0],
+        dateOfExpiry: new Date(new Date().setFullYear(new Date().getFullYear() + 10)).toISOString().split('T')[0],
+        frontImage: '',
+        backImage: ''
+      }
+
+      addOrUpdateCitizenMutation.mutate(citizenData)
+    },
+    onError: (error) => {
+      console.error('Lỗi khi đăng ký tài khoản:', error)
     }
   })
 
-  const onSubmit = handleSubmit((data) => {
-    registerAccountMutation.mutate(data, {
-      onSuccess: () => {
-        console.log(data)
-      },
-      onError: (error) => {
-        if (isAxiosUnprocessableEntityError<ErrorRespone<FormData>>(error)) {
-          const formError = error.response?.data.data
-          if (formError) {
-            Object.keys(formError).forEach((key) => {
-              setError(key as keyof FormData, {
-                // message: formError[key as keyof typeof formError],
-                type: 'Server'
-              })
-            })
-          }
-        }
-      }
-    })
+  // API 2: Thêm hoặc cập nhật công dân
+  const addOrUpdateCitizenMutation = useMutation({
+    mutationFn: async (body: CitizenSchema) => {
+      const response = await addOrUpdateCitizen(body)
+      return response.data
+    },
+    onSuccess: (data) => {
+      console.log('Cập nhật công dân thành công:', data)
+    },
+    onError: (error) => {
+      console.error('Lỗi khi cập nhật công dân:', error)
+    }
+  })
+
+  // Xử lý submit form
+  const onSubmit = handleSubmit((formData) => {
+    registerAccountMutation.mutate(formData)
   })
 
   return (
@@ -199,7 +222,7 @@ export default function AddUser() {
                       placeholder='Citizen ID'
                       register={register}
                       className='mt-7'
-                      errorMessage={errors.no?.message}
+                      // errorMessage={errors.no?.message}
                     />
                   </div>
                   <div className='space-y-2'>
@@ -210,7 +233,7 @@ export default function AddUser() {
                       placeholder='Date of Issue'
                       register={register}
                       className='mt-7'
-                      errorMessage={errors.dateOfIssue?.message}
+                      // errorMessage={errors.dateOfIssue?.message}
                     />
                   </div>
                   <div className='space-y-2'>
@@ -221,7 +244,29 @@ export default function AddUser() {
                       placeholder='Date of Expiry'
                       register={register}
                       className='mt-7'
-                      errorMessage={errors.dateOfExpiry?.message}
+                      // errorMessage={errors.dateOfExpiry?.message}
+                    />
+                  </div>
+                  <div className='space-y-2'>
+                    <label className='block text-sm font-medium'>Font</label>
+                    <Input
+                      name='frontImage'
+                      type='frontImage'
+                      placeholder='Font Image'
+                      register={register}
+                      className='mt-7'
+                      // errorMessage={errors.dateOfExpiry?.message}
+                    />
+                  </div>
+                  <div className='space-y-2'>
+                    <label className='block text-sm font-medium'>Back</label>
+                    <Input
+                      name='dateOfExpiry'
+                      type='dateOfExpiry'
+                      placeholder='Back Image'
+                      register={register}
+                      className='mt-7'
+                      // errorMessage={errors.dateOfExpiry?.message}
                     />
                   </div>
                 </div>
