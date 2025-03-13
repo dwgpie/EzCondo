@@ -118,14 +118,13 @@ export const citizenSchema = yup.object({
     .string()
     .matches(/^\d{4}-\d{2}-\d{2}$/, 'Ngày sinh phải có định dạng YYYY-MM-DD')
     .required('Ngày sinh là bắt buộc'),
-  frontImage: yup.mixed().required('Ảnh mặt trước là bắt buộc'),
-  backImage: yup.mixed().required('Ảnh mặt sau là bắt buộc')
+  frontImage: yup.string().required('Ảnh mặt trước là bắt buộc'),
+  backImage: yup.string().required('Ảnh mặt sau là bắt buộc')
 })
 
 export type CitizenSchema = yup.InferType<typeof citizenSchema>
 
 export type RegisterSchema = yup.InferType<typeof registerSchema>
-
 
 // cái này dành cho login: OMIT bỏ confirm_password đi
 export const loginSchema = schema.omit(['confirm_password'])
@@ -134,5 +133,4 @@ export type Schema = yup.InferType<typeof schema>
 
 export const combinedSchema = registerSchema.concat(citizenSchema)
 
-export type MergedSchema = yup.InferType<typeof combinedSchema>;
-
+export type MergedSchema = yup.InferType<typeof combinedSchema>
