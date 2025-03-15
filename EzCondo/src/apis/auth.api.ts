@@ -8,18 +8,35 @@ export const registerAccount = (body: {
   email: string
   phoneNumber: string
   dateOfBirth: string
-  gender: 'Man' | 'Male' // Cập nhật để khớp với schema
-  roleName: 'Admin' | 'Resident'
+  gender: string
+  roleName: string
   apartmentNumber: string
 }) => http.post('/api/Admin/Add-User', body)
 
 export const addOrUpdateCitizen = (body: {
   userId: string
   no: string
-  dateOfIssue: string // YYYY-MM-DD format
-  dateOfExpiry: string // YYYY-MM-DD format
-  frontImage: string
-  backImage: string
+  dateOfIssue: string
+  dateOfExpiry: string
+  frontImage: File
+  backImage: File
 }) => {
-  return http.post('/api/Admin/Add-Or-Update-Citizen', body)
+  const formData = new FormData()
+  formData.append('UserId', body.userId)
+  formData.append('No', body.no)
+  formData.append('DateOfIssue', body.dateOfIssue)
+  formData.append('DateOfExpiry', body.dateOfExpiry)
+  formData.append('FrontImage', body.frontImage)
+  formData.append('BackImage', body.backImage)
+
+  return http.post('/api/Admin/Add-Or-Update-Citizen', formData, {
+    headers: {
+      'Content-Type': 'multipart/form-data'
+    }
+  })
 }
+
+export const forgotPassword = (body: { email: string }) => http.post('/api/Auth/forgot-password', body)
+
+export const resetPassword = (body: { email: string; code: string; newPassword: string }) =>
+  http.post('/api/Auth/reset-password', body)

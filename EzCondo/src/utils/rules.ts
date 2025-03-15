@@ -55,74 +55,79 @@ import * as yup from 'yup'
 // })
 
 // Validation có thể dùng cách này hoặc cách ở trên
+
 export const schema = yup.object({
   email: yup
     .string()
-    .email('Email không đúng định dạng ')
-    .required('Email là bắt buộc')
-    .min(5, 'Độ dài từ 5 - 160 ký tự')
-    .max(160, 'Độ dài từ 5 - 160 ký tự'),
+    .email('Invalid email format')
+    .required('Email is required')
+    .min(5, 'Length must be between 5 - 160 characters')
+    .max(160, 'Length must be between 5 - 160 characters'),
   password: yup
     .string()
-    .required('Password là bắt buộc')
-    .min(6, 'Độ dài từ 6 - 160 ký tự')
-    .max(160, 'Độ dài từ 6 - 160 ký tự'),
+    .required('Password is required')
+    .min(6, 'Length must be between 5 - 160 characters')
+    .max(160, 'Length must be between 5 - 160 characters'),
   confirm_password: yup
     .string()
-    .required('Nhập lại Password là bắt buộc')
-    .min(6, 'Độ dài từ 6 - 160 ký tự')
-    .max(160, 'Độ dài từ 6 - 160 ký tự')
-    .oneOf([yup.ref('password')], 'Nhập lại Password không khớp')
+    .required('Confirm Password is required')
+    .min(6, 'Length must be between 5 - 160 characters')
+    .max(160, 'Length must be between 5 - 160 characters')
+    .oneOf([yup.ref('password')], 'Confirm Password does not match')
 })
 
 export const registerSchema = yup.object({
   fullName: yup
     .string()
     .trim()
-    .required('Họ và tên là bắt buộc')
-    .min(2, 'Họ và tên phải có ít nhất 2 ký tự')
-    .max(100, 'Họ và tên không được quá 100 ký tự'),
-
+    .required('Full name is required')
+    .min(2, 'Full name must be at least 2 characters long')
+    .max(100, 'Full name cannot exceed 100 characters'),
   email: yup
     .string()
-    .email('Email không đúng định dạng ')
-    .required('Email là bắt buộc')
-    .min(5, 'Độ dài từ 5 - 160 ký tự')
-    .max(160, 'Độ dài từ 5 - 160 ký tự'),
-
+    .email('Invalid email format')
+    .required('Email is required')
+    .min(5, 'Length must be between 5 - 160 characters')
+    .max(160, 'Length must be between 5 - 160 characters'),
   phoneNumber: yup
     .string()
     .trim()
-    .matches(/^[0-9]{10,15}$/, 'Số điện thoại không hợp lệ')
-    .required('Số điện thoại là bắt buộc'),
-
-  dateOfBirth: yup
+    .matches(/^[0-9]{10,15}$/, 'Invalid phone number')
+    .required('Phone number is required'),
+  dateOfBirth: yup.string().required('Date of birth is required'),
+  gender: yup.string().required('Gender is required'),
+  roleName: yup.string().required('Role is required'),
+  apartmentNumber: yup
     .string()
-    .matches(/^\d{4}-\d{2}-\d{2}$/, 'Ngày sinh phải có định dạng YYYY-MM-DD')
-    .required('Ngày sinh là bắt buộc'),
-  gender: yup.string().oneOf(['Man', 'Male'], 'Giới tính không hợp lệ').required('Giới tính là bắt buộc'),
-
-  roleName: yup.string().trim().oneOf(['Admin', 'Resident'], 'Vai trò không hợp lệ').required('Vai trò là bắt buộc'),
-
-  apartmentNumber: yup.string().trim().required('Số căn hộ là bắt buộc').max(50, 'Số căn hộ không được quá 50 ký tự')
+    .trim()
+    .required('Apartment number is required')
+    .max(50, 'Apartment number cannot exceed 50 characters'),
+  userId: yup.string(),
+  no: yup.string().required('ID card number is required'),
+  dateOfIssue: yup.string().required('Date of issue is required'),
+  dateOfExpiry: yup.string().required('Date of expiry is required'),
+  frontImage: yup.mixed<File>().required('Front image is required') as yup.Schema<File>,
+  backImage: yup.mixed<File>().required('Back image is required') as yup.Schema<File>
 })
 
-export const citizenSchema = yup.object({
-  userId: yup.string().required('UserId là bắt buộc'),
-  no: yup.string().required('Số CCCD là bắt buộc'),
-  dateOfIssue: yup
+export const resetPasswordSchema = yup.object({
+  email: yup
     .string()
-    .matches(/^\d{4}-\d{2}-\d{2}$/, 'Ngày sinh phải có định dạng YYYY-MM-DD')
-    .required('Ngày sinh là bắt buộc'),
-  dateOfExpiry: yup
+    .email('Invalid email format')
+    .required('Email is required')
+    .min(5, 'Length must be between 5 - 160 characters')
+    .max(160, 'Length must be between 5 - 160 characters'),
+  newPassword: yup
     .string()
-    .matches(/^\d{4}-\d{2}-\d{2}$/, 'Ngày sinh phải có định dạng YYYY-MM-DD')
-    .required('Ngày sinh là bắt buộc'),
-  frontImage: yup.string().required('Ảnh mặt trước là bắt buộc'),
-  backImage: yup.string().required('Ảnh mặt sau là bắt buộc')
+    .required('New Password is required')
+    .min(6, 'Length must be between 5 - 160 characters')
+    .max(160, 'Length must be between 5 - 160 characters'),
+  code: yup
+    .string()
+    .matches(/^\d+$/, 'OTP code must be numeric')
+    .required('OTP code is required')
+    .min(6, 'OTP code must be at least 6 characters long')
 })
-
-export type CitizenSchema = yup.InferType<typeof citizenSchema>
 
 export type RegisterSchema = yup.InferType<typeof registerSchema>
 
@@ -131,6 +136,7 @@ export const loginSchema = schema.omit(['confirm_password'])
 export type LoginSchema = yup.InferType<typeof loginSchema>
 export type Schema = yup.InferType<typeof schema>
 
-export const combinedSchema = registerSchema.concat(citizenSchema)
+export const forgotSchema = schema.omit(['confirm_password', 'password'])
+export type ForgotSchema = yup.InferType<typeof forgotSchema>
 
-export type MergedSchema = yup.InferType<typeof combinedSchema>
+export type ResetPasswordSchema = yup.InferType<typeof resetPasswordSchema>

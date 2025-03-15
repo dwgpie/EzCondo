@@ -11,7 +11,6 @@ class Http {
     this.accessToken = getAccessTokenFromLocalStorage()
     this.instance = axios.create({
       baseURL: 'https://localhost:7254',
-      timeout: 10000,
       headers: {
         'Content-Type': 'application/json'
       }
@@ -34,7 +33,7 @@ class Http {
       (response) => {
         const { url } = response.config
         if (url === '/api/Auth/Login') {
-          this.accessToken = (response.data as AuthRespone).data.token
+          this.accessToken = (response as AuthRespone).data.token
           saveAccessTokenToLocalStorage(this.accessToken)
         } else if (url === '/logout') {
           this.accessToken = ''

@@ -2,9 +2,9 @@ import { useForm } from 'react-hook-form'
 import { Link, useNavigate } from 'react-router-dom'
 import Input from '~/components/Input'
 import { yupResolver } from '@hookform/resolvers/yup'
-import { loginSchema, LoginSchema } from '~/utils/rules'
+import { ResetPasswordSchema, resetPasswordSchema } from '~/utils/rules'
 import { useMutation } from '@tanstack/react-query'
-import { login } from '~/apis/auth.api'
+import { resetPassword } from '~/apis/auth.api'
 import { ErrorRespone } from '~/types/utils.type'
 import { isAxiosUnprocessableEntityError } from '~/utils/utils'
 import Button from '@mui/material/Button'
@@ -15,12 +15,9 @@ import InputAdornment from '@mui/material/InputAdornment'
 import IconButton from '@mui/material/IconButton'
 import { AppContext } from '~/contexts/app.context'
 
-type FormData = LoginSchema
+type FormData = ResetPasswordSchema
 
-//  "email": "dn4462002@gmail.com",
-//   "password": "Roguemice2002@"
-
-export default function Login() {
+export default function ResetPassword() {
   const { setIsAuthenticated } = useContext(AppContext)
   const navigate = useNavigate()
   const {
@@ -29,18 +26,18 @@ export default function Login() {
     setError,
     formState: { errors }
   } = useForm<FormData>({
-    resolver: yupResolver(loginSchema)
+    resolver: yupResolver(resetPasswordSchema)
   })
 
   const loginMutation = useMutation({
-    mutationFn: (body: Omit<FormData, 'confirm_password'>) => login(body)
+    mutationFn: (body: FormData) => resetPassword(body)
   })
 
   const onSubmit = handleSubmit((data) => {
     loginMutation.mutate(data, {
       onSuccess: () => {
         setIsAuthenticated(true)
-        navigate('/admin/dashboard')
+        navigate('//confirm-password')
       },
       onError: (error) => {
         if (isAxiosUnprocessableEntityError<ErrorRespone<FormData>>(error)) {
@@ -78,31 +75,36 @@ export default function Login() {
         <div className='flex justify-between px-12 py-8'>
           <div className='flex flex-col items-center justify-center'>
             <img src='/public/imgs/logo/lo23-Photoroom.png' className='w-50 h-50 object-cover' />
-            <h1 className='text-[#1f5fa3] font-bold text-5xl mt-5'>Welcome Back!</h1>
-            <p className='text-[#1f5fa3] text-3xl mt-7 w-[460px] text-center'>
-              Enter your personal details to use all of site features
-            </p>
+            <h1 className='text-[#1f5fa3] font-bold text-5xl mt-5'>Reset Password!</h1>
+            <p className='text-[#1f5fa3] text-3xl mt-7 w-[460px] text-center'>Enter your new password. </p>
           </div>
           <div className='bg-white/70 p-6 rounded-lg shadow-lg'>
             <form className='rounded w-[350px]' noValidate onSubmit={onSubmit}>
-              <h2 className='text-[#1f5fa3] text-3xl font-bold mb-4 text-center'>Login</h2>
+              <h2 className='text-[#1f5fa3] text-3xl font-bold mb-4 text-center'>Reset Password</h2>
               <Input
                 name='email'
                 type='email'
                 placeholder='Email'
                 register={register}
-                // rules={rules.email}
                 className='mt-7'
                 errorMessage={errors.email?.message}
               />
+              <Input
+                name='code'
+                type='code'
+                placeholder='Code'
+                register={register}
+                className='mt-2'
+                errorMessage={errors.code?.message}
+              />
               <div className='mt-2 relative'>
                 <Input
-                  name='password'
+                  name='newPassword'
                   type={showPassword ? 'text' : 'password'}
-                  placeholder='Password'
+                  placeholder='New Password'
                   register={register}
                   className='w-full'
-                  errorMessage={errors.password?.message}
+                  errorMessage={errors.newPassword?.message}
                   autoComplete='on'
                 />
                 <InputAdornment position='end' className='absolute right-0 top-0 mt-2 mr-4'>
@@ -111,19 +113,18 @@ export default function Login() {
                   </IconButton>
                 </InputAdornment>
               </div>
-
-              <div className='mt-5'>
+              <div className='mt-3'>
                 <Button
                   type='submit'
                   variant='contained'
                   style={{ color: 'white', background: '#2976ce', fontWeight: 'semi-bold', width: '100%' }}
                 >
-                  Login
+                  Reset Password
                 </Button>
               </div>
               <div className='mt-8 flex items-center justify-center'>
-                <Link className='ml-1 text-[#1f5fa3]' to='/forgot-password'>
-                  Forgot password?
+                <Link className='ml-1 text-[#1f5fa3]' to='/login'>
+                  Login
                 </Link>
               </div>
             </form>

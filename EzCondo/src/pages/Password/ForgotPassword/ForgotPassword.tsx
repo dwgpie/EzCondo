@@ -2,25 +2,18 @@ import { useForm } from 'react-hook-form'
 import { Link, useNavigate } from 'react-router-dom'
 import Input from '~/components/Input'
 import { yupResolver } from '@hookform/resolvers/yup'
-import { loginSchema, LoginSchema } from '~/utils/rules'
+import { forgotSchema, ForgotSchema } from '~/utils/rules'
 import { useMutation } from '@tanstack/react-query'
-import { login } from '~/apis/auth.api'
+import { forgotPassword } from '~/apis/auth.api'
 import { ErrorRespone } from '~/types/utils.type'
 import { isAxiosUnprocessableEntityError } from '~/utils/utils'
 import Button from '@mui/material/Button'
-import Visibility from '@mui/icons-material/Visibility'
-import VisibilityOff from '@mui/icons-material/VisibilityOff'
-import { useContext, useState } from 'react'
-import InputAdornment from '@mui/material/InputAdornment'
-import IconButton from '@mui/material/IconButton'
+import { useContext } from 'react'
 import { AppContext } from '~/contexts/app.context'
 
-type FormData = LoginSchema
+type FormData = ForgotSchema
 
-//  "email": "dn4462002@gmail.com",
-//   "password": "Roguemice2002@"
-
-export default function Login() {
+export default function ForgotPassword() {
   const { setIsAuthenticated } = useContext(AppContext)
   const navigate = useNavigate()
   const {
@@ -29,18 +22,18 @@ export default function Login() {
     setError,
     formState: { errors }
   } = useForm<FormData>({
-    resolver: yupResolver(loginSchema)
+    resolver: yupResolver(forgotSchema)
   })
 
   const loginMutation = useMutation({
-    mutationFn: (body: Omit<FormData, 'confirm_password'>) => login(body)
+    mutationFn: (body: Omit<FormData, 'confirm_password' | 'password'>) => forgotPassword(body)
   })
 
   const onSubmit = handleSubmit((data) => {
     loginMutation.mutate(data, {
       onSuccess: () => {
         setIsAuthenticated(true)
-        navigate('/admin/dashboard')
+        navigate('/reset-password')
       },
       onError: (error) => {
         if (isAxiosUnprocessableEntityError<ErrorRespone<FormData>>(error)) {
@@ -59,12 +52,6 @@ export default function Login() {
     console.log(data)
   })
 
-  const [showPassword, setShowPassword] = useState(false)
-
-  const toggleShowPassword = () => {
-    setShowPassword((prev) => !prev)
-  }
-
   return (
     <div className='w-full h-screen flex justify-center items-center bg-cover bg-center bg-[url(/public/imgs/bg/bg-2.webp)]'>
       <div className='bg-white/50 backdrop-blur-md p-4 rounded-lg shadow-lg w-full max-w-6xl h-[600px] '>
@@ -78,52 +65,35 @@ export default function Login() {
         <div className='flex justify-between px-12 py-8'>
           <div className='flex flex-col items-center justify-center'>
             <img src='/public/imgs/logo/lo23-Photoroom.png' className='w-50 h-50 object-cover' />
-            <h1 className='text-[#1f5fa3] font-bold text-5xl mt-5'>Welcome Back!</h1>
+            <h1 className='text-[#1f5fa3] font-bold text-5xl mt-5'>Check Email!</h1>
             <p className='text-[#1f5fa3] text-3xl mt-7 w-[460px] text-center'>
-              Enter your personal details to use all of site features
+              Please enter your email. You will receive an OTP via email.
             </p>
           </div>
-          <div className='bg-white/70 p-6 rounded-lg shadow-lg'>
+          <div className='bg-white/70 p-6 rounded-lg shadow-lg h-[300px]'>
             <form className='rounded w-[350px]' noValidate onSubmit={onSubmit}>
-              <h2 className='text-[#1f5fa3] text-3xl font-bold mb-4 text-center'>Login</h2>
+              <h2 className='text-[#1f5fa3] text-3xl font-bold mb-4 text-center'>Forgot Password</h2>
               <Input
                 name='email'
                 type='email'
                 placeholder='Email'
                 register={register}
-                // rules={rules.email}
-                className='mt-7'
+                className='mt-10'
                 errorMessage={errors.email?.message}
               />
-              <div className='mt-2 relative'>
-                <Input
-                  name='password'
-                  type={showPassword ? 'text' : 'password'}
-                  placeholder='Password'
-                  register={register}
-                  className='w-full'
-                  errorMessage={errors.password?.message}
-                  autoComplete='on'
-                />
-                <InputAdornment position='end' className='absolute right-0 top-0 mt-2 mr-4'>
-                  <IconButton onClick={toggleShowPassword} edge='end' aria-label='toggle password visibility'>
-                    {showPassword ? <Visibility /> : <VisibilityOff />}
-                  </IconButton>
-                </InputAdornment>
-              </div>
 
-              <div className='mt-5'>
+              <div className='mt-3'>
                 <Button
                   type='submit'
                   variant='contained'
                   style={{ color: 'white', background: '#2976ce', fontWeight: 'semi-bold', width: '100%' }}
                 >
-                  Login
+                  Submit
                 </Button>
               </div>
               <div className='mt-8 flex items-center justify-center'>
-                <Link className='ml-1 text-[#1f5fa3]' to='/forgot-password'>
-                  Forgot password?
+                <Link className='ml-1 text-[#1f5fa3]' to='/login'>
+                  Login
                 </Link>
               </div>
             </form>
