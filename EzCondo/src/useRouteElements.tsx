@@ -12,6 +12,8 @@ import ManageIncident from './pages/SupportTeam/ManageIncident'
 import { useContext } from 'react'
 import { AppContext } from './contexts/app.context'
 import { Outlet, useRoutes, Navigate } from 'react-router-dom'
+import ForgotPassword from './pages/Password/ForgotPassword'
+import ResetPassword from './pages/Password/ResetPassword'
 
 // function ProtectedRoute() {
 //   const { isAuthenticated } = useContext(AppContext) // Lấy từ context
@@ -47,6 +49,14 @@ export default function useRouteElements() {
         {
           path: '/login',
           element: <Login />
+        },
+        {
+          path: '/forgot-password',
+          element: <ForgotPassword />
+        },
+        {
+          path: '/reset-password',
+          element: <ResetPassword />
         }
       ]
     },

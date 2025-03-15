@@ -26,7 +26,7 @@ export default function Input({
     <div className={className}>
       <input
         type={type}
-        className='w-full h-11 pl-4 outline-none border border-gray-300 focus:border-gray-500 rounded-sm focus:shadow-sm'
+        className='w-full h-11 pl-2 outline-none border border-gray-300 focus:border-gray-500 rounded-sm focus:shadow-sm'
         placeholder={placeholder}
         {...register(name, rules)}
         autoComplete={autoComplete}
