@@ -9,6 +9,8 @@ import Electricity from './pages/Admin/ManageFee/Electricity'
 import { Water } from '@mui/icons-material'
 import Service from './pages/Admin/ManageFee/Service/ListService/Service'
 import ManageIncident from './pages/SupportTeam/ManageIncident'
+import Notification from './pages/Admin/Notification/NotificationHistory'
+import CreateNotification from './pages/Admin/Notification/CreateNotification'
 import { useContext } from 'react'
 import { AppContext } from './contexts/app.context'
 import { Outlet, useRoutes, Navigate } from 'react-router-dom'
@@ -121,6 +123,23 @@ export default function useRouteElements() {
           )
         }
       ]
+    },
+
+    {
+      path: '/admin/notification',
+      element: (
+        <DashboardLayout>
+          <Notification />
+        </DashboardLayout>
+      )
+    },
+    {
+      path: '/admin/create-notification',
+      element: (
+        <DashboardLayout>
+          <CreateNotification />
+        </DashboardLayout>
+      )
     },
     {
       path: '/support-team/manage-incident',

@@ -23,6 +23,7 @@ import '../SideBar.css'
 export default function SideBarAdmin() {
   const [open, setOpen] = React.useState(true)
   const [open2, setOpen2] = React.useState(true)
+  const [open3, setOpen3] = React.useState(true)
   const location = useLocation()
 
   const handleClick = () => {
@@ -31,6 +32,10 @@ export default function SideBarAdmin() {
 
   const handleClick2 = () => {
     setOpen2(!open2)
+  }
+
+  const handleClick3 = () => {
+    setOpen3(!open3)
   }
 
   const isActive = (path: string) => {
@@ -171,10 +176,38 @@ export default function SideBarAdmin() {
             py: 0.5
           }}
         >
-          <ListItemIcon sx={{ minWidth: '35px' }}>
+          {/* <ListItemIcon sx={{ minWidth: '35px' }}>
             <EditNotificationsIcon />
-          </ListItemIcon>
-          <ListItemText primary='Notification management' />
+          </ListItemIcon> */}
+          {/* <ListItemText primary='Notification management' /> */}
+          <List component='nav' sx={{ marginTop: '-10px' }}>
+            <CustomListItemButton
+              icon={<EditNotificationsIcon />}
+              text='Notification management'
+              onClick={handleClick3}
+              endIcon={<Box>{open3 ? <ExpandLess /> : <ExpandMore />}</Box>}
+            />
+            <Collapse in={open3} timeout='auto' unmountOnExit>
+              <Link to='/admin/notification'>
+                <CustomListItemButton
+                  icon={<ElectricBoltIcon />}
+                  text='Notification'
+                  isActive={isActive('/admin/notification')}
+                  pl={4}
+                  py={0.5}
+                />
+              </Link>
+              <Link to='/admin/create-notification'>
+                <CustomListItemButton
+                  icon={<WaterDropIcon />}
+                  text='Create Notification'
+                  isActive={isActive('/admin/create-notification')}
+                  pl={4}
+                  py={0.5}
+                />
+              </Link>
+            </Collapse>
+          </List>
         </ListItemButton>
       </div>
     </div>

@@ -1,4 +1,5 @@
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
+import { useMutation } from '@tanstack/react-query'
 import { styled } from '@mui/material/styles'
 import Table from '@mui/material/Table'
 import TableBody from '@mui/material/TableBody'
@@ -13,6 +14,7 @@ import EditIcon from '@mui/icons-material/Edit'
 import DeleteIcon from '@mui/icons-material/Delete'
 import { Link } from 'react-router-dom'
 import SideBarAdmin from '~/components/SideBar/SideBarAdmin'
+import { getAllUser } from '~/apis/auth.api'
 
 interface User {
   id: string
@@ -51,59 +53,80 @@ const StyledTableRow = styled(TableRow)(() => ({
 
 export default function ListUser() {
   const [activeButton, setActiveButton] = useState('Resident')
+  const [listUser, setListUser] = useState<User[]>([])
 
   const handleButtonClick = (buttonName: string) => {
     setActiveButton(buttonName)
   }
+  const getAllUserMutation = useMutation({
+    mutationFn: async () => {
+      // console.log('data:', response.data)
 
-  const users: User[] = [
-    {
-      id: '05023',
-      name: 'Pham Minh Tuan',
-      dateOfBirth: '01/03/2023',
-      gender: 'Male',
-      apartment: 'iAii58',
-      phoneNumber: '0847628516',
-      status: 'Active'
+      // getAllUser()
+      // return response.data
+      const response = await getAllUser()
+      setListUser(response.data)
     },
-    {
-      id: '05023',
-      name: 'Pham Minh Tuan',
-      dateOfBirth: '01/03/2023',
-      gender: 'Male',
-      apartment: 'iAii58',
-      phoneNumber: '0847628516',
-      status: 'Active'
+    onSuccess: (data) => {
+      console.log('Danh sách cư dân thành công:', data)
     },
-    {
-      id: '05023',
-      name: 'Pham Minh Tuan',
-      dateOfBirth: '01/03/2023',
-      gender: 'Male',
-      apartment: 'iAii58',
-      phoneNumber: '0847628516',
-      status: 'Active'
-    },
-    {
-      id: '05023',
-      name: 'Pham Minh Tuan',
-      dateOfBirth: '01/03/2023',
-      gender: 'Male',
-      apartment: 'iAii58',
-      phoneNumber: '0847628516',
-      status: 'Active'
-    },
-    {
-      id: '05023',
-      name: 'Pham Minh Tuan',
-      dateOfBirth: '01/03/2023',
-      gender: 'Male',
-      apartment: 'iAii58',
-      phoneNumber: '0847628516',
-      status: 'Active'
+    onError: (error) => {
+      console.error('Lỗi khi hiển thị danh sách cư dân:', error)
     }
-    // Add more user data as needed
-  ]
+  })
+  useEffect(() => {
+    getAllUserMutation.mutate()
+    console.log('list: ', listUser)
+  }, [])
+
+  // const users: User[] = [
+  //   {
+  //     id: '05023',
+  //     name: 'Pham Minh Tuan',
+  //     dateOfBirth: '01/03/2023',
+  //     gender: 'Male',
+  //     apartment: 'iAii58',
+  //     phoneNumber: '0847628516',
+  //     status: 'Active'
+  //   },
+  //   {
+  //     id: '05023',
+  //     name: 'Pham Minh Tuan',
+  //     dateOfBirth: '01/03/2023',
+  //     gender: 'Male',
+  //     apartment: 'iAii58',
+  //     phoneNumber: '0847628516',
+  //     status: 'Active'
+  //   },
+  //   {
+  //     id: '05023',
+  //     name: 'Pham Minh Tuan',
+  //     dateOfBirth: '01/03/2023',
+  //     gender: 'Male',
+  //     apartment: 'iAii58',
+  //     phoneNumber: '0847628516',
+  //     status: 'Active'
+  //   },
+  //   {
+  //     id: '05023',
+  //     name: 'Pham Minh Tuan',
+  //     dateOfBirth: '01/03/2023',
+  //     gender: 'Male',
+  //     apartment: 'iAii58',
+  //     phoneNumber: '0847628516',
+  //     status: 'Active'
+  //   },
+  //   {
+  //     id: '05023',
+  //     name: 'Pham Minh Tuan',
+  //     dateOfBirth: '01/03/2023',
+  //     gender: 'Male',
+  //     apartment: 'iAii58',
+  //     phoneNumber: '0847628516',
+  //     status: 'Active'
+  //   }
+  //   // Add more user data as needed
+  // ]
 
   return (
     <div className='bg-[#EDF2F9] pt-25 z-13 h-screen'>
@@ -157,9 +180,9 @@ export default function ListUser() {
                   </TableRow>
                 </TableHead>
                 <TableBody>
-                  {users.map((user) => (
+                  {listUser?.map((user) => (
                     <StyledTableRow key={user.id}>
-                      <StyledTableCell>{user.id}</StyledTableCell>
+                      <StyledTableCell>{user.id.slice(-5).toUpperCase()}</StyledTableCell>
                       <StyledTableCell>{user.name}</StyledTableCell>
                       <StyledTableCell>{user.dateOfBirth}</StyledTableCell>
                       <StyledTableCell>{user.gender}</StyledTableCell>

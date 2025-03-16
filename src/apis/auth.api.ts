@@ -36,6 +36,10 @@ export const addOrUpdateCitizen = (body: {
   })
 }
 
+export const getAllUser = () => {
+  return http.get('/api/Admin/Get-All-Users')
+}
+
 export const forgotPassword = (body: { email: string }) => http.post('/api/Auth/forgot-password', body)
 
 export const resetPassword = (body: { email: string; code: string; newPassword: string }) =>
