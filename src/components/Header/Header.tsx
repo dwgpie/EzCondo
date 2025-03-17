@@ -1,10 +1,21 @@
 import SearchIcon from '@mui/icons-material/Search'
 import NotificationsIcon from '@mui/icons-material/Notifications'
 import { Link } from 'react-router-dom'
+import { useContext } from 'react'
+import { SearchContext } from '../Search/SearchContext'
 
 export default function Header() {
   const handleLogout = () => {
     localStorage.removeItem('token')
+  }
+
+  const searchContext = useContext(SearchContext)
+  if (!searchContext) return null
+
+  const { searchQuery, setSearchQuery } = searchContext
+
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setSearchQuery(e.target.value)
   }
 
   return (
@@ -23,6 +34,8 @@ export default function Header() {
             </span>
             <input
               type='text'
+              value={searchQuery}
+              onChange={handleChange}
               placeholder='Search'
               className='border border-gray-400 rounded-full pl-10 pr-4 py-2 w-[300px] bg-white shadow-sm'
             />

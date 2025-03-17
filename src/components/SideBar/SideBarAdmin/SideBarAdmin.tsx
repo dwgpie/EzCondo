@@ -43,17 +43,7 @@ export default function SideBarAdmin() {
   }
 
   return (
-    // <div className='bg-gray-100 z-11'>
-    //   <div className='grid grid-cols-10 gap-10 items-center'>
-    //     <div className='col-span-1'></div>
-    //     <div className='col-span-2'>
-
-    //     </div>
-    //     <div className='col-span-6'></div>
-    //     <div className='col-span-1'></div>
-    //   </div>
-    // </div>
-    <div className='h-[calc(100vh-120px)] overflow-y-auto pr-4 custom-scrollba w-[260px]'>
+    <div className=''>
       <div>
         <Link to='/admin/dashboard'>
           <CustomListItemButton icon={<DashboardIcon />} text='Dashboard' isActive={isActive('/admin/dashboard')} />

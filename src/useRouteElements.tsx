@@ -16,6 +16,7 @@ import { AppContext } from './contexts/app.context'
 import { Outlet, useRoutes, Navigate } from 'react-router-dom'
 import ForgotPassword from './pages/Password/ForgotPassword'
 import ResetPassword from './pages/Password/ResetPassword'
+import EditUser from './pages/Admin/User/EditUser'
 
 // function ProtectedRoute() {
 //   const { isAuthenticated } = useContext(AppContext) // Lấy từ context
@@ -91,6 +92,14 @@ export default function useRouteElements() {
           )
         },
         {
+          path: '/admin/edit-user',
+          element: (
+            <DashboardLayout>
+              <EditUser />
+            </DashboardLayout>
+          )
+        },
+        {
           path: '/admin/fixed-fee',
           element: (
             <DashboardLayout>
@@ -108,11 +117,7 @@ export default function useRouteElements() {
         },
         {
           path: '/admin/electricity',
-          element: (
-            <DashboardLayout>
-              <Electricity />
-            </DashboardLayout>
-          )
+          element: <Electricity />
         },
         {
           path: '/admin/water',
@@ -121,26 +126,26 @@ export default function useRouteElements() {
               <Water />
             </DashboardLayout>
           )
+        },
+        {
+          path: '/admin/notification',
+          element: (
+            <DashboardLayout>
+              <Notification />
+            </DashboardLayout>
+          )
+        },
+        {
+          path: '/admin/create-notification',
+          element: (
+            <DashboardLayout>
+              <CreateNotification />
+            </DashboardLayout>
+          )
         }
       ]
     },
 
-    {
-      path: '/admin/notification',
-      element: (
-        <DashboardLayout>
-          <Notification />
-        </DashboardLayout>
-      )
-    },
-    {
-      path: '/admin/create-notification',
-      element: (
-        <DashboardLayout>
-          <CreateNotification />
-        </DashboardLayout>
-      )
-    },
     {
       path: '/support-team/manage-incident',
       element: (
