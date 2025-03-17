@@ -77,6 +77,7 @@ export const schema = yup.object({
 })
 
 export const registerSchema = yup.object({
+  id: yup.string(),
   fullName: yup
     .string()
     .trim()
@@ -102,6 +103,7 @@ export const registerSchema = yup.object({
     .trim()
     .required('Apartment number is required')
     .max(50, 'Apartment number cannot exceed 50 characters'),
+  status: yup.string().required('Status is required'),
   userId: yup.string(),
   no: yup.string().required('ID card number is required'),
   dateOfIssue: yup.string().required('Date of issue is required'),
@@ -140,3 +142,5 @@ export const forgotSchema = schema.omit(['confirm_password', 'password'])
 export type ForgotSchema = yup.InferType<typeof forgotSchema>
 
 export type ResetPasswordSchema = yup.InferType<typeof resetPasswordSchema>
+
+export const addSchema = registerSchema.omit(['id', 'status'])

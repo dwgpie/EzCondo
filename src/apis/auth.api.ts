@@ -40,7 +40,27 @@ export const getAllUser = () => {
   return http.get('/api/Admin/Get-All-Users')
 }
 
+export const deleteUser = (userId: string) => http.delete(`/api/Admin/delete-user-by-id?userId=${userId}`)
+
+export const getUserById = (userId: string) => http.get(`/api/Admin/get-user-by-id?userId=${userId}`)
+
 export const forgotPassword = (body: { email: string }) => http.post('/api/Auth/forgot-password', body)
 
 export const resetPassword = (body: { email: string; code: string; newPassword: string }) =>
   http.post('/api/Auth/reset-password', body)
+
+export const editUser = (body: {
+  id: string
+  fullName: string
+  email: string
+  phoneNumber: string
+  dateOfBirth: string
+  gender: string
+  roleName: string
+  apartmentNumber: string
+  status: string
+}) => http.patch('/api/Admin/update-user', body)
+
+export const searchUser = (search: string) => {
+  return http.get(`/api/Admin/get-all-users?search=${search}`)
+}
