@@ -98,11 +98,11 @@ export default function SideBarAdmin() {
                 py={0.5}
               />
             </Link>
-            <Link to='/admin/services'>
+            <Link to='/admin/list-service'>
               <CustomListItemButton
                 icon={<BlurLinearIcon />}
                 text='Services'
-                isActive={isActive('/admin/services')}
+                isActive={isActive('/admin/list-service')}
                 pl={4}
                 py={0.5}
               />

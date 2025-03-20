@@ -3,7 +3,7 @@ import SideBarAdmin from '~/components/SideBar/SideBarAdmin'
 import { useForm } from 'react-hook-form'
 import Input from '~/components/Input'
 import { yupResolver } from '@hookform/resolvers/yup'
-import { addSchema } from '~/utils/rules'
+import { addUserSchema } from '~/utils/rules'
 import { registerAccount, addOrUpdateCitizen } from '~/apis/auth.api'
 import { useRef, useState } from 'react'
 import CloudUploadIcon from '@mui/icons-material/CloudUpload'
@@ -34,7 +34,7 @@ export default function AddUser() {
     formState: { errors },
     reset
   } = useForm<FormData>({
-    resolver: yupResolver(addSchema)
+    resolver: yupResolver(addUserSchema)
   })
 
   const [imagePreviewFront, setImagePreviewFront] = useState<string | null>(null)

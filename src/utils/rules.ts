@@ -131,6 +131,44 @@ export const resetPasswordSchema = yup.object({
     .min(6, 'OTP code must be at least 6 characters long')
 })
 
+export const serviceSchema = yup.object({
+  serviceName: yup
+    .string()
+    .trim()
+    .required('Service name is required')
+    .max(100, 'Service name cannot exceed 100 characters'),
+  description: yup
+    .string()
+    .trim()
+    .required('Description is required')
+    .max(500, 'Description cannot exceed 500 characters')
+    .min(10, 'Description must be at least 10 characters long'),
+  typeOfMonth: yup.boolean().default(false),
+  typeOfYear: yup.boolean().default(false),
+  priceOfMonth: yup
+    .number()
+    .transform((value, originalValue) => (originalValue === '' ? null : value)) // Chuyển rỗng thành null
+    .nullable()
+    .when('typeOfMonth', {
+      is: true,
+      then: (schema) => schema.required('Please enter the price').min(1, 'Price must be at least 1')
+    }),
+  priceOfYear: yup
+    .number()
+    .transform((value, originalValue) => (originalValue === '' ? null : value)) // Chuyển giá trị rỗng thành null
+    .nullable()
+    .when('typeOfYear', {
+      is: true,
+      then: (schema) => schema.required('Please enter the price').min(1, 'Price must be at least 1')
+    }),
+  service_Id: yup.string(),
+  serviceImages: yup
+    .array()
+    .of(yup.mixed<File>().required('Each image is required'))
+    .min(1, 'At least one image is required')
+    .required('Image is required')
+})
+
 export type RegisterSchema = yup.InferType<typeof registerSchema>
 
 // cái này dành cho login: OMIT bỏ confirm_password đi
@@ -143,4 +181,4 @@ export type ForgotSchema = yup.InferType<typeof forgotSchema>
 
 export type ResetPasswordSchema = yup.InferType<typeof resetPasswordSchema>
 
-export const addSchema = registerSchema.omit(['id', 'status'])
+export const addUserSchema = registerSchema.omit(['id', 'status'])

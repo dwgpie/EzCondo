@@ -11,6 +11,8 @@ import AddIcon from '@mui/icons-material/Add'
 import EditIcon from '@mui/icons-material/Edit'
 import { Link } from 'react-router-dom'
 import SideBarAdmin from '~/components/SideBar/SideBarAdmin/SideBarAdmin'
+import DeleteIcon from '@mui/icons-material/Delete'
+import Switch from '@mui/material/Switch'
 
 interface Service {
   id: number
@@ -72,7 +74,9 @@ const services: Service[] = [
   }
 ]
 
-export default function Service() {
+const label = { inputProps: { 'aria-label': 'Size switch demo' } }
+
+export default function ListService() {
   return (
     <div className='bg-[#EDF2F9] pt-25 z-13 h-screen'>
       <div className='grid grid-cols-12 gap-5 items-start'>
@@ -81,40 +85,60 @@ export default function Service() {
           <SideBarAdmin />
         </div>
         <div className='col-span-8'>
-          <div className='flex justify-between items-center h-18 bg-white text-2xl font-semibold mb-5 px-6 drop-shadow-md rounded-xl'>
-            <div className='text-2xl font-semibold'>List of Services</div>
-            <Link to='/admin/add-user'>
-              <Button variant='contained'>
-                <AddIcon />
-              </Button>{' '}
-            </Link>
-          </div>
+          <Link to='/admin/add-service'>
+            <Button variant='contained'>
+              <AddIcon />
+            </Button>{' '}
+          </Link>
           <Paper elevation={4}>
             <TableContainer>
               <Table aria-label='customized table'>
                 <TableHead>
                   <TableRow>
-                    <StyledTableCell sx={{ minWidth: '140px' }}>Name</StyledTableCell>
-                    <StyledTableCell sx={{ minWidth: '150px' }}>Image</StyledTableCell>
-                    <StyledTableCell sx={{ minWidth: '420px' }}>Description</StyledTableCell>
-                    <StyledTableCell sx={{ minWidth: '120px' }}>Service type</StyledTableCell>
+                    <StyledTableCell width='5%'>Id</StyledTableCell>
+                    <StyledTableCell width='15%'>Name</StyledTableCell>
+                    <StyledTableCell width='20%'>Image</StyledTableCell>
+                    <StyledTableCell width='45%'>Description</StyledTableCell>
+                    <StyledTableCell width='10%'>Status</StyledTableCell>
                     <StyledTableCell sx={{}}>Edit</StyledTableCell>
                   </TableRow>
                 </TableHead>
                 <TableBody>
-                  {services.map((service) => (
+                  {services.map((service, index) => (
                     <StyledTableRow key={service.id}>
-                      <StyledTableCell>{service.name}</StyledTableCell>
+                      <StyledTableCell sx={{ color: 'black', fontWeight: '600' }}>{index + 1}</StyledTableCell>
+                      <StyledTableCell sx={{ color: 'black', fontWeight: '600' }}>{service.name}</StyledTableCell>
                       <StyledTableCell>
                         {' '}
-                        <img src='/public/imgs/avt/avatar-vo-tri-meo-1.jpg' className='w-30 h-30 object-cover' />
+                        <img
+                          src='/public/imgs/avt/avatar-vo-tri-meo-1.jpg'
+                          className='w-40 h-35 object-cover rounded-sm'
+                        />
                       </StyledTableCell>
-                      <StyledTableCell>{service.description}</StyledTableCell>
-                      <StyledTableCell>{service.serviceType}</StyledTableCell>
+                      <StyledTableCell sx={{ textAlign: 'justify' }}>{service.description}</StyledTableCell>
                       <StyledTableCell>
-                        <button className='text-blue-500 cursor-pointer'>
-                          <EditIcon />
-                        </button>
+                        {' '}
+                        <Switch {...label} defaultChecked color='success'/>
+                      </StyledTableCell>
+                      <StyledTableCell>
+                        <div className='flex gap-2'>
+                          <button
+                            className='text-blue-500 cursor-pointer'
+                            // onClick={() => {
+                            //   handleGetUser(user.id)
+                            // }}
+                          >
+                            <EditIcon />
+                          </button>
+                          <button
+                            className='text-red-500 cursor-pointer'
+                            // onClick={() => {
+                            //   handleDelete(user.id)
+                            // }}
+                          >
+                            <DeleteIcon />
+                          </button>
+                        </div>
                       </StyledTableCell>
                     </StyledTableRow>
                   ))}

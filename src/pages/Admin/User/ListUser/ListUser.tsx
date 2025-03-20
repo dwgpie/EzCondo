@@ -15,6 +15,7 @@ import SideBarAdmin from '~/components/SideBar/SideBarAdmin'
 import { getAllUser, deleteUser, searchUser } from '~/apis/auth.api'
 import Swal from 'sweetalert2'
 import { SearchContext } from '~/components/Search/SearchContext'
+import Pagination from '@mui/material/Pagination'
 
 interface User {
   id: string
@@ -58,11 +59,19 @@ export default function ListUser() {
   const [listUser, setListUser] = useState<User[]>([])
   const [filteredUsers, setFilteredUsers] = useState<User[]>([])
 
-  const handleButtonClick = (buttonName: string) => {
-    setActiveButton(buttonName)
-    const filtered = listUser.filter((user: User) => user.roleName.toLowerCase() === buttonName.toLowerCase())
+  const [page, setPage] = useState(1)
+  const pageSize = 2
+  const totalPages = Math.ceil(filteredUsers.length / pageSize)
+
+  const handleButtonClick = (buttonName: string | string[]) => {
+    setActiveButton(Array.isArray(buttonName) ? 'all' : buttonName)
+    const filtered = Array.isArray(buttonName)
+      ? listUser.filter((user: User) => ['resident', 'manager', 'admin'].includes(user.roleName.toLowerCase()))
+      : listUser.filter((user: User) => user.roleName.toLowerCase() === buttonName.toLowerCase())
     setFilteredUsers(filtered)
+    setPage(1) // Reset về trang đầu tiên khi lọc
   }
+
   const getAllUserMutation = useMutation({
     mutationFn: async () => {
       const response = await getAllUser()
@@ -80,6 +89,7 @@ export default function ListUser() {
   })
   useEffect(() => {
     getAllUserMutation.mutate()
+    handleButtonClick(['resident', 'manager']) // Mặc định chọn ALL
     console.log('list: ', listUser)
   }, [])
 
@@ -140,7 +150,12 @@ export default function ListUser() {
     fetchUsers()
   }, [searchQuery, listUser])
 
+  // Hàm lấy user theo trang hiện tại
+  const paginatedUsers = filteredUsers.slice((page - 1) * pageSize, page * pageSize)
 
+  const handlePageChange = (_event: React.ChangeEvent<unknown>, newPage: number) => {
+    setPage(newPage)
+  }
 
   return (
     <div className='bg-[#EDF2F9] pt-25 z-13 h-screen'>
@@ -151,6 +166,12 @@ export default function ListUser() {
         </div>
         <div className='col-span-8'>
           <div className='flex gap-4 mb-6 justify-end font-bold '>
+            <Button
+              variant={activeButton === 'all' ? 'contained' : 'outlined'}
+              onClick={() => handleButtonClick(['resident', 'manager'])}
+            >
+              All
+            </Button>
             <Button
               variant={activeButton === 'resident' ? 'contained' : 'outlined'}
               onClick={() => handleButtonClick('resident')}
@@ -163,12 +184,6 @@ export default function ListUser() {
             >
               Manager
             </Button>
-            <Button
-              variant={activeButton === 'support_team' ? 'contained' : 'outlined'}
-              onClick={() => handleButtonClick('support_team')}
-            >
-              Support Team
-            </Button>
           </div>
           <Paper elevation={4}>
             <TableContainer>
@@ -176,18 +191,18 @@ export default function ListUser() {
                 <TableHead>
                   <TableRow>
                     <StyledTableCell width='5%'>Id</StyledTableCell>
-                    <StyledTableCell width='25%'>Full Name</StyledTableCell>
+                    <StyledTableCell width='20%'>Full Name</StyledTableCell>
                     <StyledTableCell width='12%'>Date of birth</StyledTableCell>
                     <StyledTableCell width='12%'>Gender</StyledTableCell>
                     <StyledTableCell width='12%'>Apartment</StyledTableCell>
-                    <StyledTableCell width='14%'>Phone number</StyledTableCell>
-                    <StyledTableCell width='10%'>Status</StyledTableCell>
+                    <StyledTableCell width='15%'>Phone number</StyledTableCell>
+                    <StyledTableCell width='13%'>Status</StyledTableCell>
                     <StyledTableCell width='8%'>Edit</StyledTableCell>
                   </TableRow>
                 </TableHead>
                 <TableBody>
-                  {filteredUsers.length > 0 ? (
-                    filteredUsers.map((user, index) => (
+                  {paginatedUsers.length > 0 ? (
+                    paginatedUsers.map((user, index) => (
                       <StyledTableRow key={user.id}>
                         <StyledTableCell sx={{ color: 'black', fontWeight: '600' }}>{index + 1}</StyledTableCell>
                         <StyledTableCell>{user.fullName}</StyledTableCell>
@@ -237,6 +252,9 @@ export default function ListUser() {
               </Table>
             </TableContainer>
           </Paper>
+          <div className='mt-10 flex justify-center'>
+            <Pagination count={totalPages} page={page} onChange={handlePageChange} />
+          </div>
           <div className='col-span-1'></div>
         </div>
       </div>

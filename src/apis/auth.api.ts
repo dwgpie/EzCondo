@@ -64,3 +64,30 @@ export const editUser = (body: {
 export const searchUser = (search: string) => {
   return http.get(`/api/Admin/get-all-users?search=${search}`)
 }
+
+export const addService = (body: {
+  serviceName: string
+  description: string
+  typeOfMonth: boolean
+  typeOfYear: boolean
+  priceOfMonth: number
+  priceOfYear: number
+}) => http.post('/api/Admin/add-service', body)
+
+export const addServiceImage = (body: { service_Id: string; serviceImages: File[] }) => {
+  const formData = new FormData()
+  formData.append('service_Id', body.service_Id)
+
+  // Lặp qua từng ảnh và thêm vào FormData
+  body.serviceImages.forEach((image) => {
+    formData.append('serviceImages', image) // 'ServiceImages' là key mà backend mong đợi
+  })
+
+  console.log('formData:', formData)
+
+  return http.post('/api/Admin/add-service-images', formData, {
+    headers: {
+      'Content-Type': 'multipart/form-data'
+    }
+  })
+}
