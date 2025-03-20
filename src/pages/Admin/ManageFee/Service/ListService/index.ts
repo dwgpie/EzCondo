@@ -1,3 +1,3 @@
-import Service from './Service'
+import ListService from './ListService'
 
-export default Service
+export default ListService

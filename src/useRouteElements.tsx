@@ -7,7 +7,6 @@ import ListUser from './pages/Admin/User/ListUser'
 import FixedFee from './pages/Admin/ManageFee/FixedFee'
 import Electricity from './pages/Admin/ManageFee/Electricity'
 import { Water } from '@mui/icons-material'
-import Service from './pages/Admin/ManageFee/Service/ListService/Service'
 import ManageIncident from './pages/SupportTeam/ManageIncident'
 import Notification from './pages/Admin/Notification/NotificationHistory'
 import CreateNotification from './pages/Admin/Notification/CreateNotification'
@@ -17,6 +16,8 @@ import { Outlet, useRoutes, Navigate } from 'react-router-dom'
 import ForgotPassword from './pages/Password/ForgotPassword'
 import ResetPassword from './pages/Password/ResetPassword'
 import EditUser from './pages/Admin/User/EditUser'
+import AddService from './pages/Admin/ManageFee/Service/AddService'
+import ListService from './pages/Admin/ManageFee/Service/ListService/ListService'
 
 // function ProtectedRoute() {
 //   const { isAuthenticated } = useContext(AppContext) // Lấy từ context
@@ -108,10 +109,18 @@ export default function useRouteElements() {
           )
         },
         {
-          path: '/admin/services',
+          path: '/admin/list-service',
           element: (
             <DashboardLayout>
-              <Service />
+              <ListService />
+            </DashboardLayout>
+          )
+        },
+        {
+          path: '/admin/add-service',
+          element: (
+            <DashboardLayout>
+              <AddService />
             </DashboardLayout>
           )
         },
