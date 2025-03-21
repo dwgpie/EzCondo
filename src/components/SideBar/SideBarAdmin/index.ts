@@ -1,3 +1,3 @@
-import SideBarAdmin from './SideBarAdmin'
+import SideBarAdminActive from './SideBarAdminActive'
 
-export default SideBarAdmin
+export default SideBarAdminActive

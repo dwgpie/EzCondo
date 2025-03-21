@@ -158,105 +158,94 @@ export default function ListUser() {
   }
 
   return (
-    <div className='bg-[#EDF2F9] pt-25 z-13 h-screen'>
-      <div className='grid grid-cols-12 gap-5 items-start'>
-        <div className='col-span-1'></div>
-        <div className='col-span-2 sticky top-25'>
-          <SideBarAdmin />
-        </div>
-        <div className='col-span-8'>
-          <div className='flex gap-4 mb-6 justify-end font-bold '>
-            <Button
-              variant={activeButton === 'all' ? 'contained' : 'outlined'}
-              onClick={() => handleButtonClick(['resident', 'manager'])}
-            >
-              All
-            </Button>
-            <Button
-              variant={activeButton === 'resident' ? 'contained' : 'outlined'}
-              onClick={() => handleButtonClick('resident')}
-            >
-              Resident
-            </Button>
-            <Button
-              variant={activeButton === 'manager' ? 'contained' : 'outlined'}
-              onClick={() => handleButtonClick('manager')}
-            >
-              Manager
-            </Button>
-          </div>
-          <Paper elevation={4}>
-            <TableContainer>
-              <Table sx={{ minWidth: 700 }} aria-label='customized table'>
-                <TableHead>
-                  <TableRow>
-                    <StyledTableCell width='5%'>Id</StyledTableCell>
-                    <StyledTableCell width='20%'>Full Name</StyledTableCell>
-                    <StyledTableCell width='12%'>Date of birth</StyledTableCell>
-                    <StyledTableCell width='12%'>Gender</StyledTableCell>
-                    <StyledTableCell width='12%'>Apartment</StyledTableCell>
-                    <StyledTableCell width='15%'>Phone number</StyledTableCell>
-                    <StyledTableCell width='13%'>Status</StyledTableCell>
-                    <StyledTableCell width='8%'>Edit</StyledTableCell>
-                  </TableRow>
-                </TableHead>
-                <TableBody>
-                  {paginatedUsers.length > 0 ? (
-                    paginatedUsers.map((user, index) => (
-                      <StyledTableRow key={user.id}>
-                        <StyledTableCell sx={{ color: 'black', fontWeight: '600' }}>{index + 1}</StyledTableCell>
-                        <StyledTableCell>{user.fullName}</StyledTableCell>
-                        <StyledTableCell>
-                          {new Intl.DateTimeFormat('vi-VN').format(new Date(user.dateOfBirth))}
-                        </StyledTableCell>
-                        <StyledTableCell>{user.gender}</StyledTableCell>
-                        <StyledTableCell>{user.apartmentNumber}</StyledTableCell>
-                        <StyledTableCell>{user.phoneNumber}</StyledTableCell>
-                        <StyledTableCell>
-                          <span
-                            className={`${getStatusColor(user.status)} px-2 py-1 rounded-full text-sm font-semibold`}
-                          >
-                            {user.status}
-                          </span>
-                        </StyledTableCell>
-                        <StyledTableCell>
-                          <div className='flex gap-2'>
-                            <button
-                              className='text-blue-500 cursor-pointer'
-                              onClick={() => {
-                                handleGetUser(user.id)
-                              }}
-                            >
-                              <EditIcon />
-                            </button>
-                            <button
-                              className='text-red-500 cursor-pointer'
-                              onClick={() => {
-                                handleDelete(user.id)
-                              }}
-                            >
-                              <DeleteIcon />
-                            </button>
-                          </div>
-                        </StyledTableCell>
-                      </StyledTableRow>
-                    ))
-                  ) : (
-                    <TableRow>
-                      <TableCell colSpan={8} align='center'>
-                        No users found
-                      </TableCell>
-                    </TableRow>
-                  )}
-                </TableBody>
-              </Table>
-            </TableContainer>
-          </Paper>
-          <div className='mt-10 flex justify-center'>
-            <Pagination count={totalPages} page={page} onChange={handlePageChange} />
-          </div>
-          <div className='col-span-1'></div>
-        </div>
+    <div className='bg-[#EDF2F9] pt-10 ml-10 mr-10 z-13 h-screen'>
+      <div className='flex gap-4 mb-6 justify-end font-bold '>
+        <Button
+          variant={activeButton === 'all' ? 'contained' : 'outlined'}
+          onClick={() => handleButtonClick(['resident', 'manager'])}
+        >
+          All
+        </Button>
+        <Button
+          variant={activeButton === 'resident' ? 'contained' : 'outlined'}
+          onClick={() => handleButtonClick('resident')}
+        >
+          Resident
+        </Button>
+        <Button
+          variant={activeButton === 'manager' ? 'contained' : 'outlined'}
+          onClick={() => handleButtonClick('manager')}
+        >
+          Manager
+        </Button>
+      </div>
+      <Paper elevation={4}>
+        <TableContainer>
+          <Table sx={{ minWidth: 700 }} aria-label='customized table'>
+            <TableHead>
+              <TableRow>
+                <StyledTableCell width='5%'>Id</StyledTableCell>
+                <StyledTableCell width='20%'>Full Name</StyledTableCell>
+                <StyledTableCell width='12%'>Date of birth</StyledTableCell>
+                <StyledTableCell width='12%'>Gender</StyledTableCell>
+                <StyledTableCell width='12%'>Apartment</StyledTableCell>
+                <StyledTableCell width='15%'>Phone number</StyledTableCell>
+                <StyledTableCell width='13%'>Status</StyledTableCell>
+                <StyledTableCell width='8%'>Edit</StyledTableCell>
+              </TableRow>
+            </TableHead>
+            <TableBody>
+              {paginatedUsers.length > 0 ? (
+                paginatedUsers.map((user, index) => (
+                  <StyledTableRow key={user.id}>
+                    <StyledTableCell sx={{ color: 'black', fontWeight: '600' }}>{index + 1}</StyledTableCell>
+                    <StyledTableCell>{user.fullName}</StyledTableCell>
+                    <StyledTableCell>
+                      {new Intl.DateTimeFormat('vi-VN').format(new Date(user.dateOfBirth))}
+                    </StyledTableCell>
+                    <StyledTableCell>{user.gender}</StyledTableCell>
+                    <StyledTableCell>{user.apartmentNumber}</StyledTableCell>
+                    <StyledTableCell>{user.phoneNumber}</StyledTableCell>
+                    <StyledTableCell>
+                      <span className={`${getStatusColor(user.status)} px-2 py-1 rounded-full text-sm font-semibold`}>
+                        {user.status}
+                      </span>
+                    </StyledTableCell>
+                    <StyledTableCell>
+                      <div className='flex gap-2'>
+                        <button
+                          className='text-blue-500 cursor-pointer'
+                          onClick={() => {
+                            handleGetUser(user.id)
+                          }}
+                        >
+                          <EditIcon />
+                        </button>
+                        <button
+                          className='text-red-500 cursor-pointer'
+                          onClick={() => {
+                            handleDelete(user.id)
+                          }}
+                        >
+                          <DeleteIcon />
+                        </button>
+                      </div>
+                    </StyledTableCell>
+                  </StyledTableRow>
+                ))
+              ) : (
+                <TableRow>
+                  <TableCell colSpan={8} align='center'>
+                    No users found
+                  </TableCell>
+                </TableRow>
+              )}
+            </TableBody>
+          </Table>
+        </TableContainer>
+      </Paper>
+      <div className='mt-10 flex justify-center'>
+        <Pagination count={totalPages} page={page} onChange={handlePageChange} />
       </div>
     </div>
   )
