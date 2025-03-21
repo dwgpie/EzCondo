@@ -1,5 +1,4 @@
 import { Button, TextField } from '@mui/material'
-import SideBarAdmin from '~/components/SideBar/SideBarAdmin'
 import { useForm } from 'react-hook-form'
 import Input from '~/components/Input'
 import { yupResolver } from '@hookform/resolvers/yup'
@@ -230,7 +229,7 @@ export default function AddService() {
                                 e.stopPropagation()
                                 handleDeleteImage(index)
                               }}
-                              className='absolute top-1 right-1 bg-red-500 text-white rounded-full w-6 h-6 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-200'
+                              className='absolute top-1 right-1 cursor-pointer bg-red-500 text-white rounded-full w-6 h-6 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-200'
                             >
                               ×
                             </button>
