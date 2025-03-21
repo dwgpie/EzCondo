@@ -94,125 +94,114 @@ export default function Notification() {
     setFilterTime(event.target.value)
   }
   return (
-    <div className='bg-[#EDF2F9] pt-25 z-13'>
-      <div className='grid grid-cols-12 gap-15 items-start'>
-        <div className='col-span-1'></div>
-
-        <div className='col-span-2 sticky top-25'>
-          <SideBarAdmin />
-        </div>
-        <div className='col-span-8 '>
-          <div className='flex justify-between items-center h-18  text-2xl font-semibold mb-5 px-6 drop-shadow-md rounded-xl z-10'>
-            <div className='text-2xl font-semibold'>Notification History</div>
-            <div className='flex gap-[20px] item-center'>
-              <div className='h-[40px] w-[190px] bg-white rounded-[5px]'>
-                <FormControl sx={{ minWidth: '190px' }} size='small'>
-                  <InputLabel sx={{}} id='demo-select-small-label'>
-                    Type of notification
-                  </InputLabel>
-                  <Select
-                    labelId='demo-select-small-label'
-                    id='demo-select-small'
-                    value={typeOfNotification}
-                    label='Type of notification'
-                    onChange={handleFilterTypeOfNoti}
-                  >
-                    <MenuItem value=''>
-                      <em>None</em>
-                    </MenuItem>
-                    <MenuItem value={10}>Thông báo phí</MenuItem>
-                    <MenuItem value={20}>Thông báo chung</MenuItem>
-                  </Select>
-                </FormControl>
-              </div>
-              <div className='h-[40px] w-[190px] bg-white rounded-[5px]'>
-                <FormControl sx={{ minWidth: '190px' }} size='small'>
-                  <InputLabel sx={{}} id='demo-select-small-label'>
-                    All
-                  </InputLabel>
-                  <Select
-                    labelId='demo-select-small-label'
-                    id='demo-select-small'
-                    value={typeOfNotification}
-                    label='Type of notification'
-                    onChange={handleFilterTime}
-                  >
-                    <MenuItem value=''>
-                      <em>None</em>
-                    </MenuItem>
-                    <MenuItem value={7}>Latest 7 days</MenuItem>
-                    <MenuItem value={30}>May</MenuItem>
-                    <MenuItem value={30}>April</MenuItem>
-                    <MenuItem value={30}>March</MenuItem>
-                  </Select>
-                </FormControl>
-              </div>
-            </div>
-            <Link to='/admin/create-notification'>
-              <Button variant='contained'>
-                <AddIcon />
-              </Button>{' '}
-            </Link>
+    <div className='bg-[#EDF2F9] pt-10 ml-10 mr-10 z-13'>
+      <div className='flex justify-between items-center h-18  text-2xl font-semibold mb-5 px-6 drop-shadow-md rounded-xl z-10'>
+        <div className='text-2xl font-semibold'>Notification History</div>
+        <div className='flex gap-[20px] item-center'>
+          <div className='h-[40px] w-[190px] bg-white rounded-[5px]'>
+            <FormControl sx={{ minWidth: '190px' }} size='small'>
+              <InputLabel sx={{}} id='demo-select-small-label'>
+                Type of notification
+              </InputLabel>
+              <Select
+                labelId='demo-select-small-label'
+                id='demo-select-small'
+                value={typeOfNotification}
+                label='Type of notification'
+                onChange={handleFilterTypeOfNoti}
+              >
+                <MenuItem value=''>
+                  <em>None</em>
+                </MenuItem>
+                <MenuItem value={10}>Thông báo phí</MenuItem>
+                <MenuItem value={20}>Thông báo chung</MenuItem>
+              </Select>
+            </FormControl>
           </div>
-          <div className='flex gap-4 mb-6 justify-end font-bold z-0'>
-            <Button
-              sx={{ zIndex: 0 }}
-              variant={activeButton === 'Resident' ? 'contained' : 'outlined'}
-              onClick={() => handleButtonRole('Resident')}
-            >
-              Resident
-            </Button>
-            <Button
-              variant={activeButton === 'Manager' ? 'contained' : 'outlined'}
-              onClick={() => handleButtonRole('Manager')}
-            >
-              Manager
-            </Button>
-            <Button
-              variant={activeButton === 'Support Team' ? 'contained' : 'outlined'}
-              onClick={() => handleButtonRole('Support Team')}
-            >
-              Support Team
-            </Button>
+          <div className='h-[40px] w-[190px] bg-white rounded-[5px]'>
+            <FormControl sx={{ minWidth: '190px' }} size='small'>
+              <InputLabel sx={{}} id='demo-select-small-label'>
+                All
+              </InputLabel>
+              <Select
+                labelId='demo-select-small-label'
+                id='demo-select-small'
+                value={typeOfNotification}
+                label='Type of notification'
+                onChange={handleFilterTime}
+              >
+                <MenuItem value=''>
+                  <em>None</em>
+                </MenuItem>
+                <MenuItem value={7}>Latest 7 days</MenuItem>
+                <MenuItem value={30}>May</MenuItem>
+                <MenuItem value={30}>April</MenuItem>
+                <MenuItem value={30}>March</MenuItem>
+              </Select>
+            </FormControl>
           </div>
-          <Paper elevation={4}>
-            <TableContainer>
-              <Table sx={{ minWidth: 700 }} aria-label='customized table'>
-                <TableHead>
-                  <TableRow>
-                    <StyledTableCell>Title</StyledTableCell>
-                    <StyledTableCell>Content</StyledTableCell>
-                    <StyledTableCell>Date of issue</StyledTableCell>
-                    <StyledTableCell>Type of notification</StyledTableCell>
-                    <StyledTableCell>receiver</StyledTableCell>
-                    <StyledTableCell>Edit</StyledTableCell>
-                  </TableRow>
-                </TableHead>
-                <TableBody>
-                  {notification.map((noti) => (
-                    <StyledTableRow key={noti.id}>
-                      <StyledTableCell>{noti.title}</StyledTableCell>
-                      <StyledTableCell>{noti.content}</StyledTableCell>
-                      <StyledTableCell>{noti.dateOfIssue}</StyledTableCell>
-                      <StyledTableCell>{noti.typeOfNotification}</StyledTableCell>
-                      <StyledTableCell>{noti.receiver}</StyledTableCell>
-                      <StyledTableCell>
-                        <Link to='/admin/add-user'>
-                          <button className='cursor-pointer'>
-                            <ListAltIcon sx={{ color: 'black' }} />
-                          </button>
-                        </Link>
-                      </StyledTableCell>
-                    </StyledTableRow>
-                  ))}
-                </TableBody>
-              </Table>
-            </TableContainer>
-          </Paper>
-          <div className='col-span-1'></div>
         </div>
-        <div className='col-span-1'></div>
+        <Link to='/admin/create-notification'>
+          <Button variant='contained'>
+            <AddIcon />
+          </Button>{' '}
+        </Link>
       </div>
+      <div className='flex gap-4 mb-6 justify-end font-bold z-0'>
+        <Button
+          sx={{ zIndex: 0 }}
+          variant={activeButton === 'Resident' ? 'contained' : 'outlined'}
+          onClick={() => handleButtonRole('Resident')}
+        >
+          Resident
+        </Button>
+        <Button
+          variant={activeButton === 'Manager' ? 'contained' : 'outlined'}
+          onClick={() => handleButtonRole('Manager')}
+        >
+          Manager
+        </Button>
+        <Button
+          variant={activeButton === 'Support Team' ? 'contained' : 'outlined'}
+          onClick={() => handleButtonRole('Support Team')}
+        >
+          Support Team
+        </Button>
+      </div>
+      <Paper elevation={4}>
+        <TableContainer>
+          <Table sx={{ minWidth: 700 }} aria-label='customized table'>
+            <TableHead>
+              <TableRow>
+                <StyledTableCell>Title</StyledTableCell>
+                <StyledTableCell>Content</StyledTableCell>
+                <StyledTableCell>Date of issue</StyledTableCell>
+                <StyledTableCell>Type of notification</StyledTableCell>
+                <StyledTableCell>receiver</StyledTableCell>
+                <StyledTableCell>Edit</StyledTableCell>
+              </TableRow>
+            </TableHead>
+            <TableBody>
+              {notification.map((noti) => (
+                <StyledTableRow key={noti.id}>
+                  <StyledTableCell>{noti.title}</StyledTableCell>
+                  <StyledTableCell>{noti.content}</StyledTableCell>
+                  <StyledTableCell>{noti.dateOfIssue}</StyledTableCell>
+                  <StyledTableCell>{noti.typeOfNotification}</StyledTableCell>
+                  <StyledTableCell>{noti.receiver}</StyledTableCell>
+                  <StyledTableCell>
+                    <Link to='/admin/add-user'>
+                      <button className='cursor-pointer'>
+                        <ListAltIcon sx={{ color: 'black' }} />
+                      </button>
+                    </Link>
+                  </StyledTableCell>
+                </StyledTableRow>
+              ))}
+            </TableBody>
+          </Table>
+        </TableContainer>
+      </Paper>
     </div>
   )
 }
