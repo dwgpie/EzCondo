@@ -13,6 +13,7 @@ import { Link } from 'react-router-dom'
 import SideBarAdmin from '~/components/SideBar/SideBarAdmin/SideBarAdminActive'
 import DeleteIcon from '@mui/icons-material/Delete'
 import Switch from '@mui/material/Switch'
+import AddToPhotosIcon from '@mui/icons-material/AddToPhotos'
 
 interface Service {
   id: number
@@ -78,11 +79,23 @@ const label = { inputProps: { 'aria-label': 'Size switch demo' } }
 
 export default function ListService() {
   return (
-    <div className='bg-[#EDF2F9] pt-10 ml-10 mr-10 z-13 h-screen'>
+    <div className='bg-[#EDF2F9] pt-5 ml-5 mr-5 z-13 h-screen'>
       <Link to='/admin/add-service'>
-        <Button variant='contained'>
-          <AddIcon />
-        </Button>{' '}
+        <div className='mb-5 flex item-center justify-end'>
+          <Button
+            sx={{
+              backgroundColor: '#5382B1',
+              color: '#fff',
+              border: '1px solid #5382B1',
+              borderRadius: '6px',
+              width: '160px',
+              height: '40px'
+            }}
+          >
+            <AddToPhotosIcon sx={{ fontSize: 30 }} />
+            <p className='ml-3 font-bold'>Add Service</p>
+          </Button>
+        </div>
       </Link>
       <Paper elevation={4}>
         <TableContainer>
@@ -91,8 +104,8 @@ export default function ListService() {
               <TableRow>
                 <StyledTableCell width='5%'>Id</StyledTableCell>
                 <StyledTableCell width='15%'>Name</StyledTableCell>
-                <StyledTableCell width='20%'>Image</StyledTableCell>
-                <StyledTableCell width='45%'>Description</StyledTableCell>
+                <StyledTableCell width='15%'>Image</StyledTableCell>
+                <StyledTableCell width='50%'>Description</StyledTableCell>
                 <StyledTableCell width='10%'>Status</StyledTableCell>
                 <StyledTableCell sx={{}}>Edit</StyledTableCell>
               </TableRow>
@@ -104,7 +117,10 @@ export default function ListService() {
                   <StyledTableCell sx={{ color: 'black', fontWeight: '600' }}>{service.name}</StyledTableCell>
                   <StyledTableCell>
                     {' '}
-                    <img src='/public/imgs/avt/avatar-vo-tri-meo-1.jpg' className='w-40 h-35 object-cover rounded-sm' />
+                    <img
+                      src='/public/imgs/avt/avatar-vo-tri-meo-1.jpg'
+                      className='w-[100px] h-[100px] object-cover rounded-sm'
+                    />
                   </StyledTableCell>
                   <StyledTableCell sx={{ textAlign: 'justify' }}>{service.description}</StyledTableCell>
                   <StyledTableCell>

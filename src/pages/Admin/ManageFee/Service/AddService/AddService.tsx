@@ -213,16 +213,16 @@ export default function AddService() {
                     <span className='text-red-600 ml-1'>*</span>
                   </label>
                   <div
-                    className='mt-1 w-full h-[380px] p-4 border-2 border-dashed border-gray-400 rounded-md flex flex-col items-center justify-center cursor-pointer bg-gray-100'
+                    className='mt-1 w-full h-auto p-4 border-2 border-dashed border-gray-400 rounded-md flex flex-col items-center justify-center cursor-pointer bg-gray-100'
                     onClick={() => fileInputRef.current?.click()}
                     onDrop={(e) => handleDrop(e)}
                     onDragOver={(e) => e.preventDefault()}
                   >
                     {images.length > 0 ? (
-                      <div className='grid grid-cols-3 gap-2'>
+                      <div className='flex flex-wrap flex-start gap-10'>
                         {images.map((img, index) => (
                           <div key={index} className='relative group'>
-                            <img src={img} alt='Preview' className='w-full h-24 object-cover rounded-md' />
+                            <img src={img} alt='Preview' className='w-24 h-24 object-fit rounded-md' />
                             <button
                               type='button'
                               onClick={(e) => {
@@ -278,7 +278,6 @@ export default function AddService() {
           </form>
         </div>
       </div>
-      <div className='col-span-1'></div>
     </div>
   )
 }

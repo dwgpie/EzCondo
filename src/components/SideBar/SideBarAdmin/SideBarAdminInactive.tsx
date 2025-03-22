@@ -22,10 +22,22 @@ import BlurLinearIcon from '@mui/icons-material/BlurLinear'
 import DeckIcon from '@mui/icons-material/Deck'
 import ElectricBoltIcon from '@mui/icons-material/ElectricBolt'
 import WaterDropIcon from '@mui/icons-material/WaterDrop'
+import AssignmentIcon from '@mui/icons-material/Assignment'
+import MarkChatUnreadIcon from '@mui/icons-material/MarkChatUnread'
 import '../SideBar.css'
 
 export default function SideBarAdminInactive() {
   const location = useLocation()
+  const path = location.pathname
+
+  const DashboardPath = '/admin/dashboard'
+  const ListUserPath = '/admin/list-user'
+  const AddUserPath = '/admin/add-user'
+  const ListServicePath = '/admin/list-service'
+  const CreateServicePath = '/admin/add-service'
+  const SetFeePath = '/admin/set-fee'
+  const HistoryNotificationPath = '/admin/notification'
+  const CreateNotificationPath = '/admin/create-notification'
 
   const [isOpenUser, setIsOpenUser] = useState(false)
   const [isOpenService, setIsOpenService] = useState(false)
@@ -61,62 +73,148 @@ export default function SideBarAdminInactive() {
         </div>
 
         <div className='flex justify-between h-[50px] pl-[20px] pr-[20px] cursor-pointer hover:bg-[#333]/10'>
-          <div className='flex items-center gap-[10px]'>
-            <DashboardIcon />
-          </div>
+          <Link to='/admin/dashboard'>
+            <div className='flex justify-between  h-[50px] pl-[20px] pr-[20px] '>
+              <div className={`flex items-center gap-[10px] ${path === DashboardPath ? 'text-[#1976d3]' : ''}`}>
+                <DashboardIcon />
+              </div>
+            </div>
+          </Link>
         </div>
 
         <div className='flex items-center h-[50px] '>
           <p className='text-[14px]'>Feature</p>
         </div>
         <div className='w-full h-[450px] flex flex-col items-center '>
+          {/* User */}
           <div className='relative group'>
             {/* Nút bấm */}
             <div className='flex justify-between w-full h-[50px] pl-[40px] pr-[40px] cursor-pointer hover:bg-[#333]/10'>
-              <div className='flex items-center'>
+              <div
+                className={`flex items-center gap-[10px] ${path === ListUserPath || path === AddUserPath ? 'text-[#1976d3]' : ''}`}
+              >
                 <RecentActorsIcon />
               </div>
             </div>
 
-            {/* Dropdown Menu */}
-            <div className='absolute ml-[30px] w-[150px] border-2 border-[#d1d5dc] rounded-[5px] bg-white shadow-md top-[0] left-[120px] hidden group-hover:block z-[9999]'>
+            {/* Hover Menu */}
+            <div className='absolute w-[200px] border-2 border-[#d1d5dc] rounded-[5px] bg-white shadow-md top-[0] left-[105px] hidden group-hover:block z-[9999]'>
               <ul>
-                <li className='flex items-center h-[30px] pl-[10px] hover:bg-[#ddd] cursor-pointer'>List User</li>
-                <li className='flex items-center h-[30px] pl-[10px] hover:bg-[#ddd] cursor-pointer'>Create User</li>
+                <Link to='/admin/list-user'>
+                  <div className='flex justify-between h-[50px] pl-[20px] pr-[20px] cursor-pointer hover:bg-[#333]/10'>
+                    <div className={`flex items-center gap-[10px] ${path === ListUserPath ? 'text-[#1976d3]' : ''}`}>
+                      <RecentActorsIcon />
+                      <li className='flex items-center h-[30px] pl-[10px] '>List User</li>
+                    </div>
+                  </div>
+                </Link>
+                <Link to='/admin/add-user'>
+                  <div className='flex justify-between h-[50px] pl-[20px] pr-[20px] cursor-pointer hover:bg-[#333]/10'>
+                    <div className={`flex items-center gap-[10px] ${path === AddUserPath ? 'text-[#1976d3]' : ''}`}>
+                      <PersonAddAltIcon />
+                      <li className='flex items-center h-[30px] pl-[10px] '>Create User</li>
+                    </div>
+                  </div>
+                </Link>
               </ul>
             </div>
           </div>
 
-          <div
-            className={`overflow-hidden transition-all duration-300 ${isOpenUser ? 'max-h-[100px]' : 'max-h-0'}`}
-          ></div>
+          {/* Service */}
+          <div className='relative group'>
+            {/* Nút bấm */}
+            <div className='flex justify-between w-full h-[50px] pl-[40px] pr-[40px] cursor-pointer hover:bg-[#333]/10'>
+              <div
+                className={`flex items-center gap-[10px] ${path === ListServicePath || path === CreateServicePath ? 'text-[#1976d3]' : ''}`}
+              >
+                <DeckIcon />
+              </div>
+            </div>
 
-          <div
-            className='flex justify-between h-[50px] pl-[20px] pr-[20px] cursor-pointer hover:bg-white/10'
-            onClick={handleClickService}
-          >
-            <div className='flex items-center gap-[10px]'>
-              <DeckIcon />
+            {/* Hover Menu */}
+            <div className='absolute w-[200px] border-2 border-[#d1d5dc] rounded-[5px] bg-white shadow-md top-[0] left-[105px] hidden group-hover:block z-[9999]'>
+              <ul>
+                <Link to='/admin/list-service'>
+                  <div className='flex justify-between h-[50px] pl-[20px] pr-[20px] cursor-pointer hover:bg-[#333]/10'>
+                    <div className={`flex items-center gap-[10px] ${path === ListServicePath ? 'text-[#1976d3]' : ''}`}>
+                      <BlurLinearIcon />
+                      <li className='flex items-center h-[30px] pl-[10px] '>List Service</li>
+                    </div>
+                  </div>
+                </Link>
+                <Link to='/admin/add-service'>
+                  <div className='flex justify-between h-[50px] pl-[20px] pr-[20px] cursor-pointer hover:bg-[#333]/10'>
+                    <div
+                      className={`flex items-center gap-[10px] ${path === CreateServicePath ? 'text-[#1976d3]' : ''}`}
+                    >
+                      <DeckIcon />
+                      <li className='flex items-center h-[30px] pl-[10px]'>Add Service</li>
+                    </div>
+                  </div>
+                </Link>
+              </ul>
             </div>
           </div>
 
-          {/* Fees */}
-          <div
-            className='flex justify-between h-[50px] pl-[20px] pr-[20px] cursor-pointer hover:bg-white/10'
-            onClick={handleClickFee}
-          >
-            <div className='flex items-center gap-[10px]'>
-              <PriceChangeIcon />
+          {/* Fee */}
+          <div className='relative group'>
+            {/* Nút bấm */}
+            <div className='flex justify-between w-full h-[50px] pl-[40px] pr-[40px] cursor-pointer hover:bg-[#333]/10'>
+              <div className={`flex items-center gap-[10px] ${path === SetFeePath ? 'text-[#1976d3]' : ''}`}>
+                <PriceChangeIcon />
+              </div>
+            </div>
+
+            {/* Hover Menu */}
+            <div className='absolute w-[200px] border-2 border-[#d1d5dc] rounded-[5px] bg-white shadow-md top-[0] left-[105px] hidden group-hover:block z-[9999]'>
+              <ul>
+                <Link to='/admin/set-fee'>
+                  <div className='flex justify-between h-[50px] pl-[20px] pr-[20px] cursor-pointer hover:bg-[#333]/10'>
+                    <div className={`flex items-center gap-[10px] ${path === SetFeePath ? 'text-[#1976d3]' : ''}`}>
+                      <PriceChangeIcon />
+                      <li className='flex items-center h-[30px] pl-[10px] '>Set Fees</li>
+                    </div>
+                  </div>
+                </Link>
+              </ul>
             </div>
           </div>
 
           {/* Notification */}
-          <div
-            className='flex justify-between h-[50px] pl-[20px] pr-[20px] cursor-pointer hover:bg-white/10'
-            onClick={handleClickNotification}
-          >
-            <div className='flex items-center gap-[10px]'>
-              <MarkEmailUnreadIcon />
+          <div className='relative group'>
+            {/* Nút bấm */}
+            <div className='flex justify-between w-full h-[50px] pl-[40px] pr-[40px] cursor-pointer hover:bg-[#333]/10'>
+              <div
+                className={`flex items-center gap-[10px] ${path === HistoryNotificationPath || path === CreateNotificationPath ? 'text-[#1976d3]' : ''}`}
+              >
+                <MarkEmailUnreadIcon />
+              </div>
+            </div>
+
+            {/* Hover Menu */}
+            <div className='absolute w-[200px] border-2 border-[#d1d5dc] rounded-[5px] bg-white shadow-md top-[0] left-[105px] hidden group-hover:block z-[9999]'>
+              <ul>
+                <Link to='/admin/notification'>
+                  <div className='flex justify-between h-[50px] pl-[20px] pr-[20px] cursor-pointer hover:bg-[#333]/10'>
+                    <div
+                      className={`flex items-center gap-[10px] ${path === HistoryNotificationPath ? 'text-[#1976d3]' : ''}`}
+                    >
+                      <AssignmentIcon />
+                      <li className='flex items-center h-[30px] pl-[10px] '>History Notification</li>
+                    </div>
+                  </div>
+                </Link>
+                <Link to='/admin/create-notification'>
+                  <div className='flex justify-between h-[50px] pl-[20px] pr-[20px] cursor-pointer hover:bg-[#333]/10'>
+                    <div
+                      className={`flex items-center gap-[10px] ${path === CreateNotificationPath ? 'text-[#1976d3]' : ''}`}
+                    >
+                      <MarkChatUnreadIcon />
+                      <li className='flex items-center h-[30px] pl-[10px]'>Create Notification</li>
+                    </div>
+                  </div>
+                </Link>
+              </ul>
             </div>
           </div>
         </div>

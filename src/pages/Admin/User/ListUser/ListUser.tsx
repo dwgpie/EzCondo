@@ -158,22 +158,43 @@ export default function ListUser() {
   }
 
   return (
-    <div className='bg-[#EDF2F9] pt-10 ml-10 mr-10 z-13 h-screen'>
+    <div className='bg-[#EDF2F9] pt-5 ml-5 mr-5 z-13 h-screen'>
       <div className='flex gap-4 mb-6 justify-end font-bold '>
         <Button
-          variant={activeButton === 'all' ? 'contained' : 'outlined'}
+          sx={{
+            backgroundColor: activeButton === 'all' ? '#5382B1' : 'transparent',
+            color: activeButton === 'all' ? '#fff' : '#5382B1',
+            border: '1px solid #5382B1',
+            borderRadius: '6px',
+            width: '110px',
+            height: '35px'
+          }}
           onClick={() => handleButtonClick(['resident', 'manager'])}
         >
           All
         </Button>
         <Button
-          variant={activeButton === 'resident' ? 'contained' : 'outlined'}
+          sx={{
+            backgroundColor: activeButton === 'resident' ? '#5382B1' : 'transparent',
+            color: activeButton === 'resident' ? '#fff' : '#5382B1',
+            border: '1px solid #5382B1',
+            borderRadius: '6px',
+            width: '110px',
+            height: '35px'
+          }}
           onClick={() => handleButtonClick('resident')}
         >
           Resident
         </Button>
         <Button
-          variant={activeButton === 'manager' ? 'contained' : 'outlined'}
+          sx={{
+            backgroundColor: activeButton === 'manager' ? '#5382B1' : 'transparent',
+            color: activeButton === 'manager' ? '#fff' : '#5382B1',
+            border: '1px solid #5382B1',
+            borderRadius: '6px',
+            width: '110px',
+            height: '35px'
+          }}
           onClick={() => handleButtonClick('manager')}
         >
           Manager
