@@ -15,8 +15,8 @@ import { Link, useLocation } from 'react-router-dom'
 import PersonAddAltIcon from '@mui/icons-material/PersonAddAlt'
 import RecentActorsIcon from '@mui/icons-material/RecentActors'
 import PriceChangeIcon from '@mui/icons-material/PriceChange'
-import CustomListItemButton from '../../CustomListItemButton'
-import BuildIcon from '@mui/icons-material/Build'
+import AssignmentIcon from '@mui/icons-material/Assignment'
+import MarkChatUnreadIcon from '@mui/icons-material/MarkChatUnread'
 import LocalParkingIcon from '@mui/icons-material/LocalParking'
 import BlurLinearIcon from '@mui/icons-material/BlurLinear'
 import DeckIcon from '@mui/icons-material/Deck'
@@ -175,26 +175,8 @@ export default function SideBarAdminActive() {
             <Link to='/admin/electricity'>
               <div className='flex justify-between h-[50px] pl-[30px] pr-[20px] cursor-pointer hover:bg-[#333]/10'>
                 <div className={`flex items-center gap-[10px] ${path === ElectricityPath ? 'text-[#1976d3]' : ''}`}>
-                  <ElectricBoltIcon />
-                  <p className='pl-4 py-2'>Electricity</p>
-                </div>
-              </div>
-            </Link>
-
-            <Link to='/admin/water'>
-              <div className='flex justify-between h-[50px] pl-[30px] pr-[20px] cursor-pointer hover:bg-[#333]/10'>
-                <div className={`flex items-center gap-[10px] ${path === WaterPath ? 'text-[#1976d3]' : ''}`}>
-                  <WaterDropIcon />
-                  <p className='pl-4 py-2 '>Water</p>
-                </div>
-              </div>
-            </Link>
-
-            <Link to='/admin/parking'>
-              <div className='flex justify-between h-[50px] pl-[30px] pr-[20px] cursor-pointer hover:bg-[#333]/10'>
-                <div className={`flex items-center gap-[10px] ${path === ParkingPath ? 'text-[#1976d3]' : ''}`}>
-                  <LocalParkingIcon />
-                  <p className='pl-4 py-2 '>Parking Lot</p>
+                  <PriceChangeIcon />
+                  <p className='pl-4 py-2'>Set Fees</p>
                 </div>
               </div>
             </Link>
@@ -220,7 +202,7 @@ export default function SideBarAdminActive() {
                 <div
                   className={`flex items-center gap-[10px] ${path === HistoryNotificationPath ? 'text-[#1976d3]' : ''}`}
                 >
-                  <BlurLinearIcon />
+                  <AssignmentIcon />
                   <p className='pl-4 py-2 '>History notification</p>
                 </div>
               </div>
@@ -231,7 +213,7 @@ export default function SideBarAdminActive() {
                 <div
                   className={`flex items-center gap-[10px] ${path === CreateNotificationPath ? 'text-[#1976d3]' : ''}`}
                 >
-                  <DeckIcon />
+                  <MarkChatUnreadIcon />
                   <p className='pl-4 py-2 '>Create notification</p>
                 </div>
               </div>

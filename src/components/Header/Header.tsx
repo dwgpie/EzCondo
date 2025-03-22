@@ -1,6 +1,7 @@
 import SearchIcon from '@mui/icons-material/Search'
 import NotificationsIcon from '@mui/icons-material/Notifications'
 import { Link } from 'react-router-dom'
+import LogoutIcon from '@mui/icons-material/Logout'
 
 export default function Header() {
   const handleLogout = () => {
@@ -22,7 +23,9 @@ export default function Header() {
         </div>
         <div className='flex gap-[30px] items-center'>
           <Link to='/login'>
-            <button onClick={handleLogout}>Logout</button>
+            <button onClick={handleLogout}>
+              <LogoutIcon />
+            </button>
           </Link>
           <NotificationsIcon style={{ color: '#6C6E71' }} />
           <div className='w-10 h-10 rounded-full overflow-hidden ml-2'>

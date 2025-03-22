@@ -37,7 +37,7 @@ export default function ResetPassword() {
     loginMutation.mutate(data, {
       onSuccess: () => {
         setIsAuthenticated(true)
-        navigate('//confirm-password')
+        navigate('/login')
       },
       onError: (error) => {
         if (isAxiosUnprocessableEntityError<ErrorRespone<FormData>>(error)) {
