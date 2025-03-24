@@ -18,6 +18,9 @@ import ResetPassword from './pages/Password/ResetPassword'
 import EditUser from './pages/Admin/User/EditUser'
 import AddService from './pages/Admin/ManageFee/Service/AddService'
 import ListService from './pages/Admin/ManageFee/Service/ListService/ListService'
+import Profile from './pages/Profile'
+import EditService from './pages/Admin/ManageFee/Service/EditService'
+import ChangePassword from './pages/Password/ChangePassword'
 
 // function ProtectedRoute() {
 //   const { isAuthenticated } = useContext(AppContext) // Lấy từ context
@@ -125,6 +128,14 @@ export default function useRouteElements() {
           )
         },
         {
+          path: '/admin/edit-service',
+          element: (
+            <DashboardLayout>
+              <EditService />
+            </DashboardLayout>
+          )
+        },
+        {
           path: '/admin/electricity',
           element: <Electricity />
         },
@@ -149,6 +160,22 @@ export default function useRouteElements() {
           element: (
             <DashboardLayout>
               <CreateNotification />
+            </DashboardLayout>
+          )
+        },
+        {
+          path: '/profile',
+          element: (
+            <DashboardLayout>
+              <Profile />
+            </DashboardLayout>
+          )
+        },
+        {
+          path: '/change-password',
+          element: (
+            <DashboardLayout>
+              <ChangePassword />
             </DashboardLayout>
           )
         }

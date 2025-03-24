@@ -68,9 +68,11 @@ export default function SideBarAdminActive() {
 
   return (
     <div className='flex flex-col items-center bg-[#fff] border-r-2 border-[#d1d5dc] text-[#333] h-screen w-full relative'>
-      <div className='w-20 h-20'>
-        <img src='/public/imgs/logo/lo23-Photoroom.png' className='w-full h-full object-cover' />
-      </div>
+      <Link to='/admin/dashboard'>
+        <div className='w-20 h-20'>
+          <img src='/public/imgs/logo/lo23-Photoroom.png' className='w-full h-full object-cover' />
+        </div>
+      </Link>
 
       <div className='w-full font-semibold'>
         <div className='flex items-center justify-between gap-[10px] h-[50px] pl-[20px] pr-[20px]'>

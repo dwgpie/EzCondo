@@ -2,12 +2,13 @@ import { Button, TextField } from '@mui/material'
 import { useForm } from 'react-hook-form'
 import Input from '~/components/Input'
 import { yupResolver } from '@hookform/resolvers/yup'
-import { serviceSchema } from '~/utils/rules'
-import { addServiceImage, addService } from '~/apis/auth.api'
+import { addServiceSchema } from '~/utils/rules'
+import { addService, addOrUpdateImage } from '~/apis/auth.api'
 import { useRef, useState } from 'react'
 import CloudUploadIcon from '@mui/icons-material/CloudUpload'
 import { ToastContainer, toast } from 'react-toastify'
 import Checkbox from '@mui/material/Checkbox'
+import { useNavigate } from 'react-router-dom'
 
 interface FormData {
   serviceName: string
@@ -29,8 +30,10 @@ export default function AddService() {
     reset,
     formState: { errors }
   } = useForm<FormData>({
-    resolver: yupResolver(serviceSchema)
+    resolver: yupResolver(addServiceSchema)
   })
+
+  const navigate = useNavigate()
 
   const [typeOfMonth, setTypeOfMonth] = useState(false)
   const [typeOfYear, setTypeOfYear] = useState(false)
@@ -93,7 +96,7 @@ export default function AddService() {
       const service_Id = response.data
       console.log('Service ID:', service_Id)
 
-      await addServiceImage({
+      await addOrUpdateImage({
         service_Id,
         serviceImages: formData.serviceImages
       })
@@ -113,7 +116,7 @@ export default function AddService() {
   })
 
   return (
-    <div className='bg-[#EDF2F9] pt-10 ml-10 mr-10 z-13'>
+    <div className='bg-[#EDF2F9] pt-5 ml-5 mr-5 z-13 h-screen'>
       <ToastContainer />
       <div className='col-span-8 rounded-lg'>
         {/* <div className='text-2xl font-semibold mb-5 py-4 px-6 bg-white drop-shadow-md rounded-xl'>Add User</div> */}
@@ -261,9 +264,7 @@ export default function AddService() {
               <Button
                 variant='contained'
                 style={{ color: 'white', background: 'red', fontWeight: 'semi-bold' }}
-                onClick={() => {
-                  reset()
-                }}
+                onClick={() => navigate(-1)}
               >
                 Cancel
               </Button>

@@ -1,10 +1,5 @@
 import { useEffect, useState } from 'react'
 import { useMutation } from '@tanstack/react-query'
-
-// import AddIcon from '@mui/icons-material/Add'
-// import { Link } from 'react-router-dom'
-
-import SideBarAdmin from '~/components/SideBar/SideBarAdmin'
 import { addOrUpdateCitizen, editUser, getUserById } from '~/apis/auth.api'
 import { registerSchema } from '~/utils/rules'
 import { useForm } from 'react-hook-form'
@@ -154,7 +149,7 @@ export default function EditUser() {
   }
 
   return (
-    <div className='bg-[#EDF2F9] pt-25 z-13 h-screen'>
+    <div className='bg-[#EDF2F9] pt-5 ml-5 mr-5 z-13 h-full'>
       <ToastContainer />
       <div className='mb-6 p-6 bg-white drop-shadow-md rounded-xl'>
         {user ? (

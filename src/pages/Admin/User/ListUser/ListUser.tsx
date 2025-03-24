@@ -11,7 +11,6 @@ import Paper from '@mui/material/Paper'
 import Button from '@mui/material/Button'
 import EditIcon from '@mui/icons-material/Edit'
 import DeleteIcon from '@mui/icons-material/Delete'
-import SideBarAdmin from '~/components/SideBar/SideBarAdmin'
 import { getAllUser, deleteUser, searchUser } from '~/apis/auth.api'
 import Swal from 'sweetalert2'
 import { SearchContext } from '~/components/Search/SearchContext'
@@ -60,7 +59,7 @@ export default function ListUser() {
   const [filteredUsers, setFilteredUsers] = useState<User[]>([])
 
   const [page, setPage] = useState(1)
-  const pageSize = 2
+  const pageSize = 10
   const totalPages = Math.ceil(filteredUsers.length / pageSize)
 
   const handleButtonClick = (buttonName: string | string[]) => {
@@ -143,7 +142,7 @@ export default function ListUser() {
           const response = await searchUser(searchQuery)
           setFilteredUsers(response.data)
         } catch (error) {
-          console.error('Lỗi khi tìm kiếm:', error)
+          console.error('Error search:', error)
         }
       }
     }
