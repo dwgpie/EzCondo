@@ -13,6 +13,7 @@ interface Props {
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   register: UseFormRegister<any>
   rules?: RegisterOptions
+  isEditable?: boolean
 }
 
 export default function InputEdit({
@@ -24,7 +25,8 @@ export default function InputEdit({
   defaultValue,
   name,
   register,
-  rules
+  rules,
+  isEditable = true
 }: Props) {
   return (
     <div className={className}>
@@ -34,6 +36,7 @@ export default function InputEdit({
         placeholder={placeholder}
         autoComplete={autoComplete}
         defaultValue={defaultValue} // Thêm value vào input
+        readOnly={!isEditable}
         {...register(name, rules)}
       />
       <div className='mt-1 text-xs text-red-500 min-h-4'>{errorMessage}</div>

@@ -132,6 +132,8 @@ export const resetPasswordSchema = yup.object({
 })
 
 export const serviceSchema = yup.object({
+  id: yup.string(),
+  status: yup.string().required('Status is required'),
   serviceName: yup
     .string()
     .trim()
@@ -169,6 +171,43 @@ export const serviceSchema = yup.object({
     .required('Image is required')
 })
 
+export const profileSchema = yup.object({
+  id: yup.string(),
+  fullName: yup
+    .string()
+    .trim()
+    .required('Full name is required')
+    .min(2, 'Full name must be at least 2 characters long')
+    .max(100, 'Full name cannot exceed 100 characters'),
+  email: yup
+    .string()
+    .email('Invalid email format')
+    .required('Email is required')
+    .min(5, 'Length must be between 5 - 160 characters')
+    .max(160, 'Length must be between 5 - 160 characters'),
+  phoneNumber: yup
+    .string()
+    .trim()
+    .matches(/^[0-9]{10,15}$/, 'Invalid phone number')
+    .required('Phone number is required'),
+  dateOfBirth: yup.string().required('Date of birth is required'),
+  gender: yup.string().required('Gender is required'),
+  roleName: yup.string().required('Role is required'),
+  apartmentNumber: yup
+    .string()
+    .trim()
+    .required('Apartment number is required')
+    .max(50, 'Apartment number cannot exceed 50 characters'),
+  status: yup.string().required('Status is required'),
+  no: yup.string().required('ID card number is required'),
+  avatar: yup.mixed<File>() as yup.Schema<File>
+})
+
+export const changePasswordSchema = yup.object({
+  oldPassword: yup.string().required('Old password is required'),
+  newPassword: yup.string().required('New password is required')
+})
+
 export type RegisterSchema = yup.InferType<typeof registerSchema>
 
 // cái này dành cho login: OMIT bỏ confirm_password đi
@@ -182,3 +221,5 @@ export type ForgotSchema = yup.InferType<typeof forgotSchema>
 export type ResetPasswordSchema = yup.InferType<typeof resetPasswordSchema>
 
 export const addUserSchema = registerSchema.omit(['id', 'status'])
+
+export const addServiceSchema = serviceSchema.omit(['id', 'status'])
