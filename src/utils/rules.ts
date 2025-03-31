@@ -112,7 +112,7 @@ export const registerSchema = yup.object({
   backImage: yup.mixed<File>().required('Back image is required') as yup.Schema<File>
 })
 
-export const resetPasswordSchema = yup.object({
+export const RSPassWord = yup.object({
   email: yup
     .string()
     .email('Invalid email format')
@@ -128,7 +128,12 @@ export const resetPasswordSchema = yup.object({
     .string()
     .matches(/^\d+$/, 'OTP code must be numeric')
     .required('OTP code is required')
-    .min(6, 'OTP code must be at least 6 characters long')
+    .min(6, 'OTP code must be at least 6 characters long'),
+  tokenMemory: yup.string(),
+  confirmPassword: yup
+    .string()
+    .oneOf([yup.ref('newPassword')], 'Passwords must match')
+    .required('Confirm password is required')
 })
 
 export const serviceSchema = yup.object({
@@ -205,21 +210,50 @@ export const profileSchema = yup.object({
 
 export const changePasswordSchema = yup.object({
   oldPassword: yup.string().required('Old password is required'),
-  newPassword: yup.string().required('New password is required')
+  newPassword: yup.string().required('New password is required'),
+  confirmPassword: yup
+    .string()
+    .oneOf([yup.ref('newPassword')], 'Passwords must match')
+    .required('Confirm password is required')
+})
+
+//Fee
+export const electricitySchema = yup.object({
+  id: yup.string(),
+  minKWh: yup.number().required(),
+  maxKWh: yup.number().required(),
+  pricePerKWh: yup.number().required().max(100000, 'Price per KWh must be less than 100,000VND')
+})
+
+export const waterSchema = yup.object({
+  id: yup.string(),
+  pricePerM3: yup.number().required()
+})
+
+export const parkingSchema = yup.object({
+  id: yup.string(),
+  pricePerMotor: yup.number().required(),
+  pricePerOto: yup.number().required()
+})
+
+//Notification
+export const notificationCreateSchema = yup.object({
+  title: yup.string().required('Title is required'),
+  content: yup.string().required('Content is required'),
+  type: yup.string().required('Type is required')
 })
 
 export type RegisterSchema = yup.InferType<typeof registerSchema>
-
 // cái này dành cho login: OMIT bỏ confirm_password đi
 export const loginSchema = schema.omit(['confirm_password'])
 export type LoginSchema = yup.InferType<typeof loginSchema>
 export type Schema = yup.InferType<typeof schema>
-
 export const forgotSchema = schema.omit(['confirm_password', 'password'])
 export type ForgotSchema = yup.InferType<typeof forgotSchema>
-
+export const verifySchema = RSPassWord.omit(['newPassword'])
+export type VerifyOtpSchema = yup.InferType<typeof verifySchema>
+export const resetPasswordSchema = RSPassWord.omit(['email', 'code'])
 export type ResetPasswordSchema = yup.InferType<typeof resetPasswordSchema>
-
 export const addUserSchema = registerSchema.omit(['id', 'status'])
-
 export const addServiceSchema = serviceSchema.omit(['id', 'status'])
+export type NotificationCreateSchema = yup.InferType<typeof notificationCreateSchema>

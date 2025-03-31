@@ -1,29 +1,16 @@
-import React, { useState } from 'react'
-import { List, ListItemButton, ListItemIcon, ListItemText, Collapse } from '@mui/material'
-import {
-  ExpandLess,
-  ExpandMore,
-  Person as PersonIcon,
-  Dashboard as DashboardIcon,
-  FormatListBulleted as FormatListBulletedIcon,
-  Payments as PaymentsIcon,
-  EditNotifications as EditNotificationsIcon
-} from '@mui/icons-material'
+import { Dashboard as DashboardIcon } from '@mui/icons-material'
 import MarkEmailUnreadIcon from '@mui/icons-material/MarkEmailUnread'
 import PriceChangeIcon from '@mui/icons-material/PriceChange'
-import ReorderIcon from '@mui/icons-material/Reorder'
-import Box from '@mui/material/Box'
 import { Link, useLocation } from 'react-router-dom'
 import PersonAddAltIcon from '@mui/icons-material/PersonAddAlt'
 import RecentActorsIcon from '@mui/icons-material/RecentActors'
-import CustomListItemButton from '../../CustomListItemButton'
-import BuildIcon from '@mui/icons-material/Build'
 import BlurLinearIcon from '@mui/icons-material/BlurLinear'
 import DeckIcon from '@mui/icons-material/Deck'
-import ElectricBoltIcon from '@mui/icons-material/ElectricBolt'
-import WaterDropIcon from '@mui/icons-material/WaterDrop'
 import AssignmentIcon from '@mui/icons-material/Assignment'
 import MarkChatUnreadIcon from '@mui/icons-material/MarkChatUnread'
+import ElectricBoltIcon from '@mui/icons-material/ElectricBolt'
+import WaterDropIcon from '@mui/icons-material/WaterDrop'
+import LocalParkingIcon from '@mui/icons-material/LocalParking'
 import '../SideBar.css'
 
 export default function SideBarAdminInactive() {
@@ -35,31 +22,12 @@ export default function SideBarAdminInactive() {
   const AddUserPath = '/admin/add-user'
   const ListServicePath = '/admin/list-service'
   const CreateServicePath = '/admin/add-service'
-  const SetFeePath = '/admin/set-fee'
+  // const SetFeePath = '/admin/setting-fee'
+  const ElectricityPath = '/admin/setting-fee-electricity'
+  const WaterPath = '/admin/setting-fee-water'
+  const ParkingPath = '/admin/setting-fee-parking'
   const HistoryNotificationPath = '/admin/notification'
   const CreateNotificationPath = '/admin/create-notification'
-
-  const [isOpenUser, setIsOpenUser] = useState(false)
-  const [isOpenService, setIsOpenService] = useState(false)
-  const [isOpenFee, setIsOpenFee] = useState(false)
-  const [isOpenNotification, setIsOpenNotification] = useState(false)
-
-  const handleClickUser = () => {
-    setIsOpenUser(!isOpenUser)
-  }
-  const handleClickService = () => {
-    setIsOpenService(!isOpenService)
-  }
-  const handleClickFee = () => {
-    setIsOpenFee(!isOpenFee)
-  }
-  const handleClickNotification = () => {
-    setIsOpenNotification(!isOpenNotification)
-  }
-
-  const isActive = (path: string) => {
-    return location.pathname === path
-  }
 
   return (
     <div className='flex flex-col items-center bg-[#fff] border-r-2 border-[#d1d5dc] text-[#333] h-screen w-full relative'>
@@ -162,7 +130,9 @@ export default function SideBarAdminInactive() {
           <div className='relative group'>
             {/* Nút bấm */}
             <div className='flex justify-between w-full h-[50px] pl-[40px] pr-[40px] cursor-pointer hover:bg-[#333]/10'>
-              <div className={`flex items-center gap-[10px] ${path === SetFeePath ? 'text-[#1976d3]' : ''}`}>
+              <div
+                className={`flex items-center gap-[10px] ${path === ElectricityPath || path === WaterPath || path === ParkingPath ? 'text-[#1976d3]' : ''}`}
+              >
                 <PriceChangeIcon />
               </div>
             </div>
@@ -170,11 +140,27 @@ export default function SideBarAdminInactive() {
             {/* Hover Menu */}
             <div className='absolute w-[200px] border-2 border-[#d1d5dc] rounded-[5px] bg-white shadow-md top-[0] left-[105px] hidden group-hover:block z-[9999]'>
               <ul>
-                <Link to='/admin/set-fee'>
+                <Link to='/admin/setting-fee-electricity'>
                   <div className='flex justify-between h-[50px] pl-[20px] pr-[20px] cursor-pointer hover:bg-[#333]/10'>
-                    <div className={`flex items-center gap-[10px] ${path === SetFeePath ? 'text-[#1976d3]' : ''}`}>
-                      <PriceChangeIcon />
-                      <li className='flex items-center h-[30px] pl-[10px] '>Set Fees</li>
+                    <div className={`flex items-center gap-[10px] ${path === ElectricityPath ? 'text-[#1976d3]' : ''}`}>
+                      <ElectricBoltIcon />
+                      <li className='flex items-center h-[30px] pl-[10px] '>Set Electricity</li>
+                    </div>
+                  </div>
+                </Link>
+                <Link to='/admin/setting-fee-water'>
+                  <div className='flex justify-between h-[50px] pl-[20px] pr-[20px] cursor-pointer hover:bg-[#333]/10'>
+                    <div className={`flex items-center gap-[10px] ${path === WaterPath ? 'text-[#1976d3]' : ''}`}>
+                      <WaterDropIcon />
+                      <li className='flex items-center h-[30px] pl-[10px] '>Set Water</li>
+                    </div>
+                  </div>
+                </Link>
+                <Link to='/admin/setting-fee-parking'>
+                  <div className='flex justify-between h-[50px] pl-[20px] pr-[20px] cursor-pointer hover:bg-[#333]/10'>
+                    <div className={`flex items-center gap-[10px] ${path === ParkingPath ? 'text-[#1976d3]' : ''}`}>
+                      <LocalParkingIcon />
+                      <li className='flex items-center h-[30px] pl-[10px] '>Set Parking</li>
                     </div>
                   </div>
                 </Link>

@@ -10,7 +10,7 @@ import Popover from '@mui/material/Popover'
 import PopupState, { bindTrigger, bindPopover } from 'material-ui-popup-state'
 import AccountCircleIcon from '@mui/icons-material/AccountCircle'
 import LogoutIcon from '@mui/icons-material/Logout'
-import PasswordIcon from '@mui/icons-material/Password';
+import PasswordIcon from '@mui/icons-material/Password'
 interface formData {
   avatar: File
 }
@@ -32,6 +32,7 @@ export default function Header() {
 
   const handleLogout = () => {
     localStorage.removeItem('token')
+    window.location.href = '/login'
   }
 
   const searchContext = useContext(SearchContext)
@@ -108,16 +109,16 @@ export default function Header() {
                         <span className='ml-4 my-2'>Password</span>
                       </Link>
                       <hr className='border-t border-gray-300 w-full' />
-                      <Link
-                        to='/login'
-                        onClick={() => popupState.close()}
-                        className='px-4 py-1 text-l hover:bg-gray-100 transition flex items-center'
+                      <div
+                        onClick={() => {
+                          popupState.close()
+                          handleLogout()
+                        }}
+                        className='px-4 py-1 text-l hover:bg-gray-100 transition flex items-center cursor-pointer'
                       >
                         <LogoutIcon />
-                        <span className='ml-4 my-2' onClick={handleLogout}>
-                          Logout
-                        </span>
-                      </Link>
+                        <span className='ml-4 my-2'>Logout</span>
+                      </div>
                     </div>
                   </Typography>
                 </Popover>
