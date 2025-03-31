@@ -15,6 +15,7 @@ import { IconButton, InputAdornment } from '@mui/material'
 interface FormData {
   oldPassword: string
   newPassword: string
+  confirmPassword: string
 }
 
 export default function ChangePassword() {
@@ -85,6 +86,26 @@ export default function ChangePassword() {
                     register={register}
                     className='mt-3'
                     errorMessage={errors.newPassword?.message}
+                  />
+                  <InputAdornment position='end' className='absolute right-0 top-0 mt-2 mr-4'>
+                    <IconButton onClick={toggleShowPassword} edge='end' aria-label='toggle password visibility'>
+                      {showPassword ? <Visibility /> : <VisibilityOff />}
+                    </IconButton>
+                  </InputAdornment>
+                </div>
+              </div>
+              <div>
+                <label className='block text-sm font-semibold'>
+                  Confirm Passowrd
+                  <span className='text-red-600 ml-1'>*</span>
+                </label>
+                <div className='relative'>
+                  <Input
+                    name='confirmPassword'
+                    type={showPassword ? 'text' : 'password'}
+                    register={register}
+                    className='mt-3'
+                    errorMessage={errors.confirmPassword?.message}
                   />
                   <InputAdornment position='end' className='absolute right-0 top-0 mt-2 mr-4'>
                     <IconButton onClick={toggleShowPassword} edge='end' aria-label='toggle password visibility'>

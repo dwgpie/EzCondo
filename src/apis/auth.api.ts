@@ -2,7 +2,7 @@ import { AuthRespone } from '~/types/auth.type'
 import http from '~/utils/http'
 
 // Auth
-export const login = (body: { email: string; password: string }) => http.post<AuthRespone>('/api/Auth/Login', body)
+export const login = (body: { email: string; password: string }) => http.post<AuthRespone>('/api/Auth/login', body)
 
 export const registerAccount = (body: {
   fullName: string
@@ -12,7 +12,7 @@ export const registerAccount = (body: {
   gender: string
   roleName: string
   apartmentNumber: string
-}) => http.post('/api/Admin/Add-User', body)
+}) => http.post('/api/User/add-user', body)
 
 // Citizen
 export const addOrUpdateCitizen = (body: {
@@ -31,7 +31,7 @@ export const addOrUpdateCitizen = (body: {
   formData.append('FrontImage', body.frontImage)
   formData.append('BackImage', body.backImage)
 
-  return http.post('/api/Admin/Add-Or-Update-Citizen', formData, {
+  return http.post('/api/Citizen/add-or-update-citizen', formData, {
     headers: {
       'Content-Type': 'multipart/form-data'
     }
@@ -40,12 +40,12 @@ export const addOrUpdateCitizen = (body: {
 
 // Admin
 export const getAllUser = () => {
-  return http.get('/api/Admin/Get-All-Users')
+  return http.get('/api/User/get-all-users')
 }
 
-export const deleteUser = (userId: string) => http.delete(`/api/Admin/delete-user-by-id?userId=${userId}`)
+export const deleteUser = (userId: string) => http.delete(`/api/User/delete-user-by-id?userId=${userId}`)
 
-export const getUserById = (userId: string) => http.get(`/api/Admin/get-user-by-id?userId=${userId}`)
+export const getUserById = (userId: string) => http.get(`/api/User/get-user-by-id?userId=${userId}`)
 
 export const editUser = (body: {
   id: string
@@ -57,17 +57,19 @@ export const editUser = (body: {
   roleName: string
   apartmentNumber: string
   status: string
-}) => http.patch('/api/Admin/update-user', body)
+}) => http.patch('/api/User/update-user', body)
 
 //Password
 export const forgotPassword = (body: { email: string }) => http.post('/api/Auth/forgot-password', body)
 
-export const resetPassword = (body: { email: string; code: string; newPassword: string }) =>
+export const verifyOTP = (body: { email: string; code: string }) => http.post(`/api/Auth/verify-otp`, body)
+
+export const resetPassword = (body: { tokenMemory: string; newPassword: string }) =>
   http.post('/api/Auth/reset-password', body)
 
 //Search
 export const searchUser = (search: string) => {
-  return http.get(`/api/Admin/get-all-users?search=${search}`)
+  return http.get(`/api/User/get-all-users?search=${search}`)
 }
 
 //Service
@@ -78,7 +80,7 @@ export const addService = (body: {
   typeOfYear: boolean
   priceOfMonth: number
   priceOfYear: number
-}) => http.post('/api/Admin/add-or-update-service', body)
+}) => http.post('/api/Services/add-or-update-service', body)
 
 export const editService = (body: {
   id: string
@@ -89,7 +91,7 @@ export const editService = (body: {
   typeOfYear: boolean
   priceOfMonth: number
   priceOfYear: number
-}) => http.post('/api/Admin/add-or-update-service', body)
+}) => http.post('/api/Services/add-or-update-service', body)
 
 export const addOrUpdateImage = (body: { service_Id: string; serviceImages: File[] }) => {
   const formData = new FormData()
@@ -102,7 +104,7 @@ export const addOrUpdateImage = (body: { service_Id: string; serviceImages: File
 
   console.log('formData:', formData)
 
-  return http.post('/api/Admin/add-or-update-service-images', formData, {
+  return http.post('/api/Services/add-or-update-service-images', formData, {
     headers: {
       'Content-Type': 'multipart/form-data'
     }
@@ -112,9 +114,6 @@ export const addOrUpdateImage = (body: { service_Id: string; serviceImages: File
 export const getAllService = () => {
   return http.get('/api/Services/get-all-services')
 }
-
-export const getServiceByIdImage = (serviceId: string) =>
-  http.get(`/api/Services/get-service-images?serviceId=${serviceId}`)
 
 export const getServiceById = (serviceId: string) => http.get(`/api/Services/get-service-by-id?serviceId=${serviceId}`)
 
@@ -141,3 +140,37 @@ export const addOrUpdateAvatar = (avatar: File) => {
 
 export const changePassword = (body: { oldPassword: string; newPassword: string }) =>
   http.patch('/api/User/change-password', body)
+
+//Fees
+export const addElectric = (body: { minKWh: number; maxKWh: number; pricePerKWh: number }) =>
+  http.post('/api/SettingFee/add-or-update-electric-price', body)
+
+export const addWater = (body: { pricePerM3: number }) => http.post('/api/SettingFee/add-water-price', body)
+
+export const addParking = (body: { pricePerMotor: number; pricePerOto: number }) =>
+  http.post('/api/SettingFee/add-parking-price', body)
+
+export const getElectric = () => {
+  return http.get('/api/SettingFee/get-electric-price')
+}
+
+export const getWater = () => {
+  return http.get('/api/SettingFee/get-water-price')
+}
+
+export const getParking = () => {
+  return http.get('/api/SettingFee/get-parking-price')
+}
+
+export const editElectric = (body: { id: string; minKWh: number; maxKWh: number; pricePerKWh: number }) =>
+  http.post('/api/SettingFee/add-or-update-electric-price', body)
+
+export const editWater = (body: { id: string; pricePerM3: number }) =>
+  http.patch('/api/SettingFee/update-water-price', body)
+
+export const editParking = (body: { id: string; pricePerMotor: number; pricePerOto: number }) =>
+  http.patch('/api/SettingFee/update-parking-price', body)
+
+//Notification
+export const addNotification = (body: { title: string; content: string; type: string }) =>
+  http.post('/api/Notification/create-notification', body)

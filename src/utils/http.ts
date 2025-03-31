@@ -32,7 +32,7 @@ class Http {
     this.instance.interceptors.response.use(
       (response) => {
         const { url } = response.config
-        if (url === '/api/Auth/Login') {
+        if (url === '/api/Auth/login') {
           this.accessToken = (response as AuthRespone).data.token
           saveAccessTokenToLocalStorage(this.accessToken)
         } else if (url === '/logout') {

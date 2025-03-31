@@ -4,9 +4,6 @@ import DashboardLayout from './layouts/DashboardLayout'
 import Dashboard from './pages/Admin/Dashboard'
 import AddUser from './pages/Admin/User/AddUser'
 import ListUser from './pages/Admin/User/ListUser'
-import FixedFee from './pages/Admin/ManageFee/FixedFee'
-import Electricity from './pages/Admin/ManageFee/Electricity'
-import { Water } from '@mui/icons-material'
 import ManageIncident from './pages/SupportTeam/ManageIncident'
 import Notification from './pages/Admin/Notification/NotificationHistory'
 import CreateNotification from './pages/Admin/Notification/CreateNotification'
@@ -21,6 +18,10 @@ import ListService from './pages/Admin/ManageFee/Service/ListService/ListService
 import Profile from './pages/Profile'
 import EditService from './pages/Admin/ManageFee/Service/EditService'
 import ChangePassword from './pages/Password/ChangePassword'
+import Electricity from './pages/Admin/ManageFee/Electricity'
+import Parking from './pages/Admin/ManageFee/Parking'
+import VerifyOTP from './pages/Password/VerifyOTP'
+import Water from './pages/Admin/ManageFee/Water'
 
 // function ProtectedRoute() {
 //   const { isAuthenticated } = useContext(AppContext) // Lấy từ context
@@ -60,6 +61,10 @@ export default function useRouteElements() {
         {
           path: '/forgot-password',
           element: <ForgotPassword />
+        },
+        {
+          path: '/verify-otp',
+          element: <VerifyOTP />
         },
         {
           path: '/reset-password',
@@ -104,10 +109,26 @@ export default function useRouteElements() {
           )
         },
         {
-          path: '/admin/fixed-fee',
+          path: '/admin/setting-fee-electricity',
           element: (
             <DashboardLayout>
-              <FixedFee />
+              <Electricity />
+            </DashboardLayout>
+          )
+        },
+        {
+          path: '/admin/setting-fee-water',
+          element: (
+            <DashboardLayout>
+              <Water />
+            </DashboardLayout>
+          )
+        },
+        {
+          path: '/admin/setting-fee-parking',
+          element: (
+            <DashboardLayout>
+              <Parking />
             </DashboardLayout>
           )
         },
@@ -132,18 +153,6 @@ export default function useRouteElements() {
           element: (
             <DashboardLayout>
               <EditService />
-            </DashboardLayout>
-          )
-        },
-        {
-          path: '/admin/electricity',
-          element: <Electricity />
-        },
-        {
-          path: '/admin/water',
-          element: (
-            <DashboardLayout>
-              <Water />
             </DashboardLayout>
           )
         },

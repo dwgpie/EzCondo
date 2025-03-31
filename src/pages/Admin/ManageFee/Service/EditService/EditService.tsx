@@ -8,7 +8,7 @@ import { useRef } from 'react'
 import CloudUploadIcon from '@mui/icons-material/CloudUpload'
 import { ToastContainer, toast } from 'react-toastify'
 import { Button, Checkbox, TextField } from '@mui/material'
-import { useNavigate } from 'react-router-dom'
+import { Link, useNavigate } from 'react-router-dom'
 import InputEdit from '~/components/InputEdit'
 
 interface formData {
@@ -36,8 +36,6 @@ export default function EditService() {
     resolver: yupResolver(serviceSchema)
   })
 
-  const navigate = useNavigate()
-
   const [images, setImages] = useState<string[]>([]) // Lưu trữ URL của ảnh
   const [files, setFiles] = useState<File[]>([]) // Lưu trữ danh sách file ảnh
   const fileInputRef = useRef<HTMLInputElement | null>(null)
@@ -45,22 +43,19 @@ export default function EditService() {
 
   const handleDeleteImage = (index: number) => {
     // Remove image URL and file at the specified index
-    setImages((prev) => prev.filter((_, i) => i !== index))
     setFiles((prev) => prev.filter((_, i) => i !== index))
     // Update form value
     setValue(
       'serviceImages',
       files.filter((_, i) => i !== index)
     )
+    console.log(files)
   }
 
   const handleImageChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const newFiles = Array.from(event.target.files || []) // Lấy danh sách file
     if (newFiles.length) {
-      const imageUrls = newFiles.map((file) => URL.createObjectURL(file))
-      setImages((prev) => [...prev, ...imageUrls]) // Cập nhật ảnh hiển thị
       setFiles((prev) => [...prev, ...newFiles]) // Cập nhật danh sách file
-      setValue('serviceImages', [...files, ...newFiles]) // Cập nhật vào form
       clearErrors('serviceImages')
     }
   }
@@ -73,7 +68,7 @@ export default function EditService() {
       const imageUrls = newFiles.map((file) => URL.createObjectURL(file))
       setImages((prev) => [...prev, ...imageUrls])
       setFiles((prev) => [...prev, ...newFiles])
-      setValue('serviceImages', [...files, ...newFiles])
+
       clearErrors('serviceImages')
     }
   }
@@ -85,6 +80,13 @@ export default function EditService() {
 
   const serviceId = getServiceIdFromURL()
 
+  const getImageSrc = (image: string | File | null | undefined) => {
+    if (image instanceof File) {
+      return URL.createObjectURL(image)
+    } // fix
+    return image || undefined
+  }
+
   const getServiceMutation = useMutation({
     mutationFn: async (id: string) => {
       const [serviceResponse, imageResponse] = await Promise.all([getServiceById(id), getImageById(id)])
@@ -93,7 +95,7 @@ export default function EditService() {
         serviceImages: imageResponse.data // Thêm ảnh vào object
       }
     },
-    onSuccess: (data) => {
+    onSuccess: async (data) => {
       setService(data) // Cập nhật state với dữ liệu từ API
 
       // Xử lý ảnh cũ nếu có
@@ -101,7 +103,19 @@ export default function EditService() {
         // Định nghĩa kiểu dữ liệu cho img
         const imageUrls = data.serviceImages.map((img: { imgPath: string }) => img.imgPath)
         setImages(imageUrls) // Chỉ lưu imgPath
-        setValue('serviceImages', imageUrls)
+        console.log('url ảnh: ', imageUrls)
+
+        // Chuyển URL ảnh thành File giả lập
+        const parseFiles = await Promise.all(
+          imageUrls.map(async (url: string) => {
+            const response = await fetch(url)
+            const blob = await response.blob()
+            return new File([blob], `image-${Date.now()}.jpg`, { type: blob.type })
+          })
+        )
+        setFiles(parseFiles)
+        setValue('serviceImages', parseFiles)
+        // console.log('file ảnh: ', files)
       }
     },
     onError: (error) => {
@@ -127,9 +141,10 @@ export default function EditService() {
         priceOfMonth: formData.priceOfMonth || 0,
         priceOfYear: formData.priceOfYear || 0
       })
+      console.log(formData)
       await addOrUpdateImage({
         service_Id: serviceId ?? '',
-        serviceImages: formData.serviceImages
+        serviceImages: files
       })
       toast.success('Service updated successfully!')
       setImages([])
@@ -138,13 +153,6 @@ export default function EditService() {
       console.error('API call failed:', error)
     }
   })
-
-  const getImageSrc = (image: string | File | null | undefined) => {
-    if (image instanceof File) {
-      return URL.createObjectURL(image)
-    }
-    return image || undefined
-  }
 
   return (
     <div className='bg-[#EDF2F9] pt-5 ml-5 mr-5 z-13 h-screen'>
@@ -265,9 +273,9 @@ export default function EditService() {
                   onDrop={(e) => handleDrop(e)}
                   onDragOver={(e) => e.preventDefault()}
                 >
-                  {images.length > 0 ? (
+                  {files.length > 0 ? (
                     <div className='flex flex-wrap flex-start gap-10'>
-                      {images.map((imgPath, index) => (
+                      {files.map((imgPath, index) => (
                         <div key={index} className='relative group'>
                           <img src={getImageSrc(imgPath)} alt='Preview' className='w-24 h-24 object-fit rounded-md' />
                           <button
@@ -304,13 +312,15 @@ export default function EditService() {
               </div>
             </div>
             <div className='flex justify-end gap-4 mt-3'>
-              <Button
-                variant='contained'
-                style={{ color: 'white', background: 'red', fontWeight: 'semi-bold' }}
-                onClick={() => navigate(-1)}
-              >
-                Cancel
-              </Button>
+              <Link to='/admin/list-service'>
+                <Button
+                  variant='contained'
+                  style={{ color: 'white', background: 'red', fontWeight: 'semi-bold' }}
+                  // onClick={() => navigate(-1)}
+                >
+                  Cancel
+                </Button>
+              </Link>
               <Button
                 type='submit'
                 variant='contained'
