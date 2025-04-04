@@ -59,7 +59,7 @@ export default function ListUser() {
   const [filteredUsers, setFilteredUsers] = useState<User[]>([])
 
   const [page, setPage] = useState(1)
-  const pageSize = 10
+  const pageSize = 6
   const totalPages = Math.ceil(filteredUsers.length / pageSize)
 
   const handleButtonClick = (buttonName: string | string[]) => {
@@ -157,115 +157,120 @@ export default function ListUser() {
   }
 
   return (
-    <div className='bg-[#EDF2F9] pt-5 ml-5 mr-5 z-13 h-screen'>
-      <div className='flex gap-4 mb-6 justify-end font-bold '>
-        <Button
-          sx={{
-            backgroundColor: activeButton === 'all' ? '#5382B1' : 'transparent',
-            color: activeButton === 'all' ? '#fff' : '#5382B1',
-            border: '1px solid #5382B1',
-            borderRadius: '6px',
-            width: '110px',
-            height: '35px'
-          }}
-          onClick={() => handleButtonClick(['resident', 'manager'])}
-        >
-          All
-        </Button>
-        <Button
-          sx={{
-            backgroundColor: activeButton === 'resident' ? '#5382B1' : 'transparent',
-            color: activeButton === 'resident' ? '#fff' : '#5382B1',
-            border: '1px solid #5382B1',
-            borderRadius: '6px',
-            width: '110px',
-            height: '35px'
-          }}
-          onClick={() => handleButtonClick('resident')}
-        >
-          Resident
-        </Button>
-        <Button
-          sx={{
-            backgroundColor: activeButton === 'manager' ? '#5382B1' : 'transparent',
-            color: activeButton === 'manager' ? '#fff' : '#5382B1',
-            border: '1px solid #5382B1',
-            borderRadius: '6px',
-            width: '110px',
-            height: '35px'
-          }}
-          onClick={() => handleButtonClick('manager')}
-        >
-          Manager
-        </Button>
-      </div>
-      <Paper elevation={4}>
-        <TableContainer>
-          <Table sx={{ minWidth: 700 }} aria-label='customized table'>
-            <TableHead>
-              <TableRow>
-                <StyledTableCell width='5%'>Id</StyledTableCell>
-                <StyledTableCell width='20%'>Full Name</StyledTableCell>
-                <StyledTableCell width='12%'>Date of birth</StyledTableCell>
-                <StyledTableCell width='12%'>Gender</StyledTableCell>
-                <StyledTableCell width='12%'>Apartment</StyledTableCell>
-                <StyledTableCell width='15%'>Phone number</StyledTableCell>
-                <StyledTableCell width='13%'>Status</StyledTableCell>
-                <StyledTableCell width='8%'>Edit</StyledTableCell>
-              </TableRow>
-            </TableHead>
-            <TableBody>
-              {paginatedUsers.length > 0 ? (
-                paginatedUsers.map((user, index) => (
-                  <StyledTableRow key={user.id}>
-                    <StyledTableCell sx={{ color: 'black', fontWeight: '600' }}>{index + 1}</StyledTableCell>
-                    <StyledTableCell>{user.fullName}</StyledTableCell>
-                    <StyledTableCell>
-                      {new Intl.DateTimeFormat('vi-VN').format(new Date(user.dateOfBirth))}
-                    </StyledTableCell>
-                    <StyledTableCell>{user.gender}</StyledTableCell>
-                    <StyledTableCell>{user.apartmentNumber}</StyledTableCell>
-                    <StyledTableCell>{user.phoneNumber}</StyledTableCell>
-                    <StyledTableCell>
-                      <span className={`${getStatusColor(user.status)} px-2 py-1 rounded-full text-sm font-semibold`}>
-                        {user.status}
-                      </span>
-                    </StyledTableCell>
-                    <StyledTableCell>
-                      <div className='flex gap-2'>
-                        <button
-                          className='text-blue-500 cursor-pointer'
-                          onClick={() => {
-                            handleGetUser(user.id)
-                          }}
-                        >
-                          <EditIcon />
-                        </button>
-                        <button
-                          className='text-red-500 cursor-pointer'
-                          onClick={() => {
-                            handleDelete(user.id)
-                          }}
-                        >
-                          <DeleteIcon />
-                        </button>
-                      </div>
-                    </StyledTableCell>
-                  </StyledTableRow>
-                ))
-              ) : (
+    <div className='pt-5 mx-5 z-13'>
+      <div className='mb-6 p-6 bg-white drop-shadow-md rounded-xl'>
+        <div className='flex gap-4 mb-6 justify-end font-bold '>
+          <Button
+            sx={{
+              backgroundColor: activeButton === 'all' ? '#5382B1' : 'transparent',
+              color: activeButton === 'all' ? '#fff' : '#5382B1',
+              border: '1px solid #5382B1',
+              borderRadius: '6px',
+              width: '110px',
+              height: '35px'
+            }}
+            onClick={() => handleButtonClick(['resident', 'manager'])}
+          >
+            All
+          </Button>
+          <Button
+            sx={{
+              backgroundColor: activeButton === 'resident' ? '#5382B1' : 'transparent',
+              color: activeButton === 'resident' ? '#fff' : '#5382B1',
+              border: '1px solid #5382B1',
+              borderRadius: '6px',
+              width: '110px',
+              height: '35px'
+            }}
+            onClick={() => handleButtonClick('resident')}
+          >
+            Resident
+          </Button>
+          <Button
+            sx={{
+              backgroundColor: activeButton === 'manager' ? '#5382B1' : 'transparent',
+              color: activeButton === 'manager' ? '#fff' : '#5382B1',
+              border: '1px solid #5382B1',
+              borderRadius: '6px',
+              width: '110px',
+              height: '35px'
+            }}
+            onClick={() => handleButtonClick('manager')}
+          >
+            Manager
+          </Button>
+        </div>
+        <Paper elevation={4}>
+          <TableContainer>
+            <Table sx={{ minWidth: 700 }} aria-label='customized table'>
+              <TableHead>
                 <TableRow>
-                  <TableCell colSpan={8} align='center'>
-                    No users found
-                  </TableCell>
+                  <StyledTableCell width='5%'>Id</StyledTableCell>
+                  <StyledTableCell width='20%'>Full Name</StyledTableCell>
+                  <StyledTableCell width='12%'>Date of birth</StyledTableCell>
+                  <StyledTableCell width='12%'>Gender</StyledTableCell>
+                  <StyledTableCell width='12%'>Apartment</StyledTableCell>
+                  <StyledTableCell width='15%'>Phone number</StyledTableCell>
+                  <StyledTableCell width='13%'>Status</StyledTableCell>
+                  <StyledTableCell width='8%'>Edit</StyledTableCell>
                 </TableRow>
-              )}
-            </TableBody>
-          </Table>
-        </TableContainer>
-      </Paper>
-      <div className='mt-10 flex justify-center'>
-        <Pagination count={totalPages} page={page} onChange={handlePageChange} />
+              </TableHead>
+              <TableBody>
+                {paginatedUsers.length > 0 ? (
+                  paginatedUsers.map((user, index) => (
+                    <StyledTableRow key={user.id}>
+                      <StyledTableCell sx={{ color: 'black', fontWeight: '600' }}>
+                        {' '}
+                        {(page - 1) * pageSize + index + 1}
+                      </StyledTableCell>
+                      <StyledTableCell>{user.fullName}</StyledTableCell>
+                      <StyledTableCell>
+                        {new Intl.DateTimeFormat('vi-VN').format(new Date(user.dateOfBirth))}
+                      </StyledTableCell>
+                      <StyledTableCell>{user.gender}</StyledTableCell>
+                      <StyledTableCell>{user.apartmentNumber}</StyledTableCell>
+                      <StyledTableCell>{user.phoneNumber}</StyledTableCell>
+                      <StyledTableCell>
+                        <span className={`${getStatusColor(user.status)} px-2 py-1 rounded-full text-sm font-semibold`}>
+                          {user.status}
+                        </span>
+                      </StyledTableCell>
+                      <StyledTableCell>
+                        <div className='flex gap-2'>
+                          <button
+                            className='text-blue-500 cursor-pointer'
+                            onClick={() => {
+                              handleGetUser(user.id)
+                            }}
+                          >
+                            <EditIcon />
+                          </button>
+                          <button
+                            className='text-red-500 cursor-pointer'
+                            onClick={() => {
+                              handleDelete(user.id)
+                            }}
+                          >
+                            <DeleteIcon />
+                          </button>
+                        </div>
+                      </StyledTableCell>
+                    </StyledTableRow>
+                  ))
+                ) : (
+                  <TableRow>
+                    <TableCell colSpan={8} align='center'>
+                      No users found
+                    </TableCell>
+                  </TableRow>
+                )}
+              </TableBody>
+            </Table>
+          </TableContainer>
+        </Paper>
+        <div className='mt-10 flex justify-center'>
+          <Pagination count={totalPages} page={page} onChange={handlePageChange} />
+        </div>
       </div>
     </div>
   )

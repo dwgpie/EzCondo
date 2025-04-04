@@ -1,28 +1,25 @@
-import { Button, TextField } from '@mui/material'
+import { Button, MenuItem, Select } from '@mui/material'
 import { useForm } from 'react-hook-form'
 import Input from '~/components/Input'
 import { yupResolver } from '@hookform/resolvers/yup'
-import { addServiceSchema } from '~/utils/rules'
-import { addService, addOrUpdateImage } from '~/apis/auth.api'
+import { notificationSchema } from '~/utils/rules'
+import { addNotification, addNotificationImages } from '~/apis/auth.api'
 import { useRef, useState } from 'react'
 import CloudUploadIcon from '@mui/icons-material/CloudUpload'
 import { ToastContainer, toast } from 'react-toastify'
-import Checkbox from '@mui/material/Checkbox'
 import { useNavigate } from 'react-router-dom'
 import LoadingOverlay from '~/components/LoadingOverlay'
 
 interface FormData {
-  serviceName: string
-  description: string
-  typeOfMonth: boolean
-  typeOfYear: boolean
-  priceOfMonth?: number | null
-  priceOfYear?: number | null
-  service_Id?: string
-  serviceImages: File[]
+  title: string
+  content: string
+  receiver: string
+  type: string
+  NotificationId?: string
+  Image: File[]
 }
 
-export default function AddService() {
+export default function AddNotification() {
   const {
     register,
     handleSubmit,
@@ -31,12 +28,10 @@ export default function AddService() {
     reset,
     formState: { errors }
   } = useForm<FormData>({
-    resolver: yupResolver(addServiceSchema)
+    resolver: yupResolver(notificationSchema)
   })
 
   const navigate = useNavigate()
-  const [typeOfMonth, setTypeOfMonth] = useState(false)
-  const [typeOfYear, setTypeOfYear] = useState(false)
   const [images, setImages] = useState<string[]>([]) // Lưu trữ URL của ảnh
   const [files, setFiles] = useState<File[]>([]) // Lưu trữ danh sách file ảnh
   const fileInputRef = useRef<HTMLInputElement | null>(null)
@@ -49,7 +44,7 @@ export default function AddService() {
     setFiles((prev) => prev.filter((_, i) => i !== index))
     // Update form value
     setValue(
-      'serviceImages',
+      'Image',
       files.filter((_, i) => i !== index)
     )
   }
@@ -60,8 +55,8 @@ export default function AddService() {
       const imageUrls = newFiles.map((file) => URL.createObjectURL(file))
       setImages((prev) => [...prev, ...imageUrls]) // Cập nhật ảnh hiển thị
       setFiles((prev) => [...prev, ...newFiles]) // Cập nhật danh sách file
-      setValue('serviceImages', [...files, ...newFiles]) // Cập nhật vào form
-      clearErrors('serviceImages')
+      setValue('Image', [...files, ...newFiles]) // Cập nhật vào form
+      clearErrors('Image')
     }
   }
 
@@ -73,8 +68,8 @@ export default function AddService() {
       const imageUrls = newFiles.map((file) => URL.createObjectURL(file))
       setImages((prev) => [...prev, ...imageUrls])
       setFiles((prev) => [...prev, ...newFiles])
-      setValue('serviceImages', [...files, ...newFiles])
-      clearErrors('serviceImages')
+      setValue('Image', [...files, ...newFiles])
+      clearErrors('Image')
     }
   }
 
@@ -93,28 +88,26 @@ export default function AddService() {
         })
       }, 300)
 
-      const response = await addService({
-        serviceName: formData.serviceName,
-        description: formData.description,
-        typeOfMonth: formData.typeOfMonth,
-        typeOfYear: formData.typeOfYear,
-        priceOfMonth: formData.priceOfMonth || 0,
-        priceOfYear: formData.priceOfYear || 0
+      const response = await addNotification({
+        title: formData.title,
+        content: formData.content,
+        receiver: formData.receiver,
+        type: formData.type
       })
 
       if (!response?.data) {
         toast.error('Failed to create service')
       }
 
-      const service_Id = response.data
-      console.log('Service ID:', service_Id)
+      const NotificationId = response.data
+      console.log('ID:', NotificationId)
 
-      await addOrUpdateImage({
-        service_Id,
-        serviceImages: formData.serviceImages
+      await addNotificationImages({
+        NotificationId,
+        Image: formData.Image
       })
 
-      toast.success('Service created successfully!')
+      toast.success('Notification created successfully!')
       setImages([])
       setFiles([])
     } catch (error) {
@@ -141,89 +134,62 @@ export default function AddService() {
         <form className='rounded' noValidate onSubmit={onSubmit}>
           <div className='grid grid-cols-2 gap-4'>
             <div>
+              <div className='grid grid-cols-2 gap-4 mb-4'>
+                <div>
+                  <label className='block text-sm font-semibold mb-[6px]'>
+                    Receiver
+                    <span className='text-red-600 ml-1'>*</span>
+                  </label>
+                  <Select
+                    id='demo-select-small'
+                    defaultValue='manager'
+                    {...register('receiver')}
+                    sx={{ width: '200px' }}
+                  >
+                    <MenuItem value='manager'>Manager</MenuItem>
+                    <MenuItem value='resident'>Resident</MenuItem>
+                    <MenuItem value='all'>All</MenuItem>
+                  </Select>
+                </div>
+                <div>
+                  <label className='block text-sm font-semibold mb-[6px]'>
+                    Type
+                    <span className='text-red-600 ml-1'>*</span>
+                  </label>
+                  <Select id='demo-select-small' defaultValue='news' {...register('type')} sx={{ width: '200px' }}>
+                    <MenuItem value='news'>News</MenuItem>
+                    <MenuItem value='notice'>Notice</MenuItem>
+                    <MenuItem value='fees'>Fee</MenuItem>
+                  </Select>
+                </div>
+              </div>
               <div className=''>
                 <label className='block text-sm font-semibold'>
-                  Name
+                  Title
                   <span className='text-red-600 ml-1'>*</span>
                 </label>
                 <Input
-                  name='serviceName'
-                  type='serviceName'
-                  register={register}
-                  className='mt-1'
-                  errorMessage={errors.serviceName?.message}
-                />
-              </div>
-              <div className='mt-5'>
-                <label className='block text-sm font-semibold'>
-                  Description
-                  <span className='text-red-600 ml-1'>*</span>
-                </label>
-                <Input
-                  name='description'
+                  name='title'
                   type='textarea'
                   register={register}
                   className='mt-1'
-                  errorMessage={errors.description?.message}
-                  rows={3}
+                  errorMessage={errors.title?.message}
+                  rows={2}
                 />
               </div>
-              <div className='flex mt-6'>
-                <div>
-                  <div className='flex items-center gap-11'>
-                    <label className='block text-sm font-semibold'>Timestamp</label>
-                    <label className='block text-sm font-semibold ml-3'>
-                      Price
-                      <span className='text-red-600 ml-1'>*</span>
-                    </label>
-                  </div>
-                  <div className='flex items-center justify-center mt-2'>
-                    <Checkbox
-                      checked={typeOfMonth}
-                      onChange={(e) => {
-                        const isChecked = e.target.checked
-                        setTypeOfMonth(isChecked)
-                        setValue('typeOfMonth', isChecked)
-                        if (!isChecked) {
-                          setValue('priceOfMonth', null) // Reset nếu bỏ chọn
-                        }
-                      }}
-                    />
-                    <div className='mr-10'>Month</div>
-                    <TextField
-                      type='number'
-                      disabled={!typeOfMonth}
-                      variant='outlined'
-                      size='small'
-                      sx={{ width: '150px' }}
-                      {...register('priceOfMonth')}
-                    />
-                    <div className='mt-1 ml-3 text-xs text-red-500 min-h-4'>{errors.priceOfMonth?.message}</div>
-                  </div>
-                  <div className='flex items-center mt-2'>
-                    <Checkbox
-                      checked={typeOfYear}
-                      onChange={(e) => {
-                        const isChecked = e.target.checked
-                        setTypeOfYear(isChecked)
-                        setValue('typeOfYear', isChecked)
-                        if (!isChecked) {
-                          setValue('priceOfYear', null) // Đặt lại giá trị
-                        }
-                      }}
-                    />
-                    <div className='mr-[54px]'>Year</div>
-                    <TextField
-                      type='number'
-                      disabled={!typeOfYear}
-                      {...register('priceOfYear')}
-                      variant='outlined'
-                      size='small'
-                      sx={{ width: '150px' }}
-                    />
-                    <div className='mt-1 ml-3 text-xs text-red-500 min-h-4'>{errors.priceOfYear?.message}</div>
-                  </div>
-                </div>
+              <div className=''>
+                <label className='block text-sm font-semibold'>
+                  Content
+                  <span className='text-red-600 ml-1'>*</span>
+                </label>
+                <Input
+                  name='content'
+                  type='textarea'
+                  register={register}
+                  className='mt-1'
+                  errorMessage={errors.content?.message}
+                  rows={4}
+                />
               </div>
             </div>
             <div className=''>
@@ -266,14 +232,14 @@ export default function AddService() {
                   <input
                     type='file'
                     multiple // Cho phép chọn nhiều ảnh
-                    {...register('serviceImages')}
+                    {...register('Image')}
                     accept='image/*'
                     ref={fileInputRef}
                     className='hidden'
                     onChange={handleImageChange}
                   />
                 </div>
-                <div className='mt-1 text-xs text-red-500 min-h-4'>{errors.serviceImages?.message}</div>
+                <div className='mt-1 text-xs text-red-500 min-h-4'>{errors.Image?.message}</div>
               </div>
             </div>
           </div>

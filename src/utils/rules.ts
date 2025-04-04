@@ -76,6 +76,7 @@ export const schema = yup.object({
     .oneOf([yup.ref('password')], 'Confirm Password does not match')
 })
 
+//Register
 export const registerSchema = yup.object({
   id: yup.string(),
   fullName: yup
@@ -112,6 +113,7 @@ export const registerSchema = yup.object({
   backImage: yup.mixed<File>().required('Back image is required') as yup.Schema<File>
 })
 
+//Confirm password
 export const RSPassWord = yup.object({
   email: yup
     .string()
@@ -136,6 +138,7 @@ export const RSPassWord = yup.object({
     .required('Confirm password is required')
 })
 
+//Service
 export const serviceSchema = yup.object({
   id: yup.string(),
   status: yup.string().required('Status is required'),
@@ -176,6 +179,7 @@ export const serviceSchema = yup.object({
     .required('Image is required')
 })
 
+//Profile
 export const profileSchema = yup.object({
   id: yup.string(),
   fullName: yup
@@ -208,6 +212,9 @@ export const profileSchema = yup.object({
   avatar: yup.mixed<File>() as yup.Schema<File>
 })
 
+export const profileAdminSchema = profileSchema.omit(['roleName', 'apartmentNumber', 'status', 'no'])
+
+//Change password
 export const changePasswordSchema = yup.object({
   oldPassword: yup.string().required('Old password is required'),
   newPassword: yup.string().required('New password is required'),
@@ -236,11 +243,26 @@ export const parkingSchema = yup.object({
   pricePerOto: yup.number().required()
 })
 
+//Apartment
+export const apartmentSchema = yup.object({
+  id: yup.string(),
+  apartmentNumber: yup.string().required('Apartment number is required'),
+  acreage: yup.number().required('Acreage is required'),
+  description: yup.string().required('Description is required')
+})
+
 //Notification
-export const notificationCreateSchema = yup.object({
+export const notificationSchema = yup.object({
   title: yup.string().required('Title is required'),
   content: yup.string().required('Content is required'),
-  type: yup.string().required('Type is required')
+  receiver: yup.string().required('Receiver is required'),
+  type: yup.string().required('Type is required'),
+  NotificationId: yup.string(),
+  Image: yup
+    .array()
+    .of(yup.mixed<File>().required('Each image is required'))
+    .min(1, 'At least one image is required')
+    .required('Image is required')
 })
 
 export type RegisterSchema = yup.InferType<typeof registerSchema>
@@ -256,4 +278,4 @@ export const resetPasswordSchema = RSPassWord.omit(['email', 'code'])
 export type ResetPasswordSchema = yup.InferType<typeof resetPasswordSchema>
 export const addUserSchema = registerSchema.omit(['id', 'status'])
 export const addServiceSchema = serviceSchema.omit(['id', 'status'])
-export type NotificationCreateSchema = yup.InferType<typeof notificationCreateSchema>
+export type AddApartmentSchema = yup.InferType<typeof apartmentSchema>

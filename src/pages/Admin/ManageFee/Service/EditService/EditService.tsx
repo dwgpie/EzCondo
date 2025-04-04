@@ -8,8 +8,9 @@ import { useRef } from 'react'
 import CloudUploadIcon from '@mui/icons-material/CloudUpload'
 import { ToastContainer, toast } from 'react-toastify'
 import { Button, Checkbox, TextField } from '@mui/material'
-import { Link, useNavigate } from 'react-router-dom'
+import { Link } from 'react-router-dom'
 import InputEdit from '~/components/InputEdit'
+import LoadingOverlay from '~/components/LoadingOverlay'
 
 interface formData {
   id?: string
@@ -40,6 +41,8 @@ export default function EditService() {
   const [files, setFiles] = useState<File[]>([]) // Lưu trữ danh sách file ảnh
   const fileInputRef = useRef<HTMLInputElement | null>(null)
   const [service, setService] = useState<formData | null>(null)
+  const [loading, setLoading] = useState(false)
+  const [progress, setProgress] = useState(0)
 
   const handleDeleteImage = (index: number) => {
     // Remove image URL and file at the specified index
@@ -131,6 +134,19 @@ export default function EditService() {
 
   const onSubmit = handleSubmit(async (formData) => {
     try {
+      setLoading(true)
+      setProgress(0)
+
+      const Progress = setInterval(() => {
+        setProgress((prev) => {
+          if (prev >= 90) {
+            clearInterval(Progress)
+            return prev
+          }
+          return prev + 10
+        })
+      }, 300)
+
       await editService({
         id: serviceId ?? '',
         status: formData.status,
@@ -151,6 +167,11 @@ export default function EditService() {
       setFiles([])
     } catch (error) {
       console.error('API call failed:', error)
+    } finally {
+      setProgress(100)
+      setTimeout(() => {
+        setLoading(false)
+      }, 500)
     }
   })
 
@@ -158,6 +179,7 @@ export default function EditService() {
     <div className='bg-[#EDF2F9] pt-5 ml-5 mr-5 z-13 h-screen'>
       <ToastContainer />
       <div className='mb-6 p-6 bg-white drop-shadow-md rounded-xl'>
+        {loading && <LoadingOverlay value={progress} />}
         {service ? (
           <form className='rounded' noValidate onSubmit={onSubmit}>
             <div className='grid grid-cols-2 gap-4'>
