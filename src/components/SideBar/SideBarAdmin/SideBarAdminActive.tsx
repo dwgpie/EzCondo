@@ -1,18 +1,22 @@
 import { useState } from 'react'
-import { ExpandLess, ExpandMore, Dashboard as DashboardIcon } from '@mui/icons-material'
+import { ExpandLess, ExpandMore } from '@mui/icons-material'
 import { Link, useLocation } from 'react-router-dom'
-import PersonAddAltIcon from '@mui/icons-material/PersonAddAlt'
-import RecentActorsIcon from '@mui/icons-material/RecentActors'
-import PriceChangeIcon from '@mui/icons-material/PriceChange'
-import AssignmentIcon from '@mui/icons-material/Assignment'
-import MarkChatUnreadIcon from '@mui/icons-material/MarkChatUnread'
 import BlurLinearIcon from '@mui/icons-material/BlurLinear'
-import DeckIcon from '@mui/icons-material/Deck'
-import MarkEmailUnreadIcon from '@mui/icons-material/MarkEmailUnread'
 import ElectricBoltIcon from '@mui/icons-material/ElectricBolt'
-import WaterDropIcon from '@mui/icons-material/WaterDrop'
 import LocalParkingIcon from '@mui/icons-material/LocalParking'
-
+import ApartmentIcon from '@mui/icons-material/Apartment'
+import DomainAddIcon from '@mui/icons-material/DomainAdd'
+import BusinessIcon from '@mui/icons-material/Business'
+import EditNotificationsTwoToneIcon from '@mui/icons-material/EditNotificationsTwoTone'
+import AssignmentTwoToneIcon from '@mui/icons-material/AssignmentTwoTone'
+import MarkUnreadChatAltTwoToneIcon from '@mui/icons-material/MarkUnreadChatAltTwoTone'
+import DashboardTwoToneIcon from '@mui/icons-material/DashboardTwoTone'
+import RecentActorsTwoToneIcon from '@mui/icons-material/RecentActorsTwoTone'
+import PersonAddAltTwoToneIcon from '@mui/icons-material/PersonAddAltTwoTone'
+import PersonOutlineTwoToneIcon from '@mui/icons-material/PersonOutlineTwoTone'
+import FitnessCenterTwoToneIcon from '@mui/icons-material/FitnessCenterTwoTone'
+import PriceChangeTwoToneIcon from '@mui/icons-material/PriceChangeTwoTone'
+import WaterDropTwoToneIcon from '@mui/icons-material/WaterDropTwoTone'
 import '../SideBar.css'
 
 export default function SideBarAdminActive() {
@@ -23,13 +27,14 @@ export default function SideBarAdminActive() {
   const ListUserPath = '/admin/list-user'
   const AddUserPath = '/admin/add-user'
   const ListServicePath = '/admin/list-service'
-  const CreateServicePath = '/admin/add-service'
+  const AddServicePath = '/admin/add-service'
   const ElectricityPath = '/admin/setting-fee-electricity'
   const WaterPath = '/admin/setting-fee-water'
   const ParkingPath = '/admin/setting-fee-parking'
-
-  const HistoryNotificationPath = '/admin/notification'
-  const CreateNotificationPath = '/admin/create-notification'
+  const HistoryNotificationPath = '/admin/history-notification'
+  const AddNotificationPath = '/admin/add-notification'
+  const AddApartmentPath = '/admin/add-apartment'
+  const ListApartmentPath = '/admin/list-apartment'
 
   // const [isOpenDashboard, SetIsOpenDashboard] = useState(true)
 
@@ -37,6 +42,7 @@ export default function SideBarAdminActive() {
   const [isOpenService, setIsOpenService] = useState(false)
   const [isOpenFee, setIsOpenFee] = useState(false)
   const [isOpenNotification, setIsOpenNotification] = useState(false)
+  const [isOpenApartment, setIsOpenApartment] = useState(false)
 
   // const handleClickDashboard = () => {
   //   SetIsOpenDashboard(!isOpenDashboard)
@@ -53,29 +59,32 @@ export default function SideBarAdminActive() {
   const handleClickNotification = () => {
     setIsOpenNotification(!isOpenNotification)
   }
+  const handleClickApartment = () => {
+    setIsOpenApartment(!isOpenApartment)
+  }
 
   return (
-    <div className='flex flex-col items-center bg-[#fff] border-r-2 border-[#d1d5dc] text-[#7A8699] h-screen w-full relative'>
+    <div className='flex flex-col items-center bg-[#fff] border-r-2 border-[#d1d5dc] text-[#7A8699] h-screen'>
+      {' '}
       <Link to='/admin/dashboard'>
         <div className='w-20 h-20'>
           <img src='/public/imgs/logo/lo23-Photoroom.png' className='w-full h-full object-cover' />
         </div>
       </Link>
-
       <div className='w-full font-semibold'>
+        {/* Dashboard */}
         <div className='flex items-center justify-between gap-[10px] h-[50px] pl-[20px] pr-[20px]'>
           <p className='' onClick={handleClickUser}>
             Dashboard
           </p>
           <div className='w-[70%] h-[1px] bg-[#bdbdbd]'></div>
         </div>
-
         <Link to='/admin/dashboard'>
           <div
             className={`flex justify-between h-[50px] pl-[10px] ml-[10px] mr-[20px] rounded-xl cursor-pointer hover:bg-[#E5F2FF] ${path === DashboardPath ? 'bg-[#E5F2FF] rounded-xl' : ''}`}
           >
             <div className={`flex items-center gap-[10px] ${path === DashboardPath ? 'text-[#1976d3]' : ''}`}>
-              <DashboardIcon />
+              <DashboardTwoToneIcon />
               <p>Dashboard</p>
             </div>
           </div>
@@ -85,6 +94,8 @@ export default function SideBarAdminActive() {
           <p>Feature</p>
           <div className='w-[70%] h-[1px] bg-[#bdbdbd]'></div>
         </div>
+
+        {/* User */}
         <div className='w-full h-[450px] overflow-y-auto custom-scrollbar'>
           <div
             className={`flex justify-between items-center h-[50px] pl-[10px] pr-[10px] ml-[10px] mr-[20px] rounded-xl cursor-pointer hover:bg-[#E5F2FF]`}
@@ -93,7 +104,7 @@ export default function SideBarAdminActive() {
             <div
               className={`flex items-center gap-[10px] ${path === ListUserPath || path === AddUserPath ? 'text-[#1976d3]' : ''}`}
             >
-              <RecentActorsIcon />
+              <PersonOutlineTwoToneIcon />
               <p className=''>User</p>
             </div>
             {isOpenUser ? <ExpandLess /> : <ExpandMore />}
@@ -105,8 +116,8 @@ export default function SideBarAdminActive() {
                 className={`flex justify-between h-[50px] pl-[20px] ml-[10px] mr-[20px] rounded-xl cursor-pointer hover:bg-[#E5F2FF] ${path === ListUserPath ? 'bg-[#E5F2FF] rounded-xl' : ''}`}
               >
                 <div className={`flex items-center gap-[10px] ${path === ListUserPath ? 'text-[#1976d3]' : ''}`}>
-                  <RecentActorsIcon />
-                  <p className='pl-4 py-2 '>List users</p>
+                  <RecentActorsTwoToneIcon />
+                  <p className='pl-4 py-2 '>List Users</p>
                 </div>
               </div>
             </Link>
@@ -116,21 +127,22 @@ export default function SideBarAdminActive() {
                 className={`flex justify-between h-[50px] pl-[20px] ml-[10px] mr-[20px] rounded-xl cursor-pointer hover:bg-[#E5F2FF] ${path === AddUserPath ? 'bg-[#E5F2FF] rounded-xl' : ''}`}
               >
                 <div className={`flex items-center gap-[10px] ${path === AddUserPath ? 'text-[#1976d3]' : ''}`}>
-                  <PersonAddAltIcon />
-                  <p className='pl-4 py-2'>Add users</p>
+                  <PersonAddAltTwoToneIcon />
+                  <p className='pl-4 py-2'>Add User</p>
                 </div>
               </div>
             </Link>
           </div>
 
+          {/* Service */}
           <div
             className={`flex justify-between items-center h-[50px] pl-[10px] pr-[10px] ml-[10px] mr-[20px] rounded-xl cursor-pointer hover:bg-[#E5F2FF]`}
             onClick={handleClickService}
           >
             <div
-              className={`flex items-center gap-[10px] ${path === ListServicePath || path === CreateServicePath ? 'text-[#1976d3]' : ''}`}
+              className={`flex items-center gap-[10px] ${path === ListServicePath || path === AddServicePath ? 'text-[#1976d3]' : ''}`}
             >
-              <DeckIcon />
+              <FitnessCenterTwoToneIcon />
               <p className=''>Service</p>
             </div>
             {isOpenService ? <ExpandLess /> : <ExpandMore />}
@@ -143,23 +155,24 @@ export default function SideBarAdminActive() {
               >
                 <div className={`flex items-center gap-[10px] ${path === ListServicePath ? 'text-[#1976d3]' : ''}`}>
                   <BlurLinearIcon />
-                  <p className='pl-4 py-2 '>List services</p>
+                  <p className='pl-4 py-2 '>List Services</p>
                 </div>
               </div>
             </Link>
 
             <Link to='/admin/add-service'>
               <div
-                className={`flex justify-between h-[50px] pl-[20px] ml-[10px] mr-[20px] rounded-xl cursor-pointer hover:bg-[#E5F2FF] ${path === CreateServicePath ? 'bg-[#E5F2FF] rounded-xl' : ''}`}
+                className={`flex justify-between h-[50px] pl-[20px] ml-[10px] mr-[20px] rounded-xl cursor-pointer hover:bg-[#E5F2FF] ${path === AddServicePath ? 'bg-[#E5F2FF] rounded-xl' : ''}`}
               >
-                <div className={`flex items-center gap-[10px] ${path === CreateServicePath ? 'text-[#1976d3]' : ''}`}>
-                  <DeckIcon />
-                  <p className='pl-4 py-2 '>Create service</p>
+                <div className={`flex items-center gap-[10px] ${path === AddServicePath ? 'text-[#1976d3]' : ''}`}>
+                  <FitnessCenterTwoToneIcon />
+                  <p className='pl-4 py-2 '>Add Service</p>
                 </div>
               </div>
             </Link>
           </div>
 
+          {/* Fees */}
           <div
             className={`flex justify-between items-center h-[50px] pl-[10px] pr-[10px] ml-[10px] mr-[20px] rounded-xl cursor-pointer hover:bg-[#E5F2FF]`}
             onClick={handleClickFee}
@@ -167,7 +180,7 @@ export default function SideBarAdminActive() {
             <div
               className={`flex items-center gap-[10px] ${path === ElectricityPath || path === WaterPath || path === ParkingPath ? 'text-[#1976d3]' : ''}`}
             >
-              <PriceChangeIcon />
+              <PriceChangeTwoToneIcon />
               <p className=''>Fees</p>
             </div>
             {isOpenFee ? <ExpandLess /> : <ExpandMore />}
@@ -180,7 +193,7 @@ export default function SideBarAdminActive() {
               >
                 <div className={`flex items-center gap-[10px] ${path === ElectricityPath ? 'text-[#1976d3]' : ''}`}>
                   <ElectricBoltIcon />
-                  <p className='pl-4 py-2 '>Fee electricity</p>
+                  <p className='pl-4 py-2 '>Fee Electricity</p>
                 </div>
               </div>
             </Link>
@@ -190,8 +203,8 @@ export default function SideBarAdminActive() {
                 className={`flex justify-between h-[50px] pl-[20px] ml-[10px] mr-[20px] rounded-xl cursor-pointer hover:bg-[#E5F2FF] ${path === WaterPath ? 'bg-[#E5F2FF] rounded-xl' : ''}`}
               >
                 <div className={`flex items-center gap-[10px] ${path === WaterPath ? 'text-[#1976d3]' : ''}`}>
-                  <WaterDropIcon />
-                  <p className='pl-4 py-2 '>Fee water</p>
+                  <WaterDropTwoToneIcon />
+                  <p className='pl-4 py-2 '>Fee Water</p>
                 </div>
               </div>
             </Link>
@@ -202,7 +215,46 @@ export default function SideBarAdminActive() {
               >
                 <div className={`flex items-center gap-[10px] ${path === ParkingPath ? 'text-[#1976d3]' : ''}`}>
                   <LocalParkingIcon />
-                  <p className='pl-4 py-2 '>Fee parking</p>
+                  <p className='pl-4 py-2 '>Fee Parking</p>
+                </div>
+              </div>
+            </Link>
+          </div>
+
+          {/* Apartment */}
+          <div
+            className={`flex justify-between items-center h-[50px] pl-[10px] pr-[10px] ml-[10px] mr-[20px] rounded-xl cursor-pointer hover:bg-[#E5F2FF]`}
+            onClick={handleClickApartment}
+          >
+            <div
+              className={`flex items-center gap-[10px] ${path === ListApartmentPath || path === AddApartmentPath ? 'text-[#1976d3]' : ''}`}
+            >
+              <ApartmentIcon />
+              <p className=''>Apartment</p>
+            </div>
+            {isOpenApartment ? <ExpandLess /> : <ExpandMore />}
+          </div>
+
+          <div
+            className={`overflow-hidden transition-all duration-300 ${isOpenApartment ? 'max-h-[150px]' : 'max-h-0'}`}
+          >
+            <Link to='/admin/list-apartment'>
+              <div
+                className={`flex justify-between h-[50px] pl-[20px] ml-[10px] mr-[20px] rounded-xl cursor-pointer hover:bg-[#E5F2FF]  ${path === ListApartmentPath ? 'bg-[#E5F2FF] rounded-xl' : ''}`}
+              >
+                <div className={`flex items-center gap-[10px] ${path === ListApartmentPath ? 'text-[#1976d3]' : ''}`}>
+                  <BusinessIcon />
+                  <p className='pl-4 py-2 '>List Apartment</p>
+                </div>
+              </div>
+            </Link>
+            <Link to='/admin/add-apartment'>
+              <div
+                className={`flex justify-between h-[50px] pl-[20px] ml-[10px] mr-[20px] rounded-xl cursor-pointer hover:bg-[#E5F2FF] ${path === AddApartmentPath ? 'bg-[#E5F2FF] rounded-xl' : ''}`}
+              >
+                <div className={`flex items-center gap-[10px] ${path === AddApartmentPath ? 'text-[#1976d3]' : ''}`}>
+                  <DomainAddIcon />
+                  <p className='pl-4 py-2 '>Add Apartment</p>
                 </div>
               </div>
             </Link>
@@ -210,38 +262,40 @@ export default function SideBarAdminActive() {
 
           {/* Notification */}
           <div
-            className='flex justify-between items-center h-[50px] pl-[20px] pr-[20px] cursor-pointer hover:bg-[#333]/10'
+            className={`flex justify-between items-center h-[50px] pl-[10px] pr-[10px] ml-[10px] mr-[20px] rounded-xl cursor-pointer hover:bg-[#E5F2FF]`}
             onClick={handleClickNotification}
           >
             <div
-              className={`flex items-center gap-[10px] ${path === HistoryNotificationPath || path === CreateNotificationPath ? 'text-[#1976d3]' : ''}`}
+              className={`flex items-center gap-[10px] ${path === HistoryNotificationPath || path === AddNotificationPath ? 'text-[#1976d3]' : ''}`}
             >
-              <MarkEmailUnreadIcon />
+              <MarkUnreadChatAltTwoToneIcon />
               <p className=''>Notification</p>
             </div>
             {isOpenNotification ? <ExpandLess /> : <ExpandMore />}
           </div>
+
           <div
-            className={`overflow-hidden transition-all duration-300 ${isOpenNotification ? 'max-h-[100px]' : 'max-h-0'}`}
+            className={`overflow-hidden transition-all duration-300 ${isOpenNotification ? 'max-h-[150px]' : 'max-h-0'}`}
           >
-            <Link to='/admin/notification'>
-              <div className='flex justify-between h-[50px] pl-[30px] pr-[20px] cursor-pointer hover:bg-[#333]/10'>
+            <Link to='/admin/history-notification'>
+              <div
+                className={`flex justify-between h-[50px] pl-[20px] ml-[10px] mr-[20px] rounded-xl cursor-pointer hover:bg-[#E5F2FF]  ${path === HistoryNotificationPath ? 'bg-[#E5F2FF] rounded-xl' : ''}`}
+              >
                 <div
                   className={`flex items-center gap-[10px] ${path === HistoryNotificationPath ? 'text-[#1976d3]' : ''}`}
                 >
-                  <AssignmentIcon />
-                  <p className='pl-4 py-2 '>History notification</p>
+                  <AssignmentTwoToneIcon />
+                  <p className='pl-4 py-2 '>History Notification</p>
                 </div>
               </div>
             </Link>
-
-            <Link to='/admin/create-notification'>
-              <div className='flex justify-between h-[50px] pl-[30px] pr-[20px] cursor-pointer hover:bg-[#333]/10'>
-                <div
-                  className={`flex items-center gap-[10px] ${path === CreateNotificationPath ? 'text-[#1976d3]' : ''}`}
-                >
-                  <MarkChatUnreadIcon />
-                  <p className='pl-4 py-2 '>Create notification</p>
+            <Link to='/admin/add-notification'>
+              <div
+                className={`flex justify-between h-[50px] pl-[20px] ml-[10px] mr-[20px] rounded-xl cursor-pointer hover:bg-[#E5F2FF] ${path === AddNotificationPath ? 'bg-[#E5F2FF] rounded-xl' : ''}`}
+              >
+                <div className={`flex items-center gap-[10px] ${path === AddNotificationPath ? 'text-[#1976d3]' : ''}`}>
+                  <EditNotificationsTwoToneIcon />
+                  <p className='pl-4 py-2 '>Add Notification</p>
                 </div>
               </div>
             </Link>

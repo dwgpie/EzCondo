@@ -5,8 +5,6 @@ import Dashboard from './pages/Admin/Dashboard'
 import AddUser from './pages/Admin/User/AddUser'
 import ListUser from './pages/Admin/User/ListUser'
 import ManageIncident from './pages/SupportTeam/ManageIncident'
-import Notification from './pages/Admin/Notification/NotificationHistory'
-import CreateNotification from './pages/Admin/Notification/CreateNotification'
 import { useContext } from 'react'
 import { AppContext } from './contexts/app.context'
 import { Outlet, useRoutes, Navigate } from 'react-router-dom'
@@ -22,6 +20,10 @@ import Electricity from './pages/Admin/ManageFee/Electricity'
 import Parking from './pages/Admin/ManageFee/Parking'
 import VerifyOTP from './pages/Password/VerifyOTP'
 import Water from './pages/Admin/ManageFee/Water'
+import AddApartment from './pages/Admin/Apartment/AddAparment'
+import ListApartment from './pages/Admin/Apartment/ListApartment'
+import AddNotification from './pages/Admin/Notification/AddNotification'
+import HistoryNotification from './pages/Admin/Notification/HistoryNotification'
 
 // function ProtectedRoute() {
 //   const { isAuthenticated } = useContext(AppContext) // Lấy từ context
@@ -157,18 +159,34 @@ export default function useRouteElements() {
           )
         },
         {
-          path: '/admin/notification',
+          path: '/admin/history-notification',
           element: (
             <DashboardLayout>
-              <Notification />
+              <HistoryNotification />
             </DashboardLayout>
           )
         },
         {
-          path: '/admin/create-notification',
+          path: '/admin/add-notification',
           element: (
             <DashboardLayout>
-              <CreateNotification />
+              <AddNotification />
+            </DashboardLayout>
+          )
+        },
+        {
+          path: '/admin/add-apartment',
+          element: (
+            <DashboardLayout>
+              <AddApartment />
+            </DashboardLayout>
+          )
+        },
+        {
+          path: '/admin/list-apartment',
+          element: (
+            <DashboardLayout>
+              <ListApartment />
             </DashboardLayout>
           )
         },

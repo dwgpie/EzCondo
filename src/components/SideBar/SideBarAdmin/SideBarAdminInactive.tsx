@@ -1,16 +1,20 @@
-import { Dashboard as DashboardIcon } from '@mui/icons-material'
-import MarkEmailUnreadIcon from '@mui/icons-material/MarkEmailUnread'
-import PriceChangeIcon from '@mui/icons-material/PriceChange'
 import { Link, useLocation } from 'react-router-dom'
-import PersonAddAltIcon from '@mui/icons-material/PersonAddAlt'
-import RecentActorsIcon from '@mui/icons-material/RecentActors'
 import BlurLinearIcon from '@mui/icons-material/BlurLinear'
-import DeckIcon from '@mui/icons-material/Deck'
-import AssignmentIcon from '@mui/icons-material/Assignment'
-import MarkChatUnreadIcon from '@mui/icons-material/MarkChatUnread'
 import ElectricBoltIcon from '@mui/icons-material/ElectricBolt'
-import WaterDropIcon from '@mui/icons-material/WaterDrop'
 import LocalParkingIcon from '@mui/icons-material/LocalParking'
+import ApartmentIcon from '@mui/icons-material/Apartment'
+import DomainAddIcon from '@mui/icons-material/DomainAdd'
+import BusinessIcon from '@mui/icons-material/Business'
+import EditNotificationsTwoToneIcon from '@mui/icons-material/EditNotificationsTwoTone'
+import AssignmentTwoToneIcon from '@mui/icons-material/AssignmentTwoTone'
+import MarkUnreadChatAltTwoToneIcon from '@mui/icons-material/MarkUnreadChatAltTwoTone'
+import DashboardTwoToneIcon from '@mui/icons-material/DashboardTwoTone'
+import RecentActorsTwoToneIcon from '@mui/icons-material/RecentActorsTwoTone'
+import PersonAddAltTwoToneIcon from '@mui/icons-material/PersonAddAltTwoTone'
+import PersonOutlineTwoToneIcon from '@mui/icons-material/PersonOutlineTwoTone'
+import FitnessCenterTwoToneIcon from '@mui/icons-material/FitnessCenterTwoTone'
+import PriceChangeTwoToneIcon from '@mui/icons-material/PriceChangeTwoTone'
+import WaterDropTwoToneIcon from '@mui/icons-material/WaterDropTwoTone'
 import '../SideBar.css'
 
 export default function SideBarAdminInactive() {
@@ -21,16 +25,17 @@ export default function SideBarAdminInactive() {
   const ListUserPath = '/admin/list-user'
   const AddUserPath = '/admin/add-user'
   const ListServicePath = '/admin/list-service'
-  const CreateServicePath = '/admin/add-service'
-  // const SetFeePath = '/admin/setting-fee'
+  const AddServicePath = '/admin/add-service'
   const ElectricityPath = '/admin/setting-fee-electricity'
   const WaterPath = '/admin/setting-fee-water'
   const ParkingPath = '/admin/setting-fee-parking'
-  const HistoryNotificationPath = '/admin/notification'
-  const CreateNotificationPath = '/admin/create-notification'
+  const HistoryNotificationPath = '/admin/history-notification'
+  const AddNotificationPath = '/admin/add-notification'
+  const AddApartmentPath = '/admin/add-apartment'
+  const ListApartmentPath = '/admin/list-apartment'
 
   return (
-    <div className='flex flex-col items-center bg-[#fff] border-r-2 border-[#d1d5dc] text-[#333] h-screen w-full relative'>
+    <div className='flex flex-col items-center bg-[#fff] border-r-2 border-[#d1d5dc] text-[#333] h-screen w-full'>
       <Link to='/admin/dashboard'>
         <div className='w-20 h-20'>
           <img src='/public/imgs/logo/lo23-Photoroom.png' className='w-full h-full object-cover' />
@@ -38,6 +43,7 @@ export default function SideBarAdminInactive() {
       </Link>
 
       <div className='w-full font-semibold flex flex-col items-center  '>
+        {/* Dashboard */}
         <div className='flex items-center h-[50px]'>
           <p className='text-[14px]'>Dashboard</p>
         </div>
@@ -46,7 +52,7 @@ export default function SideBarAdminInactive() {
           <Link to='/admin/dashboard'>
             <div className='flex justify-between  h-[50px] pl-[20px] pr-[20px] '>
               <div className={`flex items-center gap-[10px] ${path === DashboardPath ? 'text-[#1976d3]' : ''}`}>
-                <DashboardIcon />
+                <DashboardTwoToneIcon />
               </div>
             </div>
           </Link>
@@ -63,7 +69,7 @@ export default function SideBarAdminInactive() {
               <div
                 className={`flex items-center gap-[10px] ${path === ListUserPath || path === AddUserPath ? 'text-[#1976d3]' : ''}`}
               >
-                <RecentActorsIcon />
+                <PersonOutlineTwoToneIcon />
               </div>
             </div>
 
@@ -73,7 +79,7 @@ export default function SideBarAdminInactive() {
                 <Link to='/admin/list-user'>
                   <div className='flex justify-between h-[50px] pl-[20px] pr-[20px] cursor-pointer hover:bg-[#333]/10'>
                     <div className={`flex items-center gap-[10px] ${path === ListUserPath ? 'text-[#1976d3]' : ''}`}>
-                      <RecentActorsIcon />
+                      <RecentActorsTwoToneIcon />
                       <li className='flex items-center h-[30px] pl-[10px] '>List User</li>
                     </div>
                   </div>
@@ -81,8 +87,8 @@ export default function SideBarAdminInactive() {
                 <Link to='/admin/add-user'>
                   <div className='flex justify-between h-[50px] pl-[20px] pr-[20px] cursor-pointer hover:bg-[#333]/10'>
                     <div className={`flex items-center gap-[10px] ${path === AddUserPath ? 'text-[#1976d3]' : ''}`}>
-                      <PersonAddAltIcon />
-                      <li className='flex items-center h-[30px] pl-[10px] '>Create User</li>
+                      <PersonAddAltTwoToneIcon />
+                      <li className='flex items-center h-[30px] pl-[10px] '>Add User</li>
                     </div>
                   </div>
                 </Link>
@@ -95,9 +101,9 @@ export default function SideBarAdminInactive() {
             {/* Nút bấm */}
             <div className='flex justify-between w-full h-[50px] pl-[40px] pr-[40px] cursor-pointer hover:bg-[#333]/10'>
               <div
-                className={`flex items-center gap-[10px] ${path === ListServicePath || path === CreateServicePath ? 'text-[#1976d3]' : ''}`}
+                className={`flex items-center gap-[10px] ${path === ListServicePath || path === AddServicePath ? 'text-[#1976d3]' : ''}`}
               >
-                <DeckIcon />
+                <FitnessCenterTwoToneIcon />
               </div>
             </div>
 
@@ -114,10 +120,8 @@ export default function SideBarAdminInactive() {
                 </Link>
                 <Link to='/admin/add-service'>
                   <div className='flex justify-between h-[50px] pl-[20px] pr-[20px] cursor-pointer hover:bg-[#333]/10'>
-                    <div
-                      className={`flex items-center gap-[10px] ${path === CreateServicePath ? 'text-[#1976d3]' : ''}`}
-                    >
-                      <DeckIcon />
+                    <div className={`flex items-center gap-[10px] ${path === AddServicePath ? 'text-[#1976d3]' : ''}`}>
+                      <FitnessCenterTwoToneIcon />
                       <li className='flex items-center h-[30px] pl-[10px]'>Add Service</li>
                     </div>
                   </div>
@@ -133,7 +137,7 @@ export default function SideBarAdminInactive() {
               <div
                 className={`flex items-center gap-[10px] ${path === ElectricityPath || path === WaterPath || path === ParkingPath ? 'text-[#1976d3]' : ''}`}
               >
-                <PriceChangeIcon />
+                <PriceChangeTwoToneIcon />
               </div>
             </div>
 
@@ -144,15 +148,15 @@ export default function SideBarAdminInactive() {
                   <div className='flex justify-between h-[50px] pl-[20px] pr-[20px] cursor-pointer hover:bg-[#333]/10'>
                     <div className={`flex items-center gap-[10px] ${path === ElectricityPath ? 'text-[#1976d3]' : ''}`}>
                       <ElectricBoltIcon />
-                      <li className='flex items-center h-[30px] pl-[10px] '>Set Electricity</li>
+                      <li className='flex items-center h-[30px] pl-[10px] '>Fee Electricity</li>
                     </div>
                   </div>
                 </Link>
                 <Link to='/admin/setting-fee-water'>
                   <div className='flex justify-between h-[50px] pl-[20px] pr-[20px] cursor-pointer hover:bg-[#333]/10'>
                     <div className={`flex items-center gap-[10px] ${path === WaterPath ? 'text-[#1976d3]' : ''}`}>
-                      <WaterDropIcon />
-                      <li className='flex items-center h-[30px] pl-[10px] '>Set Water</li>
+                      <WaterDropTwoToneIcon />
+                      <li className='flex items-center h-[30px] pl-[10px] '>Fee Water</li>
                     </div>
                   </div>
                 </Link>
@@ -160,7 +164,45 @@ export default function SideBarAdminInactive() {
                   <div className='flex justify-between h-[50px] pl-[20px] pr-[20px] cursor-pointer hover:bg-[#333]/10'>
                     <div className={`flex items-center gap-[10px] ${path === ParkingPath ? 'text-[#1976d3]' : ''}`}>
                       <LocalParkingIcon />
-                      <li className='flex items-center h-[30px] pl-[10px] '>Set Parking</li>
+                      <li className='flex items-center h-[30px] pl-[10px] '>Fee Parking</li>
+                    </div>
+                  </div>
+                </Link>
+              </ul>
+            </div>
+          </div>
+
+          {/* Apartment */}
+          <div className='relative group'>
+            {/* Nút bấm */}
+            <div className='flex justify-between w-full h-[50px] pl-[40px] pr-[40px] cursor-pointer hover:bg-[#333]/10'>
+              <div
+                className={`flex items-center gap-[10px] ${path === ListApartmentPath || path === AddApartmentPath ? 'text-[#1976d3]' : ''}`}
+              >
+                <ApartmentIcon />
+              </div>
+            </div>
+
+            {/* Hover Menu */}
+            <div className='absolute w-[200px] border-2 border-[#d1d5dc] rounded-[5px] bg-white shadow-md top-[0] left-[105px] hidden group-hover:block z-[9999]'>
+              <ul>
+                <Link to='/admin/list-apartment'>
+                  <div className='flex justify-between h-[50px] pl-[20px] pr-[20px] cursor-pointer hover:bg-[#333]/10'>
+                    <div
+                      className={`flex items-center gap-[10px] ${path === ListApartmentPath ? 'text-[#1976d3]' : ''}`}
+                    >
+                      <BusinessIcon />
+                      <li className='flex items-center h-[30px] pl-[10px] '>List Apartment</li>
+                    </div>
+                  </div>
+                </Link>
+                <Link to='/admin/add-apartment'>
+                  <div className='flex justify-between h-[50px] pl-[20px] pr-[20px] cursor-pointer hover:bg-[#333]/10'>
+                    <div
+                      className={`flex items-center gap-[10px] ${path === AddApartmentPath ? 'text-[#1976d3]' : ''}`}
+                    >
+                      <DomainAddIcon />
+                      <li className='flex items-center h-[30px] pl-[10px] '>Add Apartment</li>
                     </div>
                   </div>
                 </Link>
@@ -173,32 +215,32 @@ export default function SideBarAdminInactive() {
             {/* Nút bấm */}
             <div className='flex justify-between w-full h-[50px] pl-[40px] pr-[40px] cursor-pointer hover:bg-[#333]/10'>
               <div
-                className={`flex items-center gap-[10px] ${path === HistoryNotificationPath || path === CreateNotificationPath ? 'text-[#1976d3]' : ''}`}
+                className={`flex items-center gap-[10px] ${path === HistoryNotificationPath || path === AddNotificationPath ? 'text-[#1976d3]' : ''}`}
               >
-                <MarkEmailUnreadIcon />
+                <MarkUnreadChatAltTwoToneIcon />
               </div>
             </div>
 
             {/* Hover Menu */}
             <div className='absolute w-[200px] border-2 border-[#d1d5dc] rounded-[5px] bg-white shadow-md top-[0] left-[105px] hidden group-hover:block z-[9999]'>
               <ul>
-                <Link to='/admin/notification'>
+                <Link to='/admin/history-notification'>
                   <div className='flex justify-between h-[50px] pl-[20px] pr-[20px] cursor-pointer hover:bg-[#333]/10'>
                     <div
                       className={`flex items-center gap-[10px] ${path === HistoryNotificationPath ? 'text-[#1976d3]' : ''}`}
                     >
-                      <AssignmentIcon />
-                      <li className='flex items-center h-[30px] pl-[10px] '>History Notification</li>
+                      <AssignmentTwoToneIcon />
+                      <li className='flex items-center h-[30px] pl-[10px] '>History Notify</li>
                     </div>
                   </div>
                 </Link>
-                <Link to='/admin/create-notification'>
+                <Link to='/admin/add-notification'>
                   <div className='flex justify-between h-[50px] pl-[20px] pr-[20px] cursor-pointer hover:bg-[#333]/10'>
                     <div
-                      className={`flex items-center gap-[10px] ${path === CreateNotificationPath ? 'text-[#1976d3]' : ''}`}
+                      className={`flex items-center gap-[10px] ${path === AddNotificationPath ? 'text-[#1976d3]' : ''}`}
                     >
-                      <MarkChatUnreadIcon />
-                      <li className='flex items-center h-[30px] pl-[10px]'>Create Notification</li>
+                      <EditNotificationsTwoToneIcon />
+                      <li className='flex items-center h-[30px] pl-[10px]'>Add Notify</li>
                     </div>
                   </div>
                 </Link>

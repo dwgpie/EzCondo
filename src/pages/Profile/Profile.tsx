@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react'
 import { useMutation } from '@tanstack/react-query'
 import { updateProfile, getProfile, addOrUpdateAvatar } from '~/apis/auth.api'
-import { profileSchema } from '~/utils/rules'
+import { profileAdminSchema } from '~/utils/rules'
 import { useForm } from 'react-hook-form'
 import { yupResolver } from '@hookform/resolvers/yup'
 import { useRef } from 'react'
@@ -15,14 +15,10 @@ interface formData {
   id?: string
   fullName: string
   dateOfBirth: string
-  gender: string
-  apartmentNumber: string
   phoneNumber: string
+  gender: string
   email: string
-  status: string
-  roleName: string
   avatar: File
-  no: string
 }
 
 export default function Profile() {
@@ -33,7 +29,7 @@ export default function Profile() {
     clearErrors,
     formState: { errors }
   } = useForm<formData>({
-    resolver: yupResolver(profileSchema)
+    resolver: yupResolver(profileAdminSchema)
   })
   const navigate = useNavigate()
 
@@ -74,24 +70,33 @@ export default function Profile() {
       setUser(data)
       // Gán ảnh cũ vào form nếu có
       setValue('avatar', data.avatar)
+      console.log('data:', data.avatar)
     },
     onError: (error) => {
       console.error('Lỗi khi lấy dữ liệu người dùng:', error)
     }
   })
+  // Lưu mutate vào useRef
+  const mutateRef = useRef(getProfileMutation.mutate)
+
   useEffect(() => {
-    getProfileMutation.mutate()
+    mutateRef.current() // Gọi mutate từ ref để tránh dependency issue
   }, [])
 
   const onSubmit = handleSubmit((formData) => {
     try {
       updateProfile({
         fullName: formData.fullName,
-        phoneNumber: formData.phoneNumber,
         dateOfBirth: formData.dateOfBirth,
-        gender: formData.gender
+        gender: formData.gender,
+        phoneNumber: formData.phoneNumber
       })
-      addOrUpdateAvatar(formData.avatar)
+      // Kiểm tra avatar có phải File không trước khi gọi API
+      if (formData.avatar instanceof File) {
+        addOrUpdateAvatar(formData.avatar)
+      } else {
+        console.warn('Avatar is URL, no update!')
+      }
       toast.success('Updated successfully!')
     } catch (error) {
       console.error('Error updating user or citizen:', error)
@@ -111,9 +116,9 @@ export default function Profile() {
       <div className='mb-6 p-6 bg-white drop-shadow-md rounded-xl'>
         {user ? (
           <form className='rounded' noValidate onSubmit={onSubmit}>
-            <div className='grid grid-cols-4 gap-x-6'>
-              <div className='grid grid-cols-3 gap-x-8 col-span-3'>
-                <div className=' '>
+            <div className='flex items-center justify-evenly gap-4'>
+              <div>
+                <div className='w-[300px]'>
                   <label className='block text-sm font-semibold'>
                     Name
                     <span className='text-red-600 ml-1'>*</span>
@@ -141,7 +146,9 @@ export default function Profile() {
                     register={register}
                   />
                 </div>
-                <div className=''>
+              </div>
+              <div>
+                <div className='w-[300px]'>
                   <label className='block text-sm font-semibold'>Email</label>
                   <InputEdit
                     name='email'
@@ -171,67 +178,19 @@ export default function Profile() {
                     Gender
                     <span className='text-red-600 ml-1'>*</span>
                   </label>
-                  <select
-                    {...register('gender')}
-                    defaultValue='Male'
-                    className='mt-1 w-full h-11 pl-2 cursor-pointer outline-none border border-gray-300 focus:border-gray-500 rounded-sm focus:shadow-sm'
-                  >
-                    <option value='male'>Male</option>
-                    <option value='female'>Female</option>
-                    <option value='other'>Other</option>
-                  </select>
-                </div>
-                <div className=''>
-                  <label className='block text-sm font-semibold'>Apartment</label>
                   <InputEdit
-                    name='apartmentNumber'
-                    type='text'
+                    name='gender'
+                    type='gender'
                     className='mt-1'
-                    defaultValue={user.apartmentNumber}
+                    errorMessage={errors.gender?.message}
+                    defaultValue={user.gender} // Chỉ lấy phần YYYY-MM-DD để input hoạt động
                     register={register}
-                    isEditable={false}
-                  />
-                </div>
-                <div className=''>
-                  <label className='block text-sm font-semibold'>Citizen Identity Id</label>
-                  <InputEdit
-                    name='no'
-                    type='text'
-                    className='mt-1'
-                    defaultValue={user.no}
-                    register={register}
-                    isEditable={false}
-                  />
-                </div>
-                <div className=''>
-                  <label className='block text-sm font-semibold'>Role</label>
-                  <InputEdit
-                    name='roleName'
-                    type='text'
-                    className='mt-1'
-                    defaultValue={user.roleName}
-                    register={register}
-                    isEditable={false}
-                  />
-                </div>
-                <div className=''>
-                  <label className='block text-sm font-semibold'>
-                    Status
-                    <span className='text-red-600 ml-1'>*</span>
-                  </label>
-                  <InputEdit
-                    name='status'
-                    type='text'
-                    className='mt-1'
-                    defaultValue={user.status}
-                    register={register}
-                    isEditable={false}
                   />
                 </div>
               </div>
-              <div className='grid col-span-1'>
+              <div className=''>
                 <div
-                  className='mt-2 w-[280px] h-[280px] p-2 border-2 border-dashed border-gray-400 rounded-full flex items-center justify-center cursor-pointer bg-gray-100 overflow-hidden'
+                  className='mt-2 w-[200px] h-[200px] p-2 border-2 border-dashed border-gray-400 rounded-full flex items-center justify-center cursor-pointer bg-gray-100 overflow-hidden'
                   onClick={() => fileInputFrontRef.current?.click()}
                   onDrop={(e) => handleDrop(e)}
                   onDragOver={(e) => e.preventDefault()}
@@ -244,9 +203,11 @@ export default function Profile() {
                     />
                   ) : (
                     <>
-                      <CloudUploadIcon className='text-gray-700 text-4xl' />
-                      <p className='text-gray-700 font-semibold'>Upload a File</p>
-                      <p className='text-gray-500 text-sm'>Drag and drop files here</p>
+                      <div className='flex-col items-center justify-center text-center'>
+                        <CloudUploadIcon className='text-gray-700 text-4xl' />
+                        <p className='text-gray-700 font-semibold'>Upload a File</p>
+                        <p className='text-gray-500 text-sm'>Drag and drop files here</p>
+                      </div>
                     </>
                   )}
                   <input

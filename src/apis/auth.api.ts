@@ -72,6 +72,10 @@ export const searchUser = (search: string) => {
   return http.get(`/api/User/get-all-users?search=${search}`)
 }
 
+export const searchService = (search: string) => {
+  return http.get(`/api/Services/get-all-services?serviceName=${search}`)
+}
+
 //Service
 export const addService = (body: {
   serviceName: string
@@ -172,5 +176,40 @@ export const editParking = (body: { id: string; pricePerMotor: number; pricePerO
   http.patch('/api/SettingFee/update-parking-price', body)
 
 //Notification
-export const addNotification = (body: { title: string; content: string; type: string }) =>
+export const addNotification = (body: { title: string; content: string; receiver: string; type: string }) =>
   http.post('/api/Notification/create-notification', body)
+
+export const addNotificationImages = (body: { NotificationId: string; Image: File[] }) => {
+  const formData = new FormData()
+  formData.append('NotificationId', body.NotificationId)
+  // Lặp qua từng ảnh và thêm vào FormData
+  body.Image.forEach((Image) => {
+    formData.append('Image', Image)
+  })
+  return http.post('/api/Notification/create-notification-images', formData, {
+    headers: {
+      'Content-Type': 'multipart/form-data'
+    }
+  })
+}
+// /api/Notification/admin-or-manager-get-notifications?type=&receiver=&page=1&pageSize=10&day=7
+
+export const filterNotification = (body: { type: string; receiver: string; day: number }) => {
+  return http.get(
+    `/api/Notification/admin-or-manager-get-notifications?type=${body.type}&receiver=${body.receiver}&day=${body.day}`
+  )
+}
+
+//Apartment
+export const getAllApartment = () => {
+  return http.get('/api/Apartment/get-all-apartment')
+}
+
+export const addApartment = (body: { apartmentNumber: string; acreage: number; description: string }) =>
+  http.post('/api/Apartment/add-apartment', body)
+
+export const editApartment = (body: { id: string; acreage: number; description: string }) =>
+  http.patch('/api/Apartment/update-apartment', body)
+
+export const getApartmentById = (apartmentId: string) =>
+  http.get(`/api/Apartment/get-apartment-by-id?apartmentId=${apartmentId}`)

@@ -7,6 +7,7 @@ import { registerAccount, addOrUpdateCitizen } from '~/apis/auth.api'
 import { useRef, useState } from 'react'
 import CloudUploadIcon from '@mui/icons-material/CloudUpload'
 import { ToastContainer, toast } from 'react-toastify'
+import LoadingOverlay from '~/components/LoadingOverlay'
 
 interface FormData {
   fullName: string
@@ -38,9 +39,10 @@ export default function AddUser() {
 
   const [imagePreviewFront, setImagePreviewFront] = useState<string | null>(null)
   const [imagePreviewBack, setImagePreviewBack] = useState<string | null>(null)
-
   const fileInputFrontRef = useRef<HTMLInputElement | null>(null)
   const fileInputBackRef = useRef<HTMLInputElement | null>(null)
+  const [loading, setLoading] = useState(false)
+  const [progress, setProgress] = useState(0)
 
   const handleImageChange = (event: React.ChangeEvent<HTMLInputElement>, type: 'front' | 'back') => {
     const file = event.target.files?.[0]
@@ -79,7 +81,18 @@ export default function AddUser() {
 
   const handleCallAPI = async (formData: FormData) => {
     try {
-      console.log('Form data:', formData)
+      setLoading(true)
+      setProgress(0)
+
+      const Progress = setInterval(() => {
+        setProgress((prev) => {
+          if (prev >= 90) {
+            clearInterval(Progress)
+            return prev
+          }
+          return prev + 10
+        })
+      }, 300)
 
       const response = await registerAccount({
         fullName: formData.fullName,
@@ -105,6 +118,11 @@ export default function AddUser() {
       toast.success('Account created successfully!')
     } catch (error) {
       console.error('API call failed:', error)
+    } finally {
+      setProgress(100)
+      setTimeout(() => {
+        setLoading(false)
+      }, 500)
     }
   }
 
@@ -118,10 +136,10 @@ export default function AddUser() {
   })
 
   return (
-    <div className='bg-[#EDF2F9] pt-5 mr-5 ml-5 z-13'>
+    <div className='pt-5 mx-5 z-13'>
       <ToastContainer />
-      {/* <div className='text-2xl font-semibold mb-5 py-4 px-6 bg-white drop-shadow-md rounded-xl'>Add User</div> */}
       <div className='mb-6 p-6 bg-white drop-shadow-md rounded-xl'>
+        {loading && <LoadingOverlay value={progress} />}
         <h2 className='text-xl mb-4 text-black font-semibold'>Account Information</h2>
         <form className='rounded' noValidate onSubmit={onSubmit}>
           <div className='grid grid-cols-3 gap-4'>
@@ -330,41 +348,6 @@ export default function AddUser() {
                   </div>
                 </div>
               </div>
-              {/* <div className='grid grid-cols-3 gap-4'>
-                <div className=''>
-                  <label className='block text-sm font-semibold'>
-                    No
-                    <span className='text-red-600 ml-1'>*</span>
-                  </label>
-                  <Input name='no' type='no' register={register} className='mt-1' errorMessage={errors.no?.message} />
-                </div>
-                <div className=''>
-                  <label className='block text-sm font-semibold'>
-                    Date of issue
-                    <span className='text-red-600 ml-1'>*</span>
-                  </label>
-                  <Input
-                    name='dateOfIssue'
-                    type='date'
-                    register={register}
-                    className='mt-1'
-                    errorMessage={errors.dateOfIssue?.message}
-                  />
-                </div>
-                <div className=''>
-                  <label className='block text-sm font-semibold'>
-                    Date of expiry
-                    <span className='text-red-600 ml-1'>*</span>
-                  </label>
-                  <Input
-                    name='dateOfExpiry'
-                    type='date'
-                    register={register}
-                    className='mt-1'
-                    errorMessage={errors.dateOfExpiry?.message}
-                  />
-                </div>
-              </div> */}
             </div>
           </div>
           <div className='flex justify-end gap-4 mt-3'>

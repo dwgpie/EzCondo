@@ -10,6 +10,7 @@ import { ToastContainer, toast } from 'react-toastify'
 import { Button } from '@mui/material'
 import InputEdit from '~/components/InputEdit'
 import { Link } from 'react-router-dom'
+import LoadingOverlay from '~/components/LoadingOverlay'
 
 interface formData {
   id?: string
@@ -42,9 +43,10 @@ export default function EditUser() {
 
   const [imagePreviewFront, setImagePreviewFront] = useState<string | File | null>(null)
   const [imagePreviewBack, setImagePreviewBack] = useState<string | null>(null)
-
   const fileInputFrontRef = useRef<HTMLInputElement | null>(null)
   const fileInputBackRef = useRef<HTMLInputElement | null>(null)
+  const [loading, setLoading] = useState(false)
+  const [progress, setProgress] = useState(0)
 
   const handleImageChange = (event: React.ChangeEvent<HTMLInputElement>, type: 'front' | 'back') => {
     const file = event.target.files?.[0]
@@ -115,6 +117,19 @@ export default function EditUser() {
 
   const onSubmit = handleSubmit((formData) => {
     try {
+      setLoading(true)
+      setProgress(0)
+
+      const Progress = setInterval(() => {
+        setProgress((prev) => {
+          if (prev >= 90) {
+            clearInterval(Progress)
+            return prev
+          }
+          return prev + 10
+        })
+      }, 300)
+
       editUser({
         id: userId ?? '',
         fullName: formData.fullName,
@@ -138,6 +153,11 @@ export default function EditUser() {
       toast.success('Updated successfully!')
     } catch (error) {
       console.error('Error updating user or citizen:', error)
+    } finally {
+      setProgress(100)
+      setTimeout(() => {
+        setLoading(false)
+      }, 500)
     }
   })
 
@@ -149,9 +169,10 @@ export default function EditUser() {
   }
 
   return (
-    <div className='bg-[#EDF2F9] pt-5 ml-5 mr-5 z-13 h-full'>
+    <div className='pt-5 mx-5 z-13'>
       <ToastContainer />
       <div className='mb-6 p-6 bg-white drop-shadow-md rounded-xl'>
+        {loading && <LoadingOverlay value={progress} />}
         {user ? (
           <form className='rounded' noValidate onSubmit={onSubmit}>
             <div className='grid grid-cols-4 gap-4'>
