@@ -53,7 +53,7 @@ export default function ChangePassword() {
       <div className='mb-6 p-6 bg-white drop-shadow-md rounded-xl'>
         <form className='rounded' noValidate onSubmit={onSubmit}>
           <div className=''>
-            <div className='flex items-center gap-10'>
+            <div className='flex gap-10'>
               <div>
                 <label className='block text-sm font-semibold'>
                   Old Passowrd
@@ -64,7 +64,7 @@ export default function ChangePassword() {
                     name='oldPassword'
                     type={showPassword ? 'text' : 'password'}
                     register={register}
-                    className='mt-3'
+                    className='mt-3 w-[250px]'
                     errorMessage={errors.oldPassword?.message}
                   />
                   <InputAdornment position='end' className='absolute right-0 top-0 mt-2 mr-4'>
@@ -84,7 +84,7 @@ export default function ChangePassword() {
                     name='newPassword'
                     type={showPassword ? 'text' : 'password'}
                     register={register}
-                    className='mt-3'
+                    className='mt-3 w-[250px]'
                     errorMessage={errors.newPassword?.message}
                   />
                   <InputAdornment position='end' className='absolute right-0 top-0 mt-2 mr-4'>
@@ -104,7 +104,7 @@ export default function ChangePassword() {
                     name='confirmPassword'
                     type={showPassword ? 'text' : 'password'}
                     register={register}
-                    className='mt-3'
+                    className='mt-3 w-[250px]'
                     errorMessage={errors.confirmPassword?.message}
                   />
                   <InputAdornment position='end' className='absolute right-0 top-0 mt-2 mr-4'>

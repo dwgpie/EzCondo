@@ -2,13 +2,15 @@ import { Button, Slider, TextField, Typography } from '@mui/material'
 import { useForm } from 'react-hook-form'
 import { yupResolver } from '@hookform/resolvers/yup'
 import { electricitySchema } from '~/utils/rules'
-import { addElectric, getElectric, editElectric } from '~/apis/auth.api'
+import { addElectric, getElectric, editElectric, deleteElectric } from '~/apis/auth.api'
 import { ToastContainer, toast } from 'react-toastify'
 import { useEffect, useRef, useState } from 'react'
 import { useMutation } from '@tanstack/react-query'
 import EditNoteTwoToneIcon from '@mui/icons-material/EditNoteTwoTone'
 import PlagiarismOutlinedIcon from '@mui/icons-material/PlagiarismOutlined'
 import { Dialog, DialogActions, DialogContent, DialogTitle } from '@mui/material'
+import Swal from 'sweetalert2'
+import DeleteIcon from '@mui/icons-material/Delete'
 
 interface FormData {
   id?: string
@@ -115,6 +117,35 @@ export default function Electricity() {
         toast.error('Failed to update electricity fee')
       }
     }
+  }
+
+  const handleDelete = (id?: string) => {
+    if (!id) {
+      toast.error('Invalid ID. Unable to delete.')
+      return
+    }
+
+    Swal.fire({
+      title: 'Are you sure you want to delete?',
+      text: 'This action cannot be undone!',
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonText: 'Delete',
+      cancelButtonText: 'Cancel',
+      confirmButtonColor: '#d33',
+      cancelButtonColor: '#3085d6'
+    }).then(async (result) => {
+      if (result.isConfirmed) {
+        try {
+          await deleteElectric(id) // Gọi API với ID hợp lệ
+          Swal.fire('Deleted!', 'The electricity has been successfully deleted.', 'success')
+          getElectricMutation.mutate()
+        } catch (error) {
+          Swal.fire('Error!', 'Unable to delete the electricity!', 'error')
+          console.error('Error deleting electricity:', error)
+        }
+      }
+    })
   }
 
   return (
@@ -224,6 +255,15 @@ export default function Electricity() {
                     onClick={() => handleEditClick(electric)}
                   >
                     <EditNoteTwoToneIcon />
+                  </button>
+                  <button
+                    type='button'
+                    className='text-red-500 cursor-pointer bg-red-100 p-2 rounded-full ml-2'
+                    onClick={() => {
+                      handleDelete(electric.id)
+                    }}
+                  >
+                    <DeleteIcon />
                   </button>
                 </div>
               </div>

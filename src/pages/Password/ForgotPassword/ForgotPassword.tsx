@@ -23,7 +23,7 @@ export default function ForgotPassword() {
   })
 
   const loginMutation = useMutation({
-    mutationFn: (body: Omit<FormData, 'confirm_password' | 'password'>) => forgotPassword(body)
+    mutationFn: (body: FormData) => forgotPassword(body)
   })
 
   const onSubmit = handleSubmit((data) => {

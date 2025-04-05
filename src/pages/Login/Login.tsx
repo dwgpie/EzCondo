@@ -33,7 +33,7 @@ export default function Login() {
   })
 
   const loginMutation = useMutation({
-    mutationFn: (body: Omit<FormData, 'confirm_password'>) => login(body)
+    mutationFn: (body: FormData) => login(body)
   })
 
   const onSubmit = handleSubmit((data) => {

@@ -3,11 +3,12 @@ import { useForm } from 'react-hook-form'
 import Input from '~/components/Input'
 import { yupResolver } from '@hookform/resolvers/yup'
 import { addUserSchema } from '~/utils/rules'
-import { registerAccount, addOrUpdateCitizen } from '~/apis/auth.api'
+import { registerAccount, addOrUpdateCitizen, deleteUser } from '~/apis/auth.api'
 import { useRef, useState } from 'react'
 import CloudUploadIcon from '@mui/icons-material/CloudUpload'
 import { ToastContainer, toast } from 'react-toastify'
 import LoadingOverlay from '~/components/LoadingOverlay'
+import { AxiosError } from 'axios'
 
 interface FormData {
   fullName: string
@@ -31,8 +32,7 @@ export default function AddUser() {
     handleSubmit,
     setValue,
     clearErrors,
-    formState: { errors },
-    reset
+    formState: { errors }
   } = useForm<FormData>({
     resolver: yupResolver(addUserSchema)
   })
@@ -94,6 +94,7 @@ export default function AddUser() {
         })
       }, 300)
 
+      // 1. Gọi API đăng ký tài khoản
       const response = await registerAccount({
         fullName: formData.fullName,
         phoneNumber: formData.phoneNumber,
@@ -103,21 +104,40 @@ export default function AddUser() {
         apartmentNumber: formData.apartmentNumber,
         roleName: formData.roleName
       })
+
       if (!response?.data) {
         throw new Error('API error: Response data is missing')
       }
+
       const userId = response.data
-      await addOrUpdateCitizen({
-        userId,
-        no: formData.no,
-        dateOfIssue: formData.dateOfIssue,
-        dateOfExpiry: formData.dateOfExpiry,
-        frontImage: formData.frontImage,
-        backImage: formData.backImage
-      })
-      toast.success('Account created successfully!')
+
+      try {
+        // 2. Gọi API Citizen
+        await addOrUpdateCitizen({
+          userId,
+          no: formData.no,
+          dateOfIssue: formData.dateOfIssue,
+          dateOfExpiry: formData.dateOfExpiry,
+          frontImage: formData.frontImage,
+          backImage: formData.backImage
+        })
+
+        toast.success('Account created successfully!')
+      } catch (citizenError) {
+        await deleteUser(userId) // Giả sử bạn có API này
+        throw citizenError
+      }
     } catch (error) {
       console.error('API call failed:', error)
+      if (error instanceof AxiosError && error.response) {
+        if (error.response.status === 409 || error.response.status === 404) {
+          toast.error('Email, Phone number or Citizen ID already exists.')
+        } else {
+          toast.error('An error occurred while creating the account.')
+        }
+      } else {
+        toast.error('Something went wrong.')
+      }
     } finally {
       setProgress(100)
       setTimeout(() => {
@@ -130,9 +150,6 @@ export default function AddUser() {
   const onSubmit = handleSubmit((formData) => {
     handleCallAPI(formData)
     console.log('Form Data:', formData)
-    reset()
-    setImagePreviewFront(null)
-    setImagePreviewBack(null)
   })
 
   return (
@@ -354,11 +371,11 @@ export default function AddUser() {
             <Button
               variant='contained'
               style={{ color: 'white', background: 'red', fontWeight: 'semi-bold' }}
-              onClick={() => {
-                reset()
-                setImagePreviewFront(null)
-                setImagePreviewBack(null)
-              }}
+              // onClick={() => {
+              //   reset()
+              //   setImagePreviewFront(null)
+              //   setImagePreviewBack(null)
+              // }}
             >
               Cancel
             </Button>

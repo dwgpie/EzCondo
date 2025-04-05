@@ -56,7 +56,7 @@ import * as yup from 'yup'
 
 // Validation có thể dùng cách này hoặc cách ở trên
 
-export const schema = yup.object({
+export const loginSchema = yup.object({
   email: yup
     .string()
     .email('Invalid email format')
@@ -66,14 +66,12 @@ export const schema = yup.object({
   password: yup
     .string()
     .required('Password is required')
-    .min(6, 'Length must be between 5 - 160 characters')
-    .max(160, 'Length must be between 5 - 160 characters'),
-  confirm_password: yup
-    .string()
-    .required('Confirm Password is required')
-    .min(6, 'Length must be between 5 - 160 characters')
-    .max(160, 'Length must be between 5 - 160 characters')
-    .oneOf([yup.ref('password')], 'Confirm Password does not match')
+    .min(8, 'Password must be at least 8 characters')
+    .max(160, 'Password must be less than 160 characters')
+    .matches(/[a-z]/, 'Password must contain at least one lowercase letter')
+    .matches(/[A-Z]/, 'Password must contain at least one uppercase letter')
+    .matches(/\d/, 'Password must contain at least one number')
+    .matches(/[^A-Za-z0-9]/, 'Password must contain at least one special character')
 })
 
 //Register
@@ -96,7 +94,16 @@ export const registerSchema = yup.object({
     .trim()
     .matches(/^[0-9]{10,15}$/, 'Invalid phone number')
     .required('Phone number is required'),
-  dateOfBirth: yup.string().required('Date of birth is required'),
+  dateOfBirth: yup
+    .string()
+    .required('Date of birth is required')
+    .test('not-today-or-future', 'Date of birth is not valid', (value) => {
+      const inputDate = new Date(value)
+      const today = new Date()
+      inputDate.setHours(0, 0, 0, 0)
+      today.setHours(0, 0, 0, 0)
+      return inputDate < today
+    }),
   gender: yup.string().required('Gender is required'),
   roleName: yup.string().required('Role is required'),
   apartmentNumber: yup
@@ -107,8 +114,26 @@ export const registerSchema = yup.object({
   status: yup.string().required('Status is required'),
   userId: yup.string(),
   no: yup.string().required('ID card number is required'),
-  dateOfIssue: yup.string().required('Date of issue is required'),
-  dateOfExpiry: yup.string().required('Date of expiry is required'),
+  dateOfIssue: yup
+    .string()
+    .required('Date of issue is required')
+    .test('not-today-or-future', 'Date of issue is not valid', (value) => {
+      const inputDate = new Date(value)
+      const today = new Date()
+      inputDate.setHours(0, 0, 0, 0)
+      today.setHours(0, 0, 0, 0)
+      return inputDate < today
+    }),
+  dateOfExpiry: yup
+    .string()
+    .required('Date of expiry is required')
+    .test('not-today-or-future', 'Date of expiry is not valid', (value) => {
+      const inputDate = new Date(value)
+      const today = new Date()
+      inputDate.setHours(0, 0, 0, 0)
+      today.setHours(0, 0, 0, 0)
+      return inputDate < today
+    }),
   frontImage: yup.mixed<File>().required('Front image is required') as yup.Schema<File>,
   backImage: yup.mixed<File>().required('Back image is required') as yup.Schema<File>
 })
@@ -123,9 +148,13 @@ export const RSPassWord = yup.object({
     .max(160, 'Length must be between 5 - 160 characters'),
   newPassword: yup
     .string()
-    .required('New Password is required')
-    .min(6, 'Length must be between 5 - 160 characters')
-    .max(160, 'Length must be between 5 - 160 characters'),
+    .required('Password is required')
+    .min(8, 'Password must be at least 8 characters')
+    .max(160, 'Password must be less than 160 characters')
+    .matches(/[a-z]/, 'Password must contain at least one lowercase letter')
+    .matches(/[A-Z]/, 'Password must contain at least one uppercase letter')
+    .matches(/\d/, 'Password must contain at least one number')
+    .matches(/[^A-Za-z0-9]/, 'Password must contain at least one special character'),
   code: yup
     .string()
     .matches(/^\d+$/, 'OTP code must be numeric')
@@ -199,7 +228,16 @@ export const profileSchema = yup.object({
     .trim()
     .matches(/^[0-9]{10,15}$/, 'Invalid phone number')
     .required('Phone number is required'),
-  dateOfBirth: yup.string().required('Date of birth is required'),
+  dateOfBirth: yup
+    .string()
+    .required('Date of birth is required')
+    .test('not-today-or-future', 'Date of birth is not valid', (value) => {
+      const inputDate = new Date(value)
+      const today = new Date()
+      inputDate.setHours(0, 0, 0, 0)
+      today.setHours(0, 0, 0, 0)
+      return inputDate < today
+    }),
   gender: yup.string().required('Gender is required'),
   roleName: yup.string().required('Role is required'),
   apartmentNumber: yup
@@ -217,7 +255,15 @@ export const profileAdminSchema = profileSchema.omit(['roleName', 'apartmentNumb
 //Change password
 export const changePasswordSchema = yup.object({
   oldPassword: yup.string().required('Old password is required'),
-  newPassword: yup.string().required('New password is required'),
+  newPassword: yup
+    .string()
+    .required('Password is required')
+    .min(8, 'Password must be at least 8 characters')
+    .max(160, 'Password must be less than 160 characters')
+    .matches(/[a-z]/, 'Password must contain at least one lowercase letter')
+    .matches(/[A-Z]/, 'Password must contain at least one uppercase letter')
+    .matches(/\d/, 'Password must contain at least one number')
+    .matches(/[^A-Za-z0-9]/, 'Password must contain at least one special character'),
   confirmPassword: yup
     .string()
     .oneOf([yup.ref('newPassword')], 'Passwords must match')
@@ -267,12 +313,10 @@ export const notificationSchema = yup.object({
 
 export type RegisterSchema = yup.InferType<typeof registerSchema>
 // cái này dành cho login: OMIT bỏ confirm_password đi
-export const loginSchema = schema.omit(['confirm_password'])
 export type LoginSchema = yup.InferType<typeof loginSchema>
-export type Schema = yup.InferType<typeof schema>
-export const forgotSchema = schema.omit(['confirm_password', 'password'])
+export const forgotSchema = loginSchema.omit(['password'])
 export type ForgotSchema = yup.InferType<typeof forgotSchema>
-export const verifySchema = RSPassWord.omit(['newPassword'])
+export const verifySchema = RSPassWord.omit(['newPassword', 'confirmPassword'])
 export type VerifyOtpSchema = yup.InferType<typeof verifySchema>
 export const resetPasswordSchema = RSPassWord.omit(['email', 'code'])
 export type ResetPasswordSchema = yup.InferType<typeof resetPasswordSchema>

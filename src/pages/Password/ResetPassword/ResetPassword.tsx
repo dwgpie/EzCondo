@@ -12,6 +12,7 @@ import { useContext, useState } from 'react'
 import InputAdornment from '@mui/material/InputAdornment'
 import IconButton from '@mui/material/IconButton'
 import { AppContext } from '~/contexts/app.context'
+import { toast } from 'react-toastify'
 
 type FormData = ResetPasswordSchema
 
@@ -37,6 +38,7 @@ export default function ResetPassword() {
     loginMutation.mutate(data, {
       onSuccess: () => {
         setIsAuthenticated(true)
+        toast.success('Reset password successfully')
         navigate('/login')
       },
       onError: (error) => {

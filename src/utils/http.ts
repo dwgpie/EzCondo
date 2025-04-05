@@ -1,5 +1,4 @@
 import axios, { AxiosError, type AxiosInstance } from 'axios'
-import { toast } from 'react-toastify'
 import HttpStatusCode from '~/constants/httpStatusCode.enum'
 import { AuthRespone } from '~/types/auth.type'
 import { clearAccessTokenToLocalStorage, getAccessTokenFromLocalStorage, saveAccessTokenToLocalStorage } from './auth'
@@ -47,9 +46,8 @@ class Http {
           // eslint-disable-next-line @typescript-eslint/no-explicit-any
           const data: any | undefined = error.response?.data
           const message = data.message || error.message
-          toast.error(message)
+          console.log('Error message:', message)
         }
-        // console.error('Error details:', error)
         return Promise.reject(error)
       }
     )

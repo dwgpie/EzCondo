@@ -108,10 +108,17 @@ export default function HistoryNotification() {
             </Select>
           </div>
           <div>
-            <Select value={type} onChange={(e) => setType(e.target.value)} sx={{ width: '200px' }}>
+            <Select
+              value={type} // Giá trị thực tế là ""
+              onChange={(e) => setType(e.target.value === 'all' ? '' : e.target.value)}
+              sx={{ width: '200px' }}
+              displayEmpty
+              renderValue={(selected) => (selected === '' ? 'All' : selected)}
+            >
               <MenuItem value='news'>News</MenuItem>
               <MenuItem value='notice'>Notice</MenuItem>
               <MenuItem value='fees'>Fee</MenuItem>
+              <MenuItem value='all'>All</MenuItem>
             </Select>
           </div>
           <div>
@@ -127,11 +134,11 @@ export default function HistoryNotification() {
               <TableHead>
                 <TableRow>
                   <StyledTableCell width='5%'>Id</StyledTableCell>
-                  <StyledTableCell width='15%'>Title</StyledTableCell>
-                  <StyledTableCell width='30%'>Content</StyledTableCell>
-                  <StyledTableCell width='15%'>Date created</StyledTableCell>
+                  <StyledTableCell width='25%'>Title</StyledTableCell>
+                  <StyledTableCell width='33%'>Content</StyledTableCell>
+                  <StyledTableCell width='13%'>Date created</StyledTableCell>
                   <StyledTableCell width='15%'>Tyoe of notification</StyledTableCell>
-                  <StyledTableCell width='13%'>Receiver</StyledTableCell>
+                  <StyledTableCell width='10%'>Receiver</StyledTableCell>
                   <StyledTableCell>Detail</StyledTableCell>
                 </TableRow>
               </TableHead>
