@@ -1,8 +1,35 @@
-import { AuthRespone } from '~/types/auth.type'
+// import { AuthRespone } from '~/types/auth.type'
 import http from '~/utils/http'
+import { AxiosError } from 'axios'
+import { toast } from 'react-toastify'
 
 // Auth
-export const login = (body: { email: string; password: string }) => http.post<AuthRespone>('/api/Auth/login', body)
+// export const login = (body: { email: string; password: string }) => http.post<AuthRespone>('/api/Auth/login', body)
+
+export const login = async (body: { email: string; password: string }) => {
+  try {
+    const response = await http.post('/api/Auth/login', body)
+    return response.data
+  } catch (error: unknown) {
+    if (error instanceof AxiosError && error.response) {
+      if (error.response.status === 401) {
+        toast.error('Incorrect password')
+        throw new Error('Incorrect password')
+      }
+
+      if (error.response.status === 404) {
+        toast.error('User not found')
+        throw new Error('User not found')
+      }
+
+      toast.error('Something went wrong. Please try again!')
+      throw new Error(error.response.data?.message || 'Something went wrong')
+    }
+
+    toast.error('Unexpected error. Please try again later!')
+    throw new Error('Unexpected error')
+  }
+}
 
 export const registerAccount = (body: {
   fullName: string
@@ -174,6 +201,9 @@ export const editWater = (body: { id: string; pricePerM3: number }) =>
 
 export const editParking = (body: { id: string; pricePerMotor: number; pricePerOto: number }) =>
   http.patch('/api/SettingFee/update-parking-price', body)
+
+export const deleteElectric = (electricId: string) =>
+  http.delete(`/api/SettingFee/delete-electric-price?electricId=${electricId}`)
 
 //Notification
 export const addNotification = (body: { title: string; content: string; receiver: string; type: string }) =>

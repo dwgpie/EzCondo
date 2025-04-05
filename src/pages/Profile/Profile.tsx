@@ -174,18 +174,19 @@ export default function Profile() {
                   />
                 </div>
                 <div className=''>
-                  <label className='block text-sm font-semibold'>
+                  <label className='block text-sm font-semibold mb-1'>
                     Gender
                     <span className='text-red-600 ml-1'>*</span>
                   </label>
-                  <InputEdit
-                    name='gender'
-                    type='gender'
-                    className='mt-1'
-                    errorMessage={errors.gender?.message}
-                    defaultValue={user.gender} // Chỉ lấy phần YYYY-MM-DD để input hoạt động
-                    register={register}
-                  />
+                  <select
+                    className='w-full h-11 pl-2 outline-none border border-gray-300 focus:border-gray-500 rounded-sm focus:shadow-sm'
+                    defaultValue={user.gender || ''}
+                    {...register('gender')}
+                  >
+                    <option value='male'>Male</option>
+                    <option value='female'>Female</option>
+                    <option value='other'>Other</option>
+                  </select>
                 </div>
               </div>
               <div className=''>

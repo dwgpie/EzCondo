@@ -8,6 +8,7 @@ import { verifyOTP } from '~/apis/auth.api'
 import Button from '@mui/material/Button'
 import { useContext } from 'react'
 import { AppContext } from '~/contexts/app.context'
+import { toast } from 'react-toastify'
 
 type FormData = VerifyOtpSchema
 
@@ -36,6 +37,7 @@ export default function VerifyOTP() {
     loginMutation.mutate(data, {
       onSuccess: (response) => {
         setIsAuthenticated(true)
+        toast.success('Verify OTP successfully')
         navigate('/reset-password', { state: { tokenMemory: response.data } })
       },
       onError: (error) => {

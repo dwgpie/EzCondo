@@ -1,5 +1,5 @@
 import Login from './pages/Login'
-import LandingPage from './pages/LandingPage'
+// import LandingPage from './pages/LandingPage'
 import DashboardLayout from './layouts/DashboardLayout'
 import Dashboard from './pages/Admin/Dashboard'
 import AddUser from './pages/Admin/User/AddUser'
@@ -48,9 +48,9 @@ function RejectedRouted() {
 export default function useRouteElements() {
   const routeElements = useRoutes([
     {
-      path: '/',
+      path: '/login',
       index: true,
-      element: <LandingPage />
+      element: <Login />
     },
     {
       path: '',
