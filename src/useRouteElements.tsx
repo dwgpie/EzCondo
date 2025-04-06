@@ -1,6 +1,6 @@
 import Login from './pages/Login'
 // import LandingPage from './pages/LandingPage'
-import DashboardLayout from './layouts/DashboardLayout'
+import DashboardLayout from './layouts/DashboardAdminLayout'
 import Dashboard from './pages/Admin/Dashboard'
 import AddUser from './pages/Admin/User/AddUser'
 import ListUser from './pages/Admin/User/ListUser'

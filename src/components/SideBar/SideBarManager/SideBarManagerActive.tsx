@@ -19,7 +19,7 @@ import PriceChangeTwoToneIcon from '@mui/icons-material/PriceChangeTwoTone'
 import WaterDropTwoToneIcon from '@mui/icons-material/WaterDropTwoTone'
 import '../SideBar.css'
 
-export default function SideBarAdminActive() {
+export default function SideBarManagerActive() {
   const location = useLocation()
   const path = location.pathname
 
@@ -64,7 +64,7 @@ export default function SideBarAdminActive() {
   }
 
   return (
-    <div className='flex flex-col items-center bg-[#fff] border-r-2 border-[#d1d5dc] text-[#7A8699] h-screen '>
+    <div className='flex flex-col items-center bg-[#fff] border-r-2 border-[#d1d5dc] text-[#7A8699] h-screen'>
       {' '}
       <Link to='/admin/dashboard'>
         <div className='w-20 h-20'>

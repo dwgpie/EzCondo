@@ -5,7 +5,7 @@ import { ToastContainer, toast } from 'react-toastify'
 import { Button, MenuItem, Select, TextField, SelectChangeEvent } from '@mui/material'
 import Input from '~/components/Input'
 import { AddApartmentSchema, apartmentSchema } from '~/utils/rules'
-import { addApartment } from '~/apis/auth.api'
+import { addApartment } from '~/apis/apartment.api'
 import LoadingOverlay from '~/components/LoadingOverlay'
 
 type FormData = AddApartmentSchema

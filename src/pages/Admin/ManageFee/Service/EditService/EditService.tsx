@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react'
 import { useMutation } from '@tanstack/react-query'
-import { getServiceById, editService, addOrUpdateImage, getImageById } from '~/apis/auth.api'
+import { getServiceById, editService, addOrUpdateImage, getImageById } from '~/apis/service.api'
 import { serviceSchema } from '~/utils/rules'
 import { useForm } from 'react-hook-form'
 import { yupResolver } from '@hookform/resolvers/yup'
@@ -8,9 +8,8 @@ import { useRef } from 'react'
 import CloudUploadIcon from '@mui/icons-material/CloudUpload'
 import { ToastContainer, toast } from 'react-toastify'
 import { Button, Checkbox, TextField } from '@mui/material'
-import { Link } from 'react-router-dom'
+import { Link, useNavigate } from 'react-router-dom'
 import InputEdit from '~/components/InputEdit'
-import LoadingOverlay from '~/components/LoadingOverlay'
 
 interface formData {
   id?: string
@@ -41,8 +40,6 @@ export default function EditService() {
   const [files, setFiles] = useState<File[]>([]) // Lưu trữ danh sách file ảnh
   const fileInputRef = useRef<HTMLInputElement | null>(null)
   const [service, setService] = useState<formData | null>(null)
-  const [loading, setLoading] = useState(false)
-  const [progress, setProgress] = useState(0)
 
   const handleDeleteImage = (index: number) => {
     // Remove image URL and file at the specified index
@@ -100,6 +97,7 @@ export default function EditService() {
     },
     onSuccess: async (data) => {
       setService(data) // Cập nhật state với dữ liệu từ API
+      console.log(data)
 
       // Xử lý ảnh cũ nếu có
       if (data.serviceImages?.length) {
@@ -134,19 +132,6 @@ export default function EditService() {
 
   const onSubmit = handleSubmit(async (formData) => {
     try {
-      setLoading(true)
-      setProgress(0)
-
-      const Progress = setInterval(() => {
-        setProgress((prev) => {
-          if (prev >= 90) {
-            clearInterval(Progress)
-            return prev
-          }
-          return prev + 10
-        })
-      }, 300)
-
       await editService({
         id: serviceId ?? '',
         status: formData.status,
@@ -167,19 +152,13 @@ export default function EditService() {
       setFiles([])
     } catch (error) {
       console.error('API call failed:', error)
-    } finally {
-      setProgress(100)
-      setTimeout(() => {
-        setLoading(false)
-      }, 500)
     }
   })
 
   return (
-    <div className='bg-[#EDF2F9] pt-5 ml-5 mr-5 z-13 h-screen'>
+    <div style={{ height: 'calc(100vh - 80px)' }} className='pt-5 ml-5 mr-5 z-13 h-screen'>
       <ToastContainer />
       <div className='mb-6 p-6 bg-white drop-shadow-md rounded-xl'>
-        {loading && <LoadingOverlay value={progress} />}
         {service ? (
           <form className='rounded' noValidate onSubmit={onSubmit}>
             <div className='grid grid-cols-2 gap-4'>
@@ -237,12 +216,12 @@ export default function EditService() {
                     </div>
                     <div className='flex items-center justify-center mt-2'>
                       <Checkbox
+                        {...register('typeOfMonth')}
                         checked={watch('typeOfMonth', service.typeOfMonth)}
                         onChange={(e) => {
-                          const isChecked = e.target.checked
-                          setValue('typeOfMonth', isChecked)
-                          if (!isChecked) {
-                            setValue('priceOfMonth', 0) // Reset về 0 khi bỏ chọn
+                          setValue('typeOfMonth', e.target.checked)
+                          if (!e.target.checked) {
+                            setValue('priceOfMonth', 0)
                           }
                         }}
                       />
@@ -260,6 +239,7 @@ export default function EditService() {
                     </div>
                     <div className='flex items-center mt-2'>
                       <Checkbox
+                        {...register('typeOfYear')}
                         checked={watch('typeOfYear', service.typeOfYear)}
                         onChange={(e) => {
                           const isChecked = e.target.checked
