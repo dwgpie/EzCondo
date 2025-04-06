@@ -15,7 +15,8 @@ import {
   Tooltip
 } from '@mui/material'
 import DomainAddIcon from '@mui/icons-material/DomainAdd'
-import { getAllApartment, editApartment, getUserById } from '~/apis/auth.api'
+import { getAllApartment, editApartment } from '~/apis/apartment.api'
+import { getUserById } from '~/apis/user.api'
 import { Link } from 'react-router-dom'
 
 interface FormData {

@@ -6,7 +6,7 @@ import TableContainer from '@mui/material/TableContainer'
 import TableHead from '@mui/material/TableHead'
 import TableRow from '@mui/material/TableRow'
 import Paper from '@mui/material/Paper'
-import { filterNotification } from '~/apis/auth.api'
+import { filterNotification } from '~/apis/notification.api'
 import { useEffect, useState } from 'react'
 import {
   Button,
