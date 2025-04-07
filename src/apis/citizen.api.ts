@@ -1,6 +1,4 @@
 import http from '~/utils/http'
-import { AxiosError } from 'axios'
-import { toast } from 'react-toastify'
 
 // Citizen
 export const addOrUpdateCitizen = (body: {

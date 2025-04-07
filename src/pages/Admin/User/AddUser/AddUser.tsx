@@ -6,7 +6,8 @@ import { addUserSchema } from '~/utils/rules'
 import { deleteUser } from '~/apis/user.api'
 import { addOrUpdateCitizen } from '~/apis/citizen.api'
 import { registerAccount } from '~/apis/auth.api'
-import { useRef, useState } from 'react'
+import { getApartmentByStatus } from '~/apis/apartment.api'
+import { useEffect, useRef, useState } from 'react'
 import CloudUploadIcon from '@mui/icons-material/CloudUpload'
 import { ToastContainer, toast } from 'react-toastify'
 import LoadingOverlay from '~/components/LoadingOverlay'
@@ -26,6 +27,11 @@ interface FormData {
   dateOfExpiry: string
   frontImage: File
   backImage: File
+}
+
+interface Apartment {
+  id: number
+  apartmentNumber: string
 }
 
 export default function AddUser() {
@@ -81,6 +87,22 @@ export default function AddUser() {
     }
   }
 
+  const [apartments, setApartments] = useState<Apartment[]>([])
+
+  // Lấy danh sách căn hộ
+  const fetchApartments = async () => {
+    try {
+      const response = await getApartmentByStatus()
+      setApartments(response.data) // Cập nhật state
+    } catch (error) {
+      console.error('Error fetching apartments:', error)
+    }
+  }
+  // Gọi fetch khi component mount
+  useEffect(() => {
+    fetchApartments()
+  }, [])
+
   const handleCallAPI = async (formData: FormData) => {
     try {
       setLoading(true)
@@ -133,7 +155,7 @@ export default function AddUser() {
       console.error('API call failed:', error)
       if (error instanceof AxiosError && error.response) {
         if (error.response.status === 409 || error.response.status === 404) {
-          toast.error('Email, Phone number or Citizen ID already exists.')
+          toast.error('Email or Phone number already exists.')
         } else {
           toast.error('An error occurred while creating the account.')
         }
@@ -151,13 +173,12 @@ export default function AddUser() {
   // Xử lý submit form
   const onSubmit = handleSubmit((formData) => {
     handleCallAPI(formData)
-    console.log('Form Data:', formData)
   })
 
   return (
-    <div className='pt-5 mx-5 z-13'>
+    <div className='pt-5 mx-5 z-13' style={{ height: 'calc(100vh - 80px)' }}>
       <ToastContainer />
-      <div className='mb-6 p-6 bg-white drop-shadow-md rounded-xl'>
+      <div className='px-6 pt-6 pb-3 bg-white drop-shadow-md rounded-xl'>
         {loading && <LoadingOverlay value={progress} />}
         <h2 className='text-xl mb-4 text-black font-semibold'>Account Information</h2>
         <form className='rounded' noValidate onSubmit={onSubmit}>
@@ -251,18 +272,28 @@ export default function AddUser() {
                 Apartment
                 <span className='text-red-600 ml-1'>*</span>
               </label>
-              <Input
-                name='apartmentNumber'
-                type='apartmentNumber'
-                register={register}
-                className='mt-1'
-                errorMessage={errors.apartmentNumber?.message}
-              />
+              <select
+                {...register('apartmentNumber')}
+                defaultValue=''
+                className='mt-1 w-full h-11 pl-2 cursor-pointer  outline-none border border-gray-300 focus:border-gray-500 rounded-sm focus:shadow-sm'
+                onChange={(e) => {
+                  setValue('apartmentNumber', e.target.value)
+                  clearErrors('apartmentNumber')
+                }}
+              >
+                <option value='' disabled hidden></option>
+                {apartments.map((apt) => (
+                  <option key={apt.id} value={apt.apartmentNumber}>
+                    {apt.apartmentNumber}
+                  </option>
+                ))}
+              </select>
+              <div className='mt-1 text-xs text-red-500 min-h-4'>{errors.apartmentNumber?.message}</div>
             </div>
           </div>
 
           <div className='mt-3'>
-            <h3 className='text-lg mb-4 font-semibold'>Citizen Identity Card</h3>
+            <h3 className='text-lg mb-3 font-semibold'>Citizen Identity Card</h3>
             <div className='flex justify-between'>
               <div className='w-[30%]'>
                 <div className=''>
@@ -369,7 +400,7 @@ export default function AddUser() {
               </div>
             </div>
           </div>
-          <div className='flex justify-end gap-4 mt-3'>
+          <div className='flex justify-end gap-4'>
             <Button
               variant='contained'
               style={{ color: 'white', background: 'red', fontWeight: 'semi-bold' }}

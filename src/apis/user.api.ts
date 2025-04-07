@@ -1,6 +1,4 @@
 import http from '~/utils/http'
-import { AxiosError } from 'axios'
-import { toast } from 'react-toastify'
 
 export const searchUser = (search: string) => {
   return http.get(`/api/User/get-all-users?search=${search}`)

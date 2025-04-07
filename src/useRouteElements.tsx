@@ -4,7 +4,6 @@ import DashboardLayout from './layouts/DashboardAdminLayout'
 import Dashboard from './pages/Admin/Dashboard'
 import AddUser from './pages/Admin/User/AddUser'
 import ListUser from './pages/Admin/User/ListUser'
-import ManageIncident from './pages/SupportTeam/ManageIncident'
 import { useContext } from 'react'
 import { AppContext } from './contexts/app.context'
 import { Outlet, useRoutes, Navigate } from 'react-router-dom'
@@ -24,6 +23,8 @@ import AddApartment from './pages/Admin/Apartment/AddAparment'
 import ListApartment from './pages/Admin/Apartment/ListApartment'
 import AddNotification from './pages/Admin/Notification/AddNotification'
 import HistoryNotification from './pages/Admin/Notification/HistoryNotification'
+import ListResident from './pages/Manager/Resident/ListResident'
+import DetailResident from './pages/Manager/Resident/Detail'
 
 // function ProtectedRoute() {
 //   const { isAuthenticated } = useContext(AppContext) // Lấy từ context
@@ -32,164 +33,201 @@ import HistoryNotification from './pages/Admin/Notification/HistoryNotification'
 //   return isAuthenticated ? <Outlet /> : <Navigate to='/login' />
 // }
 
+// function ProtectedRoute() {
+//   const { isAuthenticated } = useContext(AppContext)
+//   // Kiểm tra cả từ localStorage
+//   const token = localStorage.getItem('token')
+//   const isUserAuthenticated = isAuthenticated || Boolean(token)
+//   return isUserAuthenticated ? <Outlet /> : <Navigate to='/login' replace />
+// }
+
+// function RejectedRouted() {
+//   const { isAuthenticated } = useContext(AppContext)
+//   return !isAuthenticated ? <Outlet /> : <Navigate to='/' />
+// }
+
 function ProtectedRoute() {
-  const { isAuthenticated } = useContext(AppContext)
-  // Kiểm tra cả từ localStorage
+  const { isAuthenticated, userRole } = useContext(AppContext)
   const token = localStorage.getItem('token')
+  const role = localStorage.getItem('role') || userRole
+
   const isUserAuthenticated = isAuthenticated || Boolean(token)
+  if (!isUserAuthenticated) return <Navigate to='/login' replace />
+  if (!role) return <Navigate to='/login' replace />
   return isUserAuthenticated ? <Outlet /> : <Navigate to='/login' replace />
 }
 
-function RejectedRouted() {
+function RejectedRoute() {
   const { isAuthenticated } = useContext(AppContext)
   return !isAuthenticated ? <Outlet /> : <Navigate to='/' />
 }
-
 export default function useRouteElements() {
+  const { userRole } = useContext(AppContext)
+
   const routeElements = useRoutes([
-    {
-      path: '/login',
-      index: true,
-      element: <Login />
-    },
+    // Public / Login routes
     {
       path: '',
-      element: <RejectedRouted />,
+      element: <RejectedRoute />,
       children: [
-        {
-          path: '/login',
-          element: <Login />
-        },
-        {
-          path: '/forgot-password',
-          element: <ForgotPassword />
-        },
-        {
-          path: '/verify-otp',
-          element: <VerifyOTP />
-        },
-        {
-          path: '/reset-password',
-          element: <ResetPassword />
-        }
+        { path: '/login', element: <Login /> },
+        { path: '/forgot-password', element: <ForgotPassword /> },
+        { path: '/verify-otp', element: <VerifyOTP /> },
+        { path: '/reset-password', element: <ResetPassword /> }
       ]
     },
+
+    // Protected routes
     {
       path: '',
       element: <ProtectedRoute />,
       children: [
-        {
-          path: '/admin/dashboard',
-          element: (
-            <DashboardLayout>
-              <Dashboard />
-            </DashboardLayout>
-          )
-        },
-        {
-          path: '/admin/add-user',
-          element: (
-            <DashboardLayout>
-              <AddUser />
-            </DashboardLayout>
-          )
-        },
-        {
-          path: '/admin/list-user',
-          element: (
-            <DashboardLayout>
-              <ListUser />
-            </DashboardLayout>
-          )
-        },
-        {
-          path: '/admin/edit-user',
-          element: (
-            <DashboardLayout>
-              <EditUser />
-            </DashboardLayout>
-          )
-        },
-        {
-          path: '/admin/setting-fee-electricity',
-          element: (
-            <DashboardLayout>
-              <Electricity />
-            </DashboardLayout>
-          )
-        },
-        {
-          path: '/admin/setting-fee-water',
-          element: (
-            <DashboardLayout>
-              <Water />
-            </DashboardLayout>
-          )
-        },
-        {
-          path: '/admin/setting-fee-parking',
-          element: (
-            <DashboardLayout>
-              <Parking />
-            </DashboardLayout>
-          )
-        },
-        {
-          path: '/admin/list-service',
-          element: (
-            <DashboardLayout>
-              <ListService />
-            </DashboardLayout>
-          )
-        },
-        {
-          path: '/admin/add-service',
-          element: (
-            <DashboardLayout>
-              <AddService />
-            </DashboardLayout>
-          )
-        },
-        {
-          path: '/admin/edit-service',
-          element: (
-            <DashboardLayout>
-              <EditService />
-            </DashboardLayout>
-          )
-        },
-        {
-          path: '/admin/history-notification',
-          element: (
-            <DashboardLayout>
-              <HistoryNotification />
-            </DashboardLayout>
-          )
-        },
-        {
-          path: '/admin/add-notification',
-          element: (
-            <DashboardLayout>
-              <AddNotification />
-            </DashboardLayout>
-          )
-        },
-        {
-          path: '/admin/add-apartment',
-          element: (
-            <DashboardLayout>
-              <AddApartment />
-            </DashboardLayout>
-          )
-        },
-        {
-          path: '/admin/list-apartment',
-          element: (
-            <DashboardLayout>
-              <ListApartment />
-            </DashboardLayout>
-          )
-        },
+        ...(userRole === 'admin'
+          ? [
+              {
+                path: '/admin/dashboard',
+                element: (
+                  <DashboardLayout>
+                    <Dashboard />
+                  </DashboardLayout>
+                )
+              },
+              {
+                path: '/admin/add-user',
+                element: (
+                  <DashboardLayout>
+                    <AddUser />
+                  </DashboardLayout>
+                )
+              },
+              {
+                path: '/admin/list-user',
+                element: (
+                  <DashboardLayout>
+                    <ListUser />
+                  </DashboardLayout>
+                )
+              },
+              {
+                path: '/admin/edit-user',
+                element: (
+                  <DashboardLayout>
+                    <EditUser />
+                  </DashboardLayout>
+                )
+              },
+              {
+                path: '/admin/setting-fee-electricity',
+                element: (
+                  <DashboardLayout>
+                    <Electricity />
+                  </DashboardLayout>
+                )
+              },
+              {
+                path: '/admin/setting-fee-water',
+                element: (
+                  <DashboardLayout>
+                    <Water />
+                  </DashboardLayout>
+                )
+              },
+              {
+                path: '/admin/setting-fee-parking',
+                element: (
+                  <DashboardLayout>
+                    <Parking />
+                  </DashboardLayout>
+                )
+              },
+              {
+                path: '/admin/list-service',
+                element: (
+                  <DashboardLayout>
+                    <ListService />
+                  </DashboardLayout>
+                )
+              },
+              {
+                path: '/admin/add-service',
+                element: (
+                  <DashboardLayout>
+                    <AddService />
+                  </DashboardLayout>
+                )
+              },
+              {
+                path: '/admin/edit-service',
+                element: (
+                  <DashboardLayout>
+                    <EditService />
+                  </DashboardLayout>
+                )
+              },
+              {
+                path: '/admin/history-notification',
+                element: (
+                  <DashboardLayout>
+                    <HistoryNotification />
+                  </DashboardLayout>
+                )
+              },
+              {
+                path: '/admin/add-notification',
+                element: (
+                  <DashboardLayout>
+                    <AddNotification />
+                  </DashboardLayout>
+                )
+              },
+              {
+                path: '/admin/add-apartment',
+                element: (
+                  <DashboardLayout>
+                    <AddApartment />
+                  </DashboardLayout>
+                )
+              },
+              {
+                path: '/admin/list-apartment',
+                element: (
+                  <DashboardLayout>
+                    <ListApartment />
+                  </DashboardLayout>
+                )
+              }
+            ]
+          : []),
+        ...(userRole === 'manager'
+          ? [
+              {
+                path: '/manager/dashboard',
+                element: (
+                  <DashboardLayout>
+                    <Dashboard />
+                  </DashboardLayout>
+                )
+              },
+              {
+                path: '/manager/list-resident',
+                element: (
+                  <DashboardLayout>
+                    <ListResident />
+                  </DashboardLayout>
+                )
+              },
+              {
+                path: '/manager/detail-resident',
+                element: (
+                  <DashboardLayout>
+                    <DetailResident />
+                  </DashboardLayout>
+                )
+              }
+            ]
+          : []),
+
+        // Common route for all roles
         {
           path: '/profile',
           element: (
@@ -207,16 +245,8 @@ export default function useRouteElements() {
           )
         }
       ]
-    },
-
-    {
-      path: '/support-team/manage-incident',
-      element: (
-        <DashboardLayout>
-          <ManageIncident />
-        </DashboardLayout>
-      )
     }
   ])
+
   return routeElements
 }

@@ -1,7 +1,13 @@
 import axios, { AxiosError, type AxiosInstance } from 'axios'
 import HttpStatusCode from '~/constants/httpStatusCode.enum'
 import { AuthRespone } from '~/types/auth.type'
-import { clearAccessTokenToLocalStorage, getAccessTokenFromLocalStorage, saveAccessTokenToLocalStorage } from './auth'
+import {
+  clearAccessTokenToLocalStorage,
+  getAccessTokenFromLocalStorage,
+  saveAccessTokenToLocalStorage,
+  saveUserRoleToLocalStorage,
+  clearUserRoleFromLocalStorage
+} from './auth'
 
 class Http {
   instance: AxiosInstance
@@ -32,11 +38,16 @@ class Http {
       (response) => {
         const { url } = response.config
         if (url === '/api/Auth/login') {
-          this.accessToken = (response as AuthRespone).data.token
-          saveAccessTokenToLocalStorage(this.accessToken)
+          const responseData = response as AuthRespone
+          const token = responseData.data.token
+          const role = responseData.data.role
+          this.accessToken = token
+          saveAccessTokenToLocalStorage(token)
+          saveUserRoleToLocalStorage(role)
         } else if (url === '/logout') {
           this.accessToken = ''
           clearAccessTokenToLocalStorage()
+          clearUserRoleFromLocalStorage()
         }
         console.log('Response data:', response.data)
         return response

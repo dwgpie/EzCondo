@@ -1,6 +1,4 @@
 import http from '~/utils/http'
-import { AxiosError } from 'axios'
-import { toast } from 'react-toastify'
 
 export const getHouseholdMember = (apartmentNumber: string) => {
   return http.get(`/api/HouseHoldMember/get-house-hold-member-by-apartment-number?apartmentNumber=${apartmentNumber}`)

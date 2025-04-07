@@ -114,6 +114,7 @@ export default function EditUser() {
     if (userId) {
       getUserMutation.mutate(userId)
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [userId])
 
   const onSubmit = handleSubmit((formData) => {
@@ -220,10 +221,7 @@ export default function EditUser() {
                 />
               </div>
               <div className=''>
-                <label className='block text-sm font-semibold'>
-                  Apartment
-                  <span className='text-red-600 ml-1'>*</span>
-                </label>
+                <label className='block text-sm font-semibold'>Apartment</label>
                 <InputEdit
                   name='apartmentNumber'
                   type='text'
@@ -231,6 +229,7 @@ export default function EditUser() {
                   errorMessage={errors.apartmentNumber?.message}
                   defaultValue={user.apartmentNumber}
                   register={register}
+                  isEditable={false}
                 />
               </div>
             </div>
