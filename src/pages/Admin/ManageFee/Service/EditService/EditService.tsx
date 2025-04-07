@@ -8,8 +8,9 @@ import { useRef } from 'react'
 import CloudUploadIcon from '@mui/icons-material/CloudUpload'
 import { ToastContainer, toast } from 'react-toastify'
 import { Button, Checkbox, TextField } from '@mui/material'
-import { Link, useNavigate } from 'react-router-dom'
+import { Link } from 'react-router-dom'
 import InputEdit from '~/components/InputEdit'
+import LoadingOverlay from '~/components/LoadingOverlay'
 
 interface formData {
   id?: string
@@ -36,10 +37,12 @@ export default function EditService() {
     resolver: yupResolver(serviceSchema)
   })
 
-  const [images, setImages] = useState<string[]>([]) // Lưu trữ URL của ảnh
+  const [, setImages] = useState<string[]>([]) // Lưu trữ URL của ảnh
   const [files, setFiles] = useState<File[]>([]) // Lưu trữ danh sách file ảnh
   const fileInputRef = useRef<HTMLInputElement | null>(null)
   const [service, setService] = useState<formData | null>(null)
+  const [loading, setLoading] = useState(false)
+  const [progress, setProgress] = useState(0)
 
   const handleDeleteImage = (index: number) => {
     // Remove image URL and file at the specified index
@@ -128,10 +131,24 @@ export default function EditService() {
     if (serviceId) {
       getServiceMutation.mutate(serviceId)
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [serviceId])
 
   const onSubmit = handleSubmit(async (formData) => {
     try {
+      setLoading(true)
+      setProgress(0)
+
+      const Progress = setInterval(() => {
+        setProgress((prev) => {
+          if (prev >= 90) {
+            clearInterval(Progress)
+            return prev
+          }
+          return prev + 10
+        })
+      }, 300)
+
       await editService({
         id: serviceId ?? '',
         status: formData.status,
@@ -150,8 +167,14 @@ export default function EditService() {
       toast.success('Service updated successfully!')
       setImages([])
       setFiles([])
+      window.location.href = '/admin/list-service'
     } catch (error) {
       console.error('API call failed:', error)
+    } finally {
+      setProgress(100)
+      setTimeout(() => {
+        setLoading(false)
+      }, 500)
     }
   })
 
@@ -159,6 +182,7 @@ export default function EditService() {
     <div style={{ height: 'calc(100vh - 80px)' }} className='pt-5 ml-5 mr-5 z-13 h-screen'>
       <ToastContainer />
       <div className='mb-6 p-6 bg-white drop-shadow-md rounded-xl'>
+        {loading && <LoadingOverlay value={progress} />}
         {service ? (
           <form className='rounded' noValidate onSubmit={onSubmit}>
             <div className='grid grid-cols-2 gap-4'>
@@ -214,7 +238,7 @@ export default function EditService() {
                         <span className='text-red-600 ml-1'>*</span>
                       </label>
                     </div>
-                    <div className='flex items-center justify-center mt-2'>
+                    <div className='flex items-center mt-2'>
                       <Checkbox
                         {...register('typeOfMonth')}
                         checked={watch('typeOfMonth', service.typeOfMonth)}
@@ -315,11 +339,7 @@ export default function EditService() {
             </div>
             <div className='flex justify-end gap-4 mt-3'>
               <Link to='/admin/list-service'>
-                <Button
-                  variant='contained'
-                  style={{ color: 'white', background: 'red', fontWeight: 'semi-bold' }}
-                  // onClick={() => navigate(-1)}
-                >
+                <Button variant='contained' style={{ color: 'white', background: 'red', fontWeight: 'semi-bold' }}>
                   Cancel
                 </Button>
               </Link>
@@ -333,7 +353,7 @@ export default function EditService() {
             </div>
           </form>
         ) : (
-          <p>Đang tải dữ liệu...</p>
+          <p>Loading data...</p>
         )}
       </div>
     </div>

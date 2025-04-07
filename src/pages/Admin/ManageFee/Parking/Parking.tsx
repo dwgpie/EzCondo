@@ -113,95 +113,96 @@ export default function Parking() {
   }
 
   return (
-    <div className='pt-5 mx-5 z-13'>
+    <div className='pt-5 mx-5 z-13' style={{ height: 'calc(100vh - 80px)' }}>
       <ToastContainer />
-      <div className='mb-6 p-6 bg-white drop-shadow-md rounded-xl'>
+      <div className='px-6 pt-6 pb-6 bg-white drop-shadow-md rounded-xl'>
         <form className='rounded' noValidate onSubmit={onSubmit}>
           <div className=''>
             <Typography variant='h5'>Motorbike</Typography>
-            <div className='w-full mt-10 px-10'>
-              <Slider
-                value={pricePerMotor}
-                onChange={handleSliderChangeMotor}
-                valueLabelDisplay='on'
-                valueLabelFormat={(value) => `${value} VND`}
-                min={0}
-                max={500000}
-                step={10000}
-                marks={[
-                  { value: 0, label: '0' },
-                  { value: 100000, label: '100K' },
-                  { value: 200000, label: '200K' },
-                  { value: 300000, label: '300K' },
-                  { value: 400000, label: '400K' },
-                  { value: 500000, label: '500K' }
-                ]}
-                sx={{
-                  '& .MuiSlider-valueLabel': {
-                    backgroundColor: 'transparent',
-                    color: '#1976d2',
-                    fontWeight: 'bold'
-                  }
-                }}
-              />
-              <div className='flex justify-between gap-2.5 mt-3'>
-                <div>
-                  <label className='block text-sm font-semibold mb-1'>
-                    Price Per Motor
-                    <span className='text-red-600 ml-1'>*</span>
-                  </label>
-                  <TextField
-                    type='number'
-                    {...register('pricePerMotor')}
-                    onChange={(e) => setValue('pricePerMotor', Number(e.target.value))}
-                  />
-                </div>
+            <div className=' mt-10 px-10 flex gap-4'>
+              <div className='w-full'>
+                <Slider
+                  value={pricePerMotor}
+                  onChange={handleSliderChangeMotor}
+                  valueLabelDisplay='on'
+                  valueLabelFormat={(value) => `${value} VND`}
+                  min={0}
+                  max={500000}
+                  step={10000}
+                  marks={[
+                    { value: 0, label: '0' },
+                    { value: 100000, label: '100K' },
+                    { value: 200000, label: '200K' },
+                    { value: 300000, label: '300K' },
+                    { value: 400000, label: '400K' },
+                    { value: 500000, label: '500K' }
+                  ]}
+                  sx={{
+                    '& .MuiSlider-valueLabel': {
+                      backgroundColor: 'transparent',
+                      color: '#1976d2',
+                      fontWeight: 'bold'
+                    }
+                  }}
+                />
+              </div>
+              <div className='ml-5 mt-[-30px]'>
+                <label className='block text-sm font-semibold mb-1'>
+                  Price Per Motor
+                  <span className='text-red-600 ml-1'>*</span>
+                </label>
+                <TextField
+                  type='number'
+                  {...register('pricePerMotor')}
+                  onChange={(e) => setValue('pricePerMotor', Number(e.target.value))}
+                />
               </div>
             </div>
           </div>
-          <div className='mt-10'>
+          <div className='mt-8'>
             <Typography variant='h5'>Car</Typography>
-            <div className='w-full mt-10 px-10'>
-              <Slider
-                value={pricePerOto}
-                onChange={handleSliderChangeOto}
-                valueLabelDisplay='on'
-                valueLabelFormat={(value) => `${value} VND`}
-                min={0}
-                max={500000}
-                step={10000}
-                marks={[
-                  { value: 0, label: '0' },
-                  { value: 100000, label: '100K' },
-                  { value: 200000, label: '200K' },
-                  { value: 300000, label: '300K' },
-                  { value: 400000, label: '400K' },
-                  { value: 500000, label: '500K' }
-                ]}
-                sx={{
-                  '& .MuiSlider-valueLabel': {
-                    backgroundColor: 'transparent',
-                    color: '#1976d2',
-                    fontWeight: 'bold'
-                  }
-                }}
-              />
-              <div className='flex justify-between gap-2.5 mt-3'>
-                <div>
-                  <label className='block text-sm font-semibold mb-1'>
-                    Price Per Car
-                    <span className='text-red-600 ml-1'>*</span>
-                  </label>
-                  <TextField
-                    type='number'
-                    {...register('pricePerOto')}
-                    onChange={(e) => setValue('pricePerOto', Number(e.target.value))}
-                  />
-                </div>
+            <div className=' mt-10 px-10 flex gap-4'>
+              <div className='w-full'>
+                <Slider
+                  value={pricePerOto}
+                  onChange={handleSliderChangeOto}
+                  valueLabelDisplay='on'
+                  valueLabelFormat={(value) => `${value} VND`}
+                  min={0}
+                  max={500000}
+                  step={10000}
+                  marks={[
+                    { value: 0, label: '0' },
+                    { value: 100000, label: '100K' },
+                    { value: 200000, label: '200K' },
+                    { value: 300000, label: '300K' },
+                    { value: 400000, label: '400K' },
+                    { value: 500000, label: '500K' }
+                  ]}
+                  sx={{
+                    '& .MuiSlider-valueLabel': {
+                      backgroundColor: 'transparent',
+                      color: '#1976d2',
+                      fontWeight: 'bold'
+                    }
+                  }}
+                />
+              </div>
+
+              <div className='ml-5 mt-[-30px]'>
+                <label className='block text-sm font-semibold mb-1'>
+                  Price Per Car
+                  <span className='text-red-600 ml-1'>*</span>
+                </label>
+                <TextField
+                  type='number'
+                  {...register('pricePerOto')}
+                  onChange={(e) => setValue('pricePerOto', Number(e.target.value))}
+                />
               </div>
             </div>
           </div>
-          <div className='flex justify-end gap-4 mt-3'>
+          <div className='flex justify-end gap-4 mt-10'>
             <Button
               type='submit'
               variant='contained'
@@ -210,11 +211,10 @@ export default function Parking() {
               Submit
             </Button>
           </div>
-
           <Typography variant='h5'>Parking Price</Typography>
           {parking ? (
             <div className='flex gap-9 mt-3 items-center'>
-              <div className=''>
+              <div className='mt-2'>
                 <label className='block text-sm font-semibold mb-1'>
                   Price Per Motorbike
                   <span className='text-red-600 ml-1'>*</span>
@@ -225,7 +225,7 @@ export default function Parking() {
                   value={parking?.pricePerMotor ?? ''} // Nếu `undefined` hoặc `null`, đặt về ""
                 />
               </div>
-              <div className=''>
+              <div className='mt-2'>
                 <label className='block text-sm font-semibold mb-1'>
                   Price Per Car
                   <span className='text-red-600 ml-1'>*</span>

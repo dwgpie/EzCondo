@@ -97,7 +97,7 @@ export default function HistoryNotification() {
   }
 
   return (
-    <div className='pt-5 mx-5 z-13'>
+    <div className='pt-5 mx-5 z-13' style={{ height: 'calc(100vh - 80px)' }}>
       <div className='mb-6 p-6 bg-white drop-shadow-md rounded-xl'>
         <div className='mt-2 mb-4 flex gap-4 justify-end'>
           <div>
@@ -149,8 +149,30 @@ export default function HistoryNotification() {
                       <StyledTableCell sx={{ color: 'black', fontWeight: '600' }}>
                         {(page - 1) * pageSize + index + 1}
                       </StyledTableCell>
-                      <StyledTableCell sx={{ color: 'black', fontWeight: '600' }}>{notify.title}</StyledTableCell>
-                      <StyledTableCell sx={{ textAlign: 'justify' }}>{notify.content}</StyledTableCell>
+                      <StyledTableCell
+                        sx={{
+                          color: 'black',
+                          fontWeight: '600',
+                          textAlign: 'justify',
+                          maxWidth: 50,
+                          whiteSpace: 'nowrap',
+                          overflow: 'hidden',
+                          textOverflow: 'ellipsis'
+                        }}
+                      >
+                        {notify.title}
+                      </StyledTableCell>
+                      <StyledTableCell
+                        sx={{
+                          textAlign: 'justify',
+                          maxWidth: 50,
+                          whiteSpace: 'nowrap',
+                          overflow: 'hidden',
+                          textOverflow: 'ellipsis'
+                        }}
+                      >
+                        {notify.content}
+                      </StyledTableCell>
                       <StyledTableCell>
                         {new Intl.DateTimeFormat('vi-VN').format(new Date(notify.createdAt))}
                       </StyledTableCell>
@@ -194,7 +216,16 @@ export default function HistoryNotification() {
             </div>
             <div className='flex flex-col gap-4 mt-3'>
               <label className='block text-sm font-semibold'>Title</label>
-              <TextField type='text' sx={{ marginTop: '-13px' }} value={notify?.title} disabled fullWidth />
+              <TextField
+                type='text'
+                sx={{ marginTop: '-13px' }}
+                value={notify?.title}
+                disabled
+                fullWidth
+                multiline
+                minRows={2}
+                maxRows={8}
+              />
             </div>
             <div className='flex flex-col gap-4 mt-3'>
               <label className='block text-sm font-semibold'>Content</label>

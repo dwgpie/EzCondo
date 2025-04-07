@@ -13,10 +13,10 @@ import InputEdit from '~/components/InputEdit'
 import Button from '@mui/material/Button'
 import DeleteIcon from '@mui/icons-material/Delete'
 
-import { getHouseholdMember, addOrUpdateMember, deleteMember } from '~/apis/HouseholdMember.api'
 import { getUserById } from '~/apis/user.api'
 
 import Swal from 'sweetalert2'
+import { addOrUpdateMember, deleteMember, getHouseholdMember } from '~/apis/householdMember.api'
 
 interface User {
   id: string

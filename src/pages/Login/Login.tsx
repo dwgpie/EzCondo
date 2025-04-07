@@ -5,15 +5,12 @@ import { yupResolver } from '@hookform/resolvers/yup'
 import { loginSchema, LoginSchema } from '~/utils/rules'
 import { useMutation } from '@tanstack/react-query'
 import { login } from '~/apis/auth.api'
-import { ErrorRespone } from '~/types/utils.type'
-import { isAxiosUnprocessableEntityError } from '~/utils/utils'
 import Button from '@mui/material/Button'
 import Visibility from '@mui/icons-material/Visibility'
 import VisibilityOff from '@mui/icons-material/VisibilityOff'
-import { useContext, useState } from 'react'
+import { useState } from 'react'
 import InputAdornment from '@mui/material/InputAdornment'
 import IconButton from '@mui/material/IconButton'
-import { AppContext } from '~/contexts/app.context'
 
 type FormData = LoginSchema
 
@@ -21,12 +18,10 @@ type FormData = LoginSchema
 //   "password": "Roguemice2002@"
 
 export default function Login() {
-  const { setIsAuthenticated } = useContext(AppContext)
   const navigate = useNavigate()
   const {
     register,
     handleSubmit,
-    setError,
     formState: { errors }
   } = useForm<FormData>({
     resolver: yupResolver(loginSchema)
@@ -38,21 +33,19 @@ export default function Login() {
 
   const onSubmit = handleSubmit((data) => {
     loginMutation.mutate(data, {
-      onSuccess: () => {
-        setIsAuthenticated(true)
-        navigate('/admin/dashboard')
-      },
-      onError: (error) => {
-        if (isAxiosUnprocessableEntityError<ErrorRespone<FormData>>(error)) {
-          const formError = error.response?.data.data
-          if (formError) {
-            Object.keys(formError).forEach((key) => {
-              setError(key as keyof FormData, {
-                message: formError[key as keyof typeof formError],
-                type: 'Server'
-              })
-            })
-          }
+      onSuccess: (data) => {
+        const token = data.data.token
+        const role = data.data.role
+
+        localStorage.setItem('token', token)
+        localStorage.setItem('role', role)
+
+        if (role === 'admin') {
+          window.location.href = '/admin/dashboard'
+        } else if (role === 'manager') {
+          window.location.href = '/manager/list-resident'
+        } else {
+          navigate('/')
         }
       }
     })

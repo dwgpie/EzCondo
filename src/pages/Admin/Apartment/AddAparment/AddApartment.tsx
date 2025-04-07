@@ -77,7 +77,7 @@ export default function AddApartment() {
   })
 
   return (
-    <div className='pt-5 mx-5 z-13'>
+    <div className='pt-5 mx-5 z-13' style={{ height: 'calc(100vh - 80px)' }}>
       <ToastContainer />
       <div className='mb-6 p-6 bg-white drop-shadow-md rounded-xl'>
         {loading && <LoadingOverlay value={progress} />}

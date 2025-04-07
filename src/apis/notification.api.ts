@@ -1,6 +1,4 @@
 import http from '~/utils/http'
-import { AxiosError } from 'axios'
-import { toast } from 'react-toastify'
 
 export const addNotification = (body: { title: string; content: string; receiver: string; type: string }) =>
   http.post('/api/Notification/create-notification', body)

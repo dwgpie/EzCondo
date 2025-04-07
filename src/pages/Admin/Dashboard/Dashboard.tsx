@@ -15,7 +15,7 @@ const chartSetting = {
 
 export default function Dashboard() {
   return (
-    <div className=''>
+    <div className='' style={{ height: 'calc(100vh - 80px)' }}>
       <div className='flex justify-between p-[20px] '>
         {['Today Sell Amount', 'Today Income', 'Today Due', 'Expense Amount'].map((title, index) => (
           <div

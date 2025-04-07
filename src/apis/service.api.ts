@@ -55,10 +55,43 @@ export const getImageById = (serviceId: string) => http.get(`/api/Services/get-s
 export const addElectric = (body: { minKWh: number; maxKWh: number; pricePerKWh: number }) =>
   http.post('/api/SettingFee/add-or-update-electric-price', body)
 
-export const addWater = (body: { pricePerM3: number }) => http.post('/api/SettingFee/add-water-price', body)
+export const addWater = async (body: { pricePerM3: number }) => {
+  try {
+    const response = await http.post('/api/SettingFee/add-water-price', body)
+    return response
+  } catch (error: unknown) {
+    if (error instanceof AxiosError && error.response) {
+      if (error.response.status === 409) {
+        toast.error('Water price can only be set once')
+        throw new Error('Parking price can only be set once')
+      }
+      toast.error('Something went wrong. Please try again!')
+      throw new Error(error.response.data?.message || 'Something went wrong')
+    }
 
-export const addParking = (body: { pricePerMotor: number; pricePerOto: number }) =>
-  http.post('/api/SettingFee/add-parking-price', body)
+    toast.error('Unexpected error. Please try again later!')
+    throw new Error('Unexpected error')
+  }
+}
+
+export const addParking = async (body: { pricePerMotor: number; pricePerOto: number }) => {
+  try {
+    const response = await http.post('/api/SettingFee/add-parking-price', body)
+    return response
+  } catch (error: unknown) {
+    if (error instanceof AxiosError && error.response) {
+      if (error.response.status === 409) {
+        toast.error('Parking price can only be set once')
+        throw new Error('Parking price can only be set once')
+      }
+      toast.error('Something went wrong. Please try again!')
+      throw new Error(error.response.data?.message || 'Something went wrong')
+    }
+
+    toast.error('Unexpected error. Please try again later!')
+    throw new Error('Unexpected error')
+  }
+}
 
 export const getElectric = () => {
   return http.get('/api/SettingFee/get-electric-price')

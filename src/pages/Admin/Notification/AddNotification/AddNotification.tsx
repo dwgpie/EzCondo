@@ -127,7 +127,7 @@ export default function AddNotification() {
   })
 
   return (
-    <div className='pt-5 mx-5 z-13'>
+    <div className='pt-5 mx-5 z-13' style={{ height: 'calc(100vh - 80px)' }}>
       <ToastContainer />
       <div className='mb-6 p-6 bg-white drop-shadow-md rounded-xl'>
         {loading && <LoadingOverlay value={progress} />}
@@ -163,7 +163,7 @@ export default function AddNotification() {
                   </Select>
                 </div>
               </div>
-              <div className=''>
+              <div className='mb-3'>
                 <label className='block text-sm font-semibold'>
                   Title
                   <span className='text-red-600 ml-1'>*</span>
