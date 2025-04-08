@@ -1,6 +1,7 @@
 import Login from './pages/Login'
 // import LandingPage from './pages/LandingPage'
 import DashboardLayout from './layouts/DashboardAdminLayout'
+import DashboardManagerLayout from './layouts/DashboardManagerLayout'
 import Dashboard from './pages/Admin/Dashboard'
 import AddUser from './pages/Admin/User/AddUser'
 import ListUser from './pages/Admin/User/ListUser'
@@ -203,25 +204,25 @@ export default function useRouteElements() {
               {
                 path: '/manager/dashboard',
                 element: (
-                  <DashboardLayout>
+                  <DashboardManagerLayout>
                     <Dashboard />
-                  </DashboardLayout>
+                  </DashboardManagerLayout>
                 )
               },
               {
                 path: '/manager/list-resident',
                 element: (
-                  <DashboardLayout>
+                  <DashboardManagerLayout>
                     <ListResident />
-                  </DashboardLayout>
+                  </DashboardManagerLayout>
                 )
               },
               {
                 path: '/manager/detail-resident',
                 element: (
-                  <DashboardLayout>
+                  <DashboardManagerLayout>
                     <DetailResident />
-                  </DashboardLayout>
+                  </DashboardManagerLayout>
                 )
               }
             ]
