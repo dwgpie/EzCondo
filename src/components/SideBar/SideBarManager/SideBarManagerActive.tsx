@@ -23,14 +23,15 @@ export default function SideBarManagerActive() {
   const location = useLocation()
   const path = location.pathname
 
-  const DashboardPath = '/admin/dashboard'
-  const ListUserPath = '/admin/list-user'
-  const AddUserPath = '/admin/add-user'
+  const DashboardPath = '/manager/dashboard'
+  const ListUserPath = '/manager/list-resident'
   const ListServicePath = '/admin/list-service'
-  const AddServicePath = '/admin/add-service'
-  const ElectricityPath = '/admin/setting-fee-electricity'
-  const WaterPath = '/admin/setting-fee-water'
-  const ParkingPath = '/admin/setting-fee-parking'
+  const ListElectricityPath = '/manager/list-electricity'
+  const ImportElectricPath = '/manager/import-electric-number'
+  const ListElectricUnpaidPath = '/manager/import-electric-unpaid'
+  const ListWaterPath = '/manager/list-water'
+  const ImportWaterPath = '/manager/import-water-number'
+  const ListWaterUnpaidPath = '/manager/import-water-unpaid'
   const HistoryNotificationPath = '/admin/history-notification'
   const AddNotificationPath = '/admin/add-notification'
   const AddApartmentPath = '/admin/add-apartment'
@@ -40,7 +41,8 @@ export default function SideBarManagerActive() {
 
   const [isOpenUser, setIsOpenUser] = useState(false)
   const [isOpenService, setIsOpenService] = useState(false)
-  const [isOpenFee, setIsOpenFee] = useState(false)
+  const [isOpenElectric, setIsOpenElectric] = useState(false)
+  const [isOpenWater, setIsOpenWater] = useState(false)
   const [isOpenNotification, setIsOpenNotification] = useState(false)
   const [isOpenApartment, setIsOpenApartment] = useState(false)
 
@@ -53,8 +55,11 @@ export default function SideBarManagerActive() {
   const handleClickService = () => {
     setIsOpenService(!isOpenService)
   }
-  const handleClickFee = () => {
-    setIsOpenFee(!isOpenFee)
+  const handleClickElectric = () => {
+    setIsOpenElectric(!isOpenElectric)
+  }
+  const handleClickWater = () => {
+    setIsOpenWater(!isOpenWater)
   }
   const handleClickNotification = () => {
     setIsOpenNotification(!isOpenNotification)
@@ -79,7 +84,7 @@ export default function SideBarManagerActive() {
           </p>
           <div className='w-[70%] h-[1px] bg-[#bdbdbd]'></div>
         </div>
-        <Link to='/admin/dashboard'>
+        <Link to='/manager/dashboard'>
           <div
             className={`flex justify-between h-[50px] pl-[10px] ml-[10px] mr-[20px] rounded-xl cursor-pointer hover:bg-[#E5F2FF] ${path === DashboardPath ? 'bg-[#E5F2FF] rounded-xl' : ''}`}
           >
@@ -101,9 +106,7 @@ export default function SideBarManagerActive() {
             className={`flex justify-between items-center h-[50px] pl-[10px] pr-[10px] ml-[10px] mr-[20px] rounded-xl cursor-pointer hover:bg-[#E5F2FF]`}
             onClick={handleClickUser}
           >
-            <div
-              className={`flex items-center gap-[10px] ${path === ListUserPath || path === AddUserPath ? 'text-[#1976d3]' : ''}`}
-            >
+            <div className={`flex items-center gap-[10px] ${path === ListUserPath ? 'text-[#1976d3]' : ''}`}>
               <PersonOutlineTwoToneIcon />
               <p className=''>User</p>
             </div>
@@ -111,24 +114,13 @@ export default function SideBarManagerActive() {
           </div>
 
           <div className={`overflow-hidden transition-all duration-300 ${isOpenUser ? 'max-h-[100px]' : 'max-h-0'}`}>
-            <Link to='/admin/list-user'>
+            <Link to='/manager/list-resident'>
               <div
                 className={`flex justify-between h-[50px] pl-[20px] ml-[10px] mr-[20px] rounded-xl cursor-pointer hover:bg-[#E5F2FF] ${path === ListUserPath ? 'bg-[#E5F2FF] rounded-xl' : ''}`}
               >
                 <div className={`flex items-center gap-[10px] ${path === ListUserPath ? 'text-[#1976d3]' : ''}`}>
                   <RecentActorsTwoToneIcon />
                   <p className='pl-4 py-2 '>List Users</p>
-                </div>
-              </div>
-            </Link>
-
-            <Link to='/admin/add-user'>
-              <div
-                className={`flex justify-between h-[50px] pl-[20px] ml-[10px] mr-[20px] rounded-xl cursor-pointer hover:bg-[#E5F2FF] ${path === AddUserPath ? 'bg-[#E5F2FF] rounded-xl' : ''}`}
-              >
-                <div className={`flex items-center gap-[10px] ${path === AddUserPath ? 'text-[#1976d3]' : ''}`}>
-                  <PersonAddAltTwoToneIcon />
-                  <p className='pl-4 py-2'>Add User</p>
                 </div>
               </div>
             </Link>
@@ -139,128 +131,112 @@ export default function SideBarManagerActive() {
             className={`flex justify-between items-center h-[50px] pl-[10px] pr-[10px] ml-[10px] mr-[20px] rounded-xl cursor-pointer hover:bg-[#E5F2FF]`}
             onClick={handleClickService}
           >
-            <div
-              className={`flex items-center gap-[10px] ${path === ListServicePath || path === AddServicePath ? 'text-[#1976d3]' : ''}`}
-            >
+            <div className={`flex items-center gap-[10px] ${path === '' ? 'text-[#1976d3]' : ''}`}>
               <FitnessCenterTwoToneIcon />
               <p className=''>Service</p>
             </div>
             {isOpenService ? <ExpandLess /> : <ExpandMore />}
           </div>
 
-          <div className={`overflow-hidden transition-all duration-300 ${isOpenService ? 'max-h-[100px]' : 'max-h-0'}`}>
-            <Link to='/admin/list-service'>
-              <div
-                className={`flex justify-between h-[50px] pl-[20px] ml-[10px] mr-[20px] rounded-xl cursor-pointer hover:bg-[#E5F2FF] ${path === ListServicePath ? 'bg-[#E5F2FF] rounded-xl' : ''}`}
-              >
-                <div className={`flex items-center gap-[10px] ${path === ListServicePath ? 'text-[#1976d3]' : ''}`}>
-                  <BlurLinearIcon />
-                  <p className='pl-4 py-2 '>List Services</p>
-                </div>
-              </div>
-            </Link>
-
-            <Link to='/admin/add-service'>
-              <div
-                className={`flex justify-between h-[50px] pl-[20px] ml-[10px] mr-[20px] rounded-xl cursor-pointer hover:bg-[#E5F2FF] ${path === AddServicePath ? 'bg-[#E5F2FF] rounded-xl' : ''}`}
-              >
-                <div className={`flex items-center gap-[10px] ${path === AddServicePath ? 'text-[#1976d3]' : ''}`}>
-                  <FitnessCenterTwoToneIcon />
-                  <p className='pl-4 py-2 '>Add Service</p>
-                </div>
-              </div>
-            </Link>
-          </div>
-
-          {/* Fees */}
+          {/* Electricity */}
           <div
             className={`flex justify-between items-center h-[50px] pl-[10px] pr-[10px] ml-[10px] mr-[20px] rounded-xl cursor-pointer hover:bg-[#E5F2FF]`}
-            onClick={handleClickFee}
+            onClick={handleClickElectric}
           >
-            <div
-              className={`flex items-center gap-[10px] ${path === ElectricityPath || path === WaterPath || path === ParkingPath ? 'text-[#1976d3]' : ''}`}
-            >
-              <PriceChangeTwoToneIcon />
-              <p className=''>Fees</p>
+            <div className={`flex items-center gap-[10px] ${path === ListElectricityPath ? 'text-[#1976d3]' : ''}`}>
+              <ElectricBoltIcon />
+              <p className=''>Electricity</p>
             </div>
-            {isOpenFee ? <ExpandLess /> : <ExpandMore />}
+            {isOpenElectric ? <ExpandLess /> : <ExpandMore />}
           </div>
 
-          <div className={`overflow-hidden transition-all duration-300 ${isOpenFee ? 'max-h-[150px]' : 'max-h-0'}`}>
-            <Link to='/admin/setting-fee-electricity'>
+          <div
+            className={`overflow-hidden transition-all duration-300 ${isOpenElectric ? 'max-h-[150px]' : 'max-h-0'}`}
+          >
+            <Link to='/manager/list-electricity'>
               <div
-                className={`flex justify-between h-[50px] pl-[20px] ml-[10px] mr-[20px] rounded-xl cursor-pointer hover:bg-[#E5F2FF] ${path === ElectricityPath ? 'bg-[#E5F2FF] rounded-xl' : ''}`}
+                className={`flex justify-between h-[50px] pl-[20px] ml-[10px] mr-[20px] rounded-xl cursor-pointer hover:bg-[#E5F2FF] ${path === ListElectricityPath ? 'bg-[#E5F2FF] rounded-xl' : ''}`}
               >
-                <div className={`flex items-center gap-[10px] ${path === ElectricityPath ? 'text-[#1976d3]' : ''}`}>
+                <div className={`flex items-center gap-[10px] ${path === ListElectricityPath ? 'text-[#1976d3]' : ''}`}>
                   <ElectricBoltIcon />
-                  <p className='pl-4 py-2 '>Fee Electricity</p>
+                  <p className='pl-4 py-2 '>List Electric</p>
                 </div>
               </div>
             </Link>
 
-            <Link to='/admin/setting-fee-water'>
+            <Link to='/manager/import-electric-unpaid'>
               <div
-                className={`flex justify-between h-[50px] pl-[20px] ml-[10px] mr-[20px] rounded-xl cursor-pointer hover:bg-[#E5F2FF] ${path === WaterPath ? 'bg-[#E5F2FF] rounded-xl' : ''}`}
+                className={`flex justify-between h-[50px] pl-[20px] ml-[10px] mr-[20px] rounded-xl cursor-pointer hover:bg-[#E5F2FF] ${path === ListElectricUnpaidPath ? 'bg-[#E5F2FF] rounded-xl' : ''}`}
               >
-                <div className={`flex items-center gap-[10px] ${path === WaterPath ? 'text-[#1976d3]' : ''}`}>
-                  <WaterDropTwoToneIcon />
-                  <p className='pl-4 py-2 '>Fee Water</p>
+                <div
+                  className={`flex items-center gap-[10px] ${path === ListElectricUnpaidPath ? 'text-[#1976d3]' : ''}`}
+                >
+                  <ElectricBoltIcon />
+                  <p className='pl-4 py-2 '>Unpaid</p>
                 </div>
               </div>
             </Link>
 
-            <Link to='/admin/setting-fee-parking'>
+            <Link to='/manager/import-electric-number'>
               <div
-                className={`flex justify-between h-[50px] pl-[20px] ml-[10px] mr-[20px] rounded-xl cursor-pointer hover:bg-[#E5F2FF] ${path === ParkingPath ? 'bg-[#E5F2FF] rounded-xl' : ''}`}
+                className={`flex justify-between h-[50px] pl-[20px] ml-[10px] mr-[20px] rounded-xl cursor-pointer hover:bg-[#E5F2FF] ${path === ImportElectricPath ? 'bg-[#E5F2FF] rounded-xl' : ''}`}
               >
-                <div className={`flex items-center gap-[10px] ${path === ParkingPath ? 'text-[#1976d3]' : ''}`}>
-                  <LocalParkingIcon />
-                  <p className='pl-4 py-2 '>Fee Parking</p>
+                <div className={`flex items-center gap-[10px] ${path === ImportElectricPath ? 'text-[#1976d3]' : ''}`}>
+                  <ElectricBoltIcon />
+                  <p className='pl-4 py-2 '>Import Number</p>
                 </div>
               </div>
             </Link>
           </div>
 
-          {/* Apartment */}
+          {/* Electricity */}
           <div
             className={`flex justify-between items-center h-[50px] pl-[10px] pr-[10px] ml-[10px] mr-[20px] rounded-xl cursor-pointer hover:bg-[#E5F2FF]`}
-            onClick={handleClickApartment}
+            onClick={handleClickWater}
           >
-            <div
-              className={`flex items-center gap-[10px] ${path === ListApartmentPath || path === AddApartmentPath ? 'text-[#1976d3]' : ''}`}
-            >
-              <ApartmentIcon />
-              <p className=''>Apartment</p>
+            <div className={`flex items-center gap-[10px] ${path === ListWaterPath ? 'text-[#1976d3]' : ''}`}>
+              <WaterDropTwoToneIcon />
+              <p className=''>Water</p>
             </div>
-            {isOpenApartment ? <ExpandLess /> : <ExpandMore />}
+            {isOpenWater ? <ExpandLess /> : <ExpandMore />}
           </div>
 
-          <div
-            className={`overflow-hidden transition-all duration-300 ${isOpenApartment ? 'max-h-[150px]' : 'max-h-0'}`}
-          >
-            <Link to='/admin/list-apartment'>
+          <div className={`overflow-hidden transition-all duration-300 ${isOpenWater ? 'max-h-[150px]' : 'max-h-0'}`}>
+            <Link to='/manager/list-water'>
               <div
-                className={`flex justify-between h-[50px] pl-[20px] ml-[10px] mr-[20px] rounded-xl cursor-pointer hover:bg-[#E5F2FF]  ${path === ListApartmentPath ? 'bg-[#E5F2FF] rounded-xl' : ''}`}
+                className={`flex justify-between h-[50px] pl-[20px] ml-[10px] mr-[20px] rounded-xl cursor-pointer hover:bg-[#E5F2FF] ${path === ListWaterPath ? 'bg-[#E5F2FF] rounded-xl' : ''}`}
               >
-                <div className={`flex items-center gap-[10px] ${path === ListApartmentPath ? 'text-[#1976d3]' : ''}`}>
-                  <BusinessIcon />
-                  <p className='pl-4 py-2 '>List Apartment</p>
+                <div className={`flex items-center gap-[10px] ${path === ListWaterPath ? 'text-[#1976d3]' : ''}`}>
+                  <WaterDropTwoToneIcon />
+                  <p className='pl-4 py-2 '>List Water</p>
                 </div>
               </div>
             </Link>
-            <Link to='/admin/add-apartment'>
+
+            <Link to='/manager/import-water-unpaid'>
               <div
-                className={`flex justify-between h-[50px] pl-[20px] ml-[10px] mr-[20px] rounded-xl cursor-pointer hover:bg-[#E5F2FF] ${path === AddApartmentPath ? 'bg-[#E5F2FF] rounded-xl' : ''}`}
+                className={`flex justify-between h-[50px] pl-[20px] ml-[10px] mr-[20px] rounded-xl cursor-pointer hover:bg-[#E5F2FF] ${path === ListWaterUnpaidPath ? 'bg-[#E5F2FF] rounded-xl' : ''}`}
               >
-                <div className={`flex items-center gap-[10px] ${path === AddApartmentPath ? 'text-[#1976d3]' : ''}`}>
-                  <DomainAddIcon />
-                  <p className='pl-4 py-2 '>Add Apartment</p>
+                <div className={`flex items-center gap-[10px] ${path === ListWaterUnpaidPath ? 'text-[#1976d3]' : ''}`}>
+                  <WaterDropTwoToneIcon />
+                  <p className='pl-4 py-2 '>Unpaid</p>
+                </div>
+              </div>
+            </Link>
+
+            <Link to='/manager/import-water-number'>
+              <div
+                className={`flex justify-between h-[50px] pl-[20px] ml-[10px] mr-[20px] rounded-xl cursor-pointer hover:bg-[#E5F2FF] ${path === ImportWaterPath ? 'bg-[#E5F2FF] rounded-xl' : ''}`}
+              >
+                <div className={`flex items-center gap-[10px] ${path === ImportWaterPath ? 'text-[#1976d3]' : ''}`}>
+                  <WaterDropTwoToneIcon />
+                  <p className='pl-4 py-2 '>Import Number</p>
                 </div>
               </div>
             </Link>
           </div>
 
-          {/* Notification */}
+          {/* Notification
           <div
             className={`flex justify-between items-center h-[50px] pl-[10px] pr-[10px] ml-[10px] mr-[20px] rounded-xl cursor-pointer hover:bg-[#E5F2FF]`}
             onClick={handleClickNotification}
@@ -299,7 +275,7 @@ export default function SideBarManagerActive() {
                 </div>
               </div>
             </Link>
-          </div>
+          </div> */}
         </div>
       </div>
     </div>

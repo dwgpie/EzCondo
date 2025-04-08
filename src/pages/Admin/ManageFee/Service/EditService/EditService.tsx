@@ -59,6 +59,7 @@ export default function EditService() {
     const newFiles = Array.from(event.target.files || []) // Lấy danh sách file
     if (newFiles.length) {
       setFiles((prev) => [...prev, ...newFiles]) // Cập nhật danh sách file
+      setValue('serviceImages', [...files, ...newFiles])
       clearErrors('serviceImages')
     }
   }
@@ -71,6 +72,7 @@ export default function EditService() {
       const imageUrls = newFiles.map((file) => URL.createObjectURL(file))
       setImages((prev) => [...prev, ...imageUrls])
       setFiles((prev) => [...prev, ...newFiles])
+      setValue('serviceImages', [...files, ...newFiles])
 
       clearErrors('serviceImages')
     }
