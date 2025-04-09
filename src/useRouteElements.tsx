@@ -26,6 +26,9 @@ import AddNotification from './pages/Admin/Notification/AddNotification'
 import HistoryNotification from './pages/Admin/Notification/HistoryNotification'
 import ListResident from './pages/Manager/Resident/ListResident'
 import DetailResident from './pages/Manager/Resident/Detail'
+import AddNotificationManager from './pages/Manager/Notification/AddNotification'
+import HistoryNotificationManager from './pages/Manager/Notification/HistoryNotification'
+import AddMember from './pages/Manager/Resident/AddMember'
 
 // function ProtectedRoute() {
 //   const { isAuthenticated } = useContext(AppContext) // Lấy từ context
@@ -222,6 +225,30 @@ export default function useRouteElements() {
                 element: (
                   <DashboardManagerLayout>
                     <DetailResident />
+                  </DashboardManagerLayout>
+                )
+              },
+              {
+                path: '/manager/add-member',
+                element: (
+                  <DashboardManagerLayout>
+                    <AddMember />
+                  </DashboardManagerLayout>
+                )
+              },
+              {
+                path: '/manager/add-notification',
+                element: (
+                  <DashboardManagerLayout>
+                    <AddNotificationManager />
+                  </DashboardManagerLayout>
+                )
+              },
+              {
+                path: '/manager/history-notification',
+                element: (
+                  <DashboardManagerLayout>
+                    <HistoryNotificationManager />
                   </DashboardManagerLayout>
                 )
               }

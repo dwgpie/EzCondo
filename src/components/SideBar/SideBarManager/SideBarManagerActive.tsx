@@ -32,8 +32,8 @@ export default function SideBarManagerActive() {
   const ListWaterPath = '/manager/list-water'
   const ImportWaterPath = '/manager/import-water-number'
   const ListWaterUnpaidPath = '/manager/import-water-unpaid'
-  const HistoryNotificationPath = '/admin/history-notification'
-  const AddNotificationPath = '/admin/add-notification'
+  const HistoryNotificationPath = '/manager/history-notification'
+  const AddNotificationPath = '/manager/add-notification'
   const AddApartmentPath = '/admin/add-apartment'
   const ListApartmentPath = '/admin/list-apartment'
 
@@ -236,7 +236,7 @@ export default function SideBarManagerActive() {
             </Link>
           </div>
 
-          {/* Notification
+           {/* Notification */}
           <div
             className={`flex justify-between items-center h-[50px] pl-[10px] pr-[10px] ml-[10px] mr-[20px] rounded-xl cursor-pointer hover:bg-[#E5F2FF]`}
             onClick={handleClickNotification}
@@ -253,7 +253,7 @@ export default function SideBarManagerActive() {
           <div
             className={`overflow-hidden transition-all duration-300 ${isOpenNotification ? 'max-h-[150px]' : 'max-h-0'}`}
           >
-            <Link to='/admin/history-notification'>
+            <Link to='/manager/history-notification'>
               <div
                 className={`flex justify-between h-[50px] pl-[20px] ml-[10px] mr-[20px] rounded-xl cursor-pointer hover:bg-[#E5F2FF]  ${path === HistoryNotificationPath ? 'bg-[#E5F2FF] rounded-xl' : ''}`}
               >
@@ -265,7 +265,7 @@ export default function SideBarManagerActive() {
                 </div>
               </div>
             </Link>
-            <Link to='/admin/add-notification'>
+            <Link to='/manager/add-notification'>
               <div
                 className={`flex justify-between h-[50px] pl-[20px] ml-[10px] mr-[20px] rounded-xl cursor-pointer hover:bg-[#E5F2FF] ${path === AddNotificationPath ? 'bg-[#E5F2FF] rounded-xl' : ''}`}
               >
@@ -275,7 +275,7 @@ export default function SideBarManagerActive() {
                 </div>
               </div>
             </Link>
-          </div> */}
+          </div> 
         </div>
       </div>
     </div>
