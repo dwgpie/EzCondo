@@ -23,3 +23,9 @@ export const filterNotification = (body: { type: string; receiver: string; day: 
     `/api/Notification/admin-or-manager-get-notifications?type=${body.type}&receiver=${body.receiver}&day=${body.day}`
   )
 }
+
+export const filterNotificationManager = (body: { type: string; day: number }) => {
+  return http.get(
+    `/api/Notification/admin-or-manager-get-notifications?type=${body.type}&receiver=resident&day=${body.day}`
+  )
+}

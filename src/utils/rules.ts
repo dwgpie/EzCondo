@@ -57,21 +57,8 @@ import * as yup from 'yup'
 // Validation có thể dùng cách này hoặc cách ở trên
 
 export const loginSchema = yup.object({
-  email: yup
-    .string()
-    .email('Invalid email format')
-    .required('Email is required')
-    .min(5, 'Length must be between 5 - 160 characters')
-    .max(160, 'Length must be between 5 - 160 characters'),
-  password: yup
-    .string()
-    .required('Password is required')
-    .min(8, 'Password must be at least 8 characters')
-    .max(160, 'Password must be less than 160 characters')
-  // .matches(/[a-z]/, 'Password must contain at least one lowercase letter')
-  // .matches(/[A-Z]/, 'Password must contain at least one uppercase letter')
-  // .matches(/\d/, 'Password must contain at least one number')
-  // .matches(/[^A-Za-z0-9]/, 'Password must contain at least one special character')
+  email: yup.string().email('Invalid email format').required('Email is required'),
+  password: yup.string().required('Password is required')
 })
 
 //Register

@@ -1,4 +1,4 @@
-import { Button, MenuItem, Select } from '@mui/material'
+import { Button, MenuItem, Select, TextField } from '@mui/material'
 import { useForm } from 'react-hook-form'
 import Input from '~/components/Input'
 import { yupResolver } from '@hookform/resolvers/yup'
@@ -19,7 +19,7 @@ interface FormData {
   Image: File[]
 }
 
-export default function AddNotification() {
+export default function AddNotificationManager() {
   const {
     register,
     handleSubmit,
@@ -140,16 +140,14 @@ export default function AddNotification() {
                     Receiver
                     <span className='text-red-600 ml-1'>*</span>
                   </label>
-                  <Select
-                    id='demo-select-small'
-                    defaultValue='manager'
+                  <TextField
+                    type='text'
                     {...register('receiver')}
+                    defaultValue='resident'
+                    className='bg-gray-100'
                     sx={{ width: '200px' }}
-                  >
-                    <MenuItem value='manager'>Manager</MenuItem>
-                    <MenuItem value='resident'>Resident</MenuItem>
-                    <MenuItem value='all'>All</MenuItem>
-                  </Select>
+                    disabled
+                  />
                 </div>
                 <div>
                   <label className='block text-sm font-semibold mb-[6px]'>
