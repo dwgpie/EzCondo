@@ -149,10 +149,30 @@ export default function ListService() {
                   paginatedUsers.map((service, index) => (
                     <StyledTableRow key={service.id}>
                       <StyledTableCell sx={{ color: 'black', fontWeight: '600' }}>{index + 1}</StyledTableCell>
-                      <StyledTableCell sx={{ color: 'black', fontWeight: '600' }}>
+                      <StyledTableCell
+                        sx={{
+                          color: 'black',
+                          fontWeight: '600',
+                          textAlign: 'justify',
+                          maxWidth: 50,
+                          whiteSpace: 'nowrap',
+                          overflow: 'hidden',
+                          textOverflow: 'ellipsis'
+                        }}
+                      >
                         {service.serviceName}
                       </StyledTableCell>
-                      <StyledTableCell sx={{ textAlign: 'justify' }}>{service.description}</StyledTableCell>
+                      <StyledTableCell
+                        sx={{
+                          textAlign: 'justify',
+                          maxWidth: 50,
+                          whiteSpace: 'nowrap',
+                          overflow: 'hidden',
+                          textOverflow: 'ellipsis'
+                        }}
+                      >
+                        {service.description}
+                      </StyledTableCell>
                       <StyledTableCell>{service.priceOfMonth}</StyledTableCell>
                       <StyledTableCell>{service.priceOfYear}</StyledTableCell>
                       <StyledTableCell>
@@ -179,7 +199,7 @@ export default function ListService() {
                 ) : (
                   <TableRow>
                     <TableCell colSpan={8} align='center'>
-                      No users found
+                      No services found
                     </TableCell>
                   </TableRow>
                 )}
