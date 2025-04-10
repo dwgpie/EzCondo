@@ -190,7 +190,7 @@ export default function HistoryNotification() {
                 ) : (
                   <TableRow>
                     <TableCell colSpan={8} align='center'>
-                      No users found
+                      No notifications found
                     </TableCell>
                   </TableRow>
                 )}

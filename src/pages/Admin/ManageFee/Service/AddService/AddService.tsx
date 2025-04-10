@@ -154,7 +154,7 @@ export default function AddService() {
                   errorMessage={errors.serviceName?.message}
                 />
               </div>
-              <div className='mt-5'>
+              <div className=''>
                 <label className='block text-sm font-semibold'>
                   Description
                   <span className='text-red-600 ml-1'>*</span>
@@ -165,10 +165,10 @@ export default function AddService() {
                   register={register}
                   className='mt-1'
                   errorMessage={errors.description?.message}
-                  rows={3}
+                  rows={5}
                 />
               </div>
-              <div className='flex mt-6'>
+              <div className='flex'>
                 <div>
                   <div className='flex items-center gap-11'>
                     <label className='block text-sm font-semibold'>Timestamp</label>

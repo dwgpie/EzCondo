@@ -166,10 +166,12 @@ export default function EditService() {
         service_Id: serviceId ?? '',
         serviceImages: files
       })
-      toast.success('Service updated successfully!')
       setImages([])
       setFiles([])
-      window.location.href = '/admin/list-service'
+      toast.success('Service updated successfully!')
+      setTimeout(() => {
+        window.location.href = '/admin/list-service'
+      }, 1500)
     } catch (error) {
       console.error('API call failed:', error)
     } finally {
@@ -203,35 +205,36 @@ export default function EditService() {
                     register={register}
                   />
                 </div>
-                <div className='mt-5'>
-                  <label className='block text-sm font-semibold'>
+                <div className=''>
+                  <label className='block text-sm font-semibold mb-1'>
                     Description
                     <span className='text-red-600 ml-1'>*</span>
                   </label>
                   <InputEdit
                     name='description'
-                    type='text'
+                    type='textarea'
                     className='mt-1'
                     errorMessage={errors.description?.message}
                     defaultValue={service.description}
                     register={register}
+                    rows={5}
                   />
                 </div>
-                <div className='mt-5'>
+                <div className=''>
                   <label className='block text-sm font-semibold'>
                     Status
                     <span className='text-red-600 ml-1'>*</span>
                   </label>
-                  <InputEdit
-                    name='status'
-                    type='text'
-                    className='mt-1'
-                    errorMessage={errors.status?.message}
+                  <select
+                    {...register('status')}
                     defaultValue={service.status}
-                    register={register}
-                  />
+                    className='mt-1 w-full py-4 pl-2 cursor-pointer outline-none border border-gray-300 focus:border-gray-500 rounded-sm focus:shadow-sm'
+                  >
+                    <option value='active'>Active</option>
+                    <option value='inactive'>Inactive</option>
+                  </select>
                 </div>
-                <div className='flex mt-6'>
+                <div className='flex mt-5'>
                   <div>
                     <div className='flex items-center gap-11'>
                       <label className='block text-sm font-semibold'>Timestamp</label>

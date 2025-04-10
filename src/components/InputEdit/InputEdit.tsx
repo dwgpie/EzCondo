@@ -14,6 +14,7 @@ interface Props {
   register: UseFormRegister<any>
   rules?: RegisterOptions
   isEditable?: boolean
+  rows?: number
 }
 
 export default function InputEdit({
@@ -26,19 +27,31 @@ export default function InputEdit({
   name,
   register,
   rules,
-  isEditable = true
+  isEditable = true,
+  rows
 }: Props) {
   return (
     <div className={className}>
-      <input
-        type={type}
-        className='w-full h-11 pl-2 outline-none border border-gray-300 focus:border-gray-500 rounded-sm focus:shadow-sm'
-        placeholder={placeholder}
-        autoComplete={autoComplete}
-        defaultValue={defaultValue} // Thêm value vào input
-        readOnly={!isEditable}
-        {...register(name, rules)}
-      />
+      {type === 'textarea' ? (
+        <textarea
+          className='w-full py-2 pl-2 outline-none border border-gray-300 focus:border-gray-500 rounded-sm focus:shadow-sm'
+          placeholder={placeholder}
+          defaultValue={defaultValue}
+          readOnly={!isEditable}
+          {...register(name, rules)}
+          rows={rows}
+        ></textarea>
+      ) : (
+        <input
+          type={type}
+          className='w-full py-3 pl-2 outline-none border border-gray-300 focus:border-gray-500 rounded-sm focus:shadow-sm'
+          placeholder={placeholder}
+          autoComplete={autoComplete}
+          defaultValue={defaultValue} // Thêm value vào input
+          readOnly={!isEditable}
+          {...register(name, rules)}
+        />
+      )}
       <div className='mt-1 text-xs text-red-500 min-h-4'>{errorMessage}</div>
     </div>
   )

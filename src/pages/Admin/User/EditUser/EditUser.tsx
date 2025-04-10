@@ -429,7 +429,7 @@ export default function EditUser() {
             </div>
           </form>
         ) : (
-          <p>Đang tải dữ liệu...</p>
+          <p>Loading data...</p>
         )}
       </div>
     </div>
