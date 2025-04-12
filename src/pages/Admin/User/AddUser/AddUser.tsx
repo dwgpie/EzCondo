@@ -3,7 +3,6 @@ import { useForm } from 'react-hook-form'
 import Input from '~/components/Input'
 import { yupResolver } from '@hookform/resolvers/yup'
 import { addUserSchema } from '~/utils/rules'
-import { deleteUser } from '~/apis/user.api'
 import { addOrUpdateCitizen } from '~/apis/citizen.api'
 import { registerAccount } from '~/apis/auth.api'
 import { getApartmentByStatus } from '~/apis/apartment.api'
@@ -114,11 +113,10 @@ export default function AddUser() {
             clearInterval(Progress)
             return prev
           }
-          return prev + 10
+          return prev + 5
         })
-      }, 300)
+      }, 150)
 
-      // 1. Gọi API đăng ký tài khoản
       const response = await registerAccount({
         fullName: formData.fullName,
         phoneNumber: formData.phoneNumber,
@@ -128,29 +126,19 @@ export default function AddUser() {
         apartmentNumber: formData.apartmentNumber,
         roleName: formData.roleName
       })
-
       if (!response?.data) {
         throw new Error('API error: Response data is missing')
       }
-
       const userId = response.data
-
-      try {
-        // 2. Gọi API Citizen
-        await addOrUpdateCitizen({
-          userId,
-          no: formData.no,
-          dateOfIssue: formData.dateOfIssue,
-          dateOfExpiry: formData.dateOfExpiry,
-          frontImage: formData.frontImage,
-          backImage: formData.backImage
-        })
-
-        toast.success('Account created successfully!')
-      } catch (citizenError) {
-        await deleteUser(userId) // Giả sử bạn có API này
-        throw citizenError
-      }
+      await addOrUpdateCitizen({
+        userId,
+        no: formData.no,
+        dateOfIssue: formData.dateOfIssue,
+        dateOfExpiry: formData.dateOfExpiry,
+        frontImage: formData.frontImage,
+        backImage: formData.backImage
+      })
+      toast.success('Account created successfully!')
     } catch (error) {
       console.error('API call failed:', error)
       if (error instanceof AxiosError && error.response) {
@@ -293,7 +281,7 @@ export default function AddUser() {
           </div>
 
           <div className='mt-3'>
-            <h3 className='text-lg mb-3 font-semibold'>Citizen Identity Card</h3>
+            <h3 className='text-lg mb-3 font-semibold'>Citizen Identity Number</h3>
             <div className='flex justify-between'>
               <div className='w-[30%]'>
                 <div className=''>

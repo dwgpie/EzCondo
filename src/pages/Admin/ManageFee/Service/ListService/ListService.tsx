@@ -138,8 +138,8 @@ export default function ListService() {
                   <StyledTableCell width='5%'>Id</StyledTableCell>
                   <StyledTableCell width='15%'>Name</StyledTableCell>
                   <StyledTableCell width='30%'>Description</StyledTableCell>
-                  <StyledTableCell width='15%'>Type of Month</StyledTableCell>
-                  <StyledTableCell width='15%'>Type of Year</StyledTableCell>
+                  <StyledTableCell width='15%'>Type Of Month</StyledTableCell>
+                  <StyledTableCell width='15%'>Type Of Year</StyledTableCell>
                   <StyledTableCell width='13%'>Status</StyledTableCell>
                   <StyledTableCell sx={{}}>Edit</StyledTableCell>
                 </TableRow>
@@ -177,10 +177,10 @@ export default function ListService() {
                       <StyledTableCell>{service.priceOfYear}</StyledTableCell>
                       <StyledTableCell>
                         <span
-                          className={`${getStatusColor(service.status)} px-2 py-1 rounded-full text-sm font-semibold`}
+                          className={`${getStatusColor(service.status)} px-2 py-1 rounded-full text-sm font-semibold capitalize`}
                         >
                           {service.status}
-                        </span>{' '}
+                        </span>
                       </StyledTableCell>
                       <StyledTableCell>
                         <div className='flex gap-2'>

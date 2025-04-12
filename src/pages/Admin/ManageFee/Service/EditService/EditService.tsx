@@ -147,9 +147,9 @@ export default function EditService() {
             clearInterval(Progress)
             return prev
           }
-          return prev + 10
+          return prev + 5
         })
-      }, 300)
+      }, 150)
 
       await editService({
         id: serviceId ?? '',

@@ -1,21 +1,14 @@
 import { useState } from 'react'
 import { ExpandLess, ExpandMore } from '@mui/icons-material'
 import { Link, useLocation } from 'react-router-dom'
-import BlurLinearIcon from '@mui/icons-material/BlurLinear'
 import ElectricBoltIcon from '@mui/icons-material/ElectricBolt'
-import LocalParkingIcon from '@mui/icons-material/LocalParking'
-import ApartmentIcon from '@mui/icons-material/Apartment'
-import DomainAddIcon from '@mui/icons-material/DomainAdd'
-import BusinessIcon from '@mui/icons-material/Business'
 import EditNotificationsTwoToneIcon from '@mui/icons-material/EditNotificationsTwoTone'
 import AssignmentTwoToneIcon from '@mui/icons-material/AssignmentTwoTone'
 import MarkUnreadChatAltTwoToneIcon from '@mui/icons-material/MarkUnreadChatAltTwoTone'
 import DashboardTwoToneIcon from '@mui/icons-material/DashboardTwoTone'
 import RecentActorsTwoToneIcon from '@mui/icons-material/RecentActorsTwoTone'
-import PersonAddAltTwoToneIcon from '@mui/icons-material/PersonAddAltTwoTone'
 import PersonOutlineTwoToneIcon from '@mui/icons-material/PersonOutlineTwoTone'
 import FitnessCenterTwoToneIcon from '@mui/icons-material/FitnessCenterTwoTone'
-import PriceChangeTwoToneIcon from '@mui/icons-material/PriceChangeTwoTone'
 import WaterDropTwoToneIcon from '@mui/icons-material/WaterDropTwoTone'
 import '../SideBar.css'
 
@@ -25,7 +18,6 @@ export default function SideBarManagerActive() {
 
   const DashboardPath = '/manager/dashboard'
   const ListUserPath = '/manager/list-resident'
-  const ListServicePath = '/admin/list-service'
   const ListElectricityPath = '/manager/list-electricity'
   const ImportElectricPath = '/manager/import-electric-number'
   const ListElectricUnpaidPath = '/manager/import-electric-unpaid'
@@ -34,21 +26,13 @@ export default function SideBarManagerActive() {
   const ListWaterUnpaidPath = '/manager/import-water-unpaid'
   const HistoryNotificationPath = '/manager/history-notification'
   const AddNotificationPath = '/manager/add-notification'
-  const AddApartmentPath = '/admin/add-apartment'
-  const ListApartmentPath = '/admin/list-apartment'
-
-  // const [isOpenDashboard, SetIsOpenDashboard] = useState(true)
 
   const [isOpenUser, setIsOpenUser] = useState(false)
   const [isOpenService, setIsOpenService] = useState(false)
   const [isOpenElectric, setIsOpenElectric] = useState(false)
   const [isOpenWater, setIsOpenWater] = useState(false)
   const [isOpenNotification, setIsOpenNotification] = useState(false)
-  const [isOpenApartment, setIsOpenApartment] = useState(false)
 
-  // const handleClickDashboard = () => {
-  //   SetIsOpenDashboard(!isOpenDashboard)
-  // }
   const handleClickUser = () => {
     setIsOpenUser(!isOpenUser)
   }
@@ -64,14 +48,11 @@ export default function SideBarManagerActive() {
   const handleClickNotification = () => {
     setIsOpenNotification(!isOpenNotification)
   }
-  const handleClickApartment = () => {
-    setIsOpenApartment(!isOpenApartment)
-  }
 
   return (
     <div className='flex flex-col items-center bg-[#fff] border-r-2 border-[#d1d5dc] text-[#7A8699] h-screen'>
       {' '}
-      <Link to='/admin/dashboard'>
+      <Link to='/manager/dashboard'>
         <div className='w-20 h-20'>
           <img src='/public/imgs/logo/lo23-Photoroom.png' className='w-full h-full object-cover' />
         </div>
@@ -103,7 +84,7 @@ export default function SideBarManagerActive() {
         <div style={{ height: 'calc(100vh - 230px)' }} className='w-full overflow-y-auto custom-scrollbar '>
           {/* User */}
           <div
-            className={`flex justify-between items-center w-[270px] h-[50px] pl-[10px] pr-[10px] ml-[10px]  rounded-xl cursor-pointer hover:bg-[#E5F2FF]`}
+            className={`flex justify-between items-center h-[50px] pl-[10px] pr-[10px] ml-[10px] mr-[20px]  rounded-xl cursor-pointer hover:bg-[#E5F2FF]`}
             onClick={handleClickUser}
           >
             <div className={`flex items-center gap-[10px] ${path === ListUserPath ? 'text-[#1976d3]' : ''}`}>
@@ -116,11 +97,11 @@ export default function SideBarManagerActive() {
           <div className={`overflow-hidden transition-all duration-300 ${isOpenUser ? 'max-h-[100px]' : 'max-h-0'}`}>
             <Link to='/manager/list-resident'>
               <div
-                className={`flex justify-between w-[270px] h-[50px] pl-[20px] ml-[10px] mr-[20px] rounded-xl cursor-pointer hover:bg-[#E5F2FF] ${path === ListUserPath ? 'bg-[#E5F2FF] rounded-xl' : ''}`}
+                className={`flex justify-between  h-[50px] pl-[20px] ml-[10px] mr-[20px] rounded-xl cursor-pointer hover:bg-[#E5F2FF] ${path === ListUserPath ? 'bg-[#E5F2FF] rounded-xl' : ''}`}
               >
                 <div className={`flex items-center gap-[10px] ${path === ListUserPath ? 'text-[#1976d3]' : ''}`}>
                   <RecentActorsTwoToneIcon />
-                  <p className='pl-4 py-2 '>List Users</p>
+                  <p className='pl-4 py-2 '>List Residents</p>
                 </div>
               </div>
             </Link>
@@ -128,7 +109,7 @@ export default function SideBarManagerActive() {
 
           {/* Service */}
           <div
-            className={`flex justify-between items-center w-[270px] h-[50px] pl-[10px] pr-[10px] ml-[10px] mr-[20px] rounded-xl cursor-pointer hover:bg-[#E5F2FF]`}
+            className={`flex justify-between items-center  h-[50px] pl-[10px] pr-[10px] ml-[10px] mr-[20px] rounded-xl cursor-pointer hover:bg-[#E5F2FF]`}
             onClick={handleClickService}
           >
             <div className={`flex items-center gap-[10px] ${path === '' ? 'text-[#1976d3]' : ''}`}>
@@ -140,7 +121,7 @@ export default function SideBarManagerActive() {
 
           {/* Electricity */}
           <div
-            className={`flex justify-between items-center w-[270px] h-[50px] pl-[10px] pr-[10px] ml-[10px] mr-[20px] rounded-xl cursor-pointer hover:bg-[#E5F2FF]`}
+            className={`flex justify-between items-center h-[50px] pl-[10px] pr-[10px] ml-[10px] mr-[20px] rounded-xl cursor-pointer hover:bg-[#E5F2FF]`}
             onClick={handleClickElectric}
           >
             <div className={`flex items-center gap-[10px] ${path === ListElectricityPath ? 'text-[#1976d3]' : ''}`}>
@@ -155,7 +136,7 @@ export default function SideBarManagerActive() {
           >
             <Link to='/manager/list-electricity'>
               <div
-                className={`flex justify-between w-[270px] h-[50px] pl-[20px] ml-[10px] mr-[20px] rounded-xl cursor-pointer hover:bg-[#E5F2FF] ${path === ListElectricityPath ? 'bg-[#E5F2FF] rounded-xl' : ''}`}
+                className={`flex justify-between h-[50px] pl-[20px] ml-[10px] mr-[20px] rounded-xl cursor-pointer hover:bg-[#E5F2FF] ${path === ListElectricityPath ? 'bg-[#E5F2FF] rounded-xl' : ''}`}
               >
                 <div className={`flex items-center gap-[10px] ${path === ListElectricityPath ? 'text-[#1976d3]' : ''}`}>
                   <ElectricBoltIcon />
@@ -166,7 +147,7 @@ export default function SideBarManagerActive() {
 
             <Link to='/manager/import-electric-unpaid'>
               <div
-                className={`flex justify-between w-[270px] h-[50px] pl-[20px] ml-[10px] mr-[20px] rounded-xl cursor-pointer hover:bg-[#E5F2FF] ${path === ListElectricUnpaidPath ? 'bg-[#E5F2FF] rounded-xl' : ''}`}
+                className={`flex justify-between h-[50px] pl-[20px] ml-[10px] mr-[20px] rounded-xl cursor-pointer hover:bg-[#E5F2FF] ${path === ListElectricUnpaidPath ? 'bg-[#E5F2FF] rounded-xl' : ''}`}
               >
                 <div
                   className={`flex items-center gap-[10px] ${path === ListElectricUnpaidPath ? 'text-[#1976d3]' : ''}`}
@@ -179,7 +160,7 @@ export default function SideBarManagerActive() {
 
             <Link to='/manager/import-electric-number'>
               <div
-                className={`flex justify-between w-[270px] h-[50px] pl-[20px] ml-[10px] mr-[20px] rounded-xl cursor-pointer hover:bg-[#E5F2FF] ${path === ImportElectricPath ? 'bg-[#E5F2FF] rounded-xl' : ''}`}
+                className={`flex justify-between h-[50px] pl-[20px] ml-[10px] mr-[20px] rounded-xl cursor-pointer hover:bg-[#E5F2FF] ${path === ImportElectricPath ? 'bg-[#E5F2FF] rounded-xl' : ''}`}
               >
                 <div className={`flex items-center gap-[10px] ${path === ImportElectricPath ? 'text-[#1976d3]' : ''}`}>
                   <ElectricBoltIcon />
@@ -191,7 +172,7 @@ export default function SideBarManagerActive() {
 
           {/* Water */}
           <div
-            className={`flex justify-between items-center w-[270px] h-[50px] pl-[10px] pr-[10px] ml-[10px] mr-[20px] rounded-xl cursor-pointer hover:bg-[#E5F2FF]`}
+            className={`flex justify-between items-center h-[50px] pl-[10px] pr-[10px] ml-[10px] mr-[20px] rounded-xl cursor-pointer hover:bg-[#E5F2FF]`}
             onClick={handleClickWater}
           >
             <div className={`flex items-center gap-[10px] ${path === ListWaterPath ? 'text-[#1976d3]' : ''}`}>
@@ -204,7 +185,7 @@ export default function SideBarManagerActive() {
           <div className={`overflow-hidden transition-all duration-300 ${isOpenWater ? 'max-h-[150px]' : 'max-h-0'}`}>
             <Link to='/manager/list-water'>
               <div
-                className={`flex justify-between w-[270px] h-[50px] pl-[20px] ml-[10px] mr-[20px] rounded-xl cursor-pointer hover:bg-[#E5F2FF] ${path === ListWaterPath ? 'bg-[#E5F2FF] rounded-xl' : ''}`}
+                className={`flex justify-between h-[50px] pl-[20px] ml-[10px] mr-[20px] rounded-xl cursor-pointer hover:bg-[#E5F2FF] ${path === ListWaterPath ? 'bg-[#E5F2FF] rounded-xl' : ''}`}
               >
                 <div className={`flex items-center gap-[10px] ${path === ListWaterPath ? 'text-[#1976d3]' : ''}`}>
                   <WaterDropTwoToneIcon />
@@ -215,7 +196,7 @@ export default function SideBarManagerActive() {
 
             <Link to='/manager/import-water-unpaid'>
               <div
-                className={`flex justify-between w-[270px] h-[50px] pl-[20px] ml-[10px] mr-[20px] rounded-xl cursor-pointer hover:bg-[#E5F2FF] ${path === ListWaterUnpaidPath ? 'bg-[#E5F2FF] rounded-xl' : ''}`}
+                className={`flex justify-between h-[50px] pl-[20px] ml-[10px] mr-[20px] rounded-xl cursor-pointer hover:bg-[#E5F2FF] ${path === ListWaterUnpaidPath ? 'bg-[#E5F2FF] rounded-xl' : ''}`}
               >
                 <div className={`flex items-center gap-[10px] ${path === ListWaterUnpaidPath ? 'text-[#1976d3]' : ''}`}>
                   <WaterDropTwoToneIcon />
@@ -226,7 +207,7 @@ export default function SideBarManagerActive() {
 
             <Link to='/manager/import-water-number'>
               <div
-                className={`flex justify-between w-[270px] h-[50px] pl-[20px] ml-[10px] mr-[20px] rounded-xl cursor-pointer hover:bg-[#E5F2FF] ${path === ImportWaterPath ? 'bg-[#E5F2FF] rounded-xl' : ''}`}
+                className={`flex justify-between h-[50px] pl-[20px] ml-[10px] mr-[20px] rounded-xl cursor-pointer hover:bg-[#E5F2FF] ${path === ImportWaterPath ? 'bg-[#E5F2FF] rounded-xl' : ''}`}
               >
                 <div className={`flex items-center gap-[10px] ${path === ImportWaterPath ? 'text-[#1976d3]' : ''}`}>
                   <WaterDropTwoToneIcon />
@@ -238,7 +219,7 @@ export default function SideBarManagerActive() {
 
           {/* Notification */}
           <div
-            className={`flex justify-between items-center w-[270px] h-[50px] pl-[10px] pr-[10px] ml-[10px] mr-[20px] rounded-xl cursor-pointer hover:bg-[#E5F2FF]`}
+            className={`flex justify-between items-center h-[50px] pl-[10px] pr-[10px] ml-[10px] mr-[20px] rounded-xl cursor-pointer hover:bg-[#E5F2FF]`}
             onClick={handleClickNotification}
           >
             <div
@@ -255,7 +236,7 @@ export default function SideBarManagerActive() {
           >
             <Link to='/manager/history-notification'>
               <div
-                className={`flex justify-between w-[270px] h-[50px] pl-[20px] ml-[10px] mr-[20px] rounded-xl cursor-pointer hover:bg-[#E5F2FF]  ${path === HistoryNotificationPath ? 'bg-[#E5F2FF] rounded-xl' : ''}`}
+                className={`flex justify-between h-[50px] pl-[20px] ml-[10px] mr-[20px] rounded-xl cursor-pointer hover:bg-[#E5F2FF]  ${path === HistoryNotificationPath ? 'bg-[#E5F2FF] rounded-xl' : ''}`}
               >
                 <div
                   className={`flex items-center gap-[10px] ${path === HistoryNotificationPath ? 'text-[#1976d3]' : ''}`}
@@ -267,7 +248,7 @@ export default function SideBarManagerActive() {
             </Link>
             <Link to='/manager/add-notification'>
               <div
-                className={`flex justify-between w-[270px] h-[50px] pl-[20px] ml-[10px] mr-[20px] rounded-xl cursor-pointer hover:bg-[#E5F2FF] ${path === AddNotificationPath ? 'bg-[#E5F2FF] rounded-xl' : ''}`}
+                className={`flex justify-between h-[50px] pl-[20px] ml-[10px] mr-[20px] rounded-xl cursor-pointer hover:bg-[#E5F2FF] ${path === AddNotificationPath ? 'bg-[#E5F2FF] rounded-xl' : ''}`}
               >
                 <div className={`flex items-center gap-[10px] ${path === AddNotificationPath ? 'text-[#1976d3]' : ''}`}>
                   <EditNotificationsTwoToneIcon />

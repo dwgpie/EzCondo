@@ -98,6 +98,7 @@ export default function Profile() {
         console.warn('Avatar is URL, no update!')
       }
       toast.success('Updated successfully!')
+      getProfileMutation.mutate()
     } catch (error) {
       console.error('Error updating user or citizen:', error)
     }
@@ -111,7 +112,7 @@ export default function Profile() {
   }
 
   return (
-    <div className='bg-[#EDF2F9] pt-5 mr-5 ml-5 z-13'>
+    <div className='bg-[#EDF2F9] pt-5 mr-5 ml-5 z-13' style={{ height: 'calc(100vh - 80px)' }}>
       <ToastContainer />
       <div className='mb-6 p-6 bg-white drop-shadow-md rounded-xl'>
         {user ? (

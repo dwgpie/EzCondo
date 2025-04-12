@@ -95,8 +95,8 @@ export default function SideBarAdminActive() {
           <div className='w-[70%] h-[1px] bg-[#bdbdbd]'></div>
         </div>
 
-        {/* User */}
-        <div className='w-full h-[450px] overflow-y-auto custom-scrollbar'>
+        <div style={{ height: 'calc(100vh - 230px)' }} className='w-full h-[450px] overflow-y-auto custom-scrollbar'>
+          {/* User */}
           <div
             className={`flex justify-between items-center h-[50px] pl-[10px] pr-[10px] ml-[10px] mr-[20px] rounded-xl cursor-pointer hover:bg-[#E5F2FF]`}
             onClick={handleClickUser}
