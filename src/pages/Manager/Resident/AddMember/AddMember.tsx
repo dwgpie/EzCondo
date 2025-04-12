@@ -100,25 +100,6 @@ export default function AddMember() {
   const handleDelete = (id: string) => {
     console.log('click', id)
 
-    // const delMember = useMutation({
-    //   mutationFn: async () => {
-    //     if (!apartmentNumber) {
-    //       console.log('không có apart')
-    //       return
-    //     }
-
-    //     await deleteMember(id)
-    //   },
-    //   onSuccess: (data) => {
-    //     console.log('Delete thành công:', data)
-    //   },
-    //   onError: (error) => {
-    //     console.error('Lỗi khi delete:', error)
-    //   }
-    // })
-
-    // delMember.mutate()
-
     Swal.fire({
       title: 'Are you sure you want to delete?',
       text: 'This action cannot be undone!',
@@ -152,6 +133,7 @@ export default function AddMember() {
         ...formData
       })
 
+      getMember.mutate()
       toast.success('Updated successfully!')
     } catch (error) {
       console.error('Error updating user or citizen:', error)
@@ -221,12 +203,12 @@ export default function AddMember() {
                           <StyledTableCell>{user.relationship}</StyledTableCell>
                           <StyledTableCell>
                             <button
-                              className=' cursor-pointer'
+                              className=' cursor-pointer '
                               onClick={() => {
                                 handleDelete(user.id)
                               }}
                             >
-                              <DeleteIcon />
+                              <DeleteIcon sx={{ color: 'red' }} />
                             </button>
                           </StyledTableCell>
                         </StyledTableRow>
@@ -279,7 +261,7 @@ export default function AddMember() {
                   type='date'
                   name='dateOfBirth'
                   onChange={handleChange}
-                  className='w-[200px] h-11 pl-2 outline-none border border-gray-300 focus:border-gray-500 rounded-sm focus:shadow-sm'
+                  className='w-[170px] h-11 pl-2 outline-none border border-gray-300 focus:border-gray-500 rounded-sm focus:shadow-sm'
                 />
               </div>
 
@@ -292,7 +274,7 @@ export default function AddMember() {
                   type='text'
                   name='phoneNumber'
                   onChange={handleChange}
-                  className='w-[200px] h-11 pl-2 outline-none border border-gray-300 focus:border-gray-500 rounded-sm focus:shadow-sm'
+                  className='w-[170px] h-11 pl-2 outline-none border border-gray-300 focus:border-gray-500 rounded-sm focus:shadow-sm'
                 />
               </div>
 
@@ -305,11 +287,11 @@ export default function AddMember() {
                   type='text'
                   name='no'
                   onChange={handleChange}
-                  className='w-[200px] h-11 pl-2 outline-none border border-gray-300 focus:border-gray-500 rounded-sm focus:shadow-sm'
+                  className='w-[170px] h-11 pl-2 outline-none border border-gray-300 focus:border-gray-500 rounded-sm focus:shadow-sm'
                 />
               </div>
 
-              <div className=' mr-[20px]'>
+              <div className='mr-[20px]'>
                 <label className='block text-sm font-semibold mt-[13px]'>
                   Relationship to household head
                   <span className='text-red-600 ml-1'>*</span>

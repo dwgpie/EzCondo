@@ -100,10 +100,10 @@ export default function SideBarManagerActive() {
           <div className='w-[70%] h-[1px] bg-[#bdbdbd]'></div>
         </div>
 
-        {/* User */}
-        <div className='w-full h-[450px] overflow-y-auto custom-scrollbar'>
+        <div style={{ height: 'calc(100vh - 230px)' }} className='w-full overflow-y-auto custom-scrollbar '>
+          {/* User */}
           <div
-            className={`flex justify-between items-center h-[50px] pl-[10px] pr-[10px] ml-[10px] mr-[20px] rounded-xl cursor-pointer hover:bg-[#E5F2FF]`}
+            className={`flex justify-between items-center w-[270px] h-[50px] pl-[10px] pr-[10px] ml-[10px]  rounded-xl cursor-pointer hover:bg-[#E5F2FF]`}
             onClick={handleClickUser}
           >
             <div className={`flex items-center gap-[10px] ${path === ListUserPath ? 'text-[#1976d3]' : ''}`}>
@@ -116,7 +116,7 @@ export default function SideBarManagerActive() {
           <div className={`overflow-hidden transition-all duration-300 ${isOpenUser ? 'max-h-[100px]' : 'max-h-0'}`}>
             <Link to='/manager/list-resident'>
               <div
-                className={`flex justify-between h-[50px] pl-[20px] ml-[10px] mr-[20px] rounded-xl cursor-pointer hover:bg-[#E5F2FF] ${path === ListUserPath ? 'bg-[#E5F2FF] rounded-xl' : ''}`}
+                className={`flex justify-between w-[270px] h-[50px] pl-[20px] ml-[10px] mr-[20px] rounded-xl cursor-pointer hover:bg-[#E5F2FF] ${path === ListUserPath ? 'bg-[#E5F2FF] rounded-xl' : ''}`}
               >
                 <div className={`flex items-center gap-[10px] ${path === ListUserPath ? 'text-[#1976d3]' : ''}`}>
                   <RecentActorsTwoToneIcon />
@@ -128,7 +128,7 @@ export default function SideBarManagerActive() {
 
           {/* Service */}
           <div
-            className={`flex justify-between items-center h-[50px] pl-[10px] pr-[10px] ml-[10px] mr-[20px] rounded-xl cursor-pointer hover:bg-[#E5F2FF]`}
+            className={`flex justify-between items-center w-[270px] h-[50px] pl-[10px] pr-[10px] ml-[10px] mr-[20px] rounded-xl cursor-pointer hover:bg-[#E5F2FF]`}
             onClick={handleClickService}
           >
             <div className={`flex items-center gap-[10px] ${path === '' ? 'text-[#1976d3]' : ''}`}>
@@ -140,7 +140,7 @@ export default function SideBarManagerActive() {
 
           {/* Electricity */}
           <div
-            className={`flex justify-between items-center h-[50px] pl-[10px] pr-[10px] ml-[10px] mr-[20px] rounded-xl cursor-pointer hover:bg-[#E5F2FF]`}
+            className={`flex justify-between items-center w-[270px] h-[50px] pl-[10px] pr-[10px] ml-[10px] mr-[20px] rounded-xl cursor-pointer hover:bg-[#E5F2FF]`}
             onClick={handleClickElectric}
           >
             <div className={`flex items-center gap-[10px] ${path === ListElectricityPath ? 'text-[#1976d3]' : ''}`}>
@@ -155,7 +155,7 @@ export default function SideBarManagerActive() {
           >
             <Link to='/manager/list-electricity'>
               <div
-                className={`flex justify-between h-[50px] pl-[20px] ml-[10px] mr-[20px] rounded-xl cursor-pointer hover:bg-[#E5F2FF] ${path === ListElectricityPath ? 'bg-[#E5F2FF] rounded-xl' : ''}`}
+                className={`flex justify-between w-[270px] h-[50px] pl-[20px] ml-[10px] mr-[20px] rounded-xl cursor-pointer hover:bg-[#E5F2FF] ${path === ListElectricityPath ? 'bg-[#E5F2FF] rounded-xl' : ''}`}
               >
                 <div className={`flex items-center gap-[10px] ${path === ListElectricityPath ? 'text-[#1976d3]' : ''}`}>
                   <ElectricBoltIcon />
@@ -166,7 +166,7 @@ export default function SideBarManagerActive() {
 
             <Link to='/manager/import-electric-unpaid'>
               <div
-                className={`flex justify-between h-[50px] pl-[20px] ml-[10px] mr-[20px] rounded-xl cursor-pointer hover:bg-[#E5F2FF] ${path === ListElectricUnpaidPath ? 'bg-[#E5F2FF] rounded-xl' : ''}`}
+                className={`flex justify-between w-[270px] h-[50px] pl-[20px] ml-[10px] mr-[20px] rounded-xl cursor-pointer hover:bg-[#E5F2FF] ${path === ListElectricUnpaidPath ? 'bg-[#E5F2FF] rounded-xl' : ''}`}
               >
                 <div
                   className={`flex items-center gap-[10px] ${path === ListElectricUnpaidPath ? 'text-[#1976d3]' : ''}`}
@@ -179,7 +179,7 @@ export default function SideBarManagerActive() {
 
             <Link to='/manager/import-electric-number'>
               <div
-                className={`flex justify-between h-[50px] pl-[20px] ml-[10px] mr-[20px] rounded-xl cursor-pointer hover:bg-[#E5F2FF] ${path === ImportElectricPath ? 'bg-[#E5F2FF] rounded-xl' : ''}`}
+                className={`flex justify-between w-[270px] h-[50px] pl-[20px] ml-[10px] mr-[20px] rounded-xl cursor-pointer hover:bg-[#E5F2FF] ${path === ImportElectricPath ? 'bg-[#E5F2FF] rounded-xl' : ''}`}
               >
                 <div className={`flex items-center gap-[10px] ${path === ImportElectricPath ? 'text-[#1976d3]' : ''}`}>
                   <ElectricBoltIcon />
@@ -189,9 +189,9 @@ export default function SideBarManagerActive() {
             </Link>
           </div>
 
-          {/* Electricity */}
+          {/* Water */}
           <div
-            className={`flex justify-between items-center h-[50px] pl-[10px] pr-[10px] ml-[10px] mr-[20px] rounded-xl cursor-pointer hover:bg-[#E5F2FF]`}
+            className={`flex justify-between items-center w-[270px] h-[50px] pl-[10px] pr-[10px] ml-[10px] mr-[20px] rounded-xl cursor-pointer hover:bg-[#E5F2FF]`}
             onClick={handleClickWater}
           >
             <div className={`flex items-center gap-[10px] ${path === ListWaterPath ? 'text-[#1976d3]' : ''}`}>
@@ -204,7 +204,7 @@ export default function SideBarManagerActive() {
           <div className={`overflow-hidden transition-all duration-300 ${isOpenWater ? 'max-h-[150px]' : 'max-h-0'}`}>
             <Link to='/manager/list-water'>
               <div
-                className={`flex justify-between h-[50px] pl-[20px] ml-[10px] mr-[20px] rounded-xl cursor-pointer hover:bg-[#E5F2FF] ${path === ListWaterPath ? 'bg-[#E5F2FF] rounded-xl' : ''}`}
+                className={`flex justify-between w-[270px] h-[50px] pl-[20px] ml-[10px] mr-[20px] rounded-xl cursor-pointer hover:bg-[#E5F2FF] ${path === ListWaterPath ? 'bg-[#E5F2FF] rounded-xl' : ''}`}
               >
                 <div className={`flex items-center gap-[10px] ${path === ListWaterPath ? 'text-[#1976d3]' : ''}`}>
                   <WaterDropTwoToneIcon />
@@ -215,7 +215,7 @@ export default function SideBarManagerActive() {
 
             <Link to='/manager/import-water-unpaid'>
               <div
-                className={`flex justify-between h-[50px] pl-[20px] ml-[10px] mr-[20px] rounded-xl cursor-pointer hover:bg-[#E5F2FF] ${path === ListWaterUnpaidPath ? 'bg-[#E5F2FF] rounded-xl' : ''}`}
+                className={`flex justify-between w-[270px] h-[50px] pl-[20px] ml-[10px] mr-[20px] rounded-xl cursor-pointer hover:bg-[#E5F2FF] ${path === ListWaterUnpaidPath ? 'bg-[#E5F2FF] rounded-xl' : ''}`}
               >
                 <div className={`flex items-center gap-[10px] ${path === ListWaterUnpaidPath ? 'text-[#1976d3]' : ''}`}>
                   <WaterDropTwoToneIcon />
@@ -226,7 +226,7 @@ export default function SideBarManagerActive() {
 
             <Link to='/manager/import-water-number'>
               <div
-                className={`flex justify-between h-[50px] pl-[20px] ml-[10px] mr-[20px] rounded-xl cursor-pointer hover:bg-[#E5F2FF] ${path === ImportWaterPath ? 'bg-[#E5F2FF] rounded-xl' : ''}`}
+                className={`flex justify-between w-[270px] h-[50px] pl-[20px] ml-[10px] mr-[20px] rounded-xl cursor-pointer hover:bg-[#E5F2FF] ${path === ImportWaterPath ? 'bg-[#E5F2FF] rounded-xl' : ''}`}
               >
                 <div className={`flex items-center gap-[10px] ${path === ImportWaterPath ? 'text-[#1976d3]' : ''}`}>
                   <WaterDropTwoToneIcon />
@@ -236,9 +236,9 @@ export default function SideBarManagerActive() {
             </Link>
           </div>
 
-           {/* Notification */}
+          {/* Notification */}
           <div
-            className={`flex justify-between items-center h-[50px] pl-[10px] pr-[10px] ml-[10px] mr-[20px] rounded-xl cursor-pointer hover:bg-[#E5F2FF]`}
+            className={`flex justify-between items-center w-[270px] h-[50px] pl-[10px] pr-[10px] ml-[10px] mr-[20px] rounded-xl cursor-pointer hover:bg-[#E5F2FF]`}
             onClick={handleClickNotification}
           >
             <div
@@ -255,7 +255,7 @@ export default function SideBarManagerActive() {
           >
             <Link to='/manager/history-notification'>
               <div
-                className={`flex justify-between h-[50px] pl-[20px] ml-[10px] mr-[20px] rounded-xl cursor-pointer hover:bg-[#E5F2FF]  ${path === HistoryNotificationPath ? 'bg-[#E5F2FF] rounded-xl' : ''}`}
+                className={`flex justify-between w-[270px] h-[50px] pl-[20px] ml-[10px] mr-[20px] rounded-xl cursor-pointer hover:bg-[#E5F2FF]  ${path === HistoryNotificationPath ? 'bg-[#E5F2FF] rounded-xl' : ''}`}
               >
                 <div
                   className={`flex items-center gap-[10px] ${path === HistoryNotificationPath ? 'text-[#1976d3]' : ''}`}
@@ -267,7 +267,7 @@ export default function SideBarManagerActive() {
             </Link>
             <Link to='/manager/add-notification'>
               <div
-                className={`flex justify-between h-[50px] pl-[20px] ml-[10px] mr-[20px] rounded-xl cursor-pointer hover:bg-[#E5F2FF] ${path === AddNotificationPath ? 'bg-[#E5F2FF] rounded-xl' : ''}`}
+                className={`flex justify-between w-[270px] h-[50px] pl-[20px] ml-[10px] mr-[20px] rounded-xl cursor-pointer hover:bg-[#E5F2FF] ${path === AddNotificationPath ? 'bg-[#E5F2FF] rounded-xl' : ''}`}
               >
                 <div className={`flex items-center gap-[10px] ${path === AddNotificationPath ? 'text-[#1976d3]' : ''}`}>
                   <EditNotificationsTwoToneIcon />
@@ -275,7 +275,7 @@ export default function SideBarManagerActive() {
                 </div>
               </div>
             </Link>
-          </div> 
+          </div>
         </div>
       </div>
     </div>
