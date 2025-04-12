@@ -128,9 +128,9 @@ export default function EditUser() {
             clearInterval(Progress)
             return prev
           }
-          return prev + 10
+          return prev + 5
         })
-      }, 300)
+      }, 150)
 
       editUser({
         id: userId ?? '',
@@ -221,20 +221,6 @@ export default function EditUser() {
                 />
               </div>
               <div className=''>
-                <label className='block text-sm font-semibold'>Apartment</label>
-                <InputEdit
-                  name='apartmentNumber'
-                  type='text'
-                  className='mt-1'
-                  errorMessage={errors.apartmentNumber?.message}
-                  defaultValue={user.apartmentNumber}
-                  register={register}
-                  isEditable={false}
-                />
-              </div>
-            </div>
-            <div className='grid grid-cols-4 gap-4'>
-              <div className='mt-3'>
                 <label className='block text-sm font-semibold'>
                   Date of birth
                   <span className='text-red-600 ml-1'>*</span>
@@ -248,6 +234,8 @@ export default function EditUser() {
                   register={register}
                 />
               </div>
+            </div>
+            <div className='grid grid-cols-4 gap-4'>
               <div className='mt-3'>
                 <label className='block text-sm font-semibold'>
                   Gender
@@ -256,25 +244,11 @@ export default function EditUser() {
                 <select
                   {...register('gender')}
                   defaultValue={user.gender}
-                  className='mt-1 w-full h-11 pl-2 cursor-pointer outline-none border border-gray-300 focus:border-gray-500 rounded-sm focus:shadow-sm'
+                  className='mt-1 w-full py-[13px] pl-2 outline-none border border-gray-300 focus:border-gray-500 rounded-sm focus:shadow-sm'
                 >
                   <option value='female'>Female</option>
                   <option value='male'>Male</option>
                   <option value='other'>Other</option>
-                </select>
-              </div>
-              <div className='mt-3'>
-                <label className='block text-sm font-semibold'>
-                  Role
-                  <span className='text-red-600 ml-1'>*</span>
-                </label>
-                <select
-                  {...register('roleName')}
-                  defaultValue={user.roleName}
-                  className='mt-1 w-full h-11 pl-2 cursor-pointer  outline-none border border-gray-300 focus:border-gray-500 rounded-sm focus:shadow-sm'
-                >
-                  <option value='resident'>Resident</option>
-                  <option value='manager'>Manager</option>
                 </select>
               </div>
               <div className='mt-3'>
@@ -285,11 +259,34 @@ export default function EditUser() {
                 <select
                   {...register('status')}
                   defaultValue={user.status}
-                  className='mt-1 w-full h-11 pl-2 cursor-pointer outline-none border border-gray-300 focus:border-gray-500 rounded-sm focus:shadow-sm'
+                  className='mt-1 w-full py-[13px] pl-2 outline-none border border-gray-300 focus:border-gray-500 rounded-sm focus:shadow-sm'
                 >
                   <option value='active'>Active</option>
                   <option value='inactive'>Inactive</option>
                 </select>
+              </div>
+              <div className='mt-3'>
+                <label className='block text-sm font-semibold'>Role</label>
+                <InputEdit
+                  name='roleName'
+                  type='text'
+                  className='mt-1'
+                  defaultValue={user.roleName}
+                  register={register}
+                  isEditable={false}
+                />
+              </div>
+              <div className='mt-3'>
+                <label className='block text-sm font-semibold'>Apartment</label>
+                <InputEdit
+                  name='apartmentNumber'
+                  type='text'
+                  className='mt-1'
+                  errorMessage={errors.apartmentNumber?.message}
+                  defaultValue={user.apartmentNumber}
+                  register={register}
+                  isEditable={false}
+                />
               </div>
             </div>
 

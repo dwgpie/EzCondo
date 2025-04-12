@@ -8,14 +8,11 @@ import TableContainer from '@mui/material/TableContainer'
 import TableHead from '@mui/material/TableHead'
 import TableRow from '@mui/material/TableRow'
 import Paper from '@mui/material/Paper'
-import Button from '@mui/material/Button'
-import EditIcon from '@mui/icons-material/Edit'
-import DeleteIcon from '@mui/icons-material/Delete'
 import PersonAddIcon from '@mui/icons-material/PersonAdd'
-import { getAllUser, searchUser } from '~/apis/user.api'
-import Swal from 'sweetalert2'
+import { getAllResident, searchUser } from '~/apis/user.api'
 import { SearchContext } from '~/components/Search/SearchContext'
 import Pagination from '@mui/material/Pagination'
+import SubjectIcon from '@mui/icons-material/Subject'
 
 interface User {
   id: string
@@ -59,14 +56,13 @@ export default function ListResident() {
   const [filteredUsers, setFilteredUsers] = useState<User[]>([])
 
   const [page, setPage] = useState(1)
-  const pageSize = 10
+  const pageSize = 6
   const totalPages = Math.ceil(filteredUsers.length / pageSize)
 
   const getAllUserMutation = useMutation({
     mutationFn: async () => {
-      const response = await getAllUser()
+      const response = await getAllResident()
       setListUser(response.data)
-      //   setListUser(response.data.filter((user: User) => user.roleName.toLowerCase() === 'resident'))
     },
     onSuccess: (data) => {
       console.log('Danh sách cư dân thành công:', data)
@@ -123,75 +119,83 @@ export default function ListResident() {
   }
 
   return (
-    <div className='bg-[#EDF2F9] pt-5 ml-5 mr-5 z-13 h-screen'>
-      <Paper elevation={4}>
-        <TableContainer>
-          <Table sx={{ minWidth: 700 }} aria-label='customized table'>
-            <TableHead>
-              <TableRow>
-                <StyledTableCell width='5%'>Id</StyledTableCell>
-                <StyledTableCell width='20%'>Full Name</StyledTableCell>
-                <StyledTableCell width='12%'>Date of birth</StyledTableCell>
-                <StyledTableCell width='10%'>Gender</StyledTableCell>
-                <StyledTableCell width='12%'>Apartment</StyledTableCell>
-                <StyledTableCell width='13%'>Phone number</StyledTableCell>
-                <StyledTableCell width='10%'>Status</StyledTableCell>
-                <StyledTableCell width='7%'>Detail</StyledTableCell>
-                <StyledTableCell width='10%'>Add member</StyledTableCell>
-              </TableRow>
-            </TableHead>
-            <TableBody>
-              {paginatedUsers.length > 0 ? (
-                paginatedUsers.map((user, index) => (
-                  <StyledTableRow key={user.id}>
-                    <StyledTableCell sx={{ color: 'black', fontWeight: '600' }}>{index + 1}</StyledTableCell>
-                    <StyledTableCell>{user.fullName}</StyledTableCell>
-                    <StyledTableCell>
-                      {new Intl.DateTimeFormat('vi-VN').format(new Date(user.dateOfBirth))}
-                    </StyledTableCell>
-                    <StyledTableCell>{user.gender}</StyledTableCell>
-                    <StyledTableCell>{user.apartmentNumber}</StyledTableCell>
-                    <StyledTableCell>{user.phoneNumber}</StyledTableCell>
-                    <StyledTableCell>
-                      <span className={`${getStatusColor(user.status)} px-2 py-1 rounded-full text-sm font-semibold`}>
-                        {user.status}
-                      </span>
-                    </StyledTableCell>
-                    <StyledTableCell>
-                      <button
-                        className='text-blue-500 cursor-pointer'
-                        onClick={() => {
-                          handleDetail(user.id)
-                        }}
-                      >
-                        <EditIcon />
-                      </button>
-                    </StyledTableCell>
-                    <StyledTableCell>
-                      <button
-                        className=' cursor-pointer'
-                        onClick={() => {
-                          handleAddMember(user.id)
-                        }}
-                      >
-                        <PersonAddIcon />
-                      </button>
-                    </StyledTableCell>
-                  </StyledTableRow>
-                ))
-              ) : (
+    <div className='pt-5 mx-5 z-13' style={{ height: 'calc(100vh - 80px)' }}>
+      <div className='mb-6 p-6 bg-white drop-shadow-md rounded-xl'>
+        <Paper elevation={4}>
+          <TableContainer>
+            <Table sx={{ minWidth: 700 }} aria-label='customized table'>
+              <TableHead>
                 <TableRow>
-                  <TableCell colSpan={8} align='center'>
-                    No users found
-                  </TableCell>
+                  <StyledTableCell width='5%'>Id</StyledTableCell>
+                  <StyledTableCell width='20%'>Full Name</StyledTableCell>
+                  <StyledTableCell width='12%'>Date Of Birth</StyledTableCell>
+                  <StyledTableCell width='10%'>Gender</StyledTableCell>
+                  <StyledTableCell width='11%'>Apartment</StyledTableCell>
+                  <StyledTableCell width='13%'>Phone Number</StyledTableCell>
+                  <StyledTableCell width='8%'>Status</StyledTableCell>
+                  <StyledTableCell width='1%'>Detail</StyledTableCell>
+                  <StyledTableCell width='10%'>Add Member</StyledTableCell>
                 </TableRow>
-              )}
-            </TableBody>
-          </Table>
-        </TableContainer>
-      </Paper>
-      <div className='mt-10 flex justify-center'>
-        <Pagination count={totalPages} page={page} onChange={handlePageChange} />
+              </TableHead>
+              <TableBody>
+                {paginatedUsers.length > 0 ? (
+                  paginatedUsers.map((user, index) => (
+                    <StyledTableRow key={user.id}>
+                      <StyledTableCell sx={{ color: 'black', fontWeight: '600' }}>{index + 1}</StyledTableCell>
+                      <StyledTableCell>{user.fullName}</StyledTableCell>
+                      <StyledTableCell>
+                        {new Intl.DateTimeFormat('vi-VN').format(new Date(user.dateOfBirth))}
+                      </StyledTableCell>
+                      <StyledTableCell>
+                        <span className='capitalize'>{user.gender}</span>
+                      </StyledTableCell>
+                      <StyledTableCell>{user.apartmentNumber}</StyledTableCell>
+                      <StyledTableCell>{user.phoneNumber}</StyledTableCell>
+                      <StyledTableCell>
+                        <span
+                          className={`${getStatusColor(user.status)} px-2 py-1 rounded-full text-sm font-semibold capitalize`}
+                        >
+                          {user.status}
+                        </span>
+                      </StyledTableCell>
+                      <StyledTableCell colSpan={1} align='center'>
+                        <div className='flex gap-2 ml-2'>
+                          <button
+                            className='text-blue-500 cursor-pointer'
+                            onClick={() => {
+                              handleDetail(user.id)
+                            }}
+                          >
+                            <SubjectIcon />
+                          </button>
+                        </div>
+                      </StyledTableCell>
+                      <StyledTableCell colSpan={1} align='center'>
+                        <button
+                          className='text-amber-700 cursor-pointer'
+                          onClick={() => {
+                            handleAddMember(user.id)
+                          }}
+                        >
+                          <PersonAddIcon />
+                        </button>
+                      </StyledTableCell>
+                    </StyledTableRow>
+                  ))
+                ) : (
+                  <TableRow>
+                    <TableCell colSpan={9} align='center'>
+                      No users found
+                    </TableCell>
+                  </TableRow>
+                )}
+              </TableBody>
+            </Table>
+          </TableContainer>
+        </Paper>
+        <div className='mt-10 flex justify-center'>
+          <Pagination count={totalPages} page={page} onChange={handlePageChange} />
+        </div>
       </div>
     </div>
   )

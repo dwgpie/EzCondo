@@ -65,27 +65,34 @@ export default function ListUser() {
   const handleButtonClick = (buttonName: string | string[]) => {
     setActiveButton(Array.isArray(buttonName) ? 'all' : buttonName)
     const filtered = Array.isArray(buttonName)
-      ? listUser.filter((user: User) => ['resident', 'manager', 'admin'].includes(user.roleName.toLowerCase()))
-      : listUser.filter((user: User) => user.roleName.toLowerCase() === buttonName.toLowerCase())
+      ? listUser.filter(
+          (user: User) =>
+            ['resident', 'manager'].includes(user.roleName.toLowerCase()) && user.roleName.toLowerCase() !== 'admin'
+        )
+      : listUser.filter(
+          (user: User) =>
+            user.roleName.toLowerCase() === buttonName.toLowerCase() && user.roleName.toLowerCase() !== 'admin'
+        )
     setFilteredUsers(filtered)
     setPage(1) // Reset về trang đầu tiên khi lọc
   }
-
   const getAllUserMutation = useMutation({
     mutationFn: async () => {
       const response = await getAllUser()
-      setListUser(response.data)
-      // Set initial filtered users as residents
-      const filtered = response.data.filter((user: User) => user.roleName.toLowerCase() === 'resident')
-      setFilteredUsers(filtered)
+      return response.data
     },
     onSuccess: (data) => {
-      console.log('Danh sách cư dân thành công:', data)
+      // Lọc bỏ admin ngay từ đầu
+      const filteredList = data.filter((user: User) => user.roleName.toLowerCase() !== 'admin')
+      setListUser(filteredList)
+      handleButtonClick(['resident', 'manager']) // Gọi sau khi listUser đã có dữ liệu
+      console.log('Danh sách cư dân thành công:', filteredList)
     },
     onError: (error) => {
       console.error('Lỗi khi hiển thị danh sách cư dân:', error)
     }
   })
+
   useEffect(() => {
     getAllUserMutation.mutate()
     handleButtonClick(['resident', 'manager']) // Mặc định chọn ALL
@@ -140,7 +147,7 @@ export default function ListUser() {
       } else {
         try {
           const response = await searchUser(searchQuery)
-          setFilteredUsers(response.data)
+          setFilteredUsers(response.data.filter((user: User) => user.roleName.toLowerCase() !== 'admin'))
         } catch (error) {
           console.error('Error search:', error)
         }
@@ -207,11 +214,11 @@ export default function ListUser() {
                 <TableRow>
                   <StyledTableCell width='5%'>Id</StyledTableCell>
                   <StyledTableCell width='20%'>Full Name</StyledTableCell>
-                  <StyledTableCell width='12%'>Date of birth</StyledTableCell>
+                  <StyledTableCell width='12%'>Date Of Birth</StyledTableCell>
                   <StyledTableCell width='12%'>Gender</StyledTableCell>
                   <StyledTableCell width='12%'>Apartment</StyledTableCell>
-                  <StyledTableCell width='15%'>Phone number</StyledTableCell>
-                  <StyledTableCell width='13%'>Status</StyledTableCell>
+                  <StyledTableCell width='15%'>Phone Number</StyledTableCell>
+                  <StyledTableCell width='8%'>Status</StyledTableCell>
                   <StyledTableCell width='8%'>Edit</StyledTableCell>
                 </TableRow>
               </TableHead>
@@ -220,23 +227,26 @@ export default function ListUser() {
                   paginatedUsers.map((user, index) => (
                     <StyledTableRow key={user.id}>
                       <StyledTableCell sx={{ color: 'black', fontWeight: '600' }}>
-                        {' '}
                         {(page - 1) * pageSize + index + 1}
                       </StyledTableCell>
                       <StyledTableCell>{user.fullName}</StyledTableCell>
                       <StyledTableCell>
                         {new Intl.DateTimeFormat('vi-VN').format(new Date(user.dateOfBirth))}
                       </StyledTableCell>
-                      <StyledTableCell>{user.gender}</StyledTableCell>
+                      <StyledTableCell>
+                        <span className='capitalize'>{user.gender} </span>
+                      </StyledTableCell>
                       <StyledTableCell>{user.apartmentNumber}</StyledTableCell>
                       <StyledTableCell>{user.phoneNumber}</StyledTableCell>
                       <StyledTableCell>
-                        <span className={`${getStatusColor(user.status)} px-2 py-1 rounded-full text-sm font-semibold`}>
+                        <span
+                          className={`${getStatusColor(user.status)} px-2 py-1 rounded-full text-sm font-semibold capitalize`}
+                        >
                           {user.status}
                         </span>
                       </StyledTableCell>
                       <StyledTableCell>
-                        <div className='flex gap-2'>
+                        <div className='flex gap-4'>
                           <button
                             className='text-blue-500 cursor-pointer'
                             onClick={() => {

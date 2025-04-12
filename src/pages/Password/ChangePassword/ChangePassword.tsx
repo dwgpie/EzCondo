@@ -1,5 +1,4 @@
 import { useForm } from 'react-hook-form'
-import { useNavigate } from 'react-router-dom'
 import { yupResolver } from '@hookform/resolvers/yup'
 import { changePasswordSchema } from '~/utils/rules'
 import { useMutation } from '@tanstack/react-query'
@@ -19,7 +18,6 @@ interface FormData {
 }
 
 export default function ChangePassword() {
-  const navigate = useNavigate()
   const {
     register,
     handleSubmit,
@@ -116,13 +114,6 @@ export default function ChangePassword() {
               </div>
             </div>
             <div className='flex items-center mt-6 gap-6'>
-              <Button
-                onClick={() => navigate(-1)}
-                variant='contained'
-                style={{ color: 'white', background: 'red', fontWeight: 'semi-bold' }}
-              >
-                Cancel
-              </Button>
               <Button
                 type='submit'
                 variant='contained'

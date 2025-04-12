@@ -199,6 +199,22 @@ export default function useRouteElements() {
                     <ListApartment />
                   </DashboardLayout>
                 )
+              },
+              {
+                path: '/profile',
+                element: (
+                  <DashboardLayout>
+                    <Profile />
+                  </DashboardLayout>
+                )
+              },
+              {
+                path: '/change-password',
+                element: (
+                  <DashboardLayout>
+                    <ChangePassword />
+                  </DashboardLayout>
+                )
               }
             ]
           : []),
@@ -251,27 +267,25 @@ export default function useRouteElements() {
                     <HistoryNotificationManager />
                   </DashboardManagerLayout>
                 )
+              },
+              {
+                path: '/profile',
+                element: (
+                  <DashboardManagerLayout>
+                    <Profile />
+                  </DashboardManagerLayout>
+                )
+              },
+              {
+                path: '/change-password',
+                element: (
+                  <DashboardManagerLayout>
+                    <ChangePassword />
+                  </DashboardManagerLayout>
+                )
               }
             ]
-          : []),
-
-        // Common route for all roles
-        {
-          path: '/profile',
-          element: (
-            <DashboardLayout>
-              <Profile />
-            </DashboardLayout>
-          )
-        },
-        {
-          path: '/change-password',
-          element: (
-            <DashboardLayout>
-              <ChangePassword />
-            </DashboardLayout>
-          )
-        }
+          : [])
       ]
     }
   ])

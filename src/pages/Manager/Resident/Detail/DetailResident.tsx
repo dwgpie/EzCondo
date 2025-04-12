@@ -1,14 +1,12 @@
 import { useEffect, useState } from 'react'
 import { useMutation } from '@tanstack/react-query'
-import { editUser, getUserById } from '~/apis/user.api'
-import { addOrUpdateCitizen } from '~/apis/citizen.api'
+import { getUserById } from '~/apis/user.api'
 import { registerSchema } from '~/utils/rules'
 import { useForm } from 'react-hook-form'
 import { yupResolver } from '@hookform/resolvers/yup'
 import { useRef } from 'react'
-import CloudUploadIcon from '@mui/icons-material/CloudUpload'
 import HideImageIcon from '@mui/icons-material/HideImage'
-import { ToastContainer, toast } from 'react-toastify'
+import { ToastContainer } from 'react-toastify'
 import { Button } from '@mui/material'
 import InputEdit from '~/components/InputEdit'
 import { Link } from 'react-router-dom'
@@ -34,16 +32,11 @@ interface formData {
 export default function DetailResident() {
   const {
     register,
-    handleSubmit,
     setValue,
-    clearErrors,
     formState: { errors }
   } = useForm<formData>({
     resolver: yupResolver(registerSchema)
   })
-
-  const [imagePreviewFront, setImagePreviewFront] = useState<string | File | null>(null)
-  const [imagePreviewBack, setImagePreviewBack] = useState<string | null>(null)
 
   const fileInputFrontRef = useRef<HTMLInputElement | null>(null)
   const fileInputBackRef = useRef<HTMLInputElement | null>(null)
@@ -80,8 +73,6 @@ export default function DetailResident() {
     }
   }, [userId])
 
-  const onSubmit = handleSubmit((formData) => {})
-
   const getImageSrc = (image: string | File | null | undefined) => {
     if (image instanceof File) {
       return URL.createObjectURL(image)
@@ -95,7 +86,7 @@ export default function DetailResident() {
       <div className='mb-6 p-6 bg-white drop-shadow-md rounded-xl'>
         <h2 className='text-xl mb-4 text-black font-semibold'>Account Information</h2>
         {user ? (
-          <form className='rounded' noValidate onSubmit={onSubmit}>
+          <form className='rounded' noValidate>
             <div className='grid grid-cols-4 gap-4'>
               <div className=''>
                 <label className='block text-sm font-semibold'>
