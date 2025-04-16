@@ -15,6 +15,7 @@ interface Props {
   rules?: RegisterOptions
   isEditable?: boolean
   rows?: number
+  disabled?: boolean
 }
 
 export default function InputEdit({
@@ -28,7 +29,8 @@ export default function InputEdit({
   register,
   rules,
   isEditable = true,
-  rows
+  rows,
+  disabled
 }: Props) {
   return (
     <div className={className}>
@@ -49,6 +51,7 @@ export default function InputEdit({
           autoComplete={autoComplete}
           defaultValue={defaultValue} // Thêm value vào input
           readOnly={!isEditable}
+          disabled={disabled}
           {...register(name, rules)}
         />
       )}

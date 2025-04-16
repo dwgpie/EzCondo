@@ -53,7 +53,7 @@ export default function Header() {
 
   return (
     <div className='bg-[#fff] h-[80px]  w-full pl-[20px] pr-[20px] border-b-[3px] border-gray-300 z-50'>
-      <div className='flex items-center justify-between w-full  h-[80px]'>
+      <div className='flex items-center justify-between w-full h-[80px]'>
         <div className='relative flex items-center w-[40%]'>
           <span className='absolute left-3 text-gray-400'>
             <SearchIcon />

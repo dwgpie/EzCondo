@@ -89,9 +89,9 @@ export default function AddService() {
             clearInterval(Progress)
             return prev
           }
-          return prev + 10
+          return prev + 5
         })
-      }, 300)
+      }, 150)
 
       const response = await addService({
         serviceName: formData.serviceName,

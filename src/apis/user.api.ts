@@ -23,3 +23,7 @@ export const editUser = (body: {
   apartmentNumber: string
   status: string
 }) => http.patch('/api/User/update-user', body)
+
+export const getAllResident = () => {
+  return http.get('/api/User/get-all-users?roleName=resident')
+}

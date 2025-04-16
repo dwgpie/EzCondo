@@ -1,23 +1,17 @@
 import { Link, useLocation } from 'react-router-dom'
 import BlurLinearIcon from '@mui/icons-material/BlurLinear'
 import ElectricBoltIcon from '@mui/icons-material/ElectricBolt'
-import LocalParkingIcon from '@mui/icons-material/LocalParking'
-import ApartmentIcon from '@mui/icons-material/Apartment'
-import DomainAddIcon from '@mui/icons-material/DomainAdd'
-import BusinessIcon from '@mui/icons-material/Business'
 import EditNotificationsTwoToneIcon from '@mui/icons-material/EditNotificationsTwoTone'
 import AssignmentTwoToneIcon from '@mui/icons-material/AssignmentTwoTone'
 import MarkUnreadChatAltTwoToneIcon from '@mui/icons-material/MarkUnreadChatAltTwoTone'
 import DashboardTwoToneIcon from '@mui/icons-material/DashboardTwoTone'
 import RecentActorsTwoToneIcon from '@mui/icons-material/RecentActorsTwoTone'
-import PersonAddAltTwoToneIcon from '@mui/icons-material/PersonAddAltTwoTone'
 import PersonOutlineTwoToneIcon from '@mui/icons-material/PersonOutlineTwoTone'
 import FitnessCenterTwoToneIcon from '@mui/icons-material/FitnessCenterTwoTone'
-import PriceChangeTwoToneIcon from '@mui/icons-material/PriceChangeTwoTone'
 import WaterDropTwoToneIcon from '@mui/icons-material/WaterDropTwoTone'
 import '../SideBar.css'
 
-export default function SideBarAdminInactive() {
+export default function SideBarManagerInactive() {
   const location = useLocation()
   const path = location.pathname
 
@@ -35,7 +29,7 @@ export default function SideBarAdminInactive() {
 
   return (
     <div className='flex flex-col items-center bg-[#fff] border-r-2 border-[#d1d5dc] text-[#333] h-screen w-full'>
-      <Link to='/admin/dashboard'>
+      <Link to='/manager/dashboard'>
         <div className='w-20 h-20'>
           <img src='/public/imgs/logo/lo23-Photoroom.png' className='w-full h-full object-cover' />
         </div>
