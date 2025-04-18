@@ -157,7 +157,7 @@ export default function AddNotification() {
                     <span className='text-red-600 ml-1'>*</span>
                   </label>
                   <Select id='demo-select-small' defaultValue='new' {...register('type')} sx={{ width: '200px' }}>
-                    <MenuItem value='new'>News</MenuItem>
+                    <MenuItem value='new'>New</MenuItem>
                     <MenuItem value='notice'>Notice</MenuItem>
                     <MenuItem value='fee'>Fee</MenuItem>
                   </Select>

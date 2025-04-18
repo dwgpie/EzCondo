@@ -116,3 +116,81 @@ export const editParking = (body: { id: string; pricePerMotor: number; pricePerO
 
 export const deleteElectric = (electricId: string) =>
   http.delete(`/api/SettingFee/delete-electric-price?electricId=${electricId}`)
+
+export const getAllElectricityMeter = () => http.get('/api/Electric/Get-All-Electric-Metters')
+
+export const addElectricityMeter = async (file: File) => {
+  const formData = new FormData()
+  formData.append('file', file)
+
+  try {
+    const response = await http.post('/api/Electric/Add-Electric-Metters', formData, {
+      headers: {
+        'Content-Type': 'multipart/form-data'
+      }
+    })
+    return response
+  } catch (error: unknown) {
+    if (error instanceof AxiosError && error.response) {
+      const status = error.response.status
+
+      if (status === 404) {
+        toast.error('Apartment is not found')
+        throw new Error('Apartment is not found')
+      }
+
+      if (status === 409) {
+        toast.error('Invalid date format. Please use dd/MM/yyyy')
+        throw new Error('Invalid date format. Please use dd/MM/yyyy')
+      }
+
+      toast.error('Something went wrong. Please try again!')
+      throw new Error(error.response.data?.message || 'Something went wrong')
+    }
+
+    toast.error('Unexpected error. Please try again later!')
+    throw new Error('Unexpected error')
+  }
+}
+
+export const getAllElectricityReading = () => http.get('/api/Electric/Get-All-Electric-Readings')
+
+export const getAllElectric = () => http.get('/api/Electric/Get-All-Electric')
+
+export const addElectricityReading = async (file: File) => {
+  const formData = new FormData()
+  formData.append('file', file)
+
+  try {
+    const response = await http.post('/api/Electric/Add-Electric-Readings', formData, {
+      headers: {
+        'Content-Type': 'multipart/form-data'
+      }
+    })
+    return response
+  } catch (error: unknown) {
+    if (error instanceof AxiosError && error.response) {
+      const status = error.response.status
+
+      if (status === 404) {
+        toast.error('Apartment is not found')
+        throw new Error('Apartment is not found')
+      }
+
+      if (status === 409) {
+        toast.error('Apartment have no user')
+        throw new Error('Apartment have no user')
+      }
+
+      toast.error('Something went wrong. Please try again!')
+      throw new Error(error.response.data?.message || 'Something went wrong')
+    }
+
+    toast.error('Unexpected error. Please try again later!')
+    throw new Error('Unexpected error')
+  }
+}
+
+export const getElectricDetail = (electricId: string) => {
+  return http.get(`/api/Electric/Get-Electric-Detail?electricId=${electricId}`)
+}

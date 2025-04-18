@@ -112,7 +112,7 @@ export default function HistoryNotificationManager() {
                 renderValue={(selected) => (selected === '' ? 'All' : selected)}
               >
                 <MenuItem value=''>All</MenuItem>
-                <MenuItem value='new'>News</MenuItem>
+                <MenuItem value='new'>New</MenuItem>
                 <MenuItem value='notice'>Notice</MenuItem>
                 <MenuItem value='fee'>Fee</MenuItem>
               </Select>

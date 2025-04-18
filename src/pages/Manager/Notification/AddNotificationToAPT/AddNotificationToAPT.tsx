@@ -2,8 +2,8 @@ import { Button, MenuItem, Select, TextField } from '@mui/material'
 import { useForm } from 'react-hook-form'
 import Input from '~/components/Input'
 import { yupResolver } from '@hookform/resolvers/yup'
-import { notificationSchema } from '~/utils/rules'
-import { addNotification, addNotificationImages } from '~/apis/notification.api'
+import { notificationSchemaAPT } from '~/utils/rules'
+import { addNotificationToResident, addNotificationImages } from '~/apis/notification.api'
 import { useRef, useState } from 'react'
 import CloudUploadIcon from '@mui/icons-material/CloudUpload'
 import { ToastContainer, toast } from 'react-toastify'
@@ -15,11 +15,12 @@ interface FormData {
   content: string
   receiver: string
   type: string
+  apartmentNumber: string
   NotificationId?: string
   Image: File[]
 }
 
-export default function AddNotificationManager() {
+export default function AddNotificationToAPT() {
   const {
     register,
     handleSubmit,
@@ -28,7 +29,7 @@ export default function AddNotificationManager() {
     reset,
     formState: { errors }
   } = useForm<FormData>({
-    resolver: yupResolver(notificationSchema)
+    resolver: yupResolver(notificationSchemaAPT)
   })
 
   const navigate = useNavigate()
@@ -88,11 +89,11 @@ export default function AddNotificationManager() {
         })
       }, 300)
 
-      const response = await addNotification({
+      const response = await addNotificationToResident({
         title: formData.title,
         content: formData.content,
-        receiver: formData.receiver,
-        type: formData.type
+        type: formData.type,
+        apartmentNumber: formData.apartmentNumber
       })
 
       if (!response?.data) {

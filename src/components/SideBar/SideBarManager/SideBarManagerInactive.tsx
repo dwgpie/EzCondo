@@ -9,7 +9,6 @@ import RecentActorsTwoToneIcon from '@mui/icons-material/RecentActorsTwoTone'
 import PersonOutlineTwoToneIcon from '@mui/icons-material/PersonOutlineTwoTone'
 import FitnessCenterTwoToneIcon from '@mui/icons-material/FitnessCenterTwoTone'
 import WaterDropTwoToneIcon from '@mui/icons-material/WaterDropTwoTone'
-import ReportProblemTwoToneIcon from '@mui/icons-material/ReportProblemTwoTone'
 import '../SideBar.css'
 
 export default function SideBarManagerInactive() {
@@ -27,7 +26,9 @@ export default function SideBarManagerInactive() {
   const ListWaterUnpaidPath = '/manager/import-water-unpaid'
   const HistoryNotificationPath = '/manager/history-notification'
   const AddNotificationPath = '/manager/add-notification'
-  const ListIncidentPath = '/manager/list-incident'
+
+  const ElectricMeter = '/manager/add-electricity-meter'
+  const ElectricicReading = '/manager/add-electricity-reading'
 
   return (
     <div className='flex flex-col items-center bg-[#fff] border-r-2 border-[#d1d5dc] text-[#333] h-screen w-full'>
@@ -110,7 +111,7 @@ export default function SideBarManagerInactive() {
             {/* Nút bấm */}
             <div className='flex justify-between w-full h-[50px] pl-[40px] pr-[40px] cursor-pointer hover:bg-[#333]/10'>
               <div
-                className={`flex items-center gap-[10px] ${path === ListElectricityPath || path === ListElectricUnpaidPath || path === ImportElectricPath ? 'text-[#1976d3]' : ''}`}
+                className={`flex items-center gap-[10px] ${path === ElectricMeter || path === ElectricicReading || path === ImportElectricPath ? 'text-[#1976d3]' : ''}`}
               >
                 <ElectricBoltIcon />
               </div>
@@ -119,23 +120,21 @@ export default function SideBarManagerInactive() {
             {/* Hover Menu */}
             <div className='absolute w-[200px] border-2 border-[#d1d5dc] rounded-[5px] bg-white shadow-md top-[0] left-[105px] hidden group-hover:block z-[9999]'>
               <ul>
-                <Link to='/manager/list-electricity'>
+                <Link to='/manager/add-electricity-meter'>
                   <div className='flex justify-between h-[50px] pl-[20px] pr-[20px] cursor-pointer hover:bg-[#333]/10'>
-                    <div
-                      className={`flex items-center gap-[10px] ${path === ListElectricityPath ? 'text-[#1976d3]' : ''}`}
-                    >
+                    <div className={`flex items-center gap-[10px] ${path === ElectricMeter ? 'text-[#1976d3]' : ''}`}>
                       <ElectricBoltIcon />
-                      <li className='flex items-center h-[30px] pl-[10px] '>List Electric</li>
+                      <li className='flex items-center h-[30px] pl-[10px] '>Electric Meter</li>
                     </div>
                   </div>
                 </Link>
-                <Link to='/manager/import-electric-unpaid'>
+                <Link to='/manager/add-electricity-reading'>
                   <div className='flex justify-between h-[50px] pl-[20px] pr-[20px] cursor-pointer hover:bg-[#333]/10'>
                     <div
-                      className={`flex items-center gap-[10px] ${path === ListElectricUnpaidPath ? 'text-[#1976d3]' : ''}`}
+                      className={`flex items-center gap-[10px] ${path === ElectricicReading ? 'text-[#1976d3]' : ''}`}
                     >
                       <ElectricBoltIcon />
-                      <li className='flex items-center h-[30px] pl-[10px] '>Unpaid</li>
+                      <li className='flex items-center h-[30px] pl-[10px] '>Electric Read</li>
                     </div>
                   </div>
                 </Link>
@@ -190,32 +189,6 @@ export default function SideBarManagerInactive() {
                     <div className={`flex items-center gap-[10px] ${path === ImportWaterPath ? 'text-[#1976d3]' : ''}`}>
                       <WaterDropTwoToneIcon />
                       <li className='flex items-center h-[30px] pl-[10px] '>Import</li>
-                    </div>
-                  </div>
-                </Link>
-              </ul>
-            </div>
-          </div>
-
-          {/* Incident */}
-          <div className='relative group'>
-            {/* Nút bấm */}
-            <div className='flex justify-between w-full h-[50px] pl-[40px] pr-[40px] cursor-pointer hover:bg-[#333]/10'>
-              <div className={`flex items-center gap-[10px] ${path === ListIncidentPath ? 'text-[#1976d3]' : ''}`}>
-                <ReportProblemTwoToneIcon />
-              </div>
-            </div>
-
-            {/* Hover Menu */}
-            <div className='absolute w-[200px] border-2 border-[#d1d5dc] rounded-[5px] bg-white shadow-md top-[0] left-[105px] hidden group-hover:block z-[9999]'>
-              <ul>
-                <Link to='/manager/list-incident'>
-                  <div className='flex justify-between h-[50px] pl-[20px] pr-[20px] cursor-pointer hover:bg-[#333]/10'>
-                    <div
-                      className={`flex items-center gap-[10px] ${path === ListIncidentPath ? 'text-[#1976d3]' : ''}`}
-                    >
-                      <ReportProblemTwoToneIcon />
-                      <li className='flex items-center h-[30px] pl-[10px] '>List Incident</li>
                     </div>
                   </div>
                 </Link>

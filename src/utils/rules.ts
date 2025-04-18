@@ -298,6 +298,20 @@ export const notificationSchema = yup.object({
     .required('Image is required')
 })
 
+export const notificationSchemaAPT = yup.object({
+  title: yup.string().required('Title is required'),
+  content: yup.string().required('Content is required'),
+  receiver: yup.string().required('Receiver is required'),
+  type: yup.string().required('Type is required'),
+  apartmentNumber: yup.string().required('Apartment number is required'),
+  NotificationId: yup.string(),
+  Image: yup
+    .array()
+    .of(yup.mixed<File>().required('Each image is required'))
+    .min(1, 'At least one image is required')
+    .required('Image is required')
+})
+
 //Add member
 export const addMemberSchema = yup.object({
   id: yup.string(),
@@ -327,6 +341,21 @@ export const addMemberSchema = yup.object({
   no: yup.string().required('ID card number is required'),
   relationship: yup.string().required('Relationship is required')
 })
+
+//Add Electric Meter
+export const addElectricMeterSchema = yup.object({
+  file: yup
+    .mixed<FileList>()
+    .required('File is required')
+    .test('fileExists', 'You must upload a file', (value) => {
+      return value instanceof FileList && value.length > 0
+    })
+}) as yup.ObjectSchema<{ file: FileList }>
+
+// id: yup.string(),
+// apartmentId: yup.string().required('Apartment ID is required'),
+// meterNumber: yup.string().required('Meter number is required'),
+// installationDate: yup.string().required('Installation date is required')
 
 export type RegisterSchema = yup.InferType<typeof registerSchema>
 // cái này dành cho login: OMIT bỏ confirm_password đi

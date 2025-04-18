@@ -58,7 +58,7 @@ const StyledTableRow = styled(TableRow)(() => ({
 export default function HistoryNotification() {
   const [listNotification, setListNotification] = useState<FormData[]>([])
   const [receiver, setReceiver] = useState('all')
-  const [type, setType] = useState('news')
+  const [type, setType] = useState('new')
   const [day, setDay] = useState(7)
   const [page, setPage] = useState(1)
   const pageSize = 5
@@ -115,9 +115,9 @@ export default function HistoryNotification() {
               displayEmpty
               renderValue={(selected) => (selected === '' ? 'All' : selected)}
             >
-              <MenuItem value='news'>News</MenuItem>
+              <MenuItem value='new'>New</MenuItem>
               <MenuItem value='notice'>Notice</MenuItem>
-              <MenuItem value='fees'>Fee</MenuItem>
+              <MenuItem value='fee'>Fee</MenuItem>
               <MenuItem value='all'>All</MenuItem>
             </Select>
           </div>
@@ -179,7 +179,7 @@ export default function HistoryNotification() {
                       <StyledTableCell>{notify.type}</StyledTableCell>
                       <StyledTableCell>{notify.receiver}</StyledTableCell>
                       <StyledTableCell>
-                        <div className='flex gap-2'>
+                        <div className='flex gap-2 ml-2'>
                           <button className='text-blue-500 cursor-pointer' onClick={() => handleEditClick(notify)}>
                             <SubjectIcon />
                           </button>
