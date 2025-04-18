@@ -30,6 +30,9 @@ import AddNotificationManager from './pages/Manager/Notification/AddNotification
 import HistoryNotificationManager from './pages/Manager/Notification/HistoryNotification'
 import AddMember from './pages/Manager/Resident/AddMember'
 import ListIncident from './pages/Manager/Incident/ListIncident'
+import ElectricityMeter from './pages/Manager/Electricity/ElectricityMeter'
+import ElectricityReading from './pages/Manager/Electricity/ElectricityReading'
+import ElectricityDetail from './pages/Manager/Electricity/ElectricityDetail'
 
 // function ProtectedRoute() {
 //   const { isAuthenticated } = useContext(AppContext) // Lấy từ context
@@ -274,6 +277,30 @@ export default function useRouteElements() {
                 element: (
                   <DashboardManagerLayout>
                     <ListIncident />
+                  </DashboardManagerLayout>
+                )
+              },
+              {
+                path: '/manager/add-electricity-meter',
+                element: (
+                  <DashboardManagerLayout>
+                    <ElectricityMeter />
+                  </DashboardManagerLayout>
+                )
+              },
+              {
+                path: '/manager/add-electricity-reading',
+                element: (
+                  <DashboardManagerLayout>
+                    <ElectricityReading />
+                  </DashboardManagerLayout>
+                )
+              },
+              {
+                path: '/manager/electricity-detail',
+                element: (
+                  <DashboardManagerLayout>
+                    <ElectricityDetail />
                   </DashboardManagerLayout>
                 )
               },

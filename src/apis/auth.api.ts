@@ -23,8 +23,8 @@ export const login = async (body: { email: string; password: string }) => {
       }
 
       if (error.response.status === 423) {
-        toast.error('Your account is blocked !')
-        throw new Error('Your account is blocked !')
+        toast.error('Your account is blocked')
+        throw new Error('Your account is blocked')
       }
 
       toast.error('Something went wrong. Please try again!')
