@@ -33,6 +33,7 @@ import ListIncident from './pages/Manager/Incident/ListIncident'
 import ElectricityMeter from './pages/Manager/Electricity/ElectricityMeter'
 import ElectricityReading from './pages/Manager/Electricity/ElectricityReading'
 import ElectricityDetail from './pages/Manager/Electricity/ElectricityDetail'
+import DashboardManager from './pages/Manager/Dashboard'
 
 // function ProtectedRoute() {
 //   const { isAuthenticated } = useContext(AppContext) // Lấy từ context
@@ -228,7 +229,7 @@ export default function useRouteElements() {
                 path: '/manager/dashboard',
                 element: (
                   <DashboardManagerLayout>
-                    <Dashboard />
+                    <DashboardManager />
                   </DashboardManagerLayout>
                 )
               },
