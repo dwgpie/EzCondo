@@ -22,6 +22,10 @@ interface FormData {
 export default function ElectricityDetail() {
   const [electric, setElectric] = useState<FormData | null>(null)
   const ref = useRef<HTMLDivElement>(null)
+  const today = new Date()
+  const day = today.getDate()
+  const month = today.getMonth() + 1 // vì getMonth() tính từ 0
+  const year = today.getFullYear()
 
   const getUserIdFromURL = () => {
     const params = new URLSearchParams(window.location.search)
@@ -68,68 +72,35 @@ export default function ElectricityDetail() {
       <div className='mb-6 p-6 bg-white drop-shadow-md rounded-xl'>
         {electric ? (
           <>
-            {/* <div ref={ref} style={{ padding: '20px', background: '#ffffff' }}>
-              <div style={{ textAlign: 'center', marginBottom: '20px' }}>
-                <h2 style={{ fontSize: '24px', fontWeight: 'bold', color: '#000000' }}>HÓA ĐƠN TIỀN ĐIỆN</h2>
-                <p style={{ color: '#000000' }}>Ngày: {new Date(electric.readingDate).toLocaleDateString('vi-VN')}</p>
-              </div>
-
-              <div style={{ marginBottom: '20px' }}>
-                <p style={{ color: '#000000' }}>
-                  <strong>Họ và tên:</strong> {electric.fullName}
-                </p>
-                <p style={{ color: '#000000' }}>
-                  <strong>Email:</strong> {electric.email}
-                </p>
-                <p style={{ color: '#000000' }}>
-                  <strong>Số điện thoại:</strong> {electric.phoneNumber}
-                </p>
-                <p style={{ color: '#000000' }}>
-                  <strong>Số căn hộ:</strong> {electric.apartmentNumber}
-                </p>
-              </div>
-
-              <div style={{ marginBottom: '20px' }}>
-                <h3 style={{ fontSize: '18px', fontWeight: 'bold', marginBottom: '10px', color: '#000000' }}>
-                  Chi tiết tiêu thụ
-                </h3>
-                <p style={{ color: '#000000' }}>
-                  <strong>Chỉ số cũ:</strong> {electric.pre_electric_number}
-                </p>
-                <p style={{ color: '#000000' }}>
-                  <strong>Chỉ số mới:</strong> {electric.current_electric_number}
-                </p>
-                <p style={{ color: '#000000' }}>
-                  <strong>Tiêu thụ:</strong> {electric.consumption} kWh
-                </p>
-                <p style={{ color: '#000000' }}>
-                  <strong>Thành tiền:</strong> {electric.price.toLocaleString('vi-VN')} VNĐ
-                </p>
-              </div>
-            </div> */}
-
             <div
               ref={ref}
               style={{
                 padding: '32px',
-                background: '#f9fbfd',
-                borderRadius: '20px',
-                boxShadow: '0 10px 30px rgba(0, 0, 0, 0.1)',
+                // background: '#f9fbfd',
+                // borderRadius: '20px',
                 fontFamily: "'Segoe UI', Tahoma, Geneva, Verdana, sans-serif",
-                maxWidth: '960px',
+                maxWidth: '700px',
                 margin: '40px auto',
-                border: '2px solid #d0e0f0',
+                border: '2px solid #ccc',
                 transition: 'all 0.3s ease'
               }}
             >
               {/* Header */}
+              <div className='relative'>
+                <p className='font-medium text-[20px]'>Condominium Apartment Board</p>
+                <img
+                  className='absolute w-[100px] h-[100px] object-cover top-0 right-0'
+                  src='/public/imgs/logo/lo23-Photoroom.png'
+                  alt='avt'
+                />
+              </div>
               <div
                 style={{
+                  position: 'relative',
                   textAlign: 'center',
-                  padding: '30px 20px',
-                  background: 'linear-gradient(135deg, #e3f2fd, #ffffff)',
+                  padding: '0px 20px',
+                  marginTop: '20px',
                   borderRadius: '16px',
-                  border: '1px solid #c9dff0',
                   marginBottom: '32px'
                 }}
               >
@@ -146,106 +117,84 @@ export default function ElectricityDetail() {
                 >
                   Electricity Bill
                 </h2>
-                <p
-                  style={{
-                    color: '#5d6d7e',
-                    fontSize: '16px',
-                    marginTop: '10px',
-                    fontWeight: '500'
-                  }}
-                >
-                  Date: {new Date(electric.readingDate).toLocaleDateString('en-US')}
-                </p>
+                <p className='font-semibold'>No: {id?.slice(-5).toUpperCase()}</p>
               </div>
-
-              {/* Personal Info */}
               <div
                 style={{
-                  marginBottom: '32px',
-                  padding: '28px',
-                  background: '#ffffff',
-                  borderRadius: '14px',
-                  border: '1px solid #e0eaf0',
-                  boxShadow: '0 4px 16px rgba(0, 0, 0, 0.06)'
+                  color: '#000',
+                  fontSize: '16px',
+                  fontWeight: '500'
                 }}
               >
-                <h3
-                  style={{
-                    fontSize: '20px',
-                    color: '#2c3e50',
-                    marginBottom: '20px',
-                    fontWeight: '600',
-                    borderBottom: '1px solid #ecf0f1',
-                    paddingBottom: '10px',
-                    textTransform: 'uppercase'
-                  }}
-                >
-                  Customer Information
-                </h3>
-                {[
-                  ['Full Name', electric.fullName],
-                  ['Email', electric.email],
-                  ['Phone Number', electric.phoneNumber],
-                  ['Apartment Number', electric.apartmentNumber]
-                ].map(([label, value], index) => (
-                  <p
-                    key={index}
-                    style={{
-                      color: '#34495e',
-                      fontSize: '16px',
-                      marginBottom: '12px',
-                      fontWeight: '500',
-                      lineHeight: '1.6'
-                    }}
-                  >
-                    <strong>{label}:</strong> {value}
-                  </p>
-                ))}
-              </div>
+                <p className=''>Apartment number: {electric.apartmentNumber}</p>
+                <table className='border-separate border-spacing-y-2  w-full '>
+                  <tr>
+                    <td className='px-0 py-2'>
+                      <p>Previous date: {new Date(electric.readingDate).toLocaleDateString('en-US')}</p>
+                    </td>
+                    <td className='px-4 py-2'>
+                      <p>Reading date: {new Date(electric.readingDate).toLocaleDateString('en-US')}</p>
+                    </td>
+                  </tr>
+                  <tr>
+                    <td className='px-0 py-2'>
+                      <p>Owner: {electric.fullName}</p>
+                    </td>
+                    <td className='px-4 py-2'>
+                      <p>Email: {electric.email}</p>
+                    </td>
+                  </tr>
+                </table>
 
-              {/* Consumption Info */}
-              <div
-                style={{
-                  padding: '28px',
-                  background: '#ffffff',
-                  borderRadius: '14px',
-                  border: '1px solid #e0eaf0',
-                  boxShadow: '0 4px 16px rgba(0, 0, 0, 0.06)'
-                }}
-              >
-                <h3
-                  style={{
-                    fontSize: '20px',
-                    fontWeight: '600',
-                    color: '#2c3e50',
-                    marginBottom: '20px',
-                    textTransform: 'uppercase',
-                    borderBottom: '1px solid #ecf0f1',
-                    paddingBottom: '10px'
-                  }}
-                >
-                  Consumption Details
-                </h3>
+                {/* <div className='flex gap-[200px]'>
+                  <p className='mt-[10px]'>Owner: {electric.fullName}</p>
+                  <p className='mt-[10px]'>Email: {electric.email}</p>
+                </div> */}
+                <p className='mt-[20px]'>Meter number: {electric.meterNumber}</p>
+                <p className='mt-[10px]'>Previous Meter: {electric.pre_electric_number}</p>
+                <p className='mt-[10px]'>Current Meter: {electric.current_electric_number}</p>
 
-                {[
-                  ['Previous Meter Reading', electric.pre_electric_number],
-                  ['Current Meter Reading', electric.current_electric_number],
-                  ['Consumption', `${electric.consumption} kWh`],
-                  ['Total Price', `${electric.price.toLocaleString('en-US')} VND`]
-                ].map(([label, value], index) => (
-                  <p
-                    key={index}
-                    style={{
-                      color: '#34495e',
-                      fontSize: '16px',
-                      marginBottom: '12px',
-                      lineHeight: '1.5',
-                      fontWeight: '500'
-                    }}
-                  >
-                    <strong>{label}:</strong> {value}
+                {/* <div className='flex justify-between'>
+                  <p className='mt-[10px]'>
+                    Reading date: {new Date(electric.readingDate).toLocaleDateString('en-US')}
                   </p>
-                ))}
+                  <p className='mt-[10px]'>Previous Meter Reading: {electric.pre_electric_number} </p>
+                  <p className='mt-[10px]'>Current Meter Reading: {electric.current_electric_number} </p>
+                </div>
+
+                <div className='flex justify-between'>
+                  <p className='mt-[20px]'>Consumption: {electric.consumption} kWh</p>
+                  <p className='mt-[10px]'>Unit Price: {electric.price} VND</p>
+                  <p className='mt-[10px]'>Total Price: {electric.price * electric.consumption} VND</p>
+                </div> */}
+                <table className='border-1 border-separate border-spacing-y-2  w-full mt-[20px] '>
+                  <tr>
+                    <td className='px-2 py-2'>Consumption</td>
+                    <td className='px-4 py-2'>Unit Price</td>
+                    <td className='px-2 py-2'>Total Price</td>
+                  </tr>
+                  <tr>
+                    <td className='px-2 py-2'>
+                      <p>{electric.consumption} kWh</p>
+                    </td>
+                    <td className='px-4 py-2'>
+                      <p>{electric.price} VND</p>
+                    </td>
+                    <td className='px-2 py-2'>
+                      <p>{electric.price * electric.consumption} VND</p>
+                    </td>
+                  </tr>
+                </table>
+
+                <div className='flex flex-col items-end mt-[40px] mb-[20px]'>
+                  <p>
+                    Day {day}, Month {month}, Year {year}
+                  </p>
+                  <p>Condominium Management Board</p>
+                  <img src='/public/imgs/bg/chuky2.png' alt='Signature' className='w-[150px] mt-2' />
+                </div>
+
+                {/* ['Total Price', `${electric.price.toLocaleString('en-US')} VND`] */}
               </div>
             </div>
 
