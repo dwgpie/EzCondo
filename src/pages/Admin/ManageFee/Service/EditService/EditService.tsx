@@ -168,7 +168,9 @@ export default function EditService() {
       })
       setImages([])
       setFiles([])
-      toast.success('Service updated successfully!')
+      toast.success('Service updated successfully!', {
+        style: { width: 'fit-content' }
+      })
       setTimeout(() => {
         window.location.href = '/admin/list-service'
       }, 1500)

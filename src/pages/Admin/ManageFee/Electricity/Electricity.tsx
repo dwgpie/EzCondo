@@ -78,7 +78,9 @@ export default function Electricity() {
         pricePerKWh: formData.pricePerKWh
       })
 
-      toast.success('Set Electricity created successfully!')
+      toast.success('Set Electricity created successfully!', {
+        style: { width: 'fit-content' }
+      })
       getElectricMutation.mutate() // Refresh the list after adding new item
     } catch (error) {
       console.error('API call failed:', error)
@@ -109,12 +111,13 @@ export default function Electricity() {
           maxKWh: editingItem.maxKWh,
           pricePerKWh: editingItem.pricePerKWh
         })
-        toast.success('Electricity fee updated successfully!')
+        toast.success('Electricity fee updated successfully!', {
+          style: { width: 'fit-content' }
+        })
         handleCloseEditDialog()
         getElectricMutation.mutate() // Refresh the list
       } catch (error) {
         console.error('Update failed:', error)
-        toast.error('Failed to update electricity fee')
       }
     }
   }

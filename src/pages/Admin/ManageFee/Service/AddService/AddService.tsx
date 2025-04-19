@@ -114,7 +114,9 @@ export default function AddService() {
         serviceImages: formData.serviceImages
       })
 
-      toast.success('Service created successfully!')
+      toast.success('Service created successfully!', {
+        style: { width: 'fit-content' }
+      })
       setImages([])
       setFiles([])
     } catch (error) {

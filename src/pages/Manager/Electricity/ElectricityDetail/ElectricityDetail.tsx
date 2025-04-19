@@ -40,7 +40,6 @@ export default function ElectricityDetail() {
       return response.data
     },
     onSuccess: (data) => {
-      console.log('Data received:', data)
       setElectric(data)
     }
   })
@@ -76,8 +75,6 @@ export default function ElectricityDetail() {
               ref={ref}
               style={{
                 padding: '32px',
-                // background: '#f9fbfd',
-                // borderRadius: '20px',
                 fontFamily: "'Segoe UI', Tahoma, Geneva, Verdana, sans-serif",
                 maxWidth: '700px',
                 margin: '40px auto',
@@ -87,7 +84,7 @@ export default function ElectricityDetail() {
             >
               {/* Header */}
               <div className='relative'>
-                <p className='font-medium text-[20px]'>Condominium Apartment Board</p>
+                <p className='font-medium text-[20px]'>Apartment Management Board</p>
                 <img
                   className='absolute w-[100px] h-[100px] object-cover top-0 right-0'
                   src='/public/imgs/logo/lo23-Photoroom.png'
@@ -190,7 +187,7 @@ export default function ElectricityDetail() {
                   <p>
                     Day {day}, Month {month}, Year {year}
                   </p>
-                  <p>Condominium Management Board</p>
+                  <p>Apartment Management Board</p>
                   <img src='/public/imgs/bg/chuky2.png' alt='Signature' className='w-[150px] mt-2' />
                 </div>
 

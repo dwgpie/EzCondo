@@ -35,7 +35,9 @@ export default function ChangePassword() {
     loginMutation.mutate(data, {
       onSuccess: () => {
         reset()
-        toast.success('Change password successfully')
+        toast.success('Change password successfully!', {
+          style: { width: 'fit-content' }
+        })
       }
     })
   })

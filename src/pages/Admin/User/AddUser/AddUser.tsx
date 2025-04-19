@@ -10,7 +10,6 @@ import { useEffect, useRef, useState } from 'react'
 import CloudUploadIcon from '@mui/icons-material/CloudUpload'
 import { ToastContainer, toast } from 'react-toastify'
 import LoadingOverlay from '~/components/LoadingOverlay'
-import { AxiosError } from 'axios'
 
 interface FormData {
   fullName: string
@@ -88,11 +87,10 @@ export default function AddUser() {
 
   const [apartments, setApartments] = useState<Apartment[]>([])
 
-  // Lấy danh sách căn hộ
   const fetchApartments = async () => {
     try {
       const response = await getApartmentByStatus()
-      setApartments(response.data) // Cập nhật state
+      setApartments(response.data)
     } catch (error) {
       console.error('Error fetching apartments:', error)
     }
@@ -126,9 +124,12 @@ export default function AddUser() {
         apartmentNumber: formData.apartmentNumber,
         roleName: formData.roleName
       })
+
+      // Kiểm tra nếu không có lỗi từ API
       if (!response?.data) {
         throw new Error('API error: Response data is missing')
       }
+
       const userId = response.data
       await addOrUpdateCitizen({
         userId,
@@ -138,18 +139,12 @@ export default function AddUser() {
         frontImage: formData.frontImage,
         backImage: formData.backImage
       })
-      toast.success('Account created successfully!')
-    } catch (error) {
-      console.error('API call failed:', error)
-      if (error instanceof AxiosError && error.response) {
-        if (error.response.status === 409 || error.response.status === 404) {
-          toast.error('Email or Phone number already exists.')
-        } else {
-          toast.error('An error occurred while creating the account.')
-        }
-      } else {
-        toast.error('Something went wrong.')
-      }
+
+      toast.success('User created successfully!', {
+        style: { width: 'fit-content' }
+      })
+    } catch (error: any) {
+      toast(error.message)
     } finally {
       setProgress(100)
       setTimeout(() => {

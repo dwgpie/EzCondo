@@ -107,7 +107,9 @@ export default function AddNotification() {
         Image: formData.Image
       })
 
-      toast.success('Notification created successfully!')
+      toast.success('Notification created successfully!', {
+        style: { width: 'fit-content' }
+      })
       setImages([])
       setFiles([])
     } catch (error) {

@@ -60,7 +60,9 @@ export default function AddApartment() {
         description: formData.description
       })
 
-      toast.success('Add Apartment created successfully!')
+      toast.success('Add Apartment created successfully!', {
+        style: { width: 'fit-content' }
+      })
     } catch (error) {
       console.error('API call failed:', error)
     } finally {

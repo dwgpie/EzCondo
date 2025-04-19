@@ -56,8 +56,7 @@ export default function DetailResident() {
       return response.data
     },
     onSuccess: (data) => {
-      console.log('Dữ liệu người dùng:', data)
-      setUser(data) // Cập nhật state với dữ liệu từ API
+      setUser(data)
       // Gán ảnh cũ vào form nếu có
       setValue('frontImage', data.frontImage)
       setValue('backImage', data.backImage)

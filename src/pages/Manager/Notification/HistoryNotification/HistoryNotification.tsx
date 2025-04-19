@@ -125,7 +125,7 @@ export default function HistoryNotificationManager() {
             </div>
           </div>
         </div>
-        <Paper elevation={4}>
+        <Paper elevation={4} sx={{ borderRadius: '12px', overflow: 'hidden' }}>
           <TableContainer>
             <Table aria-label='customized table'>
               <TableHead>

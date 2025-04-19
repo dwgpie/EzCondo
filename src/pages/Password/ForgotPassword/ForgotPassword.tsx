@@ -36,7 +36,6 @@ export default function ForgotPassword() {
         console.log('Error:', error)
       }
     })
-    console.log(data)
   })
 
   return (

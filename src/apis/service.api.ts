@@ -41,7 +41,6 @@ export const addOrUpdateImage = (body: { service_Id: string; serviceImages: File
       'Content-Type': 'multipart/form-data'
     }
   })
-  // return http.post('/api/Services/add-or-update-service-images', body)
 }
 
 export const getAllService = () => {
@@ -62,15 +61,16 @@ export const addWater = async (body: { pricePerM3: number }) => {
   } catch (error: unknown) {
     if (error instanceof AxiosError && error.response) {
       if (error.response.status === 409) {
-        toast.error('Water price can only be set once')
+        toast.error('Water price can only be set once', {
+          style: { width: 'fit-content' }
+        })
         throw new Error('Parking price can only be set once')
       }
-      toast.error('Something went wrong. Please try again!')
+      toast.error('Something went wrong', {
+        style: { width: 'fit-content' }
+      })
       throw new Error(error.response.data?.message || 'Something went wrong')
     }
-
-    toast.error('Unexpected error. Please try again later!')
-    throw new Error('Unexpected error')
   }
 }
 
@@ -81,15 +81,16 @@ export const addParking = async (body: { pricePerMotor: number; pricePerOto: num
   } catch (error: unknown) {
     if (error instanceof AxiosError && error.response) {
       if (error.response.status === 409) {
-        toast.error('Parking price can only be set once')
+        toast.error('Parking price can only be set once', {
+          style: { width: 'fit-content' }
+        })
         throw new Error('Parking price can only be set once')
       }
-      toast.error('Something went wrong. Please try again!')
+      toast.error('Something went wrong', {
+        style: { width: 'fit-content' }
+      })
       throw new Error(error.response.data?.message || 'Something went wrong')
     }
-
-    toast.error('Unexpected error. Please try again later!')
-    throw new Error('Unexpected error')
   }
 }
 
@@ -135,21 +136,24 @@ export const addElectricityMeter = async (file: File) => {
       const status = error.response.status
 
       if (status === 404) {
-        toast.error('Apartment is not found')
+        toast.error('Apartment is not found', {
+          style: { width: 'fit-content' }
+        })
         throw new Error('Apartment is not found')
       }
 
       if (status === 409) {
-        toast.error('Invalid date format. Please use dd/MM/yyyy')
-        throw new Error('Invalid date format. Please use dd/MM/yyyy')
+        toast.error('Invalid date format. Please use yyyy-MM-dd', {
+          style: { width: 'fit-content' }
+        })
+        throw new Error('Invalid date format. Please use yyyy-MM-dd')
       }
 
-      toast.error('Something went wrong. Please try again!')
+      toast.error('Something went wrong', {
+        style: { width: 'fit-content' }
+      })
       throw new Error(error.response.data?.message || 'Something went wrong')
     }
-
-    toast.error('Unexpected error. Please try again later!')
-    throw new Error('Unexpected error')
   }
 }
 
@@ -173,24 +177,39 @@ export const addElectricityReading = async (file: File) => {
       const status = error.response.status
 
       if (status === 404) {
-        toast.error('Apartment is not found')
+        toast.error('Apartment is not found', {
+          style: { width: 'fit-content' }
+        })
         throw new Error('Apartment is not found')
       }
 
       if (status === 409) {
-        toast.error('Apartment have no user')
+        toast.error('Apartment have no user', {
+          style: { width: 'fit-content' }
+        })
         throw new Error('Apartment have no user')
       }
 
-      toast.error('Something went wrong. Please try again!')
+      toast.error('Something went wrong', {
+        style: { width: 'fit-content' }
+      })
       throw new Error(error.response.data?.message || 'Something went wrong')
     }
-
-    toast.error('Unexpected error. Please try again later!')
-    throw new Error('Unexpected error')
   }
 }
 
 export const getElectricDetail = (electricId: string) => {
   return http.get(`/api/Electric/Get-Electric-Detail?electricId=${electricId}`)
+}
+
+export const dowloadTemplateElectricMeter = () => {
+  return http.get('http://localhost:7254/api/Electric/Download-Template-Electric-Metter', {
+    responseType: 'blob'
+  })
+}
+
+export const dowloadTemplateElectricReading = () => {
+  return http.get('http://localhost:7254/api/Electric/Download-Template-Electric-Reading', {
+    responseType: 'blob'
+  })
 }

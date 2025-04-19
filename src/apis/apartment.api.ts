@@ -13,15 +13,16 @@ export const addApartment = async (body: { apartmentNumber: string; acreage: num
   } catch (error: unknown) {
     if (error instanceof AxiosError && error.response) {
       if (error.response.status === 400) {
-        toast.error('Apartment Number already exists')
+        toast.error('Apartment Number already exists', {
+          style: { width: 'fit-content' }
+        })
         throw new Error('Apartment Number already exists')
       }
-      toast.error('Something went wrong. Please try again!')
+      toast.error('Something went wrong', {
+        style: { width: 'fit-content' }
+      })
       throw new Error(error.response.data?.message || 'Something went wrong')
     }
-
-    toast.error('Unexpected error. Please try again later!')
-    throw new Error('Unexpected error')
   }
 }
 

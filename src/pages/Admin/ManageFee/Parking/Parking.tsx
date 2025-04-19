@@ -72,7 +72,9 @@ export default function Parking() {
         pricePerOto: formData.pricePerOto
       })
 
-      toast.success('Set Parking created successfully!')
+      toast.success('Set Parking created successfully!', {
+        style: { width: 'fit-content' }
+      })
       getParkingMutation.mutate() // Refresh data after adding
     } catch (error) {
       console.error('API call failed:', error)
@@ -102,12 +104,13 @@ export default function Parking() {
           pricePerMotor: editingItem.pricePerMotor,
           pricePerOto: editingItem.pricePerOto
         })
-        toast.success('Parking fee updated successfully!')
+        toast.success('Parking fee updated successfully!', {
+          style: { width: 'fit-content' }
+        })
         handleCloseEditDialog()
         getParkingMutation.mutate() // Refresh data after editing
       } catch (error) {
         console.error('Update failed:', error)
-        toast.error('Failed to update parking fee')
       }
     }
   }

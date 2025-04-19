@@ -62,7 +62,9 @@ export default function Water() {
         pricePerM3: formData.pricePerM3
       })
 
-      toast.success('Set Water created successfully!')
+      toast.success('Set Water created successfully!', {
+        style: { width: 'fit-content' }
+      })
       getWaterMutation.mutate() // Refresh data after adding
     } catch (error) {
       console.error('API call failed:', error)
@@ -91,12 +93,13 @@ export default function Water() {
           id: editingItem.id,
           pricePerM3: editingItem.pricePerM3
         })
-        toast.success('Water fee updated successfully!')
+        toast.success('Water Fee updated successfully!', {
+          style: { width: 'fit-content' }
+        })
         handleCloseEditDialog()
         getWaterMutation.mutate() // Refresh data after editing
       } catch (error) {
         console.error('Update failed:', error)
-        toast.error('Failed to update water fee')
       }
     }
   }

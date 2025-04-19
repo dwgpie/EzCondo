@@ -10,12 +10,14 @@ import TableRow from '@mui/material/TableRow'
 import Paper from '@mui/material/Paper'
 import Pagination from '@mui/material/Pagination'
 import { useForm } from 'react-hook-form'
-import { getAllElectric, addElectricityReading } from '~/apis/service.api'
+import { getAllElectric, addElectricityReading, dowloadTemplateElectricReading } from '~/apis/service.api'
 import { yupResolver } from '@hookform/resolvers/yup'
 import { addElectricMeterSchema } from '~/utils/rules'
 import { Button } from '@mui/material'
 import SubjectIcon from '@mui/icons-material/Subject'
 import { toast } from 'react-toastify'
+import CloudUploadIcon from '@mui/icons-material/CloudUpload'
+import FileDownloadIcon from '@mui/icons-material/FileDownload'
 
 interface UploadFormData {
   file: FileList
@@ -36,11 +38,13 @@ const StyledTableCell = styled(TableCell)(({ theme }) => ({
     backgroundColor: '#f4f4f5',
     color: theme.palette.common.black,
     fontWeight: 'bold',
-    fontFamily: 'Roboto'
+    fontFamily: 'Roboto',
+    padding: '10px 12px'
   },
   [`&.${tableCellClasses.body}`]: {
     fontSize: 14,
-    fontFamily: 'Roboto'
+    fontFamily: 'Roboto',
+    padding: '8px 12px'
   }
 }))
 
@@ -64,7 +68,7 @@ export default function ElectricityReading() {
   const [listElectric, setListElectric] = useState<ElectricityMeter[]>([])
   const [filteredElectrics, setFilteredElectrics] = useState<ElectricityMeter[]>([])
   const [page, setPage] = useState(1)
-  const pageSize = 4
+  const pageSize = 5
   const totalPages = Math.ceil(filteredElectrics.length / pageSize)
   const [excelFileName, setExcelFileName] = useState<string | null>(null)
   const fileInputExcelRef = useRef<HTMLInputElement | null>(null)
@@ -136,12 +140,14 @@ export default function ElectricityReading() {
 
   const getStatusColor = (status: string) => {
     switch (status.toLowerCase()) {
+      case 'completed':
+        return 'bg-green-300 text-green-900 hover:bg-green-400 hover:text-white'
       case 'pending':
-        return 'bg-green-200 text-green-800'
-      case 'ipending':
-        return 'bg-red-200 text-red-800'
+        return 'bg-orange-300 text-orange-900 hover:bg-orange-400 hover:text-white'
+      case 'overdue':
+        return 'bg-red-400 text-red-900 hover:bg-red-500 hover:text-white'
       default:
-        return ''
+        return 'bg-gray-200 text-gray-700 hover:bg-gray-300'
     }
   }
 
@@ -149,68 +155,117 @@ export default function ElectricityReading() {
     window.location.href = `/manager/electricity-detail?electricReadingId=${id}`
   }
 
+  const handleDownload = async () => {
+    try {
+      const response = await dowloadTemplateElectricReading()
+      const blob = new Blob([response.data], { type: response.data.type })
+      const url = window.URL.createObjectURL(blob)
+      const link = document.createElement('a')
+      link.href = url
+      link.setAttribute('download', 'Template_Electric_Reading.xlsx')
+      document.body.appendChild(link)
+      link.click()
+      document.body.removeChild(link)
+      window.URL.revokeObjectURL(url)
+    } catch (error) {
+      console.error('Lỗi khi tải file:', error)
+    }
+  }
+
   return (
     <div className='pt-5 mx-5 z-13' style={{ height: 'calc(100vh - 80px)' }}>
-      <div className='mb-6 p-6 bg-white drop-shadow-md rounded-xl'>
-        <form onSubmit={onSubmit} className='mb-6'>
-          <div className='w-full flex gap-4'>
-            <div
-              className='w-64 h-auto p-2 border-2 border-dashed border-gray-400 rounded-md flex flex-col items-center justify-center cursor-pointer bg-gray-100'
-              onClick={() => fileInputExcelRef.current?.click()}
-              onDrop={handleExcelDrop}
-              onDragOver={(e) => e.preventDefault()}
-            >
-              {excelFileName ? (
-                <p className='text-green-700 font-medium text-sm text-center'>{excelFileName}</p>
-              ) : (
-                <>
-                  <img src='/public/imgs/logo/excel.png' className='w-12 object-cover' />
-                  <p className='text-gray-700 font-semibold mt-2 text-sm'>Upload Excel File</p>
-                  <p className='text-gray-500 text-xs mt-1 text-center'>Drag and drop .xlsx or .xls files here</p>
-                </>
-              )}
-              <input
-                type='file'
-                accept='.xlsx, .xls'
-                {...register('file')}
-                ref={fileInputExcelRef}
-                className='hidden'
-                onChange={handleExcelChange}
-              />
-            </div>
-            <div className='flex items-end justify-end gap-4 mt-3'>
+      <div className='px-8 py-4 bg-gradient-to-br from-white to-blue-50 shadow-xl rounded-2xl space-y-6'>
+        <form onSubmit={onSubmit}>
+          <div className='flex justify-between items-center'>
+            <h2 className='text-xl font-semibold text-gray-700'>Electricity Reading Management</h2>
+            <div className='flex gap-3 mb-3'>
+              <Button
+                onClick={handleDownload}
+                variant='contained'
+                startIcon={<FileDownloadIcon />}
+                sx={{
+                  backgroundColor: '#f97316',
+                  '&:hover': {
+                    backgroundColor: '#ea580c'
+                  },
+                  color: 'white',
+                  fontWeight: 600,
+                  textTransform: 'none',
+                  px: 3,
+                  py: 1.5,
+                  borderRadius: 2
+                }}
+              >
+                Export Template
+              </Button>
+
               <Button
                 type='submit'
                 variant='contained'
-                style={{ color: 'white', background: '#0f74e7', fontWeight: 'semi-bold' }}
+                startIcon={<CloudUploadIcon />}
+                sx={{
+                  backgroundColor: '#0ea5e9',
+                  '&:hover': {
+                    backgroundColor: '#0284c7'
+                  },
+                  color: 'white',
+                  fontWeight: 600,
+                  textTransform: 'none',
+                  px: 3,
+                  py: 1.5,
+                  borderRadius: 2
+                }}
               >
                 Import
               </Button>
             </div>
           </div>
+          <div
+            className='border-2 border-dashed border-blue-400 rounded-xl flex flex-col items-center justify-center bg-blue-50 hover:bg-blue-100 pt-3 pb-2 cursor-pointer transition space-y-1'
+            onClick={() => fileInputExcelRef.current?.click()}
+            onDrop={handleExcelDrop}
+            onDragOver={(e) => e.preventDefault()}
+          >
+            {excelFileName ? (
+              <p className='text-green-700 font-medium text-center text-xs'>{excelFileName}</p>
+            ) : (
+              <>
+                <img src='/public/imgs/logo/excel.png' alt='excel' className='w-11' />
+                <p className='text-blue-800 font-semibold text-[13px] mt-1'>Upload Excel File</p>
+                <p className='text-gray-500 text-[12px] text-center'>Drag & drop .xlsx or .xls files</p>
+              </>
+            )}
+            <input
+              type='file'
+              accept='.xlsx, .xls'
+              {...register('file')}
+              ref={fileInputExcelRef}
+              className='hidden'
+              onChange={handleExcelChange}
+            />
+          </div>
         </form>
-        <Paper elevation={4}>
+
+        <Paper elevation={4} sx={{ borderRadius: '12px', overflow: 'hidden' }}>
           <TableContainer>
             <Table sx={{ minWidth: 700 }} aria-label='customized table'>
               <TableHead>
                 <TableRow>
-                  <StyledTableCell width='5%'>Id</StyledTableCell>
+                  <StyledTableCell width='2%'>ID</StyledTableCell>
                   <StyledTableCell width='15%'>Name</StyledTableCell>
-                  <StyledTableCell width='11%'>Apartment Number</StyledTableCell>
-                  <StyledTableCell width='8%'>Phone Number</StyledTableCell>
-                  <StyledTableCell width='10%'>Reading Date</StyledTableCell>
-                  <StyledTableCell width='6%'>Consumption</StyledTableCell>
+                  <StyledTableCell width='12%'>Apartment Number</StyledTableCell>
+                  <StyledTableCell width='10%'>Phone</StyledTableCell>
+                  <StyledTableCell width='12%'>Reading Date</StyledTableCell>
+                  <StyledTableCell width='8%'>Consumption</StyledTableCell>
                   <StyledTableCell width='10%'>Status</StyledTableCell>
-                  <StyledTableCell width='5%'>Detail</StyledTableCell>
+                  <StyledTableCell width='6%'>Detail</StyledTableCell>
                 </TableRow>
               </TableHead>
               <TableBody>
                 {paginatedElectricMeter.length > 0 ? (
                   paginatedElectricMeter.map((electric, index) => (
                     <StyledTableRow key={`${electric.fullName}-${index}`}>
-                      <StyledTableCell sx={{ color: 'black', fontWeight: '600' }}>
-                        {(page - 1) * pageSize + index + 1}
-                      </StyledTableCell>
+                      <StyledTableCell sx={{ fontWeight: 600 }}>{(page - 1) * pageSize + index + 1}</StyledTableCell>
                       <StyledTableCell>{electric.fullName}</StyledTableCell>
                       <StyledTableCell>{electric.apartmentNumber}</StyledTableCell>
                       <StyledTableCell>{electric.phoneNumber}</StyledTableCell>
@@ -227,15 +282,17 @@ export default function ElectricityReading() {
                       <StyledTableCell>{electric.consumption}</StyledTableCell>
                       <StyledTableCell>
                         <span
-                          className={`${getStatusColor(electric.status)} px-2 py-1 rounded-full text-sm font-semibold capitalize`}
+                          className={`${getStatusColor(
+                            electric.status
+                          )} px-3 py-1.5 rounded-full text-sm font-semibold capitalize`}
                         >
                           {electric.status}
                         </span>
                       </StyledTableCell>
                       <StyledTableCell>
-                        <div className='flex gap-2 ml-2'>
+                        <div className='flex p-2'>
                           <button
-                            className='text-blue-500 cursor-pointer'
+                            className='text-blue-600 hover:text-blue-800 transition-colors cursor-pointer'
                             onClick={() => handleDetailClick(electric.electricReadingId || '')}
                           >
                             <SubjectIcon />
@@ -246,8 +303,8 @@ export default function ElectricityReading() {
                   ))
                 ) : (
                   <TableRow>
-                    <TableCell colSpan={9} align='center'>
-                      No electrics found
+                    <TableCell colSpan={8} align='center'>
+                      No electrics found.
                     </TableCell>
                   </TableRow>
                 )}
@@ -255,7 +312,8 @@ export default function ElectricityReading() {
             </Table>
           </TableContainer>
         </Paper>
-        <div className='mt-10 flex justify-center'>
+
+        <div className='flex justify-center mt-6'>
           <Pagination count={totalPages} page={page} onChange={handlePageChange} />
         </div>
       </div>

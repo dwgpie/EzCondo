@@ -130,7 +130,7 @@ export default function ListService() {
   return (
     <div className='pt-5 mx-5 z-13' style={{ height: 'calc(100vh - 80px)' }}>
       <div className='mb-6 p-6 bg-white drop-shadow-md rounded-xl'>
-        <Paper elevation={4}>
+        <Paper elevation={4} sx={{ borderRadius: '12px', overflow: 'hidden' }}>
           <TableContainer>
             <Table aria-label='customized table'>
               <TableHead>
