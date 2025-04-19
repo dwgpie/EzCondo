@@ -16,7 +16,7 @@ class Http {
     this.accessToken = getAccessTokenFromLocalStorage()
     this.instance = axios.create({
       baseURL: import.meta.env.VITE_API_URL,
-      // baseURL: 'http://172.20.0.129:7254',
+      // baseURL: 'http://192.168.253.43:7254',
       headers: {
         'Content-Type': 'application/json'
       }

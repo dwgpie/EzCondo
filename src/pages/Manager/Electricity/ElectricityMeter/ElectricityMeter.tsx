@@ -25,6 +25,7 @@ interface ElectricityMeter {
   meterNumber: string
   installationDate: string
   apartmentId: string
+  apartmentNumber: string
 }
 
 const StyledTableCell = styled(TableCell)(({ theme }) => ({
@@ -174,9 +175,9 @@ export default function ElectricityMeter() {
             <Table sx={{ minWidth: 700 }} aria-label='customized table'>
               <TableHead>
                 <TableRow>
-                  <StyledTableCell width='5%'>Id</StyledTableCell>
-                  <StyledTableCell width='20%'>Aparment Number</StyledTableCell>
-                  <StyledTableCell width='12%'>Metter Number</StyledTableCell>
+                  <StyledTableCell width='10%'>Id</StyledTableCell>
+                  <StyledTableCell width='15%'>Aparment Number</StyledTableCell>
+                  <StyledTableCell width='15%'>Metter Number</StyledTableCell>
                   <StyledTableCell width='10%'>Installation Date</StyledTableCell>
                 </TableRow>
               </TableHead>
@@ -187,7 +188,7 @@ export default function ElectricityMeter() {
                       <StyledTableCell sx={{ color: 'black', fontWeight: '600' }}>
                         {(page - 1) * pageSize + index + 1}
                       </StyledTableCell>
-                      <StyledTableCell>{electric.apartmentId}</StyledTableCell>
+                      <StyledTableCell>{electric.apartmentNumber}</StyledTableCell>
                       <StyledTableCell>{electric.meterNumber}</StyledTableCell>
                       <StyledTableCell>{electric.installationDate}</StyledTableCell>
                     </StyledTableRow>

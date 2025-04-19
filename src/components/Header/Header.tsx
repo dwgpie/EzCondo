@@ -14,6 +14,7 @@ import AccountCircleIcon from '@mui/icons-material/AccountCircle'
 import LogoutIcon from '@mui/icons-material/Logout'
 import PasswordIcon from '@mui/icons-material/Password'
 import * as signalR from '@microsoft/signalr'
+import { format, formatDistanceToNow, isToday } from 'date-fns'
 
 interface formData {
   avatar: File
@@ -39,8 +40,24 @@ export default function Header() {
   const notificationRef = React.useRef<HTMLDivElement>(null)
   const bellRef = useRef<HTMLButtonElement>(null)
 
+  const [countNotification, setCountNotification] = useState(0)
+
   const [connection, setConnection] = useState<signalR.HubConnection | null>(null)
   const [messages, setMessages] = useState<string[]>([])
+
+  const todayNotifications = listNotification.filter((n) => isToday(new Date(n.createdAt)))
+  const oldNotifications = listNotification.filter((n) => !isToday(new Date(n.createdAt)))
+
+  const formatNotificationTime = (dateString: string) => {
+    const date = new Date(dateString)
+    date.setHours(date.getHours() + 7)
+
+    if (isToday(date)) {
+      return formatDistanceToNow(date, { addSuffix: true }) // ví dụ: "3 hours ago"
+    } else {
+      return format(date, 'dd/MM/yyyy - HH:mm') // ví dụ: "17/04/2025 - 14:30"
+    }
+  }
 
   useEffect(() => {
     const fetchProfile = async () => {
@@ -57,7 +74,7 @@ export default function Header() {
   useEffect(() => {
     // Tạo kết nối đến hub backend với đường dẫn tương ứng
     const newConnection = new signalR.HubConnectionBuilder()
-      .withUrl('http://172.20.0.129:7254/notificationHub', {
+      .withUrl('http://192.168.1.131:7254/notificationHub', {
         accessTokenFactory: () => localStorage.getItem('token') || ''
       }) // Đảm bảo rằng url trùng với app.MapHub<NotificationHub>("/notificationHub")
       .withAutomaticReconnect()
@@ -77,6 +94,7 @@ export default function Header() {
             setMessages((prevMessages) => [...prevMessages, message])
             console.log('t: ', message)
             console.log('tt mới: ', messages)
+            setCountNotification((prev) => prev + 1)
           })
         })
         .catch((error) => console.error('SignalR Connection Error: ', error))
@@ -181,6 +199,7 @@ export default function Header() {
   }
 
   const handleNotification = () => {
+    setCountNotification(0)
     setTimeout(() => {
       setIsOpen((prev) => !prev)
     }, 0)
@@ -216,28 +235,31 @@ export default function Header() {
             className='border border-gray-400 rounded-full pl-10 pr-4 py-2 w-[300px] bg-[#edf2f9] shadow-sm'
           />
         </div>
-        <div className='flex gap-[30px] items-center'>
+        <div className='flex gap-[30px] items-center transition-all duration-300'>
           <button ref={bellRef} onClick={handleNotification} className='relative cursor-pointer'>
-            <Badge badgeContent={total} color='primary'>
+            <Badge badgeContent={countNotification} color='primary'>
               <NotificationsIcon style={{ color: '#6C6E71' }} />
             </Badge>
           </button>
           {isOpen == true ? (
             <div
               ref={notificationRef}
-              className='absolute w-[300px]  bg-[#edf2f9] right-[10px] top-18 border-1 rounded-md '
+              className='absolute w-[350px]  bg-[white] right-[10px] top-18 border-[2px] rounded-[25px] shadow-lg'
             >
-              <div className='sticky w-[298px]'>
-                <div className='flex justify-between bg-white align-center pr-[10px] pl-[10px] rounded-t-md'>
-                  <h1 className='text-[24px]  font-extrabold'>Notification</h1>
+              <div className='sticky w-[346px]'>
+                <div className='flex justify-between bg-white items-center pt-[10px] pr-[20px] pl-[20px] rounded-t-[25px]'>
+                  <h1 className='font-medium text-[26px] text-[#000] font-extrabold'>Notification</h1>
+                  <Link to='/manager/history-notification'>
+                    <a className='text-[#0854a0] font-medium'>View all</a>
+                  </Link>
                 </div>
                 <div className='relative bg-white'>
                   <div className='flex border-b-[2px] border-b-[#939393]'>
                     {tabs.map((tab, index) => (
                       <button
                         key={tab}
-                        className={`flex-1 text-center  py-2 cursor-pointer transition-all duration-300 ${
-                          type === tab || (type === '' && index === 0) ? 'text-[#0854a0]' : ''
+                        className={`flex-1 text-center font-medium py-2 cursor-pointer transition-all duration-300 ${
+                          type === tab || (type === '' && index === 0) ? 'text-[#0854a0]' : 'text-[#7a8699]'
                         } `}
                         onClick={() => handelType(tab)}
                       >
@@ -256,22 +278,45 @@ export default function Header() {
                   }}
                 />
               </div>
-              <div className='h-[calc(100vh-180px)] overflow-y-auto custom-scrollbar '>
-                {listNotification.length > 0 ? (
-                  listNotification.map((notify) => (
-                    <div key={notify.id} className='p-[10px] border-b-[1px] border-b-[#d6d6d6]'>
-                      <p className='font-bold text-[#333]'>{notify.title}</p>
-                      <p className='text-[#7b7b7b]'>{notify.content}</p>
-                      <p className='text-[#7b7b7b]'>{notify.createdAt}</p>
-                    </div>
-                  ))
-                ) : (
-                  <p className='p-[10px]'>No notification Foundation</p>
+              <div className='h-[calc(100vh-180px)] overflow-y-auto custom-scrollbar'>
+                {/* Hôm nay */}
+                {todayNotifications.length > 0 && (
+                  <>
+                    <p className='text-[16px] font-semibold text-[#a9a9a9] p-[5px] bg-[#f5fbff]'>Today</p>
+                    {todayNotifications.map((notify) => (
+                      <div key={notify.id} className='p-[10px] border-b-[1px] border-b-[#d6d6d6]'>
+                        <p className='font-bold text-[#333]'>{notify.title}</p>
+                        <p className='text-[#7b7b7b]'>{notify.content}</p>
+                        <div className='flex justify-end mt-[5px]'>
+                          <p className='text-[#7b7b7b]'>{formatNotificationTime(notify.createdAt)}</p>
+                        </div>
+                      </div>
+                    ))}
+                  </>
                 )}
-                {listNotification.length < total && (
-                  <div className='text-center text-sm text-gray-500 py-2'>Đang tải thêm...</div>
+
+                {/* Những ngày trước */}
+                {oldNotifications.length > 0 && (
+                  <>
+                    <p className='text-[16px] font-semibold text-[#a9a9a9] p-[5px] bg-[#f5fbff]'>Previous days</p>
+                    {oldNotifications.map((notify) => (
+                      <div key={notify.id} className='p-[10px] border-b-[1px] border-b-[#d6d6d6]'>
+                        <p className='font-bold text-[#333]'>{notify.title}</p>
+                        <p className='text-[#7b7b7b]'>{notify.content}</p>
+                        <div className='flex justify-end mt-[5px]'>
+                          <p className='text-[#7b7b7b]'>{formatNotificationTime(notify.createdAt)}</p>
+                        </div>
+                      </div>
+                    ))}
+                  </>
                 )}
+
+                {/* Trường hợp không có gì */}
+                {listNotification.length === 0 && <p className='p-[10px]'>No notification Foundation</p>}
               </div>
+              {/* {listNotification.length < total && (
+                <div className='text-center text-sm text-gray-500 py-2'>Đang tải thêm...</div>
+              )} */}
             </div>
           ) : (
             ''
