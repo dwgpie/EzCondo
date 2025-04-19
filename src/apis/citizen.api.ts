@@ -1,6 +1,5 @@
 import http from '~/utils/http'
 
-// Citizen
 export const addOrUpdateCitizen = (body: {
   userId: string
   no: string

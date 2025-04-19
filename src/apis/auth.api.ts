@@ -27,16 +27,15 @@ export const login = async (body: { email: string; password: string }) => {
         throw new Error('Your account is blocked')
       }
 
-      toast.error('Something went wrong. Please try again!')
+      toast.error('Something went wrong', {
+        style: { width: 'fit-content' }
+      })
       throw new Error(error.response.data?.message || 'Something went wrong')
     }
-
-    toast.error('Unexpected error. Please try again later!')
-    throw new Error('Unexpected error')
   }
 }
 
-export const registerAccount = (body: {
+export const registerAccount = async (body: {
   fullName: string
   email: string
   phoneNumber: string
@@ -44,7 +43,18 @@ export const registerAccount = (body: {
   gender: string
   roleName: string
   apartmentNumber: string
-}) => http.post('/api/User/add-user', body)
+}) => {
+  try {
+    const response = await http.post('/api/User/add-user', body)
+    return response.data
+  } catch (error: any) {
+    if (error.response && error.response.data) {
+      throw new Error(error.response.data.error)
+    } else {
+      throw new Error('Something went wrong')
+    }
+  }
+}
 
 //Password
 export const forgotPassword = (body: { email: string }) => http.post('/api/Auth/forgot-password', body)
@@ -80,9 +90,3 @@ export const addOrUpdateAvatar = (avatar: File) => {
 
 export const changePassword = (body: { oldPassword: string; newPassword: string }) =>
   http.patch('/api/User/change-password', body)
-
-//Fees
-
-//Notification
-
-//Apartment

@@ -45,7 +45,6 @@ export default function ResetPassword() {
         console.log(error)
       }
     })
-    console.log(data)
   })
 
   const [showPassword, setShowPassword] = useState(false)

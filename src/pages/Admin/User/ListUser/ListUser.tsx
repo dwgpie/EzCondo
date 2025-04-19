@@ -207,7 +207,7 @@ export default function ListUser() {
             Manager
           </Button>
         </div>
-        <Paper elevation={4}>
+        <Paper elevation={4} sx={{ borderRadius: '12px', overflow: 'hidden' }}>
           <TableContainer>
             <Table sx={{ minWidth: 700 }} aria-label='customized table'>
               <TableHead>

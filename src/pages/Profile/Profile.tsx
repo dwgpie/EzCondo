@@ -97,7 +97,9 @@ export default function Profile() {
       } else {
         console.warn('Avatar is URL, no update!')
       }
-      toast.success('Updated successfully!')
+      toast.success('Profile updated successfully!', {
+        style: { width: 'fit-content' }
+      })
       getProfileMutation.mutate()
     } catch (error) {
       console.error('Error updating user or citizen:', error)

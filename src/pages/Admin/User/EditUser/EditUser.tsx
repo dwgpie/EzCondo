@@ -151,8 +151,9 @@ export default function EditUser() {
         frontImage: formData.frontImage,
         backImage: formData.backImage
       })
-      console.log('Dữ liệu gửi lên:', formData)
-      toast.success('Updated successfully!')
+      toast.success('User updated successfully!', {
+        style: { width: 'fit-content' }
+      })
     } catch (error) {
       console.error('Error updating user or citizen:', error)
     } finally {

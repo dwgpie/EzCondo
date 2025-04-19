@@ -10,11 +10,13 @@ import TableRow from '@mui/material/TableRow'
 import Paper from '@mui/material/Paper'
 import Pagination from '@mui/material/Pagination'
 import { useForm } from 'react-hook-form'
-import { getAllElectricityMeter, addElectricityMeter } from '~/apis/service.api'
+import { getAllElectricityMeter, addElectricityMeter, dowloadTemplateElectricMeter } from '~/apis/service.api'
 import { yupResolver } from '@hookform/resolvers/yup'
 import { addElectricMeterSchema } from '~/utils/rules'
 import { Button } from '@mui/material'
 import { toast } from 'react-toastify'
+import CloudUploadIcon from '@mui/icons-material/CloudUpload'
+import FileDownloadIcon from '@mui/icons-material/FileDownload'
 
 interface UploadFormData {
   file: FileList
@@ -61,7 +63,7 @@ export default function ElectricityMeter() {
   const [listElectric, setListElectric] = useState<ElectricityMeter[]>([])
   const [filteredElectrics, setFilteredElectrics] = useState<ElectricityMeter[]>([])
   const [page, setPage] = useState(1)
-  const pageSize = 4
+  const pageSize = 5
   const totalPages = Math.ceil(filteredElectrics.length / pageSize)
   const [excelFileName, setExcelFileName] = useState<string | null>(null)
   const fileInputExcelRef = useRef<HTMLInputElement | null>(null)
@@ -130,55 +132,107 @@ export default function ElectricityMeter() {
     setPage(newPage)
   }
 
+  const handleDownload = async () => {
+    try {
+      const response = await dowloadTemplateElectricMeter()
+      const blob = new Blob([response.data], { type: response.data.type })
+      const url = window.URL.createObjectURL(blob)
+      const link = document.createElement('a')
+      link.href = url
+      link.setAttribute('download', 'Template_Electric_Meter.xlsx') // đặt tên file ở đây
+      document.body.appendChild(link)
+      link.click()
+      document.body.removeChild(link)
+      window.URL.revokeObjectURL(url)
+    } catch (error) {
+      console.error('Lỗi khi tải file:', error)
+    }
+  }
+
   return (
     <div className='pt-5 mx-5 z-13' style={{ height: 'calc(100vh - 80px)' }}>
-      <div className='mb-6 p-6 bg-white drop-shadow-md rounded-xl'>
-        <form onSubmit={onSubmit} className='mb-6'>
-          <div className='w-full'>
-            <div
-              className='w-full h-auto p-2 border-2 border-dashed border-gray-400 rounded-md flex flex-col items-center justify-center cursor-pointer bg-gray-100'
-              onClick={() => fileInputExcelRef.current?.click()}
-              onDrop={handleExcelDrop}
-              onDragOver={(e) => e.preventDefault()}
-            >
-              {excelFileName ? (
-                <p className='text-green-700 font-medium'>{excelFileName}</p>
-              ) : (
-                <>
-                  <img src='/public/imgs/logo/excel.png' className='w-20 object-cover' />
-                  <p className='text-gray-700 font-semibold mt-2'>Upload Excel File</p>
-                  <p className='text-gray-500 text-sm mt-2'>Drag and drop .xlsx or .xls files here</p>
-                </>
-              )}
-              <input
-                type='file'
-                accept='.xlsx, .xls'
-                {...register('file')}
-                ref={fileInputExcelRef}
-                className='hidden'
-                onChange={handleExcelChange}
-              />
+      <div className='px-8 py-4 bg-gradient-to-br from-white to-blue-50 shadow-xl rounded-2xl space-y-6'>
+        <form onSubmit={onSubmit}>
+          <div className='flex justify-between items-center'>
+            <h2 className='text-xl font-semibold text-gray-700'>Electricity Meter Management</h2>
+            <div className='flex gap-3 mb-3'>
+              <Button
+                onClick={handleDownload}
+                variant='contained'
+                startIcon={<FileDownloadIcon />}
+                sx={{
+                  backgroundColor: '#f97316',
+                  '&:hover': {
+                    backgroundColor: '#ea580c'
+                  },
+                  color: 'white',
+                  fontWeight: 600,
+                  textTransform: 'none',
+                  px: 3,
+                  py: 1.5,
+                  borderRadius: 2
+                }}
+              >
+                Export Template
+              </Button>
+
+              <Button
+                type='submit'
+                variant='contained'
+                startIcon={<CloudUploadIcon />}
+                sx={{
+                  backgroundColor: '#0ea5e9',
+                  '&:hover': {
+                    backgroundColor: '#0284c7'
+                  },
+                  color: 'white',
+                  fontWeight: 600,
+                  textTransform: 'none',
+                  px: 3,
+                  py: 1.5,
+                  borderRadius: 2
+                }}
+              >
+                Import
+              </Button>
             </div>
           </div>
-          <div className='flex justify-end gap-4 mt-3'>
-            <Button
-              type='submit'
-              variant='contained'
-              style={{ color: 'white', background: '#2976ce', fontWeight: 'semi-bold' }}
-            >
-              Import
-            </Button>
+
+          <div
+            className='border-2 border-dashed border-blue-400 rounded-xl flex flex-col items-center justify-center bg-blue-50 hover:bg-blue-100 pt-3 pb-2 cursor-pointer transition space-y-1'
+            onClick={() => fileInputExcelRef.current?.click()}
+            onDrop={handleExcelDrop}
+            onDragOver={(e) => e.preventDefault()}
+          >
+            {excelFileName ? (
+              <p className='text-green-700 font-medium text-center text-xs'>{excelFileName}</p>
+            ) : (
+              <>
+                <img src='/public/imgs/logo/excel.png' alt='excel' className='w-11' />
+                <p className='text-blue-800 font-semibold text-[13px] mt-1'>Upload Excel File</p>
+                <p className='text-gray-500 text-[12px] text-center'>Drag & drop .xlsx or .xls files</p>
+              </>
+            )}
+            <input
+              type='file'
+              accept='.xlsx, .xls'
+              {...register('file')}
+              ref={fileInputExcelRef}
+              className='hidden'
+              onChange={handleExcelChange}
+            />
           </div>
         </form>
-        <Paper elevation={4}>
+
+        <Paper elevation={4} sx={{ borderRadius: '12px', overflow: 'hidden' }}>
           <TableContainer>
             <Table sx={{ minWidth: 700 }} aria-label='customized table'>
               <TableHead>
                 <TableRow>
-                  <StyledTableCell width='10%'>Id</StyledTableCell>
-                  <StyledTableCell width='15%'>Aparment Number</StyledTableCell>
-                  <StyledTableCell width='15%'>Metter Number</StyledTableCell>
-                  <StyledTableCell width='10%'>Installation Date</StyledTableCell>
+                  <StyledTableCell width='5%'>Id</StyledTableCell>
+                  <StyledTableCell width='13%'>Aparment Number</StyledTableCell>
+                  <StyledTableCell width='13%'>Metter Number</StyledTableCell>
+                  <StyledTableCell width='8%'>Installation Date</StyledTableCell>
                 </TableRow>
               </TableHead>
               <TableBody>
@@ -190,7 +244,16 @@ export default function ElectricityMeter() {
                       </StyledTableCell>
                       <StyledTableCell>{electric.apartmentNumber}</StyledTableCell>
                       <StyledTableCell>{electric.meterNumber}</StyledTableCell>
-                      <StyledTableCell>{electric.installationDate}</StyledTableCell>
+                      <StyledTableCell>
+                        {new Intl.DateTimeFormat('vi-VN', {
+                          hour: '2-digit',
+                          minute: '2-digit',
+                          second: '2-digit',
+                          year: 'numeric',
+                          month: '2-digit',
+                          day: '2-digit'
+                        }).format(new Date(electric.installationDate))}
+                      </StyledTableCell>
                     </StyledTableRow>
                   ))
                 ) : (
@@ -204,7 +267,8 @@ export default function ElectricityMeter() {
             </Table>
           </TableContainer>
         </Paper>
-        <div className='mt-10 flex justify-center'>
+
+        <div className='flex justify-center mt-6'>
           <Pagination count={totalPages} page={page} onChange={handlePageChange} />
         </div>
       </div>

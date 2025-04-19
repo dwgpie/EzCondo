@@ -161,11 +161,14 @@ export default function AddMember() {
         no: formData.no,
         relationship: formData.relationship
       })
-
-      toast.success('Member created successfully!')
+      toast.success('Member created successfully!', {
+        style: { width: 'fit-content' }
+      })
       getMember.mutate() // Refresh data after adding
-    } catch (error) {
-      console.error('API call failed:', error)
+    } catch (error: any) {
+      toast(error.message, {
+        style: { width: 'fit-content' }
+      })
     }
   }
 
@@ -182,7 +185,14 @@ export default function AddMember() {
             <h2 className='text-[20px] text-[#344050] font-semibold ml-[24px]'>Name: {resident?.fullName}</h2>
             <h2 className='text-[20px] text-[#344050] font-semibold ml-[24px]'>Apartment: {apartmentNumber}</h2>
           </div>
-          <Paper elevation={4}>
+          <Paper
+            elevation={4}
+            sx={{
+              borderBottomLeftRadius: '12px',
+              borderBottomRightRadius: '12px',
+              overflow: 'hidden'
+            }}
+          >
             <TableContainer>
               <Table sx={{ minWidth: 700 }} aria-label='customized table'>
                 <TableHead>
@@ -214,7 +224,7 @@ export default function AddMember() {
                         <StyledTableCell>
                           <span className='capitalize'>{user.relationship} </span>
                         </StyledTableCell>
-                        <StyledTableCell>
+                        <StyledTableCell colSpan={1} align='center'>
                           <button
                             className=' cursor-pointer '
                             onClick={() => {
