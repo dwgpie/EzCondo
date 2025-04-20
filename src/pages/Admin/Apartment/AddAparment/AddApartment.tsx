@@ -81,7 +81,7 @@ export default function AddApartment() {
   return (
     <div className='pt-5 mx-5 z-13' style={{ height: 'calc(100vh - 80px)' }}>
       <ToastContainer />
-      <div className='mb-6 p-6 bg-white drop-shadow-md rounded-xl'>
+      <div className='mb-6 p-6 bg-gradient-to-br from-white via-white to-blue-100 shadow-xl rounded-2xl space-y-6'>
         {loading && <LoadingOverlay value={progress} />}
         <form className='rounded' noValidate onSubmit={onSubmit}>
           <div className='grid grid-cols-4 gap-4'>

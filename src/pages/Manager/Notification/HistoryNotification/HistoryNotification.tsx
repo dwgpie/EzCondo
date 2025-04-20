@@ -97,10 +97,10 @@ export default function HistoryNotificationManager() {
 
   return (
     <div className='pt-5 mx-5 z-13' style={{ height: 'calc(100vh - 80px)' }}>
-      <div className='mb-6 p-6 bg-white drop-shadow-md rounded-xl'>
-        <div className='flex  justify-between items-center'>
+      <div className='mb-6 p-6 bg-gradient-to-br from-white via-white to-blue-100 shadow-xl rounded-2xl space-y-6'>
+        <div className='flex justify-between items-center'>
           <div>
-            <h1 className='font-extrabold text-[30px] text-[#333]'>History Notification</h1>
+            <h1 className='text-2xl mb-5 text-black font-semibold'>History Notification</h1>
           </div>
           <div className='mt-2 mb-4 flex gap-4 justify-end'>
             <div>
@@ -133,7 +133,7 @@ export default function HistoryNotificationManager() {
                   <StyledTableCell width='5%'>Id</StyledTableCell>
                   <StyledTableCell width='25%'>Title</StyledTableCell>
                   <StyledTableCell width='33%'>Content</StyledTableCell>
-                  <StyledTableCell width='13%'>Date created</StyledTableCell>
+                  <StyledTableCell width='12%'>Date created</StyledTableCell>
                   <StyledTableCell width='15%'>Tyoe of notification</StyledTableCell>
                   <StyledTableCell width='10%'>Receiver</StyledTableCell>
                   <StyledTableCell>Detail</StyledTableCell>
@@ -187,7 +187,7 @@ export default function HistoryNotificationManager() {
                 ) : (
                   <TableRow>
                     <TableCell colSpan={8} align='center'>
-                      No users found
+                      No notifications found
                     </TableCell>
                   </TableRow>
                 )}

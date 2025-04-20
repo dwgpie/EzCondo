@@ -98,7 +98,7 @@ export default function HistoryNotification() {
 
   return (
     <div className='pt-5 mx-5 z-13' style={{ height: 'calc(100vh - 80px)' }}>
-      <div className='mb-6 p-6 bg-white drop-shadow-md rounded-xl'>
+      <div className='mb-6 p-6 bg-gradient-to-br from-white via-white to-blue-100 shadow-xl rounded-2xl space-y-6'>
         <div className='mt-2 mb-4 flex gap-4 justify-end'>
           <div>
             <Select value={receiver} onChange={(e) => setReceiver(e.target.value)} sx={{ width: '200px' }}>

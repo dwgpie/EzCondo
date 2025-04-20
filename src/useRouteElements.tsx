@@ -34,6 +34,11 @@ import ElectricityMeter from './pages/Manager/Electricity/ElectricityMeter'
 import ElectricityReading from './pages/Manager/Electricity/ElectricityReading'
 import ElectricityDetail from './pages/Manager/Electricity/ElectricityDetail'
 import DashboardManager from './pages/Manager/Dashboard'
+import UnpaidElectricity from './pages/Manager/Electricity/UnpaidElectricity'
+import WaterMeter from './pages/Manager/Water/WaterMeter'
+import WaterReading from './pages/Manager/Water/WaterReading'
+import WaterDetail from './pages/Manager/Water/WaterDetail'
+import UnpaidWater from './pages/Manager/Water/UnpaidWater'
 
 // function ProtectedRoute() {
 //   const { isAuthenticated } = useContext(AppContext) // Lấy từ context
@@ -302,6 +307,46 @@ export default function useRouteElements() {
                 element: (
                   <DashboardManagerLayout>
                     <ElectricityDetail />
+                  </DashboardManagerLayout>
+                )
+              },
+              {
+                path: '/manager/unpaid-electricity',
+                element: (
+                  <DashboardManagerLayout>
+                    <UnpaidElectricity />
+                  </DashboardManagerLayout>
+                )
+              },
+              {
+                path: '/manager/add-water-meter',
+                element: (
+                  <DashboardManagerLayout>
+                    <WaterMeter />
+                  </DashboardManagerLayout>
+                )
+              },
+              {
+                path: '/manager/add-water-reading',
+                element: (
+                  <DashboardManagerLayout>
+                    <WaterReading />
+                  </DashboardManagerLayout>
+                )
+              },
+              {
+                path: '/manager/water-detail',
+                element: (
+                  <DashboardManagerLayout>
+                    <WaterDetail />
+                  </DashboardManagerLayout>
+                )
+              },
+              {
+                path: '/manager/unpaid-water',
+                element: (
+                  <DashboardManagerLayout>
+                    <UnpaidWater />
                   </DashboardManagerLayout>
                 )
               },
