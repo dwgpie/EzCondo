@@ -82,7 +82,7 @@ export default function DetailResident() {
   return (
     <div style={{ height: 'calc(100vh - 80px)' }} className='pt-5 ml-5 mr-5 z-13 '>
       <ToastContainer />
-      <div className='mb-6 p-6 bg-white drop-shadow-md rounded-xl'>
+      <div className='mb-6 p-6 bg-gradient-to-br from-white via-white to-blue-100 shadow-xl rounded-2xl space-y-6'>
         <h2 className='text-xl mb-4 text-black font-semibold'>Account Information</h2>
         {user ? (
           <form className='rounded' noValidate>
@@ -240,7 +240,7 @@ export default function DetailResident() {
               <div className='grid grid-cols-2 gap-4 mt-4'>
                 <div>
                   <label className='block text-sm font-semibold'>Font Image</label>
-                  <div className='mt-2 w-full h-auto p-4 border-2 border-dashed border-gray-400 rounded-md flex flex-col items-center justify-center cursor-pointer bg-gray-100'>
+                  <div className=' mt-2 w-full h-auto p-4 border-2 border-dashed border-blue-400 rounded-md flex flex-col items-center justify-center cursor-pointer bg-gray-100'>
                     {user.frontImage ? (
                       <img
                         src={getImageSrc(user?.frontImage)}
@@ -266,7 +266,7 @@ export default function DetailResident() {
 
                 <div>
                   <label className='block text-sm font-semibold'>Back Image</label>
-                  <div className='mt-2 w-full h-auto p-4 border-2 border-dashed border-gray-400 rounded-md flex flex-col items-center justify-center cursor-pointer bg-gray-100'>
+                  <div className='mt-2 w-full h-auto p-4 border-2 border-dashed border-blue-400 rounded-md flex flex-col items-center justify-center cursor-pointer bg-gray-100'>
                     {user.backImage ? (
                       <img
                         src={getImageSrc(user?.backImage)}

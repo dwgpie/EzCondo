@@ -161,7 +161,7 @@ export default function AddUser() {
   return (
     <div className='pt-5 mx-5 z-13' style={{ height: 'calc(100vh - 80px)' }}>
       <ToastContainer />
-      <div className='px-6 pt-6 pb-3 bg-white drop-shadow-md rounded-xl'>
+      <div className='mb-6 p-6 bg-gradient-to-br from-white via-white to-blue-100 shadow-xl rounded-2xl space-y-6'>
         {loading && <LoadingOverlay value={progress} />}
         <h2 className='text-xl mb-4 text-black font-semibold'>Account Information</h2>
         <form className='rounded' noValidate onSubmit={onSubmit}>
@@ -383,18 +383,7 @@ export default function AddUser() {
               </div>
             </div>
           </div>
-          <div className='flex justify-end gap-4'>
-            <Button
-              variant='contained'
-              style={{ color: 'white', background: 'red', fontWeight: 'semi-bold' }}
-              // onClick={() => {
-              //   reset()
-              //   setImagePreviewFront(null)
-              //   setImagePreviewBack(null)
-              // }}
-            >
-              Cancel
-            </Button>
+          <div className='flex justify-end gap-4 mt-[-15px]'>
             <Button
               type='submit'
               variant='contained'

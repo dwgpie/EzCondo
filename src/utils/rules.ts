@@ -352,10 +352,15 @@ export const addElectricMeterSchema = yup.object({
     })
 }) as yup.ObjectSchema<{ file: FileList }>
 
-// id: yup.string(),
-// apartmentId: yup.string().required('Apartment ID is required'),
-// meterNumber: yup.string().required('Meter number is required'),
-// installationDate: yup.string().required('Installation date is required')
+//Add Electric Meter
+export const addWaterMeterSchema = yup.object({
+  file: yup
+    .mixed<FileList>()
+    .required('File is required')
+    .test('fileExists', 'You must upload a file', (value) => {
+      return value instanceof FileList && value.length > 0
+    })
+}) as yup.ObjectSchema<{ file: FileList }>
 
 export type RegisterSchema = yup.InferType<typeof registerSchema>
 // cái này dành cho login: OMIT bỏ confirm_password đi

@@ -118,8 +118,9 @@ export const editParking = (body: { id: string; pricePerMotor: number; pricePerO
 export const deleteElectric = (electricId: string) =>
   http.delete(`/api/SettingFee/delete-electric-price?electricId=${electricId}`)
 
-export const getAllElectricityMeter = () => http.get('/api/Electric/Get-All-Electric-Metters')
+export const getAllElectricityReading = () => http.get('/api/Electric/Get-All-Electric-Readings')
 
+//Manager
 export const addElectricityMeter = async (file: File) => {
   const formData = new FormData()
   formData.append('file', file)
@@ -156,10 +157,6 @@ export const addElectricityMeter = async (file: File) => {
     }
   }
 }
-
-export const getAllElectricityReading = () => http.get('/api/Electric/Get-All-Electric-Readings')
-
-export const getAllElectric = () => http.get('/api/Electric/Get-All-Electric')
 
 export const addElectricityReading = async (file: File) => {
   const formData = new FormData()
@@ -198,6 +195,10 @@ export const addElectricityReading = async (file: File) => {
   }
 }
 
+export const getAllElectricityMeter = () => http.get('/api/Electric/Get-All-Electric-Metters')
+
+export const getAllElectric = () => http.get('/api/Electric/Get-All-Electric')
+
 export const getElectricDetail = (electricId: string) => {
   return http.get(`/api/Electric/Get-Electric-Detail?electricId=${electricId}`)
 }
@@ -210,6 +211,96 @@ export const dowloadTemplateElectricMeter = () => {
 
 export const dowloadTemplateElectricReading = () => {
   return http.get('http://localhost:7254/api/Electric/Download-Template-Electric-Reading', {
+    responseType: 'blob'
+  })
+}
+
+export const addWaterMeter = async (file: File) => {
+  const formData = new FormData()
+  formData.append('file', file)
+
+  try {
+    const response = await http.post('/api/Water/Add-Water-Metter', formData, {
+      headers: {
+        'Content-Type': 'multipart/form-data'
+      }
+    })
+    return response
+  } catch (error: unknown) {
+    if (error instanceof AxiosError && error.response) {
+      const status = error.response.status
+
+      if (status === 404) {
+        toast.error('Apartment is not found', {
+          style: { width: 'fit-content' }
+        })
+        throw new Error('Apartment is not found')
+      }
+
+      if (status === 409) {
+        toast.error('Invalid date format. Please use yyyy-MM-dd', {
+          style: { width: 'fit-content' }
+        })
+        throw new Error('Invalid date format. Please use yyyy-MM-dd')
+      }
+
+      toast.error('Something went wrong', {
+        style: { width: 'fit-content' }
+      })
+      throw new Error(error.response.data?.message || 'Something went wrong')
+    }
+  }
+}
+
+export const addWaterReading = async (file: File) => {
+  const formData = new FormData()
+  formData.append('file', file)
+
+  try {
+    const response = await http.post('/api/Water/Add-Water-Reading', formData, {
+      headers: {
+        'Content-Type': 'multipart/form-data'
+      }
+    })
+    return response
+  } catch (error: unknown) {
+    if (error instanceof AxiosError && error.response) {
+      const status = error.response.status
+
+      if (status === 404) {
+        toast.error('Apartment is not found', {
+          style: { width: 'fit-content' }
+        })
+        throw new Error('Apartment is not found')
+      }
+
+      if (status === 409) {
+        toast.error('Apartment have no user', {
+          style: { width: 'fit-content' }
+        })
+        throw new Error('Apartment have no user')
+      }
+
+      toast.error('Something went wrong', {
+        style: { width: 'fit-content' }
+      })
+      throw new Error(error.response.data?.message || 'Something went wrong')
+    }
+  }
+}
+
+export const getAllWaterMeter = () => http.get('/api/Water/Get-All-Water-Metters')
+
+export const getAllWater = () => http.get('/api/Water/Get-All-Water')
+
+export const dowloadTemplateWaterMeter = () => {
+  return http.get('http://localhost:7254/api/Water/Download-Template-Water-Metter', {
+    responseType: 'blob'
+  })
+}
+
+export const dowloadTemplateWaterReading = () => {
+  return http.get('http://localhost:7254/api/Water/Download-Template-Water-Reading', {
     responseType: 'blob'
   })
 }

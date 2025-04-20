@@ -109,7 +109,9 @@ export default function ElectricityMeter() {
     try {
       await addElectricityMeter(formData.file[0])
       getAllElectricityMeters.mutate()
-      toast.success('Import successful')
+      toast.success('Import successful', {
+        style: { width: 'fit-content' }
+      })
     } catch (error) {
       console.error('API call failed:', error)
     }
@@ -151,7 +153,7 @@ export default function ElectricityMeter() {
 
   return (
     <div className='pt-5 mx-5 z-13' style={{ height: 'calc(100vh - 80px)' }}>
-      <div className='px-8 py-4 bg-gradient-to-br from-white to-blue-50 shadow-xl rounded-2xl space-y-6'>
+      <div className='px-8 py-4 bg-gradient-to-br from-white via-white to-blue-100 shadow-xl rounded-2xl space-y-6'>
         <form onSubmit={onSubmit}>
           <div className='flex justify-between items-center'>
             <h2 className='text-xl font-semibold text-gray-700'>Electricity Meter Management</h2>

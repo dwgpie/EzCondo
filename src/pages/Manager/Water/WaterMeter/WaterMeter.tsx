@@ -10,11 +10,10 @@ import TableRow from '@mui/material/TableRow'
 import Paper from '@mui/material/Paper'
 import Pagination from '@mui/material/Pagination'
 import { useForm } from 'react-hook-form'
-import { getAllElectric, addElectricityReading, dowloadTemplateElectricReading } from '~/apis/service.api'
+import { getAllWaterMeter, addWaterMeter, dowloadTemplateWaterMeter } from '~/apis/service.api'
 import { yupResolver } from '@hookform/resolvers/yup'
-import { addElectricMeterSchema } from '~/utils/rules'
+import { addWaterMeterSchema } from '~/utils/rules'
 import { Button } from '@mui/material'
-import SubjectIcon from '@mui/icons-material/Subject'
 import { toast } from 'react-toastify'
 import CloudUploadIcon from '@mui/icons-material/CloudUpload'
 import FileDownloadIcon from '@mui/icons-material/FileDownload'
@@ -23,14 +22,12 @@ interface UploadFormData {
   file: FileList
 }
 
-interface ElectricityMeter {
-  electricReadingId?: string
-  fullName: string
+interface WaterMeter {
+  id: string
+  meterNumber: string
+  installationDate: string
+  apartmentId: string
   apartmentNumber: string
-  phoneNumber: string
-  readingDate: string
-  consumption: string
-  status: string
 }
 
 const StyledTableCell = styled(TableCell)(({ theme }) => ({
@@ -38,13 +35,11 @@ const StyledTableCell = styled(TableCell)(({ theme }) => ({
     backgroundColor: '#f4f4f5',
     color: theme.palette.common.black,
     fontWeight: 'bold',
-    fontFamily: 'Roboto',
-    padding: '10px 12px'
+    fontFamily: 'Roboto'
   },
   [`&.${tableCellClasses.body}`]: {
     fontSize: 14,
-    fontFamily: 'Roboto',
-    padding: '8px 12px'
+    fontFamily: 'Roboto'
   }
 }))
 
@@ -60,16 +55,16 @@ const StyledTableRow = styled(TableRow)(() => ({
   }
 }))
 
-export default function ElectricityReading() {
+export default function WaterMeter() {
   const { register, handleSubmit, setValue, clearErrors, reset } = useForm<UploadFormData>({
-    resolver: yupResolver(addElectricMeterSchema)
+    resolver: yupResolver(addWaterMeterSchema)
   })
 
-  const [listElectric, setListElectric] = useState<ElectricityMeter[]>([])
-  const [filteredElectrics, setFilteredElectrics] = useState<ElectricityMeter[]>([])
+  const [listWater, setListWater] = useState<WaterMeter[]>([])
+  const [filteredWaters, setFilteredWaters] = useState<WaterMeter[]>([])
   const [page, setPage] = useState(1)
   const pageSize = 5
-  const totalPages = Math.ceil(filteredElectrics.length / pageSize)
+  const totalPages = Math.ceil(filteredWaters.length / pageSize)
   const [excelFileName, setExcelFileName] = useState<string | null>(null)
   const fileInputExcelRef = useRef<HTMLInputElement | null>(null)
 
@@ -95,26 +90,25 @@ export default function ElectricityReading() {
       clearErrors('file')
     }
   }
-
-  const getAllElectricityReadings = useMutation({
+  const getAllWaterMeters = useMutation({
     mutationFn: async () => {
-      const response = await getAllElectric()
+      const response = await getAllWaterMeter()
       return response.data
     },
     onSuccess: (data) => {
-      setListElectric(data)
-      setFilteredElectrics(data)
+      setListWater(data)
+      setFilteredWaters(data)
     }
   })
   useEffect(() => {
-    getAllElectricityReadings.mutate()
-    console.log('list: ', listElectric)
+    getAllWaterMeters.mutate()
+    console.log('list: ', listWater)
   }, [])
 
   const handleCallAPI = async (formData: UploadFormData) => {
     try {
-      await addElectricityReading(formData.file[0])
-      getAllElectricityReadings.mutate()
+      await addWaterMeter(formData.file[0])
+      getAllWaterMeters.mutate()
       toast.success('Import successful', {
         style: { width: 'fit-content' }
       })
@@ -134,37 +128,20 @@ export default function ElectricityReading() {
     setExcelFileName(null)
   })
 
-  const paginatedElectricMeter = filteredElectrics.slice((page - 1) * pageSize, page * pageSize)
+  const paginatedWaterMeter = filteredWaters.slice((page - 1) * pageSize, page * pageSize)
 
   const handlePageChange = (_event: React.ChangeEvent<unknown>, newPage: number) => {
     setPage(newPage)
   }
 
-  const getStatusColor = (status: string) => {
-    switch (status.toLowerCase()) {
-      case 'completed':
-        return 'bg-green-300 text-green-900 hover:bg-green-400 hover:text-white'
-      case 'pending':
-        return 'bg-orange-300 text-orange-900 hover:bg-orange-400 hover:text-white'
-      case 'overdue':
-        return 'bg-red-400 text-red-900 hover:bg-red-500 hover:text-white'
-      default:
-        return 'bg-gray-200 text-gray-700 hover:bg-gray-300'
-    }
-  }
-
-  const handleDetailClick = (id: string) => {
-    window.location.href = `/manager/electricity-detail?electricReadingId=${id}`
-  }
-
   const handleDownload = async () => {
     try {
-      const response = await dowloadTemplateElectricReading()
+      const response = await dowloadTemplateWaterMeter()
       const blob = new Blob([response.data], { type: response.data.type })
       const url = window.URL.createObjectURL(blob)
       const link = document.createElement('a')
       link.href = url
-      link.setAttribute('download', 'Template_Electric_Reading.xlsx')
+      link.setAttribute('download', 'Template_Water_Meter.xlsx') // đặt tên file ở đây
       document.body.appendChild(link)
       link.click()
       document.body.removeChild(link)
@@ -176,10 +153,10 @@ export default function ElectricityReading() {
 
   return (
     <div className='pt-5 mx-5 z-13' style={{ height: 'calc(100vh - 80px)' }}>
-      <div className='px-8 py-4 bg-gradient-to-br from-white to-blue-50 shadow-xl rounded-2xl space-y-6'>
+      <div className='px-8 py-4 bg-gradient-to-br from-white via-white to-blue-100 shadow-xl rounded-2xl space-y-6'>
         <form onSubmit={onSubmit}>
           <div className='flex justify-between items-center'>
-            <h2 className='text-xl font-semibold text-gray-700'>Electricity Reading Management</h2>
+            <h2 className='text-xl font-semibold text-gray-700'>Water Meter Management</h2>
             <div className='flex gap-3 mb-3'>
               <Button
                 onClick={handleDownload}
@@ -222,6 +199,7 @@ export default function ElectricityReading() {
               </Button>
             </div>
           </div>
+
           <div
             className='border-2 border-dashed border-blue-400 rounded-xl flex flex-col items-center justify-center bg-blue-50 hover:bg-blue-100 pt-3 pb-2 cursor-pointer transition space-y-1'
             onClick={() => fileInputExcelRef.current?.click()}
@@ -253,24 +231,21 @@ export default function ElectricityReading() {
             <Table sx={{ minWidth: 700 }} aria-label='customized table'>
               <TableHead>
                 <TableRow>
-                  <StyledTableCell width='2%'>ID</StyledTableCell>
-                  <StyledTableCell width='15%'>Name</StyledTableCell>
-                  <StyledTableCell width='12%'>Apartment Number</StyledTableCell>
-                  <StyledTableCell width='10%'>Phone</StyledTableCell>
-                  <StyledTableCell width='12%'>Reading Date</StyledTableCell>
-                  <StyledTableCell width='8%'>Consumption</StyledTableCell>
-                  <StyledTableCell width='10%'>Status</StyledTableCell>
-                  <StyledTableCell width='6%'>Detail</StyledTableCell>
+                  <StyledTableCell width='5%'>Id</StyledTableCell>
+                  <StyledTableCell width='13%'>Aparment Number</StyledTableCell>
+                  <StyledTableCell width='13%'>Metter Number</StyledTableCell>
+                  <StyledTableCell width='8%'>Installation Date</StyledTableCell>
                 </TableRow>
               </TableHead>
               <TableBody>
-                {paginatedElectricMeter.length > 0 ? (
-                  paginatedElectricMeter.map((electric, index) => (
-                    <StyledTableRow key={`${electric.fullName}-${index}`}>
-                      <StyledTableCell sx={{ fontWeight: 600 }}>{(page - 1) * pageSize + index + 1}</StyledTableCell>
-                      <StyledTableCell>{electric.fullName}</StyledTableCell>
-                      <StyledTableCell>{electric.apartmentNumber}</StyledTableCell>
-                      <StyledTableCell>{electric.phoneNumber}</StyledTableCell>
+                {paginatedWaterMeter.length > 0 ? (
+                  paginatedWaterMeter.map((water, index) => (
+                    <StyledTableRow key={water.id}>
+                      <StyledTableCell sx={{ color: 'black', fontWeight: '600' }}>
+                        {(page - 1) * pageSize + index + 1}
+                      </StyledTableCell>
+                      <StyledTableCell>{water.apartmentNumber}</StyledTableCell>
+                      <StyledTableCell>{water.meterNumber}</StyledTableCell>
                       <StyledTableCell>
                         {new Intl.DateTimeFormat('vi-VN', {
                           hour: '2-digit',
@@ -279,34 +254,14 @@ export default function ElectricityReading() {
                           year: 'numeric',
                           month: '2-digit',
                           day: '2-digit'
-                        }).format(new Date(electric.readingDate))}
-                      </StyledTableCell>
-                      <StyledTableCell>{electric.consumption}</StyledTableCell>
-                      <StyledTableCell>
-                        <span
-                          className={`${getStatusColor(
-                            electric.status
-                          )} px-3 py-1.5 rounded-full text-sm font-semibold capitalize`}
-                        >
-                          {electric.status}
-                        </span>
-                      </StyledTableCell>
-                      <StyledTableCell>
-                        <div className='flex p-2'>
-                          <button
-                            className='text-blue-600 hover:text-blue-800 transition-colors cursor-pointer'
-                            onClick={() => handleDetailClick(electric.electricReadingId || '')}
-                          >
-                            <SubjectIcon />
-                          </button>
-                        </div>
+                        }).format(new Date(water.installationDate))}
                       </StyledTableCell>
                     </StyledTableRow>
                   ))
                 ) : (
                   <TableRow>
-                    <TableCell colSpan={8} align='center'>
-                      No electrics found.
+                    <TableCell colSpan={9} align='center'>
+                      No waters found
                     </TableCell>
                   </TableRow>
                 )}

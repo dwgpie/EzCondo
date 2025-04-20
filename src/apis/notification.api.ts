@@ -34,7 +34,7 @@ export const filterNotification = (body: { type: string; receiver: string; day: 
 export const filterNotificationManager = (body: { receiver: string; type: string; day: number }) => {
   return http.get(
     // `/api/Notification/admin-or-manager-get-notifications?type=${body.type}&receiver=resident&day=${body.day}`
-    `/api/Notification/user-get-notifications?type=${body.type}&day=${body.day}`
+    `/api/Notification/admin-or-manager-get-notifications?type=${body.type}&day=${body.day}`
   )
 }
 
