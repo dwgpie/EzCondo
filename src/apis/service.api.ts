@@ -293,6 +293,10 @@ export const getAllWaterMeter = () => http.get('/api/Water/Get-All-Water-Metters
 
 export const getAllWater = () => http.get('/api/Water/Get-All-Water')
 
+export const getWaterDetail = (waterReadingId: string) => {
+  return http.get(`/api/Water/Get-Water-Detail?waterReadingId=${waterReadingId}`)
+}
+
 export const dowloadTemplateWaterMeter = () => {
   return http.get('http://localhost:7254/api/Water/Download-Template-Water-Metter', {
     responseType: 'blob'

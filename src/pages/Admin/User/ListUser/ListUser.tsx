@@ -131,9 +131,9 @@ export default function ListUser() {
   const getStatusColor = (status: string) => {
     switch (status.toLowerCase()) {
       case 'active':
-        return 'bg-green-200 text-green-800'
+        return 'bg-green-300 text-green-900 hover:bg-green-400 hover:text-white'
       case 'inactive':
-        return 'bg-red-200 text-red-800'
+        return 'bg-red-400 text-red-900 hover:bg-red-500 hover:text-white'
       default:
         return ''
     }

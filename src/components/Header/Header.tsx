@@ -6,7 +6,6 @@ import { useContext, useEffect, useState, useRef } from 'react'
 import { SearchContext } from '../Search/SearchContext'
 import { getProfile } from '~/apis/auth.api'
 import { getNotification } from '~/apis/notification.api'
-import Typography from '@mui/material/Typography'
 import Popover from '@mui/material/Popover'
 import Badge from '@mui/material/Badge'
 import PopupState, { bindTrigger, bindPopover } from 'material-ui-popup-state'
@@ -248,7 +247,7 @@ export default function Header() {
             >
               <div className='sticky w-[346px]'>
                 <div className='flex justify-between bg-white items-center pt-[10px] pr-[20px] pl-[20px] rounded-t-[25px]'>
-                  <h1 className='font-medium text-[26px] text-[#000] font-extrabold'>Notification</h1>
+                  <h1 className='text-[26px] text-[#000] font-extrabold'>Notification</h1>
                   <Link to='/manager/history-notification'>
                     <a className='text-[#0854a0] font-medium'>View all</a>
                   </Link>
@@ -343,38 +342,36 @@ export default function Header() {
                     horizontal: 'right'
                   }}
                 >
-                  <Typography>
-                    <div className='w-[180px] bg-white shadow-lg rounded-lg overflow-hidden font-semibold text-gray-500 flex flex-col'>
-                      <Link
-                        to='/profile'
-                        onClick={() => popupState.close()}
-                        className='px-4 py-1 text-l hover:bg-gray-100 transition flex items-center'
-                      >
-                        <AccountCircleIcon />
-                        <span className='ml-4 my-2'>Profile</span>
-                      </Link>
-                      <hr className='border-t border-gray-300 w-full' />
-                      <Link
-                        to='/change-password'
-                        onClick={() => popupState.close()}
-                        className='px-4 py-1 text-l hover:bg-gray-100 transition flex items-center'
-                      >
-                        <PasswordIcon />
-                        <span className='ml-4 my-2'>Password</span>
-                      </Link>
-                      <hr className='border-t border-gray-300 w-full' />
-                      <div
-                        onClick={() => {
-                          popupState.close()
-                          handleLogout()
-                        }}
-                        className='px-4 py-1 text-l hover:bg-gray-100 transition flex items-center cursor-pointer'
-                      >
-                        <LogoutIcon />
-                        <span className='ml-4 my-2'>Logout</span>
-                      </div>
+                  <div className='w-[180px] bg-white shadow-lg rounded-lg overflow-hidden font-semibold text-gray-500 flex flex-col'>
+                    <Link
+                      to='/profile'
+                      onClick={() => popupState.close()}
+                      className='px-4 py-1 text-l hover:bg-gray-100 transition flex items-center'
+                    >
+                      <AccountCircleIcon />
+                      <span className='ml-4 my-2'>Profile</span>
+                    </Link>
+                    <hr className='border-t border-gray-300 w-full' />
+                    <Link
+                      to='/change-password'
+                      onClick={() => popupState.close()}
+                      className='px-4 py-1 text-l hover:bg-gray-100 transition flex items-center'
+                    >
+                      <PasswordIcon />
+                      <span className='ml-4 my-2'>Password</span>
+                    </Link>
+                    <hr className='border-t border-gray-300 w-full' />
+                    <div
+                      onClick={() => {
+                        popupState.close()
+                        handleLogout()
+                      }}
+                      className='px-4 py-1 text-l hover:bg-gray-100 transition flex items-center cursor-pointer'
+                    >
+                      <LogoutIcon />
+                      <span className='ml-4 my-2'>Logout</span>
                     </div>
-                  </Typography>
+                  </div>
                 </Popover>
               </div>
             )}

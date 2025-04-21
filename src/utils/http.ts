@@ -1,8 +1,7 @@
 import axios, { AxiosError, type AxiosInstance } from 'axios'
 import HttpStatusCode from '~/constants/httpStatusCode.enum'
-import { AuthRespone } from '~/types/auth.type'
 import {
-  clearAccessTokenToLocalStorage,
+  clearAccessTokenFromLocalStorage,
   getAccessTokenFromLocalStorage,
   saveAccessTokenToLocalStorage,
   saveUserRoleToLocalStorage,
@@ -39,15 +38,14 @@ class Http {
       (response) => {
         const { url } = response.config
         if (url === '/api/Auth/login') {
-          const responseData = response as AuthRespone
-          const token = responseData.data.token
-          const role = responseData.data.role
-          this.accessToken = token
-          saveAccessTokenToLocalStorage(token)
+          const responseData = response.data.data
+          const token = responseData.token
+          const role = responseData.role
+          saveAccessTokenToLocalStorage(token, role)
           saveUserRoleToLocalStorage(role)
         } else if (url === '/logout') {
           this.accessToken = ''
-          clearAccessTokenToLocalStorage()
+          clearAccessTokenFromLocalStorage()
           clearUserRoleFromLocalStorage()
         }
         console.log('Response data:', response.data)
@@ -55,7 +53,6 @@ class Http {
       },
       function (error: AxiosError) {
         if (error.response?.status !== HttpStatusCode.UnprocessableEntity) {
-          // eslint-disable-next-line @typescript-eslint/no-explicit-any
           const data: any | undefined = error.response?.data
           const message = data.message || error.message
           console.log('Error message:', message)

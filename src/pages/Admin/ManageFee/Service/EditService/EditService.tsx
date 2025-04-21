@@ -80,7 +80,7 @@ export default function EditService() {
 
   const getServiceIdFromURL = () => {
     const params = new URLSearchParams(window.location.search)
-    return params.get('serviceId') // Đảm bảo đúng với cách truyền userId
+    return params.get('serviceId')
   }
 
   const serviceId = getServiceIdFromURL()
@@ -101,8 +101,7 @@ export default function EditService() {
       }
     },
     onSuccess: async (data) => {
-      setService(data) // Cập nhật state với dữ liệu từ API
-      console.log(data)
+      setService(data)
 
       // Xử lý ảnh cũ nếu có
       if (data.serviceImages?.length) {
@@ -187,7 +186,7 @@ export default function EditService() {
   return (
     <div style={{ height: 'calc(100vh - 80px)' }} className='pt-5 ml-5 mr-5 z-13 h-screen'>
       <ToastContainer />
-      <div className='mb-6 p-6 bg-white drop-shadow-md rounded-xl'>
+      <div className='mb-6 p-6 bg-gradient-to-br from-white via-white to-blue-100 drop-shadow-md rounded-xl'>
         {loading && <LoadingOverlay value={progress} />}
         {service ? (
           <form className='rounded' noValidate onSubmit={onSubmit}>
@@ -301,7 +300,7 @@ export default function EditService() {
                   <span className='text-red-600 ml-1'>*</span>
                 </label>
                 <div
-                  className='mt-1 w-full h-auto p-4 border-2 border-dashed border-gray-400 rounded-md flex flex-col items-center justify-center cursor-pointer bg-gray-100'
+                  className='mt-1 w-full h-auto p-4 border-2 border-dashed border-blue-400 rounded-md flex flex-col items-center justify-center cursor-pointer bg-gray-100'
                   onClick={() => fileInputRef.current?.click()}
                   onDrop={(e) => handleDrop(e)}
                   onDragOver={(e) => e.preventDefault()}

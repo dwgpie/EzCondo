@@ -174,7 +174,7 @@ export default function EditUser() {
   return (
     <div className='pt-5 mx-5 z-13'>
       <ToastContainer />
-      <div className='mb-6 p-6 bg-white drop-shadow-md rounded-xl'>
+      <div className='mb-6 p-6 bg-gradient-to-br from-white via-white to-blue-100 drop-shadow-md rounded-xl'>
         {loading && <LoadingOverlay value={progress} />}
         {user ? (
           <form className='rounded' noValidate onSubmit={onSubmit}>
@@ -344,7 +344,7 @@ export default function EditUser() {
                     <span className='text-red-600 ml-1'>*</span>
                   </label>
                   <div
-                    className='mt-2 w-full h-auto p-4 border-2 border-dashed border-gray-400 rounded-md flex flex-col items-center justify-center cursor-pointer bg-gray-100'
+                    className='mt-2 w-full h-auto p-4 border-2 border-dashed border-blue-400 rounded-md flex flex-col items-center justify-center cursor-pointer bg-gray-100'
                     onClick={() => fileInputFrontRef.current?.click()}
                     onDrop={(e) => handleDrop(e, 'front')}
                     onDragOver={(e) => e.preventDefault()}
@@ -380,7 +380,7 @@ export default function EditUser() {
                     <span className='text-red-600 ml-1'>*</span>
                   </label>
                   <div
-                    className='mt-2 w-full h-auto p-4 border-2 border-dashed border-gray-400 rounded-md flex flex-col items-center justify-center cursor-pointer bg-gray-100'
+                    className='mt-2 w-full h-auto p-4 border-2 border-dashed border-blue-400 rounded-md flex flex-col items-center justify-center cursor-pointer bg-gray-100'
                     onClick={() => fileInputBackRef.current?.click()}
                     onDrop={(e) => handleDrop(e, 'back')}
                     onDragOver={(e) => e.preventDefault()}

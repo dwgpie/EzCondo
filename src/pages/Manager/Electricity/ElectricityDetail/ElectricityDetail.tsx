@@ -74,10 +74,10 @@ export default function ElectricityDetail() {
             <div
               ref={ref}
               style={{
-                padding: '32px',
+                padding: '32px 32px 0px 32px',
                 fontFamily: "'Segoe UI', Tahoma, Geneva, Verdana, sans-serif",
                 maxWidth: '700px',
-                margin: '40px auto',
+                margin: '10px auto',
                 border: '2px solid #ccc',
                 transition: 'all 0.3s ease'
               }}
@@ -127,10 +127,15 @@ export default function ElectricityDetail() {
                 <table className='border-separate border-spacing-y-2  w-full '>
                   <tr>
                     <td className='px-0 py-2'>
-                      <p>Previous date: {new Date(electric.readingDate).toLocaleDateString('en-US')}</p>
+                      <p>
+                        From:{' '}
+                        {new Date(
+                          new Date(electric.readingDate).setMonth(new Date(electric.readingDate).getMonth() - 1)
+                        ).toLocaleDateString('en-US')}
+                      </p>
                     </td>
                     <td className='px-4 py-2'>
-                      <p>Reading date: {new Date(electric.readingDate).toLocaleDateString('en-US')}</p>
+                      <p>To: {new Date(electric.readingDate).toLocaleDateString('en-US')}</p>
                     </td>
                   </tr>
                   <tr>
@@ -143,27 +148,9 @@ export default function ElectricityDetail() {
                   </tr>
                 </table>
 
-                {/* <div className='flex gap-[200px]'>
-                  <p className='mt-[10px]'>Owner: {electric.fullName}</p>
-                  <p className='mt-[10px]'>Email: {electric.email}</p>
-                </div> */}
                 <p className='mt-[20px]'>Meter number: {electric.meterNumber}</p>
                 <p className='mt-[10px]'>Previous Meter: {electric.pre_electric_number}</p>
                 <p className='mt-[10px]'>Current Meter: {electric.current_electric_number}</p>
-
-                {/* <div className='flex justify-between'>
-                  <p className='mt-[10px]'>
-                    Reading date: {new Date(electric.readingDate).toLocaleDateString('en-US')}
-                  </p>
-                  <p className='mt-[10px]'>Previous Meter Reading: {electric.pre_electric_number} </p>
-                  <p className='mt-[10px]'>Current Meter Reading: {electric.current_electric_number} </p>
-                </div>
-
-                <div className='flex justify-between'>
-                  <p className='mt-[20px]'>Consumption: {electric.consumption} kWh</p>
-                  <p className='mt-[10px]'>Unit Price: {electric.price} VND</p>
-                  <p className='mt-[10px]'>Total Price: {electric.price * electric.consumption} VND</p>
-                </div> */}
                 <table className='border-1 border-separate border-spacing-y-2  w-full mt-[20px] '>
                   <tr>
                     <td className='px-2 py-2'>Consumption</td>
@@ -188,7 +175,7 @@ export default function ElectricityDetail() {
                     Day {day}, Month {month}, Year {year}
                   </p>
                   <p>Apartment Management Board</p>
-                  <img src='/public/imgs/bg/chuky2.png' alt='Signature' className='w-[150px] mt-2' />
+                  <img src='/public/imgs/bg/ck-5.png' alt='Signature' className='w-[200px]' />
                 </div>
 
                 {/* ['Total Price', `${electric.price.toLocaleString('en-US')} VND`] */}

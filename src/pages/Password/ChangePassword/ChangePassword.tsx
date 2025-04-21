@@ -47,10 +47,20 @@ export default function ChangePassword() {
     setShowPassword((prev) => !prev)
   }
 
+  const [showPassword2, setShowPassword2] = useState(false)
+  const toggleShowPassword2 = () => {
+    setShowPassword2((prev) => !prev)
+  }
+
+  const [showPassword3, setShowPassword3] = useState(false)
+  const toggleShowPassword3 = () => {
+    setShowPassword3((prev) => !prev)
+  }
+
   return (
-    <div className='bg-[#EDF2F9] pt-5 mr-5 ml-5 z-13'>
+    <div className='pt-5 mx-5 z-13' style={{ height: 'calc(100vh - 80px)' }}>
       <ToastContainer />
-      <div className='mb-6 p-6 bg-white drop-shadow-md rounded-xl'>
+      <div className='mb-6 p-6 bg-gradient-to-br from-white via-white to-blue-100 shadow-xl rounded-2xl space-y-6'>
         <form className='rounded' noValidate onSubmit={onSubmit}>
           <div className=''>
             <div className='flex gap-10'>
@@ -82,14 +92,14 @@ export default function ChangePassword() {
                 <div className='relative'>
                   <Input
                     name='newPassword'
-                    type={showPassword ? 'text' : 'password'}
+                    type={showPassword2 ? 'text' : 'password'}
                     register={register}
                     className='mt-3 w-[250px]'
                     errorMessage={errors.newPassword?.message}
                   />
                   <InputAdornment position='end' className='absolute right-0 top-0 mt-2 mr-4'>
-                    <IconButton onClick={toggleShowPassword} edge='end' aria-label='toggle password visibility'>
-                      {showPassword ? <Visibility /> : <VisibilityOff />}
+                    <IconButton onClick={toggleShowPassword2} edge='end' aria-label='toggle password visibility'>
+                      {showPassword2 ? <Visibility /> : <VisibilityOff />}
                     </IconButton>
                   </InputAdornment>
                 </div>
@@ -102,14 +112,14 @@ export default function ChangePassword() {
                 <div className='relative'>
                   <Input
                     name='confirmPassword'
-                    type={showPassword ? 'text' : 'password'}
+                    type={showPassword3 ? 'text' : 'password'}
                     register={register}
                     className='mt-3 w-[250px]'
                     errorMessage={errors.confirmPassword?.message}
                   />
                   <InputAdornment position='end' className='absolute right-0 top-0 mt-2 mr-4'>
-                    <IconButton onClick={toggleShowPassword} edge='end' aria-label='toggle password visibility'>
-                      {showPassword ? <Visibility /> : <VisibilityOff />}
+                    <IconButton onClick={toggleShowPassword3} edge='end' aria-label='toggle password visibility'>
+                      {showPassword3 ? <Visibility /> : <VisibilityOff />}
                     </IconButton>
                   </InputAdornment>
                 </div>
