@@ -116,7 +116,7 @@ export default function Profile() {
   return (
     <div className='bg-[#EDF2F9] pt-5 mr-5 ml-5 z-13' style={{ height: 'calc(100vh - 80px)' }}>
       <ToastContainer />
-      <div className='mb-6 p-6 bg-white drop-shadow-md rounded-xl'>
+      <div className='mb-6 p-6 bg-gradient-to-br from-white via-white to-blue-100 shadow-xl rounded-2xl space-y-6'>
         {user ? (
           <form className='rounded' noValidate onSubmit={onSubmit}>
             <div className='flex items-center justify-evenly gap-4'>

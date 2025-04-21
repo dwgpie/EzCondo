@@ -167,8 +167,7 @@ export const serviceSchema = yup.object({
     .string()
     .trim()
     .required('Description is required')
-    .max(500, 'Description cannot exceed 500 characters')
-    .min(10, 'Description must be at least 10 characters long'),
+    .max(500, 'Description cannot exceed 500 characters'),
   typeOfMonth: yup.boolean().default(false),
   typeOfYear: yup.boolean().default(false),
   priceOfMonth: yup

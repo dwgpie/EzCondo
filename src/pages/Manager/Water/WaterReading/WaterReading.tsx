@@ -24,7 +24,7 @@ interface UploadFormData {
 }
 
 interface WaterMeter {
-  waterReadingId?: string
+  id?: string
   fullName: string
   apartmentNumber: string
   phoneNumber: string
@@ -154,7 +154,7 @@ export default function WaterReading() {
   }
 
   const handleDetailClick = (id: string) => {
-    window.location.href = `/manager/water-detail?waterReadingId=${id}`
+    window.location.href = `/manager/water-detail?id=${id}`
   }
 
   const handleDownload = async () => {
@@ -295,7 +295,7 @@ export default function WaterReading() {
                         <div className='flex p-2'>
                           <button
                             className='text-blue-600 hover:text-blue-800 transition-colors cursor-pointer'
-                            onClick={() => handleDetailClick(water.waterReadingId || '')}
+                            onClick={() => handleDetailClick(water.id || '')}
                           >
                             <SubjectIcon />
                           </button>

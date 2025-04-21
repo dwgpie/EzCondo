@@ -13,17 +13,23 @@ export const login = async (body: { email: string; password: string }) => {
   } catch (error: unknown) {
     if (error instanceof AxiosError && error.response) {
       if (error.response.status === 401) {
-        toast.error('Incorrect password')
+        toast.error('Incorrect password', {
+          style: { width: 'fit-content' }
+        })
         throw new Error('Incorrect password')
       }
 
       if (error.response.status === 404) {
-        toast.error('User not found')
+        toast.error('User not found', {
+          style: { width: 'fit-content' }
+        })
         throw new Error('User not found')
       }
 
       if (error.response.status === 423) {
-        toast.error('Your account is blocked')
+        toast.error('Your account is blocked', {
+          style: { width: 'fit-content' }
+        })
         throw new Error('Your account is blocked')
       }
 

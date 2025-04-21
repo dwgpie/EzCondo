@@ -31,7 +31,7 @@ createRoot(document.getElementById('root')!).render(
         <AppProvider theme={lightTheme}>
           <App />
         </AppProvider>
-        <ReactQueryDevtools initialIsOpen={false} />
+        {/* <ReactQueryDevtools initialIsOpen={false} /> */}
       </QueryClientProvider>
     </BrowserRouter>
   </StrictMode>

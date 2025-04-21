@@ -1,23 +1,3 @@
-// import { SearchProvider } from './components/Search/SearchContext'
-// import useRouteElements from './useRouteElements'
-// import { ToastContainer } from 'react-toastify'
-
-// function App() {
-//   const routeElements = useRouteElements()
-//   return (
-//     <SearchProvider>
-//       {' '}
-//       {/* Bọc toàn bộ ứng dụng */}
-//       <div>
-//         {routeElements}
-//         <ToastContainer />
-//       </div>
-//     </SearchProvider>
-//   )
-// }
-
-// export default App
-
 import { useEffect } from 'react'
 import { useNavigate, useLocation } from 'react-router-dom'
 import { ToastContainer } from 'react-toastify'
@@ -36,18 +16,20 @@ function App() {
     const role = getUserRoleFromLocalStorage()
     const currentPath = location.pathname
 
+    const isPublicPath = ['/', '/login', '/forgot-password', '/reset-password', '/verify-otp'].includes(currentPath)
+
     if (!token) {
-      if (currentPath !== '/login') {
+      if (!isPublicPath) {
         navigate('/login')
       }
     } else {
-      if (role === 'admin' && !currentPath.startsWith('/admin')) {
+      if (role === 'admin' && currentPath === '/') {
         navigate('/admin/dashboard')
-      } else if (role === 'manager' && !currentPath.startsWith('/manager')) {
+      } else if (role === 'manager' && currentPath === '/') {
         navigate('/manager/dashboard')
       }
     }
-  }, [])
+  }, [location.pathname, navigate])
 
   return (
     <SearchProvider>

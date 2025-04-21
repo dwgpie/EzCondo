@@ -1,5 +1,4 @@
 import Login from './pages/Login'
-// import LandingPage from './pages/LandingPage'
 import DashboardLayout from './layouts/DashboardAdminLayout'
 import DashboardManagerLayout from './layouts/DashboardManagerLayout'
 import Dashboard from './pages/Admin/Dashboard'
@@ -7,7 +6,8 @@ import AddUser from './pages/Admin/User/AddUser'
 import ListUser from './pages/Admin/User/ListUser'
 import { useContext } from 'react'
 import { AppContext } from './contexts/app.context'
-import { Outlet, useRoutes, Navigate } from 'react-router-dom'
+import { useRoutes } from 'react-router-dom'
+import { ProtectedRoute, RejectedRoute } from './components/ProtectedRoutes'
 import ForgotPassword from './pages/Password/ForgotPassword'
 import ResetPassword from './pages/Password/ResetPassword'
 import EditUser from './pages/Admin/User/EditUser'
@@ -39,42 +39,9 @@ import WaterMeter from './pages/Manager/Water/WaterMeter'
 import WaterReading from './pages/Manager/Water/WaterReading'
 import WaterDetail from './pages/Manager/Water/WaterDetail'
 import UnpaidWater from './pages/Manager/Water/UnpaidWater'
+import LandingPage from './pages/LandingPage'
+import PageNotFound from './pages/PageNotFound'
 
-// function ProtectedRoute() {
-//   const { isAuthenticated } = useContext(AppContext) // Lấy từ context
-//   console.log('isAuthenticated:', isAuthenticated) // Debug
-
-//   return isAuthenticated ? <Outlet /> : <Navigate to='/login' />
-// }
-
-// function ProtectedRoute() {
-//   const { isAuthenticated } = useContext(AppContext)
-//   // Kiểm tra cả từ localStorage
-//   const token = localStorage.getItem('token')
-//   const isUserAuthenticated = isAuthenticated || Boolean(token)
-//   return isUserAuthenticated ? <Outlet /> : <Navigate to='/login' replace />
-// }
-
-// function RejectedRouted() {
-//   const { isAuthenticated } = useContext(AppContext)
-//   return !isAuthenticated ? <Outlet /> : <Navigate to='/' />
-// }
-
-function ProtectedRoute() {
-  const { isAuthenticated, userRole } = useContext(AppContext)
-  const token = localStorage.getItem('token')
-  const role = localStorage.getItem('role') || userRole
-
-  const isUserAuthenticated = isAuthenticated || Boolean(token)
-  if (!isUserAuthenticated) return <Navigate to='/login' replace />
-  if (!role) return <Navigate to='/login' replace />
-  return isUserAuthenticated ? <Outlet /> : <Navigate to='/login' replace />
-}
-
-function RejectedRoute() {
-  const { isAuthenticated } = useContext(AppContext)
-  return !isAuthenticated ? <Outlet /> : <Navigate to='/' />
-}
 export default function useRouteElements() {
   const { userRole } = useContext(AppContext)
 
@@ -87,7 +54,11 @@ export default function useRouteElements() {
         { path: '/login', element: <Login /> },
         { path: '/forgot-password', element: <ForgotPassword /> },
         { path: '/verify-otp', element: <VerifyOTP /> },
-        { path: '/reset-password', element: <ResetPassword /> }
+        { path: '/reset-password', element: <ResetPassword /> },
+        {
+          path: '/',
+          element: <LandingPage />
+        }
       ]
     },
 
@@ -369,7 +340,9 @@ export default function useRouteElements() {
             ]
           : [])
       ]
-    }
+    },
+
+    { path: '*', element: <PageNotFound /> }
   ])
 
   return routeElements

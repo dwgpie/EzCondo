@@ -11,6 +11,7 @@ import VisibilityOff from '@mui/icons-material/VisibilityOff'
 import { useState } from 'react'
 import InputAdornment from '@mui/material/InputAdornment'
 import IconButton from '@mui/material/IconButton'
+import { saveAccessTokenToLocalStorage, saveUserRoleToLocalStorage } from '~/utils/auth'
 
 type FormData = LoginSchema
 
@@ -37,8 +38,8 @@ export default function Login() {
         const token = data.data.token
         const role = data.data.role
 
-        localStorage.setItem('token', token)
-        localStorage.setItem('role', role)
+        saveAccessTokenToLocalStorage(token, role)
+        saveUserRoleToLocalStorage(role)
 
         if (role === 'admin') {
           window.location.href = '/admin/dashboard'
