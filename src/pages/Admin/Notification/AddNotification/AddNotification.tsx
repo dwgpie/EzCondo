@@ -134,6 +134,7 @@ export default function AddNotification() {
       <div className='mb-6 p-6 bg-gradient-to-br from-white via-white to-blue-100 shadow-xl rounded-2xl space-y-6'>
         {loading && <LoadingOverlay value={progress} />}
         <form className='rounded' noValidate onSubmit={onSubmit}>
+          <h1 className='font-bold text-[25px] mb-[20px]'>Create Notification</h1>
           <div className='grid grid-cols-2 gap-4'>
             <div>
               <div className='grid grid-cols-2 gap-4 mb-4'>

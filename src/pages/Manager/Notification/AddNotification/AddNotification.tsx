@@ -1,10 +1,22 @@
-import { Button, MenuItem, Select, TextField } from '@mui/material'
+import {
+  Button,
+  FormControl,
+  FormControlLabel,
+  FormLabel,
+  Radio,
+  MenuItem,
+  RadioGroup,
+  Select,
+  Autocomplete,
+  TextField
+} from '@mui/material'
 import { useForm } from 'react-hook-form'
 import Input from '~/components/Input'
 import { yupResolver } from '@hookform/resolvers/yup'
-import { notificationSchema } from '~/utils/rules'
-import { addNotification, addNotificationImages } from '~/apis/notification.api'
-import { useRef, useState } from 'react'
+import { notificationSchemaManager } from '~/utils/rules'
+import { addNotification, addNotificationToResident, addNotificationImages } from '~/apis/notification.api'
+import { getApartmentByStatusTrue } from '~/apis/apartment.api'
+import { useEffect, useRef, useState } from 'react'
 import CloudUploadIcon from '@mui/icons-material/CloudUpload'
 import { ToastContainer, toast } from 'react-toastify'
 import { useNavigate } from 'react-router-dom'
@@ -13,10 +25,16 @@ import LoadingOverlay from '~/components/LoadingOverlay'
 interface FormData {
   title: string
   content: string
-  receiver: string
   type: string
+  receiver?: string
+  apartmentNumber?: string
   NotificationId?: string
   Image: File[]
+}
+
+interface Apartment {
+  id: number
+  apartmentNumber: string
 }
 
 export default function AddNotificationManager() {
@@ -28,7 +46,7 @@ export default function AddNotificationManager() {
     reset,
     formState: { errors }
   } = useForm<FormData>({
-    resolver: yupResolver(notificationSchema)
+    resolver: yupResolver(notificationSchemaManager)
   })
 
   const navigate = useNavigate()
@@ -37,6 +55,26 @@ export default function AddNotificationManager() {
   const fileInputRef = useRef<HTMLInputElement | null>(null)
   const [loading, setLoading] = useState(false)
   const [progress, setProgress] = useState(0)
+
+  const [apartments, setApartments] = useState<Apartment[]>([])
+  const [apartmentChoosed, setApartmentChoosed] = useState<string[]>([])
+  const [radio, setRadio] = useState('resident')
+
+  const fetchApartments = async () => {
+    try {
+      const response = await getApartmentByStatusTrue()
+      const sortedApartments = response.data.sort((a: Apartment, b: Apartment) =>
+        a.apartmentNumber.localeCompare(b.apartmentNumber, undefined, { numeric: true })
+      )
+      setApartments(sortedApartments)
+    } catch (error) {
+      console.error('Error fetching apartments:', error)
+    }
+  }
+  useEffect(() => {
+    setValue('receiver', 'resident')
+    fetchApartments()
+  }, [])
 
   const handleDeleteImage = (index: number) => {
     // Remove image URL and file at the specified index
@@ -73,7 +111,19 @@ export default function AddNotificationManager() {
     }
   }
 
-  const handleCallAPI = async (formData: FormData) => {
+  const handleChangeRadio = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const value = event.target.value
+    setRadio(value)
+    setValue('receiver', value)
+
+    // if (value === 'resident') {
+    //   setValue('apartmentNumber', '')
+    // } else {
+    //   setValue('receiver', '')
+    // }
+  }
+
+  const handleCallAPI1 = async (formData: FormData) => {
     try {
       setLoading(true)
       setProgress(0)
@@ -91,7 +141,7 @@ export default function AddNotificationManager() {
       const response = await addNotification({
         title: formData.title,
         content: formData.content,
-        receiver: formData.receiver,
+        receiver: 'resident',
         type: formData.type
       })
 
@@ -120,9 +170,73 @@ export default function AddNotificationManager() {
     }
   }
 
+  const handleCallAPI2 = async (formData: any) => {
+    try {
+      setLoading(true)
+      setProgress(0)
+
+      const Progress = setInterval(() => {
+        setProgress((prev) => {
+          if (prev >= 90) {
+            clearInterval(Progress)
+            return prev
+          }
+          return prev + 10
+        })
+      }, 300)
+
+      // Tạo body gửi theo đúng cấu trúc API
+      const notificationData = apartmentChoosed.map((apartmentNumber) => ({
+        title: formData.title,
+        content: formData.content,
+        type: formData.type,
+        apartmentNumber: apartmentNumber
+      }))
+
+      // Gửi thông báo
+      const response = await addNotificationToResident(notificationData)
+
+      if (!response?.data) {
+        toast.error('Failed to create notification')
+        return
+      }
+
+      const NotificationId = response.data
+      console.log('Notification ID:', NotificationId)
+
+      // Gửi ảnh nếu có
+      for (const id of NotificationId) {
+        await addNotificationImages({
+          NotificationId: id,
+          Image: formData.Image
+        })
+      }
+
+      toast.success('Notification created successfully!')
+      setImages([])
+      setFiles([])
+    } catch (error) {
+      console.error('API call failed:', error)
+      toast.error('Có lỗi xảy ra khi tạo thông báo')
+    } finally {
+      setProgress(100)
+      setTimeout(() => {
+        setLoading(false)
+      }, 500)
+    }
+  }
+
   // Xử lý submit form
   const onSubmit = handleSubmit((formData) => {
-    handleCallAPI(formData)
+    console.log(formData)
+
+    if (radio === 'resident') {
+      handleCallAPI1(formData)
+      console.log('gửi toàn bộ')
+    } else if (radio === 'apartment') {
+      handleCallAPI2(formData)
+      console.log('gửi apartment')
+    }
     reset()
   })
 
@@ -132,35 +246,89 @@ export default function AddNotificationManager() {
       <div className='mb-6 p-6 bg-white drop-shadow-md rounded-xl'>
         {loading && <LoadingOverlay value={progress} />}
         <form className='rounded' noValidate onSubmit={onSubmit}>
+          <h1 className='font-bold text-[25px] mb-[20px]'>Create Notification</h1>
+          {/* top */}
+          <div className='flex justify-between'>
+            <div>
+              <FormControl>
+                <FormLabel
+                  sx={{ color: '#000', fontWeight: '500', fontSize: '14px' }}
+                  id='demo-radio-buttons-group-label'
+                >
+                  Receiver<span className='text-red-600 ml-1'>*</span>
+                </FormLabel>
+
+                <RadioGroup
+                  aria-labelledby='demo-radio-buttons-group-label'
+                  defaultValue='resident'
+                  name='radio-buttons-group'
+                  onChange={handleChangeRadio}
+                >
+                  <FormControlLabel value='resident' control={<Radio />} label='Resident' />
+                  <FormControlLabel value='apartment' control={<Radio />} label='Apartment' />
+                </RadioGroup>
+              </FormControl>
+            </div>
+            <div>
+              <label className='block text-sm font-semibold mb-[6px]'>
+                Type
+                <span className='text-red-600 ml-1'>*</span>
+              </label>
+              <Select
+                id='demo-select-small'
+                defaultValue='new'
+                {...register('type')}
+                sx={{ width: '200px', height: '55px' }}
+              >
+                <MenuItem value='new'>New</MenuItem>
+                <MenuItem value='notice'>Notice</MenuItem>
+                <MenuItem value='fee'>Fee</MenuItem>
+              </Select>
+            </div>
+
+            <div>
+              <div
+                className={` transition-all duration-300
+                  ${radio === 'resident' ? 'opacity-0 pointer-events-none' : 'opacity-100'}`}
+              >
+                <label className='block text-sm font-semibold mb-[6px]'>
+                  Apartment
+                  <span className='text-red-600 ml-1'>*</span>
+                </label>
+                <Autocomplete
+                  multiple
+                  options={apartments.map((apt) => apt.apartmentNumber)}
+                  onChange={(event, newValue) => {
+                    setApartmentChoosed(newValue) // Cập nhật danh sách apartment đã chọn
+                    setValue('apartmentNumber', newValue.join(', ')) // (nếu đang dùng react-hook-form)
+                    clearErrors('apartmentNumber') // (nếu cần)
+                  }}
+                  value={apartmentChoosed}
+                  renderInput={(params) => (
+                    <TextField
+                      {...params}
+                      sx={{ maxWidth: '560px', width: '560px' }}
+                      placeholder='Search Apartment'
+                      variant='outlined'
+                    />
+                  )}
+                />
+
+                <div className='mt-1 text-xs text-red-500 min-h-4'>{errors.apartmentNumber?.message}</div>
+              </div>
+            </div>
+          </div>
+
+          <div className='flex'>
+            {/* right */}
+            <div></div>
+
+            {/* left */}
+            <div></div>
+          </div>
+
           <div className='grid grid-cols-2 gap-4'>
             <div>
-              <div className='grid grid-cols-2 gap-4 mb-4'>
-                <div>
-                  <label className='block text-sm font-semibold mb-[6px]'>
-                    Receiver
-                    <span className='text-red-600 ml-1'>*</span>
-                  </label>
-                  <TextField
-                    type='text'
-                    {...register('receiver')}
-                    defaultValue='resident'
-                    className='bg-gray-200'
-                    sx={{ width: '200px' }}
-                    disabled
-                  />
-                </div>
-                <div>
-                  <label className='block text-sm font-semibold mb-[6px]'>
-                    Type
-                    <span className='text-red-600 ml-1'>*</span>
-                  </label>
-                  <Select id='demo-select-small' defaultValue='new' {...register('type')} sx={{ width: '200px' }}>
-                    <MenuItem value='new'>New</MenuItem>
-                    <MenuItem value='notice'>Notice</MenuItem>
-                    <MenuItem value='fee'>Fee</MenuItem>
-                  </Select>
-                </div>
-              </div>
               <div className='mb-3'>
                 <label className='block text-sm font-semibold'>
                   Title

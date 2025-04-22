@@ -46,8 +46,11 @@ export default function ListApartment() {
       return response.data
     },
     onSuccess: (data) => {
-      setApartmentList(data)
-      filterApartments(data, selectedFloor) // Lọc các apartment khi tải xong dữ liệu
+      const sortedApartments = data.sort((a: FormData, b: FormData) =>
+        a.apartmentNumber.localeCompare(b.apartmentNumber, undefined, { numeric: true })
+      )
+      setApartmentList(sortedApartments)
+      filterApartments(sortedApartments, selectedFloor) // Lọc các apartment khi tải xong dữ liệu
     },
     onError: (error) => {
       console.error('Error:', error)

@@ -3,12 +3,14 @@ import http from '~/utils/http'
 export const addNotification = (body: { title: string; content: string; receiver: string; type: string }) =>
   http.post('/api/Notification/create-notification', body)
 
-export const addNotificationToResident = (body: {
-  title: string
-  content: string
-  type: string
-  apartmentNumber: string
-}) => http.post('/api/Notification/manager-send-to-user', body)
+export const addNotificationToResident = (
+  body: {
+    title: string
+    content: string
+    type: string
+    apartmentNumber: string
+  }[]
+) => http.post('/api/Notification/manager-send-to-user', body)
 
 export const addNotificationImages = (body: { NotificationId: string; Image: File[] }) => {
   const formData = new FormData()
