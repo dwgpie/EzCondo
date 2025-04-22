@@ -297,12 +297,16 @@ export const notificationSchema = yup.object({
     .required('Image is required')
 })
 
-export const notificationSchemaAPT = yup.object({
+export const notificationSchemaManager = yup.object({
   title: yup.string().required('Title is required'),
   content: yup.string().required('Content is required'),
-  receiver: yup.string().required('Receiver is required'),
   type: yup.string().required('Type is required'),
-  apartmentNumber: yup.string().required('Apartment number is required'),
+  receiver: yup.string(),
+  apartmentNumber: yup.string().when('receiver', {
+    is: 'apartment',
+    then: (schema) => schema.required('Apartment number is required'),
+    otherwise: (schema) => schema.notRequired()
+  }),
   NotificationId: yup.string(),
   Image: yup
     .array()

@@ -33,3 +33,4 @@ export const getApartmentById = (apartmentId: string) =>
   http.get(`/api/Apartment/get-apartment-by-id?apartmentId=${apartmentId}`)
 
 export const getApartmentByStatus = () => http.get(`/api/Apartment/get-all-apartment?status=false`)
+export const getApartmentByStatusTrue = () => http.get(`/api/Apartment/get-all-apartment?status=true`)

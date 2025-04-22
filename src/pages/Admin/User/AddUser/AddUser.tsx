@@ -90,7 +90,10 @@ export default function AddUser() {
   const fetchApartments = async () => {
     try {
       const response = await getApartmentByStatus()
-      setApartments(response.data)
+      const sortedApartments = response.data.sort((a: Apartment, b: Apartment) =>
+        a.apartmentNumber.localeCompare(b.apartmentNumber, undefined, { numeric: true })
+      )
+      setApartments(sortedApartments)
     } catch (error) {
       console.error('Error fetching apartments:', error)
     }

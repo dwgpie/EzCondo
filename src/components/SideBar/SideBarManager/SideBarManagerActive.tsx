@@ -10,6 +10,7 @@ import RecentActorsTwoToneIcon from '@mui/icons-material/RecentActorsTwoTone'
 import PersonOutlineTwoToneIcon from '@mui/icons-material/PersonOutlineTwoTone'
 import FitnessCenterTwoToneIcon from '@mui/icons-material/FitnessCenterTwoTone'
 import WaterDropTwoToneIcon from '@mui/icons-material/WaterDropTwoTone'
+import ReportProblemTwoToneIcon from '@mui/icons-material/ReportProblemTwoTone'
 import '../SideBar.css'
 
 export default function SideBarManagerActive() {
@@ -29,11 +30,14 @@ export default function SideBarManagerActive() {
   const WaterReadingPath = '/manager/add-water-reading'
   const WaterUnpaidPath = '/manager/unpaid-water'
 
+  const ListIncidentPath = '/manager/list-incident'
+
   const [isOpenUser, setIsOpenUser] = useState(false)
   const [isOpenService, setIsOpenService] = useState(false)
   const [isOpenElectric, setIsOpenElectric] = useState(false)
   const [isOpenWater, setIsOpenWater] = useState(false)
   const [isOpenNotification, setIsOpenNotification] = useState(false)
+  const [isOpenIncident, setIsOpenIncident] = useState(false)
 
   const handleClickUser = () => {
     setIsOpenUser(!isOpenUser)
@@ -49,6 +53,9 @@ export default function SideBarManagerActive() {
   }
   const handleClickNotification = () => {
     setIsOpenNotification(!isOpenNotification)
+  }
+  const handleClickIncident = () => {
+    setIsOpenIncident(!isOpenIncident)
   }
 
   return (
@@ -218,6 +225,33 @@ export default function SideBarManagerActive() {
                 <div className={`flex items-center gap-[10px] ${path === WaterUnpaidPath ? 'text-[#1976d3]' : ''}`}>
                   <WaterDropTwoToneIcon />
                   <p className='pl-4 py-2 '>Unpaid Water</p>
+                </div>
+              </div>
+            </Link>
+          </div>
+
+          {/* Incident */}
+          <div
+            className={`flex justify-between items-center w-[270px] h-[50px] pl-[10px] pr-[10px] ml-[10px] mr-[20px] rounded-xl cursor-pointer hover:bg-[#E5F2FF]`}
+            onClick={handleClickIncident}
+          >
+            <div className={`flex items-center gap-[10px] ${path === ListIncidentPath ? 'text-[#1976d3]' : ''}`}>
+              <ReportProblemTwoToneIcon />
+              <p className=''>Incident</p>
+            </div>
+            {isOpenIncident ? <ExpandLess /> : <ExpandMore />}
+          </div>
+
+          <div
+            className={`overflow-hidden transition-all duration-300 ${isOpenIncident ? 'max-h-[150px]' : 'max-h-0'}`}
+          >
+            <Link to='/manager/list-incident'>
+              <div
+                className={`flex justify-between w-[270px] h-[50px] pl-[20px] ml-[10px] mr-[20px] rounded-xl cursor-pointer hover:bg-[#E5F2FF]  ${path === ListIncidentPath ? 'bg-[#E5F2FF] rounded-xl' : ''}`}
+              >
+                <div className={`flex items-center gap-[10px] ${path === ListIncidentPath ? 'text-[#1976d3]' : ''}`}>
+                  <ReportProblemTwoToneIcon />
+                  <p className='pl-4 py-2 '>List Incident</p>
                 </div>
               </div>
             </Link>
