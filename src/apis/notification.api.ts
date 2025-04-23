@@ -29,14 +29,14 @@ export const addNotificationImages = (body: { NotificationId: string; Image: Fil
 
 export const filterNotification = (body: { type: string; receiver: string; day: number }) => {
   return http.get(
-    `/api/Notification/admin-or-manager-get-notifications?type=${body.type}&receiver=${body.receiver}&day=${body.day}`
+    `/api/Notification/admin-or-manager-get-notifications?type=${body.type}&receiver=${body.receiver}&day=${body.day}&pageSize=100`
   )
 }
 
 export const filterNotificationManager = (body: { receiver: string; type: string; day: number }) => {
   return http.get(
     // `/api/Notification/admin-or-manager-get-notifications?type=${body.type}&receiver=resident&day=${body.day}`
-    `/api/Notification/admin-or-manager-get-notifications?type=${body.type}&day=${body.day}`
+    `/api/Notification/admin-or-manager-get-notifications?type=${body.type}&day=${body.day}&pageSize=100`
   )
 }
 

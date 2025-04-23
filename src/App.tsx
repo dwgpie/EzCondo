@@ -1,7 +1,6 @@
 import { useEffect } from 'react'
 import { useNavigate, useLocation } from 'react-router-dom'
 import { ToastContainer } from 'react-toastify'
-
 import { SearchProvider } from './components/Search/SearchContext'
 import useRouteElements from './useRouteElements'
 import { getAccessTokenFromLocalStorage, getUserRoleFromLocalStorage } from './utils/auth'

@@ -6,7 +6,7 @@ import { useForm } from 'react-hook-form'
 import { yupResolver } from '@hookform/resolvers/yup'
 import { useRef } from 'react'
 import CloudUploadIcon from '@mui/icons-material/CloudUpload'
-import { ToastContainer, toast } from 'react-toastify'
+import { toast } from 'react-toastify'
 import { Button, Checkbox, TextField } from '@mui/material'
 import { Link } from 'react-router-dom'
 import InputEdit from '~/components/InputEdit'
@@ -184,184 +184,181 @@ export default function EditService() {
   })
 
   return (
-    <div style={{ height: 'calc(100vh - 80px)' }} className='pt-5 ml-5 mr-5 z-13 h-screen'>
-      <ToastContainer />
-      <div className='mb-6 p-6 bg-gradient-to-br from-white via-white to-blue-100 drop-shadow-md rounded-xl'>
-        {loading && <LoadingOverlay value={progress} />}
-        {service ? (
-          <form className='rounded' noValidate onSubmit={onSubmit}>
-            <div className='grid grid-cols-2 gap-4'>
-              <div>
-                <div className=''>
-                  <label className='block text-sm font-semibold'>
-                    Name
-                    <span className='text-red-600 ml-1'>*</span>
-                  </label>
-                  <InputEdit
-                    name='serviceName'
-                    type='text'
-                    className='mt-1'
-                    errorMessage={errors.serviceName?.message}
-                    defaultValue={service.serviceName}
-                    register={register}
-                  />
-                </div>
-                <div className=''>
-                  <label className='block text-sm font-semibold mb-1'>
-                    Description
-                    <span className='text-red-600 ml-1'>*</span>
-                  </label>
-                  <InputEdit
-                    name='description'
-                    type='textarea'
-                    className='mt-1'
-                    errorMessage={errors.description?.message}
-                    defaultValue={service.description}
-                    register={register}
-                    rows={5}
-                  />
-                </div>
-                <div className=''>
-                  <label className='block text-sm font-semibold'>
-                    Status
-                    <span className='text-red-600 ml-1'>*</span>
-                  </label>
-                  <select
-                    {...register('status')}
-                    defaultValue={service.status}
-                    className='mt-1 w-full py-4 pl-2 cursor-pointer outline-none border border-gray-300 focus:border-gray-500 rounded-sm focus:shadow-sm'
-                  >
-                    <option value='active'>Active</option>
-                    <option value='inactive'>Inactive</option>
-                  </select>
-                </div>
-                <div className='flex mt-5'>
-                  <div>
-                    <div className='flex items-center gap-11'>
-                      <label className='block text-sm font-semibold'>Timestamp</label>
-                      <label className='block text-sm font-semibold ml-3'>
-                        Price
-                        <span className='text-red-600 ml-1'>*</span>
-                      </label>
-                    </div>
-                    <div className='flex items-center mt-2'>
-                      <Checkbox
-                        {...register('typeOfMonth')}
-                        checked={watch('typeOfMonth', service.typeOfMonth)}
-                        onChange={(e) => {
-                          setValue('typeOfMonth', e.target.checked)
-                          if (!e.target.checked) {
-                            setValue('priceOfMonth', 0)
-                          }
-                        }}
-                      />
-                      <div className='mr-10'>Month</div>
-                      <TextField
-                        type='number'
-                        disabled={!watch('typeOfMonth', service.typeOfMonth)}
-                        {...register('priceOfMonth', { valueAsNumber: true })}
-                        variant='outlined'
-                        size='small'
-                        sx={{ width: '150px' }}
-                        defaultValue={service.priceOfMonth}
-                      />
-                      <div className='mt-1 ml-3 text-xs text-red-500 min-h-4'>{errors.priceOfMonth?.message}</div>
-                    </div>
-                    <div className='flex items-center mt-2'>
-                      <Checkbox
-                        {...register('typeOfYear')}
-                        checked={watch('typeOfYear', service.typeOfYear)}
-                        onChange={(e) => {
-                          const isChecked = e.target.checked
-                          setValue('typeOfYear', isChecked)
-                          if (!isChecked) {
-                            setValue('priceOfYear', 0) // Reset về 0 khi bỏ chọn
-                          }
-                        }}
-                      />
-                      <div className='mr-[54px]'>Year</div>
-                      <TextField
-                        type='number'
-                        disabled={!watch('typeOfYear', service.typeOfYear)}
-                        {...register('priceOfYear', { valueAsNumber: true })}
-                        variant='outlined'
-                        size='small'
-                        sx={{ width: '150px' }}
-                        defaultValue={service.priceOfYear}
-                      />
-                      <div className='mt-1 ml-3 text-xs text-red-500 min-h-4'>{errors.priceOfYear?.message}</div>
-                    </div>
+    <div className='mx-5 mt-5 mb-5 p-6 bg-gradient-to-br from-white via-white to-blue-100 drop-shadow-md rounded-xl'>
+      {loading && <LoadingOverlay value={progress} />}
+      {service ? (
+        <form className='rounded' noValidate onSubmit={onSubmit}>
+          <div className='grid grid-cols-2 gap-4'>
+            <div>
+              <div className=''>
+                <label className='block text-sm font-semibold'>
+                  Name
+                  <span className='text-red-600 ml-1'>*</span>
+                </label>
+                <InputEdit
+                  name='serviceName'
+                  type='text'
+                  className='mt-1'
+                  errorMessage={errors.serviceName?.message}
+                  defaultValue={service.serviceName}
+                  register={register}
+                />
+              </div>
+              <div className=''>
+                <label className='block text-sm font-semibold mb-1'>
+                  Description
+                  <span className='text-red-600 ml-1'>*</span>
+                </label>
+                <InputEdit
+                  name='description'
+                  type='textarea'
+                  className='mt-1'
+                  errorMessage={errors.description?.message}
+                  defaultValue={service.description}
+                  register={register}
+                  rows={5}
+                />
+              </div>
+              <div className=''>
+                <label className='block text-sm font-semibold'>
+                  Status
+                  <span className='text-red-600 ml-1'>*</span>
+                </label>
+                <select
+                  {...register('status')}
+                  defaultValue={service.status}
+                  className='mt-1 w-full py-4 pl-2 cursor-pointer outline-none border border-gray-300 focus:border-gray-500 rounded-sm focus:shadow-sm'
+                >
+                  <option value='active'>Active</option>
+                  <option value='inactive'>Inactive</option>
+                </select>
+              </div>
+              <div className='flex mt-5'>
+                <div>
+                  <div className='flex items-center gap-11'>
+                    <label className='block text-sm font-semibold'>Timestamp</label>
+                    <label className='block text-sm font-semibold ml-3'>
+                      Price
+                      <span className='text-red-600 ml-1'>*</span>
+                    </label>
+                  </div>
+                  <div className='flex items-center mt-2'>
+                    <Checkbox
+                      {...register('typeOfMonth')}
+                      checked={watch('typeOfMonth', service.typeOfMonth)}
+                      onChange={(e) => {
+                        setValue('typeOfMonth', e.target.checked)
+                        if (!e.target.checked) {
+                          setValue('priceOfMonth', 0)
+                        }
+                      }}
+                    />
+                    <div className='mr-10'>Month</div>
+                    <TextField
+                      type='number'
+                      disabled={!watch('typeOfMonth', service.typeOfMonth)}
+                      {...register('priceOfMonth', { valueAsNumber: true })}
+                      variant='outlined'
+                      size='small'
+                      sx={{ width: '150px' }}
+                      defaultValue={service.priceOfMonth}
+                    />
+                    <div className='mt-1 ml-3 text-xs text-red-500 min-h-4'>{errors.priceOfMonth?.message}</div>
+                  </div>
+                  <div className='flex items-center mt-2'>
+                    <Checkbox
+                      {...register('typeOfYear')}
+                      checked={watch('typeOfYear', service.typeOfYear)}
+                      onChange={(e) => {
+                        const isChecked = e.target.checked
+                        setValue('typeOfYear', isChecked)
+                        if (!isChecked) {
+                          setValue('priceOfYear', 0) // Reset về 0 khi bỏ chọn
+                        }
+                      }}
+                    />
+                    <div className='mr-[54px]'>Year</div>
+                    <TextField
+                      type='number'
+                      disabled={!watch('typeOfYear', service.typeOfYear)}
+                      {...register('priceOfYear', { valueAsNumber: true })}
+                      variant='outlined'
+                      size='small'
+                      sx={{ width: '150px' }}
+                      defaultValue={service.priceOfYear}
+                    />
+                    <div className='mt-1 ml-3 text-xs text-red-500 min-h-4'>{errors.priceOfYear?.message}</div>
                   </div>
                 </div>
               </div>
-              <div>
-                <label className='block text-sm font-semibold'>
-                  Images
-                  <span className='text-red-600 ml-1'>*</span>
-                </label>
-                <div
-                  className='mt-1 w-full h-auto p-4 border-2 border-dashed border-blue-400 rounded-md flex flex-col items-center justify-center cursor-pointer bg-gray-100'
-                  onClick={() => fileInputRef.current?.click()}
-                  onDrop={(e) => handleDrop(e)}
-                  onDragOver={(e) => e.preventDefault()}
-                >
-                  {files.length > 0 ? (
-                    <div className='flex flex-wrap flex-start gap-10'>
-                      {files.map((imgPath, index) => (
-                        <div key={index} className='relative group'>
-                          <img src={getImageSrc(imgPath)} alt='Preview' className='w-24 h-24 object-fit rounded-md' />
-                          <button
-                            type='button'
-                            onClick={(e) => {
-                              e.stopPropagation()
-                              handleDeleteImage(index)
-                            }}
-                            className='absolute top-1 right-1 cursor-pointer bg-red-500 text-white rounded-full w-6 h-6 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-200'
-                          >
-                            ×
-                          </button>
-                        </div>
-                      ))}
-                    </div>
-                  ) : (
-                    <>
-                      <CloudUploadIcon className='text-gray-700 text-4xl' />
-                      <p className='text-gray-700 font-semibold'>Upload Files</p>
-                      <p className='text-gray-500 text-sm'>Drag and drop files here</p>
-                    </>
-                  )}
-                  <input
-                    type='file'
-                    multiple // Cho phép chọn nhiều ảnh
-                    {...register('serviceImages')}
-                    accept='image/*'
-                    ref={fileInputRef}
-                    className='hidden'
-                    onChange={handleImageChange}
-                  />
-                </div>
-                <div className='mt-1 text-xs text-red-500 min-h-4'>{errors.serviceImages?.message}</div>
-              </div>
             </div>
-            <div className='flex justify-end gap-4 mt-3'>
-              <Link to='/admin/list-service'>
-                <Button variant='contained' style={{ color: 'white', background: 'red', fontWeight: 'semi-bold' }}>
-                  Cancel
-                </Button>
-              </Link>
-              <Button
-                type='submit'
-                variant='contained'
-                style={{ color: 'white', background: '#2976ce', fontWeight: 'semi-bold' }}
+            <div>
+              <label className='block text-sm font-semibold'>
+                Images
+                <span className='text-red-600 ml-1'>*</span>
+              </label>
+              <div
+                className='mt-1 w-full h-auto p-4 border-2 border-dashed border-blue-400 rounded-md flex flex-col items-center justify-center cursor-pointer bg-gray-100'
+                onClick={() => fileInputRef.current?.click()}
+                onDrop={(e) => handleDrop(e)}
+                onDragOver={(e) => e.preventDefault()}
               >
-                Submit
-              </Button>
+                {files.length > 0 ? (
+                  <div className='flex flex-wrap flex-start gap-10'>
+                    {files.map((imgPath, index) => (
+                      <div key={index} className='relative group'>
+                        <img src={getImageSrc(imgPath)} alt='Preview' className='w-24 h-24 object-fit rounded-md' />
+                        <button
+                          type='button'
+                          onClick={(e) => {
+                            e.stopPropagation()
+                            handleDeleteImage(index)
+                          }}
+                          className='absolute top-1 right-1 cursor-pointer bg-red-500 text-white rounded-full w-6 h-6 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-200'
+                        >
+                          ×
+                        </button>
+                      </div>
+                    ))}
+                  </div>
+                ) : (
+                  <>
+                    <CloudUploadIcon className='text-gray-700 text-4xl' />
+                    <p className='text-gray-700 font-semibold'>Upload Files</p>
+                    <p className='text-gray-500 text-sm'>Drag and drop files here</p>
+                  </>
+                )}
+                <input
+                  type='file'
+                  multiple // Cho phép chọn nhiều ảnh
+                  {...register('serviceImages')}
+                  accept='image/*'
+                  ref={fileInputRef}
+                  className='hidden'
+                  onChange={handleImageChange}
+                />
+              </div>
+              <div className='mt-1 text-xs text-red-500 min-h-4'>{errors.serviceImages?.message}</div>
             </div>
-          </form>
-        ) : (
-          <p>Loading data...</p>
-        )}
-      </div>
+          </div>
+          <div className='flex justify-end gap-4 mt-3'>
+            <Link to='/admin/list-service'>
+              <Button variant='contained' style={{ color: 'white', background: 'red', fontWeight: 'semi-bold' }}>
+                Cancel
+              </Button>
+            </Link>
+            <Button
+              type='submit'
+              variant='contained'
+              style={{ color: 'white', background: '#2976ce', fontWeight: 'semi-bold' }}
+            >
+              Submit
+            </Button>
+          </div>
+        </form>
+      ) : (
+        <p>Loading data...</p>
+      )}
     </div>
   )
 }

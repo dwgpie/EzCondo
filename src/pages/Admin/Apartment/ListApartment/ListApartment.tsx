@@ -1,6 +1,6 @@
 import { useRef, useEffect, useState } from 'react'
 import { useMutation } from '@tanstack/react-query'
-import { toast, ToastContainer } from 'react-toastify'
+import { toast } from 'react-toastify'
 import {
   Button,
   MenuItem,
@@ -119,10 +119,10 @@ export default function ListApartment() {
   }
 
   return (
-    <div className='pt-5 mx-5 z-13' style={{ height: 'calc(100vh - 80px)' }}>
-      <ToastContainer />
-      <div className='mb-6 p-6 bg-gradient-to-br from-white via-white to-blue-100 shadow-xl rounded-2xl space-y-6'>
-        <div style={{ display: 'flex', justifyContent: 'flex-end', alignItems: 'center', marginBottom: 20 }}>
+    <div className='mx-5 mt-5 mb-5 p-6 bg-gradient-to-br from-white via-white to-blue-100 drop-shadow-md rounded-xl'>
+      <div className='flex justify-between items-center'>
+        <h2 className='text-2xl font-semibold text-gray-500'>List Apartments</h2>
+        <div>
           <Select
             value={selectedFloor}
             onChange={handleFloorChange} // Cập nhật kiểu sự kiện là SelectChangeEvent<string>
@@ -151,109 +151,109 @@ export default function ListApartment() {
             </Tooltip>
           </Link>
         </div>
-        <Box display='grid' gridTemplateColumns='repeat(auto-fill, minmax(70px, 1fr))' gap={3}>
-          {filteredApartments.map((apartment, index) => (
-            <Box key={index} display='flex' justifyContent='center'>
-              <Button
-                variant='contained'
-                style={{
-                  width: 70,
-                  height: 70,
-                  background: apartment.residentNumber
-                    ? 'linear-gradient(135deg, rgba(141, 141, 141, 0.8), rgba(200, 200, 200, 0.8))' // Xanh đậm + Xám sáng
-                    : 'linear-gradient(135deg, rgba(0, 82, 165, 0.9), rgba(86, 172, 252, 0.9))', // Xanh dương + Xám đậm
-                  color: '#fff',
-                  fontWeight: 'bold'
-                }}
-                onClick={() => handleEditClick(apartment)}
-              >
-                {apartment.apartmentNumber}
-              </Button>
-            </Box>
-          ))}
-        </Box>
-        <Dialog open={openEditDialog} onClose={handleCloseEditDialog} disableEnforceFocus disableRestoreFocus>
-          <DialogTitle sx={{ color: '#1976d3', fontWeight: 'bold', fontSize: '22px' }}>Edit Apartment</DialogTitle>
-          <DialogContent>
-            <div className='grid grid-cols-2 gap-4'>
-              <div>
-                <div className='flex flex-col gap-4'>
-                  <label className='block text-sm font-semibold'>Name</label>
-                  <TextField type='text' sx={{ marginTop: '-13px' }} value={user?.fullName} disabled fullWidth />
-                </div>
-                <div className='flex flex-col gap-4 mt-3'>
-                  <label className='block text-sm font-semibold'>Phone number</label>
-                  <TextField type='text' sx={{ marginTop: '-13px' }} value={user?.phoneNumber} disabled fullWidth />
-                </div>
-                <div className='flex flex-col gap-4 mt-3'>
-                  <label className='block text-sm font-semibold'>Email</label>
-                  <TextField
-                    type='text'
-                    sx={{ marginTop: '-13px', width: '240px' }}
-                    value={user?.email}
-                    disabled
-                    fullWidth
-                  />
-                </div>
-              </div>
-              <div>
-                <div className='flex flex-col gap-4'>
-                  <label className='block text-sm font-semibold'>Gender</label>
-                  <TextField type='text' sx={{ marginTop: '-13px' }} value={user?.gender} disabled fullWidth />
-                </div>
-                <div className='flex flex-col gap-4 mt-3'>
-                  <label className='block text-sm font-semibold'>Citizen ID</label>
-                  <TextField type='text' sx={{ marginTop: '-13px' }} value={user?.no} disabled fullWidth />
-                </div>
-                <div className='flex flex-col gap-4 mt-3'>
-                  <label className='block text-sm font-semibold'>Resident Number</label>
-                  <TextField
-                    type='text'
-                    sx={{ marginTop: '-13px' }}
-                    value={editingItem?.residentNumber}
-                    disabled
-                    fullWidth
-                  />
-                </div>
-              </div>
-            </div>
-            <div className='flex flex-col gap-4 mt-3'>
-              <label className='block text-sm font-semibold'>
-                Acreage
-                <span className='text-red-600 ml-1'>*</span>
-              </label>
-              <TextField
-                sx={{ marginTop: '-13px' }}
-                type='number'
-                value={editingItem?.acreage || ''}
-                onChange={(e) => setEditingItem((prev) => (prev ? { ...prev, acreage: Number(e.target.value) } : null))}
-                fullWidth
-              />
-            </div>
-            <div className='flex flex-col gap-4 mt-3'>
-              <label className='block text-sm font-semibold'>
-                Description
-                <span className='text-red-600 ml-1'>*</span>
-              </label>
-              <TextField
-                sx={{ marginTop: '-13px' }}
-                type='text'
-                value={editingItem?.description || ''}
-                onChange={(e) =>
-                  setEditingItem((prev) => (prev ? { ...prev, description: String(e.target.value) } : null))
-                }
-                fullWidth
-              />
-            </div>
-          </DialogContent>
-          <DialogActions>
-            <Button onClick={handleCloseEditDialog}>Cancel</Button>
-            <Button onClick={handleEditSubmit} variant='contained' color='primary'>
-              Save Changes
-            </Button>
-          </DialogActions>
-        </Dialog>
       </div>
+      <Box display='grid' gridTemplateColumns='repeat(auto-fill, minmax(70px, 1fr))' gap={3}>
+        {filteredApartments.map((apartment, index) => (
+          <Box key={index} display='flex' justifyContent='center'>
+            <Button
+              variant='contained'
+              style={{
+                width: 70,
+                height: 70,
+                background: apartment.residentNumber
+                  ? 'linear-gradient(135deg, rgba(141, 141, 141, 0.8), rgba(200, 200, 200, 0.8))' // Xanh đậm + Xám sáng
+                  : 'linear-gradient(135deg, rgba(0, 82, 165, 0.9), rgba(86, 172, 252, 0.9))', // Xanh dương + Xám đậm
+                color: '#fff',
+                fontWeight: 'bold'
+              }}
+              onClick={() => handleEditClick(apartment)}
+            >
+              {apartment.apartmentNumber}
+            </Button>
+          </Box>
+        ))}
+      </Box>
+      <Dialog open={openEditDialog} onClose={handleCloseEditDialog} disableEnforceFocus disableRestoreFocus>
+        <DialogTitle sx={{ color: '#1976d3', fontWeight: 'bold', fontSize: '22px' }}>Edit Apartment</DialogTitle>
+        <DialogContent>
+          <div className='grid grid-cols-2 gap-4'>
+            <div>
+              <div className='flex flex-col gap-4'>
+                <label className='block text-sm font-semibold'>Name</label>
+                <TextField type='text' sx={{ marginTop: '-13px' }} value={user?.fullName} disabled fullWidth />
+              </div>
+              <div className='flex flex-col gap-4 mt-3'>
+                <label className='block text-sm font-semibold'>Phone number</label>
+                <TextField type='text' sx={{ marginTop: '-13px' }} value={user?.phoneNumber} disabled fullWidth />
+              </div>
+              <div className='flex flex-col gap-4 mt-3'>
+                <label className='block text-sm font-semibold'>Email</label>
+                <TextField
+                  type='text'
+                  sx={{ marginTop: '-13px', width: '240px' }}
+                  value={user?.email}
+                  disabled
+                  fullWidth
+                />
+              </div>
+            </div>
+            <div>
+              <div className='flex flex-col gap-4'>
+                <label className='block text-sm font-semibold'>Gender</label>
+                <TextField type='text' sx={{ marginTop: '-13px' }} value={user?.gender} disabled fullWidth />
+              </div>
+              <div className='flex flex-col gap-4 mt-3'>
+                <label className='block text-sm font-semibold'>Citizen ID</label>
+                <TextField type='text' sx={{ marginTop: '-13px' }} value={user?.no} disabled fullWidth />
+              </div>
+              <div className='flex flex-col gap-4 mt-3'>
+                <label className='block text-sm font-semibold'>Resident Number</label>
+                <TextField
+                  type='text'
+                  sx={{ marginTop: '-13px' }}
+                  value={editingItem?.residentNumber}
+                  disabled
+                  fullWidth
+                />
+              </div>
+            </div>
+          </div>
+          <div className='flex flex-col gap-4 mt-3'>
+            <label className='block text-sm font-semibold'>
+              Acreage
+              <span className='text-red-600 ml-1'>*</span>
+            </label>
+            <TextField
+              sx={{ marginTop: '-13px' }}
+              type='number'
+              value={editingItem?.acreage || ''}
+              onChange={(e) => setEditingItem((prev) => (prev ? { ...prev, acreage: Number(e.target.value) } : null))}
+              fullWidth
+            />
+          </div>
+          <div className='flex flex-col gap-4 mt-3'>
+            <label className='block text-sm font-semibold'>
+              Description
+              <span className='text-red-600 ml-1'>*</span>
+            </label>
+            <TextField
+              sx={{ marginTop: '-13px' }}
+              type='text'
+              value={editingItem?.description || ''}
+              onChange={(e) =>
+                setEditingItem((prev) => (prev ? { ...prev, description: String(e.target.value) } : null))
+              }
+              fullWidth
+            />
+          </div>
+        </DialogContent>
+        <DialogActions>
+          <Button onClick={handleCloseEditDialog}>Cancel</Button>
+          <Button onClick={handleEditSubmit} variant='contained' color='primary'>
+            Save Changes
+          </Button>
+        </DialogActions>
+      </Dialog>
     </div>
   )
 }

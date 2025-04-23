@@ -6,7 +6,6 @@ import { useForm } from 'react-hook-form'
 import { yupResolver } from '@hookform/resolvers/yup'
 import { useRef } from 'react'
 import HideImageIcon from '@mui/icons-material/HideImage'
-import { ToastContainer } from 'react-toastify'
 import { Button } from '@mui/material'
 import InputEdit from '~/components/InputEdit'
 import { Link } from 'react-router-dom'
@@ -80,229 +79,226 @@ export default function DetailResident() {
   }
 
   return (
-    <div style={{ height: 'calc(100vh - 80px)' }} className='pt-5 ml-5 mr-5 z-13 '>
-      <ToastContainer />
-      <div className='mb-6 p-6 bg-gradient-to-br from-white via-white to-blue-100 shadow-xl rounded-2xl space-y-6'>
-        <h2 className='text-xl mb-4 text-black font-semibold'>Account Information</h2>
-        {user ? (
-          <form className='rounded' noValidate>
-            <div className='grid grid-cols-4 gap-4'>
-              <div className=''>
-                <label className='block text-sm font-semibold'>
-                  Name
-                  <span className='text-red-600 ml-1'>*</span>
-                </label>
-                <InputEdit
-                  name='fullName'
-                  type='text'
-                  className='mt-1 pointer-events-none'
-                  errorMessage={errors.fullName?.message}
-                  defaultValue={user.fullName} // Sử dụng defaultValue thay vì value
-                  register={register}
-                />
-              </div>
-              <div className=''>
-                <label className='block text-sm font-semibold'>
-                  Phone number
-                  <span className='text-red-600 ml-1'>*</span>
-                </label>
-                <InputEdit
-                  name='phoneNumber'
-                  type='text'
-                  className='mt-1 pointer-events-none'
-                  errorMessage={errors.phoneNumber?.message}
-                  defaultValue={user.phoneNumber}
-                  register={register}
-                />
-              </div>
-              <div className=''>
-                <label className='block text-sm font-semibold'>
-                  Email
-                  <span className='text-red-600 ml-1'>*</span>
-                </label>
-                <InputEdit
-                  name='email'
-                  type='text'
-                  className='mt-1 pointer-events-none'
-                  errorMessage={errors.email?.message}
-                  defaultValue={user.email}
-                  register={register}
-                />
-              </div>
-              <div className=''>
-                <label className='block text-sm font-semibold'>
-                  Apartment
-                  <span className='text-red-600 ml-1'>*</span>
-                </label>
-                <InputEdit
-                  name='apartmentNumber'
-                  type='text'
-                  className='mt-1 pointer-events-none'
-                  errorMessage={errors.apartmentNumber?.message}
-                  defaultValue={user.apartmentNumber}
-                  register={register}
-                />
-              </div>
+    <div className='mx-5 mt-5 mb-5 p-6 bg-gradient-to-br from-white via-white to-blue-100 drop-shadow-md rounded-xl'>
+      <h2 className='text-xl mb-4 text-black font-semibold'>Account Information</h2>
+      {user ? (
+        <form className='rounded' noValidate>
+          <div className='grid grid-cols-4 gap-4'>
+            <div className=''>
+              <label className='block text-sm font-semibold'>
+                Name
+                <span className='text-red-600 ml-1'>*</span>
+              </label>
+              <InputEdit
+                name='fullName'
+                type='text'
+                className='mt-1 pointer-events-none'
+                errorMessage={errors.fullName?.message}
+                defaultValue={user.fullName} // Sử dụng defaultValue thay vì value
+                register={register}
+              />
             </div>
-            <div className='grid grid-cols-4 gap-4'>
-              <div className='mt-3'>
-                <label className='block text-sm font-semibold'>Date of birth</label>
+            <div className=''>
+              <label className='block text-sm font-semibold'>
+                Phone number
+                <span className='text-red-600 ml-1'>*</span>
+              </label>
+              <InputEdit
+                name='phoneNumber'
+                type='text'
+                className='mt-1 pointer-events-none'
+                errorMessage={errors.phoneNumber?.message}
+                defaultValue={user.phoneNumber}
+                register={register}
+              />
+            </div>
+            <div className=''>
+              <label className='block text-sm font-semibold'>
+                Email
+                <span className='text-red-600 ml-1'>*</span>
+              </label>
+              <InputEdit
+                name='email'
+                type='text'
+                className='mt-1 pointer-events-none'
+                errorMessage={errors.email?.message}
+                defaultValue={user.email}
+                register={register}
+              />
+            </div>
+            <div className=''>
+              <label className='block text-sm font-semibold'>
+                Apartment
+                <span className='text-red-600 ml-1'>*</span>
+              </label>
+              <InputEdit
+                name='apartmentNumber'
+                type='text'
+                className='mt-1 pointer-events-none'
+                errorMessage={errors.apartmentNumber?.message}
+                defaultValue={user.apartmentNumber}
+                register={register}
+              />
+            </div>
+          </div>
+          <div className='grid grid-cols-4 gap-4'>
+            <div className='mt-3'>
+              <label className='block text-sm font-semibold'>Date of birth</label>
+              <InputEdit
+                name='dateOfBirth'
+                type='date'
+                className='mt-1 pointer-events-none'
+                errorMessage={errors.dateOfBirth?.message}
+                defaultValue={user.dateOfBirth?.split('T')[0]} // Chỉ lấy phần YYYY-MM-DD để input hoạt động
+                register={register}
+              />
+            </div>
+            <div className='mt-3'>
+              <label className='block text-sm font-semibold'>Gender</label>
+              <InputEdit
+                name='gender'
+                type='text'
+                className='mt-1 pointer-events-none'
+                errorMessage={errors.gender?.message}
+                defaultValue={user.gender} // Chỉ lấy phần YYYY-MM-DD để input hoạt động
+                register={register}
+              />
+            </div>
+            <div className='mt-3'>
+              <label className='block text-sm font-semibold'>Role</label>
+              <InputEdit
+                name='roleName'
+                type='text'
+                className='mt-1 pointer-events-none'
+                errorMessage={errors.roleName?.message}
+                defaultValue={user.roleName}
+                register={register}
+              />
+            </div>
+            <div className='mt-3'>
+              <label className='block text-sm font-semibold'>Status</label>
+              <InputEdit
+                name='status'
+                type='text'
+                className='mt-1 pointer-events-none'
+                errorMessage={errors.status?.message}
+                defaultValue={user.status}
+                register={register}
+              />
+            </div>
+          </div>
+
+          <div className='mt-4'>
+            <h3 className='text-lg mb-4 font-semibold'>Citizen Identity Card</h3>
+            <div className='grid grid-cols-3 gap-4'>
+              <div className=''>
+                <label className='block text-sm font-semibold'>
+                  No
+                  <span className='text-red-600 ml-1'>*</span>
+                </label>
                 <InputEdit
-                  name='dateOfBirth'
+                  name='no'
+                  type='text'
+                  className='mt-1 pointer-events-none'
+                  errorMessage={errors.no?.message}
+                  defaultValue={user.no}
+                  register={register}
+                />
+              </div>
+              <div className=''>
+                <label className='block text-sm font-semibold'>
+                  Date of issue
+                  <span className='text-red-600 ml-1'>*</span>
+                </label>
+                <InputEdit
+                  name='dateOfIssue'
                   type='date'
                   className='mt-1 pointer-events-none'
-                  errorMessage={errors.dateOfBirth?.message}
-                  defaultValue={user.dateOfBirth?.split('T')[0]} // Chỉ lấy phần YYYY-MM-DD để input hoạt động
+                  errorMessage={errors.dateOfIssue?.message}
+                  defaultValue={user.dateOfIssue}
                   register={register}
                 />
               </div>
-              <div className='mt-3'>
-                <label className='block text-sm font-semibold'>Gender</label>
+              <div className=''>
+                <label className='block text-sm font-semibold'>
+                  Date of expiry
+                  <span className='text-red-600 ml-1'>*</span>
+                </label>
                 <InputEdit
-                  name='gender'
-                  type='text'
+                  name='dateOfExpiry'
+                  type='date'
                   className='mt-1 pointer-events-none'
-                  errorMessage={errors.gender?.message}
-                  defaultValue={user.gender} // Chỉ lấy phần YYYY-MM-DD để input hoạt động
-                  register={register}
-                />
-              </div>
-              <div className='mt-3'>
-                <label className='block text-sm font-semibold'>Role</label>
-                <InputEdit
-                  name='roleName'
-                  type='text'
-                  className='mt-1 pointer-events-none'
-                  errorMessage={errors.roleName?.message}
-                  defaultValue={user.roleName}
-                  register={register}
-                />
-              </div>
-              <div className='mt-3'>
-                <label className='block text-sm font-semibold'>Status</label>
-                <InputEdit
-                  name='status'
-                  type='text'
-                  className='mt-1 pointer-events-none'
-                  errorMessage={errors.status?.message}
-                  defaultValue={user.status}
+                  errorMessage={errors.dateOfExpiry?.message}
+                  defaultValue={user.dateOfExpiry}
                   register={register}
                 />
               </div>
             </div>
-
-            <div className='mt-4'>
-              <h3 className='text-lg mb-4 font-semibold'>Citizen Identity Card</h3>
-              <div className='grid grid-cols-3 gap-4'>
-                <div className=''>
-                  <label className='block text-sm font-semibold'>
-                    No
-                    <span className='text-red-600 ml-1'>*</span>
-                  </label>
-                  <InputEdit
-                    name='no'
-                    type='text'
-                    className='mt-1 pointer-events-none'
-                    errorMessage={errors.no?.message}
-                    defaultValue={user.no}
-                    register={register}
-                  />
-                </div>
-                <div className=''>
-                  <label className='block text-sm font-semibold'>
-                    Date of issue
-                    <span className='text-red-600 ml-1'>*</span>
-                  </label>
-                  <InputEdit
-                    name='dateOfIssue'
-                    type='date'
-                    className='mt-1 pointer-events-none'
-                    errorMessage={errors.dateOfIssue?.message}
-                    defaultValue={user.dateOfIssue}
-                    register={register}
-                  />
-                </div>
-                <div className=''>
-                  <label className='block text-sm font-semibold'>
-                    Date of expiry
-                    <span className='text-red-600 ml-1'>*</span>
-                  </label>
-                  <InputEdit
-                    name='dateOfExpiry'
-                    type='date'
-                    className='mt-1 pointer-events-none'
-                    errorMessage={errors.dateOfExpiry?.message}
-                    defaultValue={user.dateOfExpiry}
-                    register={register}
-                  />
-                </div>
-              </div>
-              <div className='grid grid-cols-2 gap-4 mt-4'>
-                <div>
-                  <label className='block text-sm font-semibold'>Font Image</label>
-                  <div className=' mt-2 w-full h-auto p-4 border-2 border-dashed border-blue-400 rounded-md flex flex-col items-center justify-center cursor-pointer bg-gray-100'>
-                    {user.frontImage ? (
-                      <img
-                        src={getImageSrc(user?.frontImage)}
-                        alt='Preview'
-                        className='w-full h-full object-cover rounded-md'
-                      />
-                    ) : (
-                      <>
-                        <HideImageIcon />
-                        <p className='text-gray-700 font-semibold'>No photos</p>
-                      </>
-                    )}
-                    <input
-                      type='file'
-                      {...register('frontImage')}
-                      accept='image/*'
-                      ref={fileInputFrontRef}
-                      className='hidden'
+            <div className='grid grid-cols-2 gap-4 mt-4'>
+              <div>
+                <label className='block text-sm font-semibold'>Font Image</label>
+                <div className=' mt-2 w-full h-auto p-4 border-2 border-dashed border-blue-400 rounded-md flex flex-col items-center justify-center cursor-pointer bg-gray-100'>
+                  {user.frontImage ? (
+                    <img
+                      src={getImageSrc(user?.frontImage)}
+                      alt='Preview'
+                      className='w-full h-full object-cover rounded-md'
                     />
-                  </div>
-                  <div className='mt-1 text-xs text-red-500 min-h-4'>{errors.frontImage?.message}</div>
+                  ) : (
+                    <>
+                      <HideImageIcon />
+                      <p className='text-gray-700 font-semibold'>No photos</p>
+                    </>
+                  )}
+                  <input
+                    type='file'
+                    {...register('frontImage')}
+                    accept='image/*'
+                    ref={fileInputFrontRef}
+                    className='hidden'
+                  />
                 </div>
+                <div className='mt-1 text-xs text-red-500 min-h-4'>{errors.frontImage?.message}</div>
+              </div>
 
-                <div>
-                  <label className='block text-sm font-semibold'>Back Image</label>
-                  <div className='mt-2 w-full h-auto p-4 border-2 border-dashed border-blue-400 rounded-md flex flex-col items-center justify-center cursor-pointer bg-gray-100'>
-                    {user.backImage ? (
-                      <img
-                        src={getImageSrc(user?.backImage)}
-                        alt='Preview'
-                        className='w-full h-full object-cover rounded-md'
-                      />
-                    ) : (
-                      <>
-                        <HideImageIcon />
-                        <p className='text-gray-700 font-semibold'>No photos</p>
-                      </>
-                    )}
-                    <input
-                      type='file'
-                      {...register('backImage')}
-                      accept='image/*'
-                      ref={fileInputBackRef}
-                      className='hidden'
+              <div>
+                <label className='block text-sm font-semibold'>Back Image</label>
+                <div className='mt-2 w-full h-auto p-4 border-2 border-dashed border-blue-400 rounded-md flex flex-col items-center justify-center cursor-pointer bg-gray-100'>
+                  {user.backImage ? (
+                    <img
+                      src={getImageSrc(user?.backImage)}
+                      alt='Preview'
+                      className='w-full h-full object-cover rounded-md'
                     />
-                  </div>
-                  <div className='mt-1 text-xs text-red-500 min-h-4'>{errors.frontImage?.message}</div>
+                  ) : (
+                    <>
+                      <HideImageIcon />
+                      <p className='text-gray-700 font-semibold'>No photos</p>
+                    </>
+                  )}
+                  <input
+                    type='file'
+                    {...register('backImage')}
+                    accept='image/*'
+                    ref={fileInputBackRef}
+                    className='hidden'
+                  />
                 </div>
+                <div className='mt-1 text-xs text-red-500 min-h-4'>{errors.frontImage?.message}</div>
               </div>
             </div>
-            <div className='flex justify-end gap-4 mt-3'>
-              <Link to='/manager/list-resident'>
-                <Button variant='contained' style={{ color: 'white', background: 'red', fontWeight: 'semi-bold' }}>
-                  Cancel
-                </Button>
-              </Link>
-            </div>
-          </form>
-        ) : (
-          <p>Đang tải dữ liệu...</p>
-        )}
-      </div>
+          </div>
+          <div className='flex justify-end gap-4 mt-3'>
+            <Link to='/manager/list-resident'>
+              <Button variant='contained' style={{ color: 'white', background: 'red', fontWeight: 'semi-bold' }}>
+                Cancel
+              </Button>
+            </Link>
+          </div>
+        </form>
+      ) : (
+        <p>Data loading...</p>
+      )}
     </div>
   )
 }

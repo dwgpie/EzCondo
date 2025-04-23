@@ -174,7 +174,7 @@ export default function LandingPage() {
         variants={typingEffect}
         initial='hidden'
         animate='visible'
-        className='p-8 pb-5 rounded-2xl shadow-lg text-center hover:scale-105 transition-transform max-w-[1200px] mx-auto text-lg'
+        className='p-8 pb-5 rounded-2xl shadow-lg text-center hover:scale-105 transition-transform max-w-[1220px] mx-auto text-lg'
       >
         <div className='flex justify-center'>
           <div className='text-center break-words whitespace-normal max-w-full leading-relaxed'>
@@ -190,7 +190,7 @@ export default function LandingPage() {
   }
 
   return (
-    <div className='min-h-screen bg-white text-gray-800 font-sans'>
+    <div className='min-h-screen bg-white text-gray-800 font-[Plus Jakarta Sans]'>
       {/* Header */}
       <header className='shadow-md'>
         <div className='max-w-7xl mx-auto flex justify-between items-center px-4'>
