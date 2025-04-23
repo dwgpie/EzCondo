@@ -41,11 +41,11 @@ const StyledTableCell = styled(TableCell)(({ theme }) => ({
     backgroundColor: '#f4f4f5',
     color: theme.palette.common.black,
     fontWeight: 'bold',
-    fontFamily: 'Roboto'
+    fontFamily: '"Plus Jakarta Sans", sans-serif'
   },
   [`&.${tableCellClasses.body}`]: {
     fontSize: 14,
-    fontFamily: 'Roboto'
+    fontFamily: '"Plus Jakarta Sans", sans-serif'
   }
 }))
 
@@ -178,79 +178,78 @@ export default function AddMember() {
   })
 
   return (
-    <div style={{ height: 'calc(100vh - 80px)' }} className='bg-[#EDF1F9]  pt-5 ml-5 mr-5 z-13'>
-      <div className=''>
-        <div className=''>
-          <div className='flex gap-[100px] w-full h-[60px] rounded-t-xl bg-[#94cde7] items-center '>
-            <h2 className='text-[20px] text-[#344050] font-semibold ml-[24px]'>Name: {resident?.fullName}</h2>
-            <h2 className='text-[20px] text-[#344050] font-semibold ml-[24px]'>Apartment: {apartmentNumber}</h2>
-          </div>
-          <Paper
-            elevation={4}
-            sx={{
-              borderBottomLeftRadius: '12px',
-              borderBottomRightRadius: '12px',
-              overflow: 'hidden'
-            }}
-          >
-            <TableContainer>
-              <Table sx={{ minWidth: 700 }} aria-label='customized table'>
-                <TableHead>
-                  <TableRow>
-                    <StyledTableCell width='5%'>Id</StyledTableCell>
-                    <StyledTableCell width='15%'>Full Name</StyledTableCell>
-                    <StyledTableCell width='10%'>Gender</StyledTableCell>
-                    <StyledTableCell width='15%'>Date Of Birth</StyledTableCell>
-                    <StyledTableCell width='15%'>Phone Number</StyledTableCell>
-                    <StyledTableCell width='22%'>Citizen Identity Number</StyledTableCell>
-                    <StyledTableCell width='15%'>Relationship</StyledTableCell>
-                    <StyledTableCell width='5%'>Delete</StyledTableCell>
-                  </TableRow>
-                </TableHead>
-                <TableBody>
-                  {listMember.length > 0 ? (
-                    listMember.map((user, index) => (
-                      <StyledTableRow>
-                        <StyledTableCell sx={{ color: 'black', fontWeight: '600' }}>{index + 1}</StyledTableCell>
-                        <StyledTableCell>{user.fullName}</StyledTableCell>
-                        <StyledTableCell>
-                          <span className='capitalize'>{user.gender} </span>
-                        </StyledTableCell>
-                        <StyledTableCell>
-                          {new Intl.DateTimeFormat('vi-VN').format(new Date(user.dateOfBirth))}
-                        </StyledTableCell>
-                        <StyledTableCell>{user.phoneNumber}</StyledTableCell>
-                        <StyledTableCell>{user.no}</StyledTableCell>
-                        <StyledTableCell>
-                          <span className='capitalize'>{user.relationship} </span>
-                        </StyledTableCell>
-                        <StyledTableCell colSpan={1} align='center'>
-                          <button
-                            className=' cursor-pointer '
-                            onClick={() => {
-                              if (user.id) {
-                                handleDelete(user.id)
-                              }
-                            }}
-                          >
-                            <DeleteIcon sx={{ color: 'red' }} />
-                          </button>
-                        </StyledTableCell>
-                      </StyledTableRow>
-                    ))
-                  ) : (
-                    <TableRow>
-                      <TableCell colSpan={8} align='center'>
-                        No users found
-                      </TableCell>
-                    </TableRow>
-                  )}
-                </TableBody>
-              </Table>
-            </TableContainer>
-          </Paper>
+    <div className='mx-5 mt-5 mb-5 p-6 bg-gradient-to-br from-white via-white to-blue-100 drop-shadow-md rounded-xl'>
+      <div>
+        <div className='flex gap-[100px] w-full h-[60px] rounded-t-xl bg-[#94cde7] items-center '>
+          <h2 className='text-[20px] text-[#344050] font-semibold ml-[24px]'>Name: {resident?.fullName}</h2>
+          <h2 className='text-[20px] text-[#344050] font-semibold ml-[24px]'>Apartment: {apartmentNumber}</h2>
         </div>
+        <Paper
+          elevation={4}
+          sx={{
+            borderBottomLeftRadius: '12px',
+            borderBottomRightRadius: '12px',
+            overflow: 'hidden'
+          }}
+        >
+          <TableContainer>
+            <Table sx={{ minWidth: 700 }} aria-label='customized table'>
+              <TableHead>
+                <TableRow>
+                  <StyledTableCell width='5%'>Id</StyledTableCell>
+                  <StyledTableCell width='15%'>Full Name</StyledTableCell>
+                  <StyledTableCell width='10%'>Gender</StyledTableCell>
+                  <StyledTableCell width='15%'>Date Of Birth</StyledTableCell>
+                  <StyledTableCell width='15%'>Phone Number</StyledTableCell>
+                  <StyledTableCell width='22%'>Citizen Identity Number</StyledTableCell>
+                  <StyledTableCell width='15%'>Relationship</StyledTableCell>
+                  <StyledTableCell width='5%'>Delete</StyledTableCell>
+                </TableRow>
+              </TableHead>
+              <TableBody>
+                {listMember.length > 0 ? (
+                  listMember.map((user, index) => (
+                    <StyledTableRow>
+                      <StyledTableCell sx={{ color: 'black', fontWeight: '600' }}>{index + 1}</StyledTableCell>
+                      <StyledTableCell>{user.fullName}</StyledTableCell>
+                      <StyledTableCell>
+                        <span className='capitalize'>{user.gender} </span>
+                      </StyledTableCell>
+                      <StyledTableCell>
+                        {new Intl.DateTimeFormat('vi-VN').format(new Date(user.dateOfBirth))}
+                      </StyledTableCell>
+                      <StyledTableCell>{user.phoneNumber}</StyledTableCell>
+                      <StyledTableCell>{user.no}</StyledTableCell>
+                      <StyledTableCell>
+                        <span className='capitalize'>{user.relationship} </span>
+                      </StyledTableCell>
+                      <StyledTableCell colSpan={1} align='center'>
+                        <button
+                          className=' cursor-pointer '
+                          onClick={() => {
+                            if (user.id) {
+                              handleDelete(user.id)
+                            }
+                          }}
+                        >
+                          <DeleteIcon sx={{ color: 'red' }} />
+                        </button>
+                      </StyledTableCell>
+                    </StyledTableRow>
+                  ))
+                ) : (
+                  <TableRow>
+                    <TableCell colSpan={8} align='center'>
+                      No users found
+                    </TableCell>
+                  </TableRow>
+                )}
+              </TableBody>
+            </Table>
+          </TableContainer>
+        </Paper>
       </div>
+
       <div className='bg-[#fff] rounded-xl mb-[20px] shadow-lg pb-[20px] mt-7'>
         <form className='rounded' noValidate onSubmit={onSubmit}>
           <div className='flex pt-4 justify-between'>

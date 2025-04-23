@@ -30,11 +30,11 @@ const StyledTableCell = styled(TableCell)(({ theme }) => ({
     backgroundColor: '#f4f4f5',
     color: theme.palette.common.black,
     fontWeight: 'bold',
-    fontFamily: 'Roboto'
+    fontFamily: '"Plus Jakarta Sans", sans-serif'
   },
   [`&.${tableCellClasses.body}`]: {
     fontSize: 14,
-    fontFamily: 'Roboto'
+    fontFamily: '"Plus Jakarta Sans", sans-serif'
   }
 }))
 
@@ -128,88 +128,89 @@ export default function ListService() {
   }
 
   return (
-    <div className='pt-5 mx-5 z-13' style={{ height: 'calc(100vh - 80px)' }}>
-      <div className='mb-6 p-6 bg-gradient-to-br from-white via-white to-blue-100 shadow-xl rounded-2xl space-y-6'>
-        <Paper elevation={4} sx={{ borderRadius: '12px', overflow: 'hidden' }}>
-          <TableContainer>
-            <Table aria-label='customized table'>
-              <TableHead>
-                <TableRow>
-                  <StyledTableCell width='5%'>Id</StyledTableCell>
-                  <StyledTableCell width='15%'>Name</StyledTableCell>
-                  <StyledTableCell width='30%'>Description</StyledTableCell>
-                  <StyledTableCell width='15%'>Type Of Month</StyledTableCell>
-                  <StyledTableCell width='15%'>Type Of Year</StyledTableCell>
-                  <StyledTableCell width='13%'>Status</StyledTableCell>
-                  <StyledTableCell sx={{}}>Edit</StyledTableCell>
-                </TableRow>
-              </TableHead>
-              <TableBody>
-                {paginatedUsers.length > 0 ? (
-                  paginatedUsers.map((service, index) => (
-                    <StyledTableRow key={service.id}>
-                      <StyledTableCell sx={{ color: 'black', fontWeight: '600' }}>{index + 1}</StyledTableCell>
-                      <StyledTableCell
-                        sx={{
-                          color: 'black',
-                          fontWeight: '600',
-                          textAlign: 'justify',
-                          maxWidth: 50,
-                          whiteSpace: 'nowrap',
-                          overflow: 'hidden',
-                          textOverflow: 'ellipsis'
-                        }}
+    <div className='mx-5 mt-5 mb-5 p-6 bg-gradient-to-br from-white via-white to-blue-100 drop-shadow-md rounded-xl'>
+      <div className='mb-[20px]'>
+        <h2 className='text-2xl font-semibold text-gray-500'>List Services</h2>
+      </div>
+      <Paper elevation={4} sx={{ borderRadius: '12px', overflow: 'hidden' }}>
+        <TableContainer>
+          <Table aria-label='customized table'>
+            <TableHead>
+              <TableRow>
+                <StyledTableCell width='5%'>Id</StyledTableCell>
+                <StyledTableCell width='15%'>Name</StyledTableCell>
+                <StyledTableCell width='30%'>Description</StyledTableCell>
+                <StyledTableCell width='15%'>Type Of Month</StyledTableCell>
+                <StyledTableCell width='15%'>Type Of Year</StyledTableCell>
+                <StyledTableCell width='13%'>Status</StyledTableCell>
+                <StyledTableCell sx={{}}>Edit</StyledTableCell>
+              </TableRow>
+            </TableHead>
+            <TableBody>
+              {paginatedUsers.length > 0 ? (
+                paginatedUsers.map((service, index) => (
+                  <StyledTableRow key={service.id}>
+                    <StyledTableCell sx={{ color: 'black', fontWeight: '600' }}>{index + 1}</StyledTableCell>
+                    <StyledTableCell
+                      sx={{
+                        color: 'black',
+                        fontWeight: '600',
+                        textAlign: 'justify',
+                        maxWidth: 50,
+                        whiteSpace: 'nowrap',
+                        overflow: 'hidden',
+                        textOverflow: 'ellipsis'
+                      }}
+                    >
+                      {service.serviceName}
+                    </StyledTableCell>
+                    <StyledTableCell
+                      sx={{
+                        textAlign: 'justify',
+                        maxWidth: 50,
+                        whiteSpace: 'nowrap',
+                        overflow: 'hidden',
+                        textOverflow: 'ellipsis'
+                      }}
+                    >
+                      {service.description}
+                    </StyledTableCell>
+                    <StyledTableCell>{service.priceOfMonth}</StyledTableCell>
+                    <StyledTableCell>{service.priceOfYear}</StyledTableCell>
+                    <StyledTableCell>
+                      <span
+                        className={`${getStatusColor(service.status)} px-2 py-1 rounded-full text-sm font-semibold capitalize`}
                       >
-                        {service.serviceName}
-                      </StyledTableCell>
-                      <StyledTableCell
-                        sx={{
-                          textAlign: 'justify',
-                          maxWidth: 50,
-                          whiteSpace: 'nowrap',
-                          overflow: 'hidden',
-                          textOverflow: 'ellipsis'
-                        }}
-                      >
-                        {service.description}
-                      </StyledTableCell>
-                      <StyledTableCell>{service.priceOfMonth}</StyledTableCell>
-                      <StyledTableCell>{service.priceOfYear}</StyledTableCell>
-                      <StyledTableCell>
-                        <span
-                          className={`${getStatusColor(service.status)} px-2 py-1 rounded-full text-sm font-semibold capitalize`}
+                        {service.status}
+                      </span>
+                    </StyledTableCell>
+                    <StyledTableCell>
+                      <div className='flex gap-2'>
+                        <button
+                          className='text-blue-500 cursor-pointer'
+                          onClick={() => {
+                            handleGetService(service.id)
+                          }}
                         >
-                          {service.status}
-                        </span>
-                      </StyledTableCell>
-                      <StyledTableCell>
-                        <div className='flex gap-2'>
-                          <button
-                            className='text-blue-500 cursor-pointer'
-                            onClick={() => {
-                              handleGetService(service.id)
-                            }}
-                          >
-                            <EditIcon />
-                          </button>
-                        </div>
-                      </StyledTableCell>
-                    </StyledTableRow>
-                  ))
-                ) : (
-                  <TableRow>
-                    <TableCell colSpan={8} align='center'>
-                      No services found
-                    </TableCell>
-                  </TableRow>
-                )}
-              </TableBody>
-            </Table>
-          </TableContainer>
-        </Paper>
-        <div className='mt-10 flex justify-center'>
-          <Pagination count={totalPages} page={page} onChange={handlePageChange} />
-        </div>
+                          <EditIcon />
+                        </button>
+                      </div>
+                    </StyledTableCell>
+                  </StyledTableRow>
+                ))
+              ) : (
+                <TableRow>
+                  <TableCell colSpan={8} align='center'>
+                    No services found
+                  </TableCell>
+                </TableRow>
+              )}
+            </TableBody>
+          </Table>
+        </TableContainer>
+      </Paper>
+      <div className='mt-10 flex justify-center'>
+        <Pagination count={totalPages} page={page} onChange={handlePageChange} />
       </div>
     </div>
   )

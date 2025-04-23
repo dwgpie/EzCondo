@@ -31,11 +31,11 @@ const StyledTableCell = styled(TableCell)(({ theme }) => ({
     backgroundColor: '#f4f4f5',
     color: theme.palette.common.black,
     fontWeight: 'bold',
-    fontFamily: 'Roboto'
+    fontFamily: '"Plus Jakarta Sans", sans-serif'
   },
   [`&.${tableCellClasses.body}`]: {
     fontSize: 14,
-    fontFamily: 'Roboto'
+    fontFamily: '"Plus Jakarta Sans", sans-serif'
   }
 }))
 
@@ -72,11 +72,10 @@ export default function ListIncident() {
   const getAllIncidentMutation = useMutation({
     mutationFn: async () => {
       const response = await getAllIncident()
-      setListIncident(response.data)
-      // Set initial filtered users as residents
+      return response.data
     },
     onSuccess: (data) => {
-      console.log('Danh sách incident thành công:', data)
+      setListIncident(data)
     },
     onError: (error) => {
       console.error('Lỗi khi hiển thị danh sách incident:', error)
@@ -154,85 +153,82 @@ export default function ListIncident() {
   }
 
   return (
-    <div className='pt-5 mx-5 z-13' style={{ height: 'calc(100vh - 80px)' }}>
-      <div className='mb-6 p-6 bg-white drop-shadow-md rounded-xl'>
-        <div className='mb-[20px]'>
-          <h1 className='font-extrabold text-[30px] text-[#333]'>List Incident</h1>
-        </div>
-
-        <Paper elevation={4}>
-          <TableContainer>
-            <Table sx={{ minWidth: 700 }} aria-label='customized table'>
-              <TableHead>
-                <TableRow>
-                  <StyledTableCell width='5%'>Id</StyledTableCell>
-                  <StyledTableCell width='15%'>Full Name</StyledTableCell>
-                  <StyledTableCell width='12%'>Apartment</StyledTableCell>
-                  <StyledTableCell width='10%'>Type</StyledTableCell>
-                  <StyledTableCell width='15%'>Title</StyledTableCell>
-                  <StyledTableCell width='15%'>Date of report</StyledTableCell>
-                  <StyledTableCell width='13%'>Status</StyledTableCell>
-                  <StyledTableCell width='8%'>Detail</StyledTableCell>
-                </TableRow>
-              </TableHead>
-              <TableBody>
-                {paginatedIncidents.length > 0 ? (
-                  paginatedIncidents.map((incident, index) => (
-                    <StyledTableRow key={incident.id}>
-                      <StyledTableCell sx={{ color: 'black', fontWeight: '600' }}>
-                        {' '}
-                        {(page - 1) * pageSize + index + 1}
-                      </StyledTableCell>
-                      <StyledTableCell>{incident.fullName}</StyledTableCell>
-                      <StyledTableCell>{incident.userId}</StyledTableCell>
-                      <StyledTableCell>{incident.type}</StyledTableCell>
-                      <StyledTableCell>{incident.title}</StyledTableCell>
-                      <StyledTableCell>
-                        {new Intl.DateTimeFormat('vi-VN').format(new Date(incident.reportedAt))}
-                      </StyledTableCell>
-                      <StyledTableCell>
-                        <span
-                          className={`${getStatusColor(incident.status)} px-2 py-1 rounded-full text-sm font-semibold`}
+    <div className='mx-5 mt-5 mb-5 p-6 bg-gradient-to-br from-white via-white to-blue-100 drop-shadow-md rounded-xl'>
+      <div className='mb-[20px]'>
+        <h2 className='text-2xl font-semibold text-gray-500 ml-1'>List Incident</h2>
+      </div>
+      <Paper elevation={4} sx={{ borderRadius: '12px', overflow: 'hidden' }}>
+        <TableContainer>
+          <Table sx={{ minWidth: 700 }} aria-label='customized table'>
+            <TableHead>
+              <TableRow>
+                <StyledTableCell width='5%'>ID</StyledTableCell>
+                <StyledTableCell width='15%'>Full Name</StyledTableCell>
+                <StyledTableCell width='12%'>Apartment</StyledTableCell>
+                <StyledTableCell width='10%'>Type</StyledTableCell>
+                <StyledTableCell width='15%'>Title</StyledTableCell>
+                <StyledTableCell width='15%'>Date of report</StyledTableCell>
+                <StyledTableCell width='13%'>Status</StyledTableCell>
+                <StyledTableCell width='8%'>Detail</StyledTableCell>
+              </TableRow>
+            </TableHead>
+            <TableBody>
+              {paginatedIncidents.length > 0 ? (
+                paginatedIncidents.map((incident, index) => (
+                  <StyledTableRow key={incident.id}>
+                    <StyledTableCell sx={{ color: 'black', fontWeight: '600' }}>
+                      {' '}
+                      {(page - 1) * pageSize + index + 1}
+                    </StyledTableCell>
+                    <StyledTableCell>{incident.fullName}</StyledTableCell>
+                    <StyledTableCell>{incident.userId}</StyledTableCell>
+                    <StyledTableCell>{incident.type}</StyledTableCell>
+                    <StyledTableCell>{incident.title}</StyledTableCell>
+                    <StyledTableCell>
+                      {new Intl.DateTimeFormat('vi-VN').format(new Date(incident.reportedAt))}
+                    </StyledTableCell>
+                    <StyledTableCell>
+                      <span
+                        className={`${getStatusColor(incident.status)} px-2 py-1 rounded-full text-sm font-semibold`}
+                      >
+                        {incident.status}
+                      </span>
+                    </StyledTableCell>
+                    <StyledTableCell>
+                      <div className='flex gap-2'>
+                        <button
+                          className='text-blue-500 cursor-pointer'
+                          // onClick={() => {
+                          //   handleGetIncident(incident.id)
+                          // }}
                         >
-                          {incident.status}
-                        </span>
-                      </StyledTableCell>
-                      <StyledTableCell>
-                        <div className='flex gap-2'>
-                          <button
-                            className='text-blue-500 cursor-pointer'
-                            // onClick={() => {
-                            //   handleGetIncident(incident.id)
-                            // }}
-                          >
-                            <EditIcon />
-                          </button>
-                          <button
-                            className='text-red-500 cursor-pointer'
-                            // onClick={() => {
-                            //   handleDelete(incident.id)
-                            // }}
-                          >
-                            <DeleteIcon />
-                          </button>
-                        </div>
-                      </StyledTableCell>
-                    </StyledTableRow>
-                  ))
-                ) : (
-                  <TableRow>
-                    <TableCell colSpan={8} align='center'>
-                      No users found
-                    </TableCell>
-                  </TableRow>
-                )}
-              </TableBody>
-            </Table>
-          </TableContainer>
-        </Paper>
-        <div className='mt-10 flex justify-center'>
-          <Pagination count={totalPages} page={page} onChange={handlePageChange} />
-        </div>
+                          <EditIcon />
+                        </button>
+                        <button
+                          className='text-red-500 cursor-pointer'
+                          // onClick={() => {
+                          //   handleDelete(incident.id)
+                          // }}
+                        >
+                          <DeleteIcon />
+                        </button>
+                      </div>
+                    </StyledTableCell>
+                  </StyledTableRow>
+                ))
+              ) : (
+                <TableRow>
+                  <TableCell colSpan={8} align='center'>
+                    No incidents found
+                  </TableCell>
+                </TableRow>
+              )}
+            </TableBody>
+          </Table>
+        </TableContainer>
+      </Paper>
+      <div className='mt-10 flex justify-center'>
+        <Pagination count={totalPages} page={page} onChange={handlePageChange} />
       </div>
     </div>
   )

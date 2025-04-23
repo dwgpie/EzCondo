@@ -18,7 +18,7 @@ import { addNotification, addNotificationToResident, addNotificationImages } fro
 import { getApartmentByStatusTrue } from '~/apis/apartment.api'
 import { useEffect, useRef, useState } from 'react'
 import CloudUploadIcon from '@mui/icons-material/CloudUpload'
-import { ToastContainer, toast } from 'react-toastify'
+import { toast } from 'react-toastify'
 import { useNavigate } from 'react-router-dom'
 import LoadingOverlay from '~/components/LoadingOverlay'
 
@@ -175,17 +175,17 @@ export default function AddNotificationManager() {
       setLoading(true)
       setProgress(0)
 
-      const Progress = setInterval(() => {
-        setProgress((prev) => {
-          if (prev >= 90) {
-            clearInterval(Progress)
-            return prev
-          }
-          return prev + 10
-        })
-      }, 300)
+      let progress = 0
+      const progressInterval = setInterval(() => {
+        progress += 1
+        if (progress >= 90) {
+          clearInterval(progressInterval)
+        } else {
+          setProgress(progress)
+        }
+      }, 30)
 
-      // Tạo body gửi theo đúng cấu trúc API
+      // Gửi data
       const notificationData = apartmentChoosed.map((apartmentNumber) => ({
         title: formData.title,
         content: formData.content,
@@ -193,7 +193,6 @@ export default function AddNotificationManager() {
         apartmentNumber: apartmentNumber
       }))
 
-      // Gửi thông báo
       const response = await addNotificationToResident(notificationData)
 
       if (!response?.data) {
@@ -212,13 +211,38 @@ export default function AddNotificationManager() {
         })
       }
 
-      toast.success('Notification created successfully!')
+      toast.success('Notification created successfully!', {
+        style: { width: 'fit-content' }
+      })
+
       setImages([])
       setFiles([])
+
+      // Giai đoạn 2: từ 90 -> 100 trong 300ms
+      const start = performance.now()
+      const duration = 300
+
+      const animateTo100 = (timestamp: number) => {
+        const elapsed = timestamp - start
+        const t = Math.min(elapsed / duration, 1)
+        const eased = 90 + t * 10
+        setProgress(eased)
+
+        if (t < 1) {
+          requestAnimationFrame(animateTo100)
+        } else {
+          setTimeout(() => {
+            setLoading(false)
+          }, 200) // Cho hiệu ứng tự nhiên thêm một chút
+        }
+      }
+
+      requestAnimationFrame(animateTo100)
     } catch (error) {
       console.error('API call failed:', error)
       toast.error('Có lỗi xảy ra khi tạo thông báo')
-    } finally {
+
+      // Nếu lỗi xảy ra, vẫn cho progress chạy nốt đến 100
       setProgress(100)
       setTimeout(() => {
         setLoading(false)
@@ -241,192 +265,172 @@ export default function AddNotificationManager() {
   })
 
   return (
-    <div className='pt-5 mx-5 z-13' style={{ height: 'calc(100vh - 80px)' }}>
-      <ToastContainer />
-      <div className='mb-6 p-6 bg-white drop-shadow-md rounded-xl'>
-        {loading && <LoadingOverlay value={progress} />}
-        <form className='rounded' noValidate onSubmit={onSubmit}>
-          <h1 className='font-bold text-[25px] mb-[20px]'>Create Notification</h1>
-          {/* top */}
-          <div className='flex justify-between'>
-            <div>
-              <FormControl>
-                <FormLabel
-                  sx={{ color: '#000', fontWeight: '500', fontSize: '14px' }}
-                  id='demo-radio-buttons-group-label'
-                >
-                  Receiver<span className='text-red-600 ml-1'>*</span>
-                </FormLabel>
+    <div className='mx-5 mt-5 mb-5 p-6 z-13 bg-gradient-to-br from-white via-white to-blue-100 drop-shadow-md rounded-xl relative'>
+      {loading && (
+        <div className='absolute inset-0 z-50 bg-white bg-opacity-50 flex justify-center items-center'>
+          <LoadingOverlay value={progress} />
+        </div>
+      )}
+      <form className='rounded' noValidate onSubmit={onSubmit}>
+        <div className='grid grid-cols-4 gap-4'>
+          <div className='col-span-1'>
+            <FormControl>
+              <FormLabel
+                sx={{ color: '#000', fontWeight: '500', fontSize: '16px', marginBottom: '1px' }}
+                id='demo-radio-buttons-group-label'
+              >
+                Receiver
+                <span className='text-red-600 ml-1'>*</span>
+              </FormLabel>
 
-                <RadioGroup
-                  aria-labelledby='demo-radio-buttons-group-label'
-                  defaultValue='resident'
-                  name='radio-buttons-group'
-                  onChange={handleChangeRadio}
-                >
-                  <FormControlLabel value='resident' control={<Radio />} label='Resident' />
-                  <FormControlLabel value='apartment' control={<Radio />} label='Apartment' />
-                </RadioGroup>
-              </FormControl>
+              <RadioGroup
+                aria-labelledby='demo-radio-buttons-group-label'
+                defaultValue='resident'
+                name='radio-buttons-group'
+                onChange={handleChangeRadio}
+              >
+                <FormControlLabel value='resident' control={<Radio />} label='Resident' />
+                <FormControlLabel value='apartment' control={<Radio />} label='Apartment' />
+              </RadioGroup>
+            </FormControl>
+          </div>
+          <div className='col-span-1'>
+            <label className='block text-sm font-semibold mb-[6px]'>
+              Type
+              <span className='text-red-600 ml-1'>*</span>
+            </label>
+            <Select
+              id='demo-select-small'
+              defaultValue='new'
+              {...register('type')}
+              sx={{ width: '200px', height: '55px' }}
+            >
+              <MenuItem value='new'>New</MenuItem>
+              <MenuItem value='notice'>Notice</MenuItem>
+              <MenuItem value='fee'>Fee</MenuItem>
+            </Select>
+          </div>
+          <div className='col-span-2'>
+            <label className='block text-sm font-semibold'>
+              Images
+              <span className='text-red-600 ml-1'>*</span>
+            </label>
+            <div
+              className='mt-1 w-full h-auto p-4 border-2 border-dashed border-gray-400 rounded-md flex flex-col items-center justify-center cursor-pointer bg-gray-100'
+              onClick={() => fileInputRef.current?.click()}
+              onDrop={(e) => handleDrop(e)}
+              onDragOver={(e) => e.preventDefault()}
+            >
+              {images.length > 0 ? (
+                <div className='flex flex-wrap flex-start gap-10'>
+                  {images.map((img, index) => (
+                    <div key={index} className='relative group'>
+                      <img src={img} alt='Preview' className='w-24 h-24 object-fit rounded-md' />
+                      <button
+                        type='button'
+                        onClick={(e) => {
+                          e.stopPropagation()
+                          handleDeleteImage(index)
+                        }}
+                        className='absolute top-1 right-1 cursor-pointer bg-red-500 text-white rounded-full w-6 h-6 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-200'
+                      >
+                        ×
+                      </button>
+                    </div>
+                  ))}
+                </div>
+              ) : (
+                <>
+                  <CloudUploadIcon className='text-gray-700 text-4xl' />
+                  <p className='text-gray-700 font-semibold'>Upload Files</p>
+                  <p className='text-gray-500 text-sm'>Drag and drop files here</p>
+                </>
+              )}
+              <input
+                type='file'
+                multiple // Cho phép chọn nhiều ảnh
+                {...register('Image')}
+                accept='image/*'
+                ref={fileInputRef}
+                className='hidden'
+                onChange={handleImageChange}
+              />
             </div>
-            <div>
-              <label className='block text-sm font-semibold mb-[6px]'>
-                Type
+            <div className='mt-1 text-xs text-red-500 min-h-4'>{errors.Image?.message}</div>
+          </div>
+        </div>
+        <div className='grid grid-cols-2 gap-4'>
+          <div className='mt-[-15px]'>
+            <div className=''>
+              <label className='block text-sm font-semibold mt-4'>
+                Title
                 <span className='text-red-600 ml-1'>*</span>
               </label>
-              <Select
-                id='demo-select-small'
-                defaultValue='new'
-                {...register('type')}
-                sx={{ width: '200px', height: '55px' }}
-              >
-                <MenuItem value='new'>New</MenuItem>
-                <MenuItem value='notice'>Notice</MenuItem>
-                <MenuItem value='fee'>Fee</MenuItem>
-              </Select>
-            </div>
-
-            <div>
-              <div
-                className={` transition-all duration-300
-                  ${radio === 'resident' ? 'opacity-0 pointer-events-none' : 'opacity-100'}`}
-              >
-                <label className='block text-sm font-semibold mb-[6px]'>
-                  Apartment
-                  <span className='text-red-600 ml-1'>*</span>
-                </label>
-                <Autocomplete
-                  multiple
-                  options={apartments.map((apt) => apt.apartmentNumber)}
-                  onChange={(event, newValue) => {
-                    setApartmentChoosed(newValue) // Cập nhật danh sách apartment đã chọn
-                    setValue('apartmentNumber', newValue.join(', ')) // (nếu đang dùng react-hook-form)
-                    clearErrors('apartmentNumber') // (nếu cần)
-                  }}
-                  value={apartmentChoosed}
-                  renderInput={(params) => (
-                    <TextField
-                      {...params}
-                      sx={{ maxWidth: '560px', width: '560px' }}
-                      placeholder='Search Apartment'
-                      variant='outlined'
-                    />
-                  )}
-                />
-
-                <div className='mt-1 text-xs text-red-500 min-h-4'>{errors.apartmentNumber?.message}</div>
-              </div>
-            </div>
-          </div>
-
-          <div className='flex'>
-            {/* right */}
-            <div></div>
-
-            {/* left */}
-            <div></div>
-          </div>
-
-          <div className='grid grid-cols-2 gap-4'>
-            <div>
-              <div className='mb-3'>
-                <label className='block text-sm font-semibold'>
-                  Title
-                  <span className='text-red-600 ml-1'>*</span>
-                </label>
-                <Input
-                  name='title'
-                  type='textarea'
-                  register={register}
-                  className='mt-1'
-                  errorMessage={errors.title?.message}
-                  rows={2}
-                />
-              </div>
-              <div className=''>
-                <label className='block text-sm font-semibold'>
-                  Content
-                  <span className='text-red-600 ml-1'>*</span>
-                </label>
-                <Input
-                  name='content'
-                  type='textarea'
-                  register={register}
-                  className='mt-1'
-                  errorMessage={errors.content?.message}
-                  rows={4}
-                />
-              </div>
+              <Input
+                name='title'
+                type='textarea'
+                register={register}
+                className='mt-1'
+                errorMessage={errors.title?.message}
+                rows={2}
+              />
             </div>
             <div className=''>
-              <div>
-                <label className='block text-sm font-semibold'>
-                  Images
-                  <span className='text-red-600 ml-1'>*</span>
-                </label>
-                <div
-                  className='mt-1 w-full h-auto p-4 border-2 border-dashed border-gray-400 rounded-md flex flex-col items-center justify-center cursor-pointer bg-gray-100'
-                  onClick={() => fileInputRef.current?.click()}
-                  onDrop={(e) => handleDrop(e)}
-                  onDragOver={(e) => e.preventDefault()}
-                >
-                  {images.length > 0 ? (
-                    <div className='flex flex-wrap flex-start gap-10'>
-                      {images.map((img, index) => (
-                        <div key={index} className='relative group'>
-                          <img src={img} alt='Preview' className='w-24 h-24 object-fit rounded-md' />
-                          <button
-                            type='button'
-                            onClick={(e) => {
-                              e.stopPropagation()
-                              handleDeleteImage(index)
-                            }}
-                            className='absolute top-1 right-1 cursor-pointer bg-red-500 text-white rounded-full w-6 h-6 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-200'
-                          >
-                            ×
-                          </button>
-                        </div>
-                      ))}
-                    </div>
-                  ) : (
-                    <>
-                      <CloudUploadIcon className='text-gray-700 text-4xl' />
-                      <p className='text-gray-700 font-semibold'>Upload Files</p>
-                      <p className='text-gray-500 text-sm'>Drag and drop files here</p>
-                    </>
-                  )}
-                  <input
-                    type='file'
-                    multiple // Cho phép chọn nhiều ảnh
-                    {...register('Image')}
-                    accept='image/*'
-                    ref={fileInputRef}
-                    className='hidden'
-                    onChange={handleImageChange}
-                  />
-                </div>
-                <div className='mt-1 text-xs text-red-500 min-h-4'>{errors.Image?.message}</div>
-              </div>
+              <label className='block text-sm font-semibold mt-3'>
+                Content
+                <span className='text-red-600 ml-1'>*</span>
+              </label>
+              <Input
+                name='content'
+                type='textarea'
+                register={register}
+                className='mt-1'
+                errorMessage={errors.content?.message}
+                rows={4}
+              />
             </div>
           </div>
-          <div className='flex justify-end gap-4 mt-3'>
-            <Button
-              variant='contained'
-              style={{ color: 'white', background: 'red', fontWeight: 'semi-bold' }}
-              onClick={() => navigate(-1)}
-            >
-              Cancel
-            </Button>
-            <Button
-              type='submit'
-              variant='contained'
-              style={{ color: 'white', background: '#2976ce', fontWeight: 'semi-bold' }}
-            >
-              Submit
-            </Button>
+          <div
+            className={` transition-all duration-300
+                  ${radio === 'resident' ? 'opacity-0 pointer-events-none' : 'opacity-100'}`}
+          >
+            <label className='block text-sm font-semibold mb-[6px]'>
+              Apartment
+              <span className='text-red-600 ml-1'>*</span>
+            </label>
+            <Autocomplete
+              multiple
+              options={apartments.map((apt) => apt.apartmentNumber)}
+              onChange={(event, newValue) => {
+                setApartmentChoosed(newValue) // Cập nhật danh sách apartment đã chọn
+                setValue('apartmentNumber', newValue.join(', ')) // (nếu đang dùng react-hook-form)
+                clearErrors('apartmentNumber') // (nếu cần)
+              }}
+              value={apartmentChoosed}
+              renderInput={(params) => <TextField {...params} placeholder='Search Apartment' variant='outlined' />}
+            />
+
+            <div className='mt-1 text-xs text-red-500 min-h-4'>{errors.apartmentNumber?.message}</div>
           </div>
-        </form>
-      </div>
+        </div>
+
+        <div className='flex justify-end gap-4 mt-3'>
+          <Button
+            variant='contained'
+            style={{ color: 'white', background: 'red', fontWeight: 'semi-bold' }}
+            onClick={() => navigate(-1)}
+          >
+            Cancel
+          </Button>
+          <Button
+            type='submit'
+            variant='contained'
+            style={{ color: 'white', background: '#2976ce', fontWeight: 'semi-bold' }}
+          >
+            Submit
+          </Button>
+        </div>
+      </form>
     </div>
   )
 }

@@ -1,12 +1,12 @@
 import { useEffect, useState } from 'react'
 import { useForm } from 'react-hook-form'
 import { yupResolver } from '@hookform/resolvers/yup'
-import { ToastContainer, toast } from 'react-toastify'
+import { toast } from 'react-toastify'
 import { Button, MenuItem, Select, TextField, SelectChangeEvent } from '@mui/material'
 import Input from '~/components/Input'
-import { AddApartmentSchema, apartmentSchema } from '~/utils/rules'
-import { addApartment } from '~/apis/apartment.api'
 import LoadingOverlay from '~/components/LoadingOverlay'
+import { addApartment } from '~/apis/apartment.api'
+import { AddApartmentSchema, apartmentSchema } from '~/utils/rules'
 
 type FormData = AddApartmentSchema
 
@@ -79,90 +79,87 @@ export default function AddApartment() {
   })
 
   return (
-    <div className='pt-5 mx-5 z-13' style={{ height: 'calc(100vh - 80px)' }}>
-      <ToastContainer />
-      <div className='mb-6 p-6 bg-gradient-to-br from-white via-white to-blue-100 shadow-xl rounded-2xl space-y-6'>
-        {loading && <LoadingOverlay value={progress} />}
-        <form className='rounded' noValidate onSubmit={onSubmit}>
-          <div className='grid grid-cols-4 gap-4'>
-            <div>
-              <label className='block text-sm font-semibold'>
-                Room Code
-                <span className='text-red-600 ml-1'>*</span>
-              </label>
-              <TextField
-                type='number'
-                value={roomNumber}
-                onChange={handleRoomChange}
-                sx={{ width: '200px', marginTop: '6px' }}
-              />
-            </div>
-            <div>
-              <label className='block text-sm font-semibold mb-[6px]'>
-                Floor
-                <span className='text-red-600 ml-1'>*</span>
-              </label>
-              <Select
-                id='demo-select-small'
-                value={floor}
-                onChange={handleFloorChange}
-                defaultValue='1'
-                sx={{ width: '200px' }}
-              >
-                <MenuItem value='1'>Floor 1</MenuItem>
-                <MenuItem value='2'>Floor 2</MenuItem>
-                <MenuItem value='3'>Floor 3</MenuItem>
-                <MenuItem value='4'>Floor 4</MenuItem>
-              </Select>
-            </div>
-            <div>
-              <label className='block text-sm font-semibold'>
-                Apartment Number
-                <span className='text-red-600 ml-1'>*</span>
-              </label>
-              <TextField
-                type='text'
-                value={roomNumber && floor ? `${floor}${roomNumber}` : ''}
-                {...register('apartmentNumber')}
-                className='bg-gray-100'
-                sx={{ width: '200px', marginTop: '6px' }}
-              />
-              <div className='mt-1 text-xs text-red-500 min-h-4'>{errors.apartmentNumber?.message}</div>
-            </div>
-            <div className=''>
-              <label className='block text-sm font-semibold'>
-                Acreage
-                <span className='text-red-600 ml-1'>*</span>
-              </label>
-              <TextField type='number' {...register('acreage')} sx={{ width: '200px', marginTop: '6px' }} />
-              <div className='mt-1 text-xs text-red-500 min-h-4'>{errors.acreage?.message}</div>
-            </div>
+    <div className='mx-5 mt-5 mb-5 p-6 bg-gradient-to-br from-white via-white to-blue-100 drop-shadow-md rounded-xl'>
+      {loading && <LoadingOverlay value={progress} />}
+      <form className='rounded' noValidate onSubmit={onSubmit}>
+        <div className='grid grid-cols-4 gap-4'>
+          <div>
+            <label className='block text-sm font-semibold'>
+              Room Code
+              <span className='text-red-600 ml-1'>*</span>
+            </label>
+            <TextField
+              type='number'
+              value={roomNumber}
+              onChange={handleRoomChange}
+              sx={{ width: '200px', marginTop: '6px' }}
+            />
+          </div>
+          <div>
+            <label className='block text-sm font-semibold mb-[6px]'>
+              Floor
+              <span className='text-red-600 ml-1'>*</span>
+            </label>
+            <Select
+              id='demo-select-small'
+              value={floor}
+              onChange={handleFloorChange}
+              defaultValue='1'
+              sx={{ width: '200px' }}
+            >
+              <MenuItem value='1'>Floor 1</MenuItem>
+              <MenuItem value='2'>Floor 2</MenuItem>
+              <MenuItem value='3'>Floor 3</MenuItem>
+              <MenuItem value='4'>Floor 4</MenuItem>
+            </Select>
+          </div>
+          <div>
+            <label className='block text-sm font-semibold'>
+              Apartment Number
+              <span className='text-red-600 ml-1'>*</span>
+            </label>
+            <TextField
+              type='text'
+              value={roomNumber && floor ? `${floor}${roomNumber}` : ''}
+              {...register('apartmentNumber')}
+              className='bg-gray-100'
+              sx={{ width: '200px', marginTop: '6px' }}
+            />
+            <div className='mt-1 text-xs text-red-500 min-h-4'>{errors.apartmentNumber?.message}</div>
           </div>
           <div className=''>
             <label className='block text-sm font-semibold'>
-              Description
+              Acreage
               <span className='text-red-600 ml-1'>*</span>
             </label>
-            <Input
-              name='description'
-              type='textarea'
-              register={register}
-              className='mt-[6px]'
-              errorMessage={errors.description?.message}
-              rows={4}
-            />
+            <TextField type='number' {...register('acreage')} sx={{ width: '200px', marginTop: '6px' }} />
+            <div className='mt-1 text-xs text-red-500 min-h-4'>{errors.acreage?.message}</div>
           </div>
-          <div className='flex justify-end gap-4 mt-3'>
-            <Button
-              type='submit'
-              variant='contained'
-              style={{ color: 'white', background: '#2976ce', fontWeight: 'semi-bold' }}
-            >
-              Submit
-            </Button>
-          </div>
-        </form>
-      </div>
+        </div>
+        <div className=''>
+          <label className='block text-sm font-semibold'>
+            Description
+            <span className='text-red-600 ml-1'>*</span>
+          </label>
+          <Input
+            name='description'
+            type='textarea'
+            register={register}
+            className='mt-[6px]'
+            errorMessage={errors.description?.message}
+            rows={4}
+          />
+        </div>
+        <div className='flex justify-end gap-4 mt-3'>
+          <Button
+            type='submit'
+            variant='contained'
+            style={{ color: 'white', background: '#2976ce', fontWeight: 'semi-bold' }}
+          >
+            Submit
+          </Button>
+        </div>
+      </form>
     </div>
   )
 }
