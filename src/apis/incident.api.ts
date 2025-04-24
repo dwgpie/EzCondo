@@ -8,14 +8,5 @@ export const getAllIncident = () => {
 
 // export const getUserById = (userId: string) => http.get(`/api/User/get-user-by-id?userId=${userId}`)
 
-// export const editUser = (body: {
-//   id: string
-//   fullName: string
-//   email: string
-//   phoneNumber: string
-//   dateOfBirth: string
-//   gender: string
-//   roleName: string
-//   apartmentNumber: string
-//   status: string
-// }) => http.patch('/api/User/update-user', body)
+export const updateIncidentStatus = (body: { id: string; status: string }) =>
+  http.patch('/api/Incident/update-incident-status', body)

@@ -5,7 +5,7 @@ import { Link } from 'react-router-dom'
 import { useContext, useEffect, useState, useRef } from 'react'
 import { SearchContext } from '../Search/SearchContext'
 import { getProfile } from '~/apis/auth.api'
-import { getNotification } from '~/apis/notification.api'
+import { receiveNotification } from '~/apis/notification.api'
 import Popover from '@mui/material/Popover'
 import Badge from '@mui/material/Badge'
 import PopupState, { bindTrigger, bindPopover } from 'material-ui-popup-state'
@@ -23,7 +23,9 @@ interface Notification {
   id: string
   title: string
   content: string
+  type: string
   createdAt: string
+  isRead: boolean
 }
 
 export default function Header() {
@@ -73,7 +75,7 @@ export default function Header() {
   useEffect(() => {
     // Tạo kết nối đến hub backend với đường dẫn tương ứng
     const newConnection = new signalR.HubConnectionBuilder()
-      .withUrl('http://192.168.1.131:7254/notificationHub', {
+      .withUrl('http://localhost:7254/notificationHub', {
         accessTokenFactory: () => localStorage.getItem('token') || ''
       }) // Đảm bảo rằng url trùng với app.MapHub<NotificationHub>("/notificationHub")
       .withAutomaticReconnect()
@@ -132,7 +134,7 @@ export default function Header() {
 
   const fetchPageNotification = async (page: number) => {
     try {
-      const res = await getNotification({
+      const res = await receiveNotification({
         type,
         page,
         pageSize
@@ -219,6 +221,21 @@ export default function Header() {
     return image || undefined
   }
 
+  const getTypeColor = (type: string) => {
+    switch (type.toLowerCase()) {
+      case 'incident':
+        return 'bg-red-200 text-red-800'
+      case 'fee':
+        return 'bg-orange-200 text-orange-800'
+      case 'new':
+        return 'bg-green-200 text-green-800'
+      case 'notice':
+        return 'bg-green-200 text-green-800'
+      default:
+        return ''
+    }
+  }
+
   return (
     <div className='bg-[#fff] h-[80px]  w-full pl-[20px] pr-[20px] border-b-[3px] border-gray-300 z-50'>
       <div className='flex items-center justify-between w-full  h-[80px]'>
@@ -240,86 +257,151 @@ export default function Header() {
               <NotificationsIcon style={{ color: '#6C6E71' }} />
             </Badge>
           </button>
-          {isOpen == true ? (
-            <div
-              ref={notificationRef}
-              className='absolute w-[350px]  bg-[white] right-[10px] top-18 border-[2px] rounded-[25px] shadow-lg'
-            >
-              <div className='sticky w-[346px]'>
-                <div className='flex justify-between bg-white items-center pt-[10px] pr-[20px] pl-[20px] rounded-t-[25px]'>
-                  <h1 className='text-[26px] text-[#000] font-extrabold'>Notification</h1>
-                  <Link to='/manager/history-notification'>
-                    <a className='text-[#0854a0] font-medium'>View all</a>
-                  </Link>
-                </div>
-                <div className='relative bg-white'>
-                  <div className='flex border-b-[2px] border-b-[#939393]'>
-                    {tabs.map((tab, index) => (
-                      <button
-                        key={tab}
-                        className={`flex-1 text-center font-medium py-2 cursor-pointer transition-all duration-300 ${
-                          type === tab || (type === '' && index === 0) ? 'text-[#0854a0]' : 'text-[#7a8699]'
-                        } `}
-                        onClick={() => handelType(tab)}
-                      >
-                        {tab.charAt(0).toUpperCase() + tab.slice(1)}
-                      </button>
-                    ))}
-                  </div>
-                </div>
 
-                {/* Underline bar */}
-                <div
-                  className='absolute bottom-0 left-0 h-[3px] bg-[#0854a0] transition-all duration-300'
-                  style={{
-                    width: '25%',
-                    transform: `translateX(${tabIndex * 100}%)`
-                  }}
-                />
+          <div
+            ref={notificationRef}
+            className={`absolute w-[350px] bg-white right-[10px] top-18 border border-[#7a8699] rounded-[10px] shadow-lg transition-all duration-500 ease-in-out origin-top transform ${
+              isOpen
+                ? 'opacity-100 scale-100 translate-y-0 visible'
+                : 'opacity-0 scale-95 -translate-y-2 invisible pointer-events-none'
+            }`}
+          >
+            <div className='sticky w-[346px]'>
+              <div className='relative rounded-[10px] bg-white'>
+                <div className='flex'>
+                  {tabs.map((tab, index) => (
+                    <button
+                      key={tab}
+                      className={`flex-1 text-center font-medium py-2 cursor-pointer transition-all duration-300 hover:bg-[#3385f01f] ${
+                        type === tab || (type === '' && index === 0) ? 'text-[#0854a0]' : 'text-[#7a8699]'
+                      } `}
+                      onClick={() => handelType(tab)}
+                    >
+                      {tab.charAt(0).toUpperCase() + tab.slice(1)}
+                    </button>
+                  ))}
+                </div>
               </div>
-              <div className='h-[calc(100vh-180px)] overflow-y-auto custom-scrollbar'>
-                {/* Hôm nay */}
-                {todayNotifications.length > 0 && (
-                  <>
-                    <p className='text-[16px] font-semibold text-[#a9a9a9] p-[5px] bg-[#f5fbff]'>Today</p>
-                    {todayNotifications.map((notify) => (
-                      <div key={notify.id} className='p-[10px] border-b-[1px] border-b-[#d6d6d6]'>
-                        <p className='font-bold text-[#333]'>{notify.title}</p>
-                        <p className='text-[#7b7b7b]'>{notify.content}</p>
+
+              {/* Underline bar */}
+              <div
+                className='absolute bottom-0 left-0 h-[3px] bg-[#0854a0] transition-all duration-300'
+                style={{
+                  width: '25%',
+                  transform: `translateX(${tabIndex * 100}%)`
+                }}
+              />
+            </div>
+            <div className='h-[calc(100vh-180px)] overflow-y-auto custom-scrollbar'>
+              {/* Hôm nay */}
+              {todayNotifications.length > 0 && (
+                <>
+                  <p className='text-[14px] font-semibold text-[#1B2124] p-[5px] pl-[10px]'>Today</p>
+                  {todayNotifications.map((notify) => (
+                    <div className='relative hover:bg-[#f1f3f5]'>
+                      <div key={notify.id} className='p-[10px] '>
+                        <div className='flex justify-between ml-[20px]'>
+                          <p
+                            className='font-bold text-[#1B2124] overflow-hidden text-ellipsis'
+                            style={{
+                              display: '-webkit-box',
+                              WebkitLineClamp: 2,
+                              WebkitBoxOrient: 'vertical'
+                            }}
+                          >
+                            {notify.title}
+                          </p>
+
+                          <div
+                            className={`${getTypeColor(notify.type)} w-[80px] h-fit px-2 py-1 rounded-full text-sm font-semibold text-center w-[30%]`}
+                          >
+                            <span>{notify.type}</span>
+                          </div>
+                        </div>
+                        <p
+                          className='text-[#4D595E] overflow-hidden text-ellipsis ml-[20px]'
+                          style={{
+                            display: '-webkit-box',
+                            WebkitLineClamp: 4,
+                            WebkitBoxOrient: 'vertical'
+                          }}
+                        >
+                          {notify.content}
+                        </p>
                         <div className='flex justify-end mt-[5px]'>
-                          <p className='text-[#7b7b7b]'>{formatNotificationTime(notify.createdAt)}</p>
+                          <p className='text-[#4D595E] text-[12px]'>{formatNotificationTime(notify.createdAt)}</p>
                         </div>
                       </div>
-                    ))}
-                  </>
-                )}
+                      {!notify.isRead && (
+                        <div className='absolute w-[7px] h-[7px] bg-[#D02241] rounded-[50%] top-[20px] left-[10px]'></div>
+                      )}
+                    </div>
+                  ))}
+                </>
+              )}
 
-                {/* Những ngày trước */}
-                {oldNotifications.length > 0 && (
-                  <>
-                    <p className='text-[16px] font-semibold text-[#a9a9a9] p-[5px] bg-[#f5fbff]'>Previous days</p>
-                    {oldNotifications.map((notify) => (
-                      <div key={notify.id} className='p-[10px] border-b-[1px] border-b-[#d6d6d6]'>
-                        <p className='font-bold text-[#333]'>{notify.title}</p>
-                        <p className='text-[#7b7b7b]'>{notify.content}</p>
+              {/* Những ngày trước */}
+              {oldNotifications.length > 0 && (
+                <>
+                  <p className='text-[14px] font-semibold text-[#1B2124] p-[5px] pl-[10px]'>Older</p>
+                  {oldNotifications.map((notify) => (
+                    <div className='relative hover:bg-[#f1f3f5]'>
+                      <div key={notify.id} className='p-[10px] '>
+                        <div className='flex justify-between ml-[20px]'>
+                          <p
+                            className='font-bold text-[#1B2124] overflow-hidden text-ellipsis'
+                            style={{
+                              display: '-webkit-box',
+                              WebkitLineClamp: 2,
+                              WebkitBoxOrient: 'vertical'
+                            }}
+                          >
+                            {notify.title}
+                          </p>
+
+                          <div
+                            className={`${getTypeColor(notify.type)} w-[80px] h-fit px-2 py-1 rounded-full text-sm font-semibold text-center w-[30%]`}
+                          >
+                            <span>{notify.type}</span>
+                          </div>
+                        </div>
+                        <p
+                          className='text-[#4D595E] overflow-hidden text-ellipsis ml-[20px]'
+                          style={{
+                            display: '-webkit-box',
+                            WebkitLineClamp: 4,
+                            WebkitBoxOrient: 'vertical'
+                          }}
+                        >
+                          {notify.content}
+                        </p>
                         <div className='flex justify-end mt-[5px]'>
-                          <p className='text-[#7b7b7b]'>{formatNotificationTime(notify.createdAt)}</p>
+                          <p className='text-[#4D595E] text-[12px]'>{formatNotificationTime(notify.createdAt)}</p>
                         </div>
                       </div>
-                    ))}
-                  </>
-                )}
+                      {!notify.isRead && (
+                        <div className='absolute w-[7px] h-[7px] bg-[#D02241] rounded-[50%] top-[20px] left-[10px]'></div>
+                      )}
+                    </div>
+                  ))}
+                </>
+              )}
 
-                {/* Trường hợp không có gì */}
-                {listNotification.length === 0 && <p className='p-[10px]'>No notification Foundation</p>}
-              </div>
-              {/* {listNotification.length < total && (
+              {/* Trường hợp không có gì */}
+              {listNotification.length === 0 && <p className='p-[10px]'>No notification Foundation</p>}
+            </div>
+            <div className='flex flex-col align-center items-center pt-[5px] pb-[5px]'>
+              <Link to='/manager/history-notification'>
+                <a className='block text-[#3385F0] font-medium text-center pt-[5px] pb-[5px] w-[200px] hover:bg-[#3385f01f] rounded-[10px]'>
+                  View all
+                </a>
+              </Link>
+            </div>
+            {/* {listNotification.length < total && (
                 <div className='text-center text-sm text-gray-500 py-2'>Đang tải thêm...</div>
               )} */}
-            </div>
-          ) : (
-            ''
-          )}
+          </div>
+
           <PopupState variant='popover' popupId='demo-popup-popover'>
             {(popupState) => (
               <div>

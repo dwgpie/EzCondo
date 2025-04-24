@@ -45,3 +45,9 @@ export const getNotification = (body: { type: string; page: number; pageSize: nu
     `/api/Notification/admin-or-manager-get-notifications?type=${body.type}&page=${body.page}&pageSize=${body.pageSize}`
   )
 }
+
+export const receiveNotification = (body: { type: string; page: number; pageSize: number }) => {
+  return http.get(
+    `/api/Notification/user-get-notifications?type=${body.type}&page=${body.page}&pageSize=${body.pageSize}`
+  )
+}
