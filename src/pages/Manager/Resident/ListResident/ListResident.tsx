@@ -9,10 +9,12 @@ import TableHead from '@mui/material/TableHead'
 import TableRow from '@mui/material/TableRow'
 import Paper from '@mui/material/Paper'
 import PersonAddIcon from '@mui/icons-material/PersonAdd'
-import { getAllResident, searchUser } from '~/apis/user.api'
+import { getAllResident, searchResident } from '~/apis/householdMember.api'
 import { SearchContext } from '~/components/Search/SearchContext'
 import Pagination from '@mui/material/Pagination'
 import SubjectIcon from '@mui/icons-material/Subject'
+import LinearProgress from '@mui/material/LinearProgress'
+import useBufferProgress from '~/components/useBufferProgress'
 
 interface User {
   id: string
@@ -51,6 +53,8 @@ const StyledTableRow = styled(TableRow)(() => ({
 }))
 
 export default function ListResident() {
+  const [loading, setLoading] = useState(false)
+  const { progress, buffer } = useBufferProgress(loading)
   const { searchQuery } = useContext(SearchContext)!
   const [listUser, setListUser] = useState<User[]>([])
   const [filteredUsers, setFilteredUsers] = useState<User[]>([])
@@ -61,11 +65,15 @@ export default function ListResident() {
 
   const getAllUserMutation = useMutation({
     mutationFn: async () => {
+      setLoading(true)
       const response = await getAllResident()
       return response.data
     },
     onSuccess: (data) => {
       setListUser(data)
+      setTimeout(() => {
+        setLoading(false)
+      }, 1000)
     }
   })
   useEffect(() => {
@@ -98,7 +106,7 @@ export default function ListResident() {
         setFilteredUsers(listUser)
       } else {
         try {
-          const response = await searchUser(searchQuery)
+          const response = await searchResident(searchQuery)
           setFilteredUsers(response.data)
         } catch (error) {
           console.error('Error search:', error)
@@ -117,6 +125,11 @@ export default function ListResident() {
 
   return (
     <div className='mx-5 mt-5 mb-5 p-6 bg-gradient-to-br from-white via-white to-blue-100 drop-shadow-md rounded-xl'>
+      {loading && (
+        <div className='w-full px-6 fixed top-2 left-0 z-50'>
+          <LinearProgress variant='buffer' value={progress} valueBuffer={buffer} />
+        </div>
+      )}
       <div className='mb-[20px]'>
         <h2 className='text-2xl font-semibold text-gray-500'>List Resident</h2>
       </div>

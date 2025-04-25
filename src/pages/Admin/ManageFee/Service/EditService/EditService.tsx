@@ -146,7 +146,7 @@ export default function EditService() {
             clearInterval(Progress)
             return prev
           }
-          return prev + 5
+          return prev + 3
         })
       }, 150)
 

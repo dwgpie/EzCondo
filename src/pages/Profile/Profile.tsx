@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react'
 import { useMutation } from '@tanstack/react-query'
-import { updateProfile, getProfile, addOrUpdateAvatar } from '~/apis/auth.api'
+import { updateProfile, addOrUpdateAvatar, getProfile } from '~/apis/auth.api'
 import { profileAdminSchema } from '~/utils/rules'
 import { useForm } from 'react-hook-form'
 import { yupResolver } from '@hookform/resolvers/yup'

@@ -41,27 +41,6 @@ export const login = async (body: { email: string; password: string }) => {
   }
 }
 
-export const registerAccount = async (body: {
-  fullName: string
-  email: string
-  phoneNumber: string
-  dateOfBirth: string
-  gender: string
-  roleName: string
-  apartmentNumber: string
-}) => {
-  try {
-    const response = await http.post('/api/User/add-user', body)
-    return response.data
-  } catch (error: any) {
-    if (error.response && error.response.data) {
-      throw new Error(error.response.data.error)
-    } else {
-      throw new Error('Something went wrong')
-    }
-  }
-}
-
 //Password
 export const forgotPassword = (body: { email: string }) => http.post('/api/Auth/forgot-password', body)
 
@@ -69,11 +48,6 @@ export const verifyOTP = (body: { email: string; code: string }) => http.post(`/
 
 export const resetPassword = (body: { tokenMemory: string; newPassword: string }) =>
   http.post('/api/Auth/reset-password', body)
-
-//Search
-export const searchUser = (search: string) => {
-  return http.get(`/api/User/get-all-users?search=${search}`)
-}
 
 //Profile
 export const getProfile = () => {

@@ -26,3 +26,11 @@ export const addOrUpdateMember = async (body: {
 }
 
 export const deleteMember = (id: string) => http.delete(`/api/HouseHoldMember/delete-house-hold-member?id=${id}`)
+
+export const getAllResident = () => {
+  return http.get('/api/User/get-all-users?roleName=resident')
+}
+
+export const searchResident = (search: string) => {
+  return http.get(`/api/User/get-all-users?roleName=resident&search=${search}`)
+}

@@ -15,6 +15,8 @@ import { getAllUser, deleteUser, searchUser } from '~/apis/user.api'
 import Swal from 'sweetalert2'
 import { SearchContext } from '~/components/Search/SearchContext'
 import Pagination from '@mui/material/Pagination'
+import LinearProgress from '@mui/material/LinearProgress'
+import useBufferProgress from '~/components/useBufferProgress'
 
 interface User {
   id: string
@@ -53,11 +55,12 @@ const StyledTableRow = styled(TableRow)(() => ({
 }))
 
 export default function ListUser() {
+  const [loading, setLoading] = useState(false)
+  const { progress, buffer } = useBufferProgress(loading)
   const { searchQuery } = useContext(SearchContext)!
   const [activeButton, setActiveButton] = useState('resident')
   const [listUser, setListUser] = useState<User[]>([])
   const [filteredUsers, setFilteredUsers] = useState<User[]>([])
-
   const [page, setPage] = useState(1)
   const pageSize = 6
   const totalPages = Math.ceil(filteredUsers.length / pageSize)
@@ -76,16 +79,22 @@ export default function ListUser() {
     setFilteredUsers(filtered)
     setPage(1) // Reset về trang đầu tiên khi lọc
   }
+
   const getAllUserMutation = useMutation({
     mutationFn: async () => {
+      setLoading(true)
       const response = await getAllUser()
       return response.data
     },
     onSuccess: (data) => {
-      // Lọc bỏ admin ngay từ đầu
       const filteredList = data.filter((user: User) => user.roleName.toLowerCase() !== 'admin')
       setListUser(filteredList)
-      handleButtonClick(['resident', 'manager']) // Gọi sau khi listUser đã có dữ liệu
+      handleButtonClick(['resident', 'manager'])
+
+      // Delay để progress có thời gian hiển thị
+      setTimeout(() => {
+        setLoading(false)
+      }, 1000)
     },
     onError: (error) => {
       console.error('Lỗi khi hiển thị danh sách cư dân:', error)
@@ -164,6 +173,11 @@ export default function ListUser() {
 
   return (
     <div className='mx-5 mt-5 mb-5 p-6 bg-gradient-to-br from-white via-white to-blue-100 drop-shadow-md rounded-xl'>
+      {loading && (
+        <div className='w-full px-6 fixed top-2 left-0 z-50'>
+          <LinearProgress variant='buffer' value={progress} valueBuffer={buffer} />
+        </div>
+      )}
       <div className='flex gap-4 mb-6 justify-between font-bold '>
         <h2 className='text-2xl font-semibold text-gray-500'>List Users</h2>
         <div className='flex gap-4 justify-end'>

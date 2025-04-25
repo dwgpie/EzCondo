@@ -35,7 +35,7 @@ export default function SideBarManagerInactive() {
           >
             <div className='flex flex-col justify-center items-center gap-[2px]'>
               <svg xmlns='http://www.w3.org/2000/svg' width='24' height='24' viewBox='0 0 24 24'>
-                <g fill='none' stroke='currentColor' stroke-linecap='round' stroke-linejoin='round' stroke-width='1.5'>
+                <g fill='none' stroke='currentColor' strokeLinecap='round' strokeLinejoin='round' strokeWidth='1.5'>
                   <path d='M6.133 21C4.955 21 4 20.02 4 18.81v-8.802c0-.665.295-1.295.8-1.71l5.867-4.818a2.09 2.09 0 0 1 2.666 0l5.866 4.818c.506.415.801 1.045.801 1.71v8.802c0 1.21-.955 2.19-2.133 2.19z' />
                   <path d='M9.5 21v-5.5a2 2 0 0 1 2-2h1a2 2 0 0 1 2 2V21' />
                 </g>
@@ -61,7 +61,7 @@ export default function SideBarManagerInactive() {
                   viewBox='0 0 30 30'
                   style={{ marginLeft: '5px' }}
                 >
-                  <g fill='none' stroke='currentColor' stroke-width='1.5'>
+                  <g fill='none' stroke='currentColor' strokeWidth='1.5'>
                     <circle cx='12' cy='6' r='4' />
                     <path d='M20 17.5c0 2.485 0 4.5-8 4.5s-8-2.015-8-4.5S7.582 13 12 13s8 2.015 8 4.5Z' />
                   </g>
@@ -84,7 +84,7 @@ export default function SideBarManagerInactive() {
                           d='M152 80a8 8 0 0 1 8-8h88a8 8 0 0 1 0 16h-88a8 8 0 0 1-8-8m96 40h-88a8 8 0 0 0 0 16h88a8 8 0 0 0 0-16m0 48h-64a8 8 0 0 0 0 16h64a8 8 0 0 0 0-16m-96.25 22a8 8 0 0 1-5.76 9.74a7.6 7.6 0 0 1-2 .26a8 8 0 0 1-7.75-6c-6.16-23.94-30.34-42-56.25-42s-50.09 18.05-56.25 42a8 8 0 0 1-15.5-4c5.59-21.71 21.84-39.29 42.46-48a48 48 0 1 1 58.58 0c20.63 8.71 36.88 26.29 42.47 48M80 136a32 32 0 1 0-32-32a32 32 0 0 0 32 32'
                         />
                       </svg>
-                      <li className='flex items-center h-[30px] pl-[10px]'>List User</li>
+                      <li className='flex items-center h-[30px] pl-[10px]'>List Residents</li>
                     </div>
                   </div>
                 </Link>
@@ -99,12 +99,12 @@ export default function SideBarManagerInactive() {
               className={`flex justify-between px-[23px] py-2 mt-1 h-[80px] rounded-xl cursor-pointer hover:bg-[#ebf2f5] ripple ${path === ElectricMeterPath || path === ElectricicReadingPath || path === ElectricUnpaidPath ? 'bg-[#eaf3fd] text-[#3385f0]' : 'hover:bg-[#ebf2f5]'}`}
             >
               <div className='flex flex-col justify-center items-center gap-[2px]'>
-                <svg xmlns='http://www.w3.org/2000/svg' width='34' height='32' viewBox='0 0 24 20'>
+                <svg xmlns='http://www.w3.org/2000/svg' width='34' height='32' viewBox='0 0 24 20' className='ml-2'>
                   <path
                     fill='currentColor'
-                    fill-rule='evenodd'
+                    fillRule='evenodd'
                     d='M15 8.5h-3.813l2.273-5.303A.5.5 0 0 0 13 2.5H8a.5.5 0 0 0-.46.303l-3 7A.5.5 0 0 0 5 10.5h2.474l-2.938 7.314c-.2.497.417.918.807.55l5.024-4.743l4.958-4.241A.5.5 0 0 0 15 8.5m-4.571 1h3.217l-3.948 3.378l-3.385 3.195l2.365-5.887a.5.5 0 0 0-.464-.686H5.758l2.572-6h3.912L9.969 8.803a.5.5 0 0 0 .46.697'
-                    clip-rule='evenodd'
+                    clipRule='evenodd'
                   />
                 </svg>
                 <p className='text-[13px]'>Electric</p>
@@ -152,9 +152,9 @@ export default function SideBarManagerInactive() {
                       <svg xmlns='http://www.w3.org/2000/svg' width='21' height='21' viewBox='0 0 16 16'>
                         <path
                           fill='currentColor'
-                          fill-rule='evenodd'
+                          fillRule='evenodd'
                           d='M5 1a.75.75 0 0 1 .75.75V3h5V1.75a.75.75 0 0 1 1.5 0V3H14a1 1 0 0 1 1 1v4.25a.75.75 0 0 1-1.5 0V7.5h-11v6h5.75a.75.75 0 0 1 0 1.5H2a1 1 0 0 1-1-1V4a1 1 0 0 1 1-1h2.25V1.75A.75.75 0 0 1 5 1M2.5 6h11V4.5h-11zm8.78 4.22a.75.75 0 1 0-1.06 1.06L11.94 13l-1.72 1.72a.75.75 0 1 0 1.06 1.06L13 14.06l1.72 1.72a.75.75 0 1 0 1.06-1.06L14.06 13l1.72-1.72a.75.75 0 1 0-1.06-1.06L13 11.94z'
-                          clip-rule='evenodd'
+                          clipRule='evenodd'
                         />
                       </svg>
                       <li className='flex items-center h-[30px] pl-[10px] '>Unpiad Electric</li>
@@ -176,16 +176,16 @@ export default function SideBarManagerInactive() {
                   <path
                     fill='none'
                     stroke='currentColor'
-                    stroke-miterlimit='10'
-                    stroke-width='32'
+                    strokeMiterlimit='10'
+                    strokeWidth='32'
                     d='M400 320c0 88.37-55.63 144-144 144s-144-55.63-144-144c0-94.83 103.23-222.85 134.89-259.88a12 12 0 0 1 18.23 0C296.77 97.15 400 225.17 400 320Z'
                   />
                   <path
                     fill='none'
                     stroke='currentColor'
-                    stroke-linecap='round'
-                    stroke-linejoin='round'
-                    stroke-width='32'
+                    strokeLinecap='round'
+                    strokeLinejoin='round'
+                    strokeWidth='32'
                     d='M344 328a72 72 0 0 1-72 72'
                   />
                 </svg>
@@ -234,9 +234,9 @@ export default function SideBarManagerInactive() {
                       <svg xmlns='http://www.w3.org/2000/svg' width='21' height='21' viewBox='0 0 16 16'>
                         <path
                           fill='currentColor'
-                          fill-rule='evenodd'
+                          fillRule='evenodd'
                           d='M5 1a.75.75 0 0 1 .75.75V3h5V1.75a.75.75 0 0 1 1.5 0V3H14a1 1 0 0 1 1 1v4.25a.75.75 0 0 1-1.5 0V7.5h-11v6h5.75a.75.75 0 0 1 0 1.5H2a1 1 0 0 1-1-1V4a1 1 0 0 1 1-1h2.25V1.75A.75.75 0 0 1 5 1M2.5 6h11V4.5h-11zm8.78 4.22a.75.75 0 1 0-1.06 1.06L11.94 13l-1.72 1.72a.75.75 0 1 0 1.06 1.06L13 14.06l1.72 1.72a.75.75 0 1 0 1.06-1.06L14.06 13l1.72-1.72a.75.75 0 1 0-1.06-1.06L13 11.94z'
-                          clip-rule='evenodd'
+                          clipRule='evenodd'
                         />
                       </svg>
                       <li className='flex items-center h-[30px] pl-[10px] '>Unpiad Water</li>
@@ -261,9 +261,9 @@ export default function SideBarManagerInactive() {
                   />
                   <path
                     fill='currentColor'
-                    fill-rule='evenodd'
+                    fillRule='evenodd'
                     d='M19 1.25a3.75 3.75 0 1 0 0 7.5a3.75 3.75 0 0 0 0-7.5M16.75 5a2.25 2.25 0 1 1 4.5 0a2.25 2.25 0 0 1-4.5 0'
-                    clip-rule='evenodd'
+                    clipRule='evenodd'
                   />
                   <path
                     fill='currentColor'
@@ -286,9 +286,9 @@ export default function SideBarManagerInactive() {
                         <g
                           fill='none'
                           stroke='currentColor'
-                          stroke-linecap='round'
-                          stroke-linejoin='round'
-                          stroke-width='1.5'
+                          strokeLinecap='round'
+                          strokeLinejoin='round'
+                          strokeWidth='1.5'
                           color='currentColor'
                         >
                           <path d='M17 2v2m-5-2v2M7 2v2m-3.5 6c0-3.3 0-4.95 1.025-5.975S7.2 3 10.5 3h3c3.3 0 4.95 0 5.975 1.025S20.5 6.7 20.5 10v5c0 3.3 0 4.95-1.025 5.975S16.8 22 13.5 22h-3c-3.3 0-4.95 0-5.975-1.025S3.5 18.3 3.5 15zm10 6H17m-3.5-7H17' />

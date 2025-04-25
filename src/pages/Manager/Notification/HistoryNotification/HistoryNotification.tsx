@@ -20,6 +20,8 @@ import {
   TextField
 } from '@mui/material'
 import SubjectIcon from '@mui/icons-material/Subject'
+import LinearProgress from '@mui/material/LinearProgress'
+import useBufferProgress from '~/components/useBufferProgress'
 
 interface FormData {
   id?: string
@@ -56,6 +58,8 @@ const StyledTableRow = styled(TableRow)(() => ({
 }))
 
 export default function HistoryNotificationManager() {
+  const [loading, setLoading] = useState(false)
+  const { progress, buffer } = useBufferProgress(loading)
   const [listNotification, setListNotification] = useState<FormData[]>([])
   const [type, setType] = useState('new')
   const [day, setDay] = useState(7)
@@ -65,6 +69,7 @@ export default function HistoryNotificationManager() {
 
   useEffect(() => {
     const fetchData = async () => {
+      setLoading(true)
       const res = await filterNotificationManager({
         receiver: '',
         type,
@@ -72,6 +77,9 @@ export default function HistoryNotificationManager() {
       })
       setListNotification(res.data.notifications)
       setPage(1) // reset lại page về 1 khi lọc
+      setTimeout(() => {
+        setLoading(false)
+      }, 1000)
     }
 
     fetchData()
@@ -96,7 +104,12 @@ export default function HistoryNotificationManager() {
   }
 
   return (
-    <div className='mx-5 mt-5 mb-5 p-6 bg-gradient-to-br from-white via-white to-blue-100 drop-shadow-md rounded-xl'>
+    <div className='mx-5 mt-5 mb-5 px-6 py-6 pt-4 bg-gradient-to-br from-white via-white to-blue-100 drop-shadow-md rounded-xl'>
+      {loading && (
+        <div className='w-full px-6 fixed top-2 left-0 z-50'>
+          <LinearProgress variant='buffer' value={progress} valueBuffer={buffer} />
+        </div>
+      )}
       <div className='flex justify-between items-center'>
         <h2 className='text-2xl font-semibold text-gray-500'>History Notification</h2>
         <div className='mt-2 mb-4 flex gap-4 justify-end'>
@@ -104,7 +117,7 @@ export default function HistoryNotificationManager() {
             <Select
               value={type} // Giá trị thực tế là ""
               onChange={(e) => setType(e.target.value === 'all' ? '' : e.target.value)}
-              sx={{ width: '200px' }}
+              sx={{ width: '200px', height: '40px' }}
               displayEmpty
               renderValue={(selected) => (selected === '' ? 'All' : selected)}
             >
@@ -115,7 +128,11 @@ export default function HistoryNotificationManager() {
             </Select>
           </div>
           <div>
-            <Select value={day} onChange={(e) => setDay(Number(e.target.value))} sx={{ width: '200px' }}>
+            <Select
+              value={day}
+              onChange={(e) => setDay(Number(e.target.value))}
+              sx={{ width: '200px', height: '40px' }}
+            >
               <MenuItem value={7}>Fewer than 7 days</MenuItem>
               <MenuItem value={10}>More than 7 days</MenuItem>
             </Select>
@@ -131,7 +148,7 @@ export default function HistoryNotificationManager() {
                 <StyledTableCell width='25%'>Title</StyledTableCell>
                 <StyledTableCell width='33%'>Content</StyledTableCell>
                 <StyledTableCell width='12%'>Date created</StyledTableCell>
-                <StyledTableCell width='15%'>Tyoe of notification</StyledTableCell>
+                <StyledTableCell width='16%'>Type of notification</StyledTableCell>
                 <StyledTableCell width='10%'>Receiver</StyledTableCell>
                 <StyledTableCell>Detail</StyledTableCell>
               </TableRow>

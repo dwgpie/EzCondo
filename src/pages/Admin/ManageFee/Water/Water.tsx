@@ -7,8 +7,9 @@ import { toast } from 'react-toastify'
 import { useEffect, useRef, useState } from 'react'
 import { useMutation } from '@tanstack/react-query'
 import EditNoteTwoToneIcon from '@mui/icons-material/EditNoteTwoTone'
-import PlagiarismOutlinedIcon from '@mui/icons-material/PlagiarismOutlined'
 import { Dialog, DialogActions, DialogContent, DialogTitle } from '@mui/material'
+import LinearProgress from '@mui/material/LinearProgress'
+import useBufferProgress from '~/components/useBufferProgress'
 
 interface FormData {
   id?: string
@@ -16,6 +17,8 @@ interface FormData {
 }
 
 export default function Water() {
+  const [loading, setLoading] = useState(false)
+  const { progress, buffer } = useBufferProgress(loading)
   const [openEditDialog, setOpenEditDialog] = useState(false)
   const [editingItem, setEditingItem] = useState<FormData | null>(null)
   const [water, setWater] = useState<FormData | null>(null)
@@ -38,11 +41,15 @@ export default function Water() {
 
   const getWaterMutation = useMutation({
     mutationFn: async () => {
+      setLoading(true)
       const response = await getWater()
       return response.data
     },
     onSuccess: (data) => {
       setWater(data)
+      setTimeout(() => {
+        setLoading(false)
+      }, 1000)
     },
     onError: (error) => {
       console.error('Error:', error)
@@ -97,7 +104,7 @@ export default function Water() {
           style: { width: 'fit-content' }
         })
         handleCloseEditDialog()
-        getWaterMutation.mutate() // Refresh data after editing
+        getWaterMutation.mutate()
       } catch (error) {
         console.error('Update failed:', error)
       }
@@ -106,6 +113,11 @@ export default function Water() {
 
   return (
     <div className='mx-5 mt-5 mb-5 p-6 bg-gradient-to-br from-white via-white to-blue-100 drop-shadow-md rounded-xl'>
+      {loading && (
+        <div className='w-full px-6 fixed top-2 left-0 z-50'>
+          <LinearProgress variant='buffer' value={progress} valueBuffer={buffer} />
+        </div>
+      )}
       <form className='rounded' noValidate onSubmit={onSubmit}>
         <div className=''>
           <h2 className='text-2xl font-semibold text-gray-500'>Water</h2>
@@ -189,8 +201,13 @@ export default function Water() {
             </div>
           </div>
         ) : (
-          <div className='mt-3 text-center text-gray-500'>
-            <PlagiarismOutlinedIcon fontSize='large' />
+          <div className='mt-3 flex flex-col items-center text-gray-500'>
+            <svg xmlns='http://www.w3.org/2000/svg' width='35' height='35' viewBox='0 0 24 24'>
+              <g fill='none' stroke='currentColor' stroke-linecap='round' stroke-linejoin='round' stroke-width='1.5'>
+                <path d='m17.121 21.364l2.122-2.121m2.121-2.122l-2.121 2.122m0 0L17.12 17.12m2.122 2.122l2.121 2.121M4 6v6s0 3 7 3s7-3 7-3V6' />
+                <path d='M11 3c7 0 7 3 7 3s0 3-7 3s-7-3-7-3s0-3 7-3m0 18c-7 0-7-3-7-3v-6' />
+              </g>
+            </svg>
             <p className='mt-2'>No data available</p>
           </div>
         )}

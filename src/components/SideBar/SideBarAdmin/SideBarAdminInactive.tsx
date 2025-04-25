@@ -35,7 +35,7 @@ export default function SideBarAdminInactive() {
           >
             <div className='flex flex-col justify-center items-center gap-[2px]'>
               <svg xmlns='http://www.w3.org/2000/svg' width='24' height='24' viewBox='0 0 24 24'>
-                <g fill='none' stroke='currentColor' stroke-linecap='round' stroke-linejoin='round' stroke-width='1.5'>
+                <g fill='none' stroke='currentColor' strokeLinecap='round' strokeLinejoin='round' strokeWidth='1.5'>
                   <path d='M6.133 21C4.955 21 4 20.02 4 18.81v-8.802c0-.665.295-1.295.8-1.71l5.867-4.818a2.09 2.09 0 0 1 2.666 0l5.866 4.818c.506.415.801 1.045.801 1.71v8.802c0 1.21-.955 2.19-2.133 2.19z' />
                   <path d='M9.5 21v-5.5a2 2 0 0 1 2-2h1a2 2 0 0 1 2 2V21' />
                 </g>
@@ -61,7 +61,7 @@ export default function SideBarAdminInactive() {
                   viewBox='0 0 30 30'
                   style={{ marginLeft: '5px' }}
                 >
-                  <g fill='none' stroke='currentColor' stroke-width='1.5'>
+                  <g fill='none' stroke='currentColor' strokeWidth='1.5'>
                     <circle cx='12' cy='6' r='4' />
                     <path d='M20 17.5c0 2.485 0 4.5-8 4.5s-8-2.015-8-4.5S7.582 13 12 13s8 2.015 8 4.5Z' />
                   </g>
@@ -83,7 +83,7 @@ export default function SideBarAdminInactive() {
                           d='M152 80a8 8 0 0 1 8-8h88a8 8 0 0 1 0 16h-88a8 8 0 0 1-8-8m96 40h-88a8 8 0 0 0 0 16h88a8 8 0 0 0 0-16m0 48h-64a8 8 0 0 0 0 16h64a8 8 0 0 0 0-16m-96.25 22a8 8 0 0 1-5.76 9.74a7.6 7.6 0 0 1-2 .26a8 8 0 0 1-7.75-6c-6.16-23.94-30.34-42-56.25-42s-50.09 18.05-56.25 42a8 8 0 0 1-15.5-4c5.59-21.71 21.84-39.29 42.46-48a48 48 0 1 1 58.58 0c20.63 8.71 36.88 26.29 42.47 48M80 136a32 32 0 1 0-32-32a32 32 0 0 0 32 32'
                         />
                       </svg>
-                      <li className='flex items-center h-[30px] pl-[10px]'>List User</li>
+                      <li className='flex items-center h-[30px] pl-[10px]'>List Users</li>
                     </div>
                   </div>
                 </Link>
@@ -93,7 +93,7 @@ export default function SideBarAdminInactive() {
                   >
                     <div className='flex items-center gap-[10px]'>
                       <svg xmlns='http://www.w3.org/2000/svg' width='24' height='24' viewBox='0 0 24 24'>
-                        <g fill='none' fill-rule='evenodd'>
+                        <g fill='none' fillRule='evenodd'>
                           <path d='m12.593 23.258l-.011.002l-.071.035l-.02.004l-.014-.004l-.071-.035q-.016-.005-.024.005l-.004.01l-.017.428l.005.02l.01.013l.104.074l.015.004l.012-.004l.104-.074l.012-.016l.004-.017l-.017-.427q-.004-.016-.017-.018m.265-.113l-.013.002l-.185.093l-.01.01l-.003.011l.018.43l.005.012l.008.007l.201.093q.019.005.029-.008l.004-.014l-.034-.614q-.005-.018-.02-.022m-.715.002a.02.02 0 0 0-.027.006l-.006.014l-.034.614q.001.018.017.024l.015-.002l.201-.093l.01-.008l.004-.011l.017-.43l-.003-.012l-.01-.01z' />
                           <path
                             fill='currentColor'
@@ -136,12 +136,12 @@ export default function SideBarAdminInactive() {
                       <svg xmlns='http://www.w3.org/2000/svg' width='24' height='24' viewBox='0 0 24 24'>
                         <path
                           fill='currentColor'
-                          fill-rule='evenodd'
+                          fillRule='evenodd'
                           d='M20 4H4a1 1 0 0 0-1 1v14a1 1 0 0 0 1 1h16a1 1 0 0 0 1-1V5a1 1 0 0 0-1-1M4 2a3 3 0 0 0-3 3v14a3 3 0 0 0 3 3h16a3 3 0 0 0 3-3V5a3 3 0 0 0-3-3zm2 5h2v2H6zm5 0a1 1 0 1 0 0 2h6a1 1 0 1 0 0-2zm-3 4H6v2h2zm2 1a1 1 0 0 1 1-1h6a1 1 0 1 1 0 2h-6a1 1 0 0 1-1-1m-2 3H6v2h2zm2 1a1 1 0 0 1 1-1h6a1 1 0 1 1 0 2h-6a1 1 0 0 1-1-1'
-                          clip-rule='evenodd'
+                          clipRule='evenodd'
                         />
                       </svg>
-                      <li className='flex items-center h-[30px] pl-[10px] '>List Service</li>
+                      <li className='flex items-center h-[30px] pl-[10px] '>List Services</li>
                     </div>
                   </div>
                 </Link>
@@ -192,9 +192,9 @@ export default function SideBarAdminInactive() {
                       <svg xmlns='http://www.w3.org/2000/svg' width='34' height='32' viewBox='0 0 24 20'>
                         <path
                           fill='currentColor'
-                          fill-rule='evenodd'
+                          fillRule='evenodd'
                           d='M15 8.5h-3.813l2.273-5.303A.5.5 0 0 0 13 2.5H8a.5.5 0 0 0-.46.303l-3 7A.5.5 0 0 0 5 10.5h2.474l-2.938 7.314c-.2.497.417.918.807.55l5.024-4.743l4.958-4.241A.5.5 0 0 0 15 8.5m-4.571 1h3.217l-3.948 3.378l-3.385 3.195l2.365-5.887a.5.5 0 0 0-.464-.686H5.758l2.572-6h3.912L9.969 8.803a.5.5 0 0 0 .46.697'
-                          clip-rule='evenodd'
+                          clipRule='evenodd'
                         />
                       </svg>
                       <li className='flex items-center h-[30px] pl-[10px] '>Fee Electricity</li>
@@ -210,16 +210,16 @@ export default function SideBarAdminInactive() {
                         <path
                           fill='none'
                           stroke='currentColor'
-                          stroke-miterlimit='10'
-                          stroke-width='32'
+                          strokeMiterlimit='10'
+                          strokeWidth='32'
                           d='M400 320c0 88.37-55.63 144-144 144s-144-55.63-144-144c0-94.83 103.23-222.85 134.89-259.88a12 12 0 0 1 18.23 0C296.77 97.15 400 225.17 400 320Z'
                         />
                         <path
                           fill='none'
                           stroke='currentColor'
-                          stroke-linecap='round'
-                          stroke-linejoin='round'
-                          stroke-width='32'
+                          strokeLinecap='round'
+                          strokeLinejoin='round'
+                          strokeWidth='32'
                           d='M344 328a72 72 0 0 1-72 72'
                         />
                       </svg>
@@ -236,9 +236,9 @@ export default function SideBarAdminInactive() {
                         <g
                           fill='none'
                           stroke='currentColor'
-                          stroke-linecap='round'
-                          stroke-linejoin='round'
-                          stroke-width='1.5'
+                          strokeLinecap='round'
+                          strokeLinejoin='round'
+                          strokeWidth='1.5'
                         >
                           <path d='M10.5 15v-2.4m0 0h2.276c2.299 0 2.299-3.6 0-3.6H10.5z' />
                           <path d='M21 12a9 9 0 1 1-18 0a9 9 0 0 1 18 0' />
@@ -276,14 +276,14 @@ export default function SideBarAdminInactive() {
                   <div
                     className={`flex justify-between h-[40px] pl-[20px] pr-[20px] text-[13px] mb-1 rounded-2xl hover:bg-[#ebf2f5] ripple ${path === ListApartmentPath ? 'bg-[#eaf3fd] text-[#3385f0]' : 'hover:bg-[#ebf2f5]'}`}
                   >
-                    <div className='flex items-center gap-[10px]'>
+                    <div className='flex items-center gap-[7px]'>
                       <svg xmlns='http://www.w3.org/2000/svg' width='27' height='27' viewBox='0 0 1024 1024'>
                         <path
                           fill='currentColor'
                           d='M908 640H804V488c0-4.4-3.6-8-8-8H548v-96h108c8.8 0 16-7.2 16-16V80c0-8.8-7.2-16-16-16H368c-8.8 0-16 7.2-16 16v288c0 8.8 7.2 16 16 16h108v96H228c-4.4 0-8 3.6-8 8v152H116c-8.8 0-16 7.2-16 16v288c0 8.8 7.2 16 16 16h288c8.8 0 16-7.2 16-16V656c0-8.8-7.2-16-16-16H292v-88h440v88H620c-8.8 0-16 7.2-16 16v288c0 8.8 7.2 16 16 16h288c8.8 0 16-7.2 16-16V656c0-8.8-7.2-16-16-16zm-564 76v168H176V716zm84-408V140h168v168zm420 576H680V716h168z'
                         />
                       </svg>
-                      <li className='flex items-center h-[30px] pl-[10px]'>List Apartment</li>
+                      <li className='flex items-center h-[30px] pl-[10px]'>List Apartments</li>
                     </div>
                   </div>
                 </Link>
@@ -320,9 +320,9 @@ export default function SideBarAdminInactive() {
                   />
                   <path
                     fill='currentColor'
-                    fill-rule='evenodd'
+                    fillRule='evenodd'
                     d='M19 1.25a3.75 3.75 0 1 0 0 7.5a3.75 3.75 0 0 0 0-7.5M16.75 5a2.25 2.25 0 1 1 4.5 0a2.25 2.25 0 0 1-4.5 0'
-                    clip-rule='evenodd'
+                    clipRule='evenodd'
                   />
                   <path
                     fill='currentColor'
@@ -345,9 +345,9 @@ export default function SideBarAdminInactive() {
                         <g
                           fill='none'
                           stroke='currentColor'
-                          stroke-linecap='round'
-                          stroke-linejoin='round'
-                          stroke-width='1.5'
+                          strokeLinecap='round'
+                          strokeLinejoin='round'
+                          strokeWidth='1.5'
                           color='currentColor'
                         >
                           <path d='M17 2v2m-5-2v2M7 2v2m-3.5 6c0-3.3 0-4.95 1.025-5.975S7.2 3 10.5 3h3c3.3 0 4.95 0 5.975 1.025S20.5 6.7 20.5 10v5c0 3.3 0 4.95-1.025 5.975S16.8 22 13.5 22h-3c-3.3 0-4.95 0-5.975-1.025S3.5 18.3 3.5 15zm10 6H17m-3.5-7H17' />

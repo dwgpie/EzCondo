@@ -3,6 +3,8 @@ import { getElectricDetail } from '~/apis/service.api'
 import { useEffect, useState, useRef } from 'react'
 import { useMutation } from '@tanstack/react-query'
 import PlagiarismOutlinedIcon from '@mui/icons-material/PlagiarismOutlined'
+import LinearProgress from '@mui/material/LinearProgress'
+import useBufferProgress from '~/components/useBufferProgress'
 
 interface FormData {
   id?: string
@@ -19,6 +21,8 @@ interface FormData {
 }
 
 export default function ElectricityDetail() {
+  const [loading, setLoading] = useState(false)
+  const { progress, buffer } = useBufferProgress(loading)
   const [electric, setElectric] = useState<FormData | null>(null)
   const ref = useRef<HTMLDivElement>(null)
   const today = new Date()
@@ -35,11 +39,15 @@ export default function ElectricityDetail() {
 
   const getElectricMutation = useMutation({
     mutationFn: async (id: string) => {
+      setLoading(true)
       const response = await getElectricDetail(id)
       return response.data
     },
     onSuccess: (data) => {
       setElectric(data)
+      setTimeout(() => {
+        setLoading(false)
+      }, 1000)
     }
   })
 
@@ -65,6 +73,11 @@ export default function ElectricityDetail() {
 
   return (
     <div className='mx-5 mt-5 mb-5 p-6 bg-gradient-to-br from-white via-white to-blue-100 drop-shadow-md rounded-xl'>
+      {loading && (
+        <div className='w-full px-6 fixed top-2 left-0 z-50'>
+          <LinearProgress variant='buffer' value={progress} valueBuffer={buffer} />
+        </div>
+      )}
       {electric ? (
         <>
           <div
@@ -121,49 +134,53 @@ export default function ElectricityDetail() {
             >
               <p className=''>Apartment number: {electric.apartmentNumber}</p>
               <table className='border-separate border-spacing-y-2  w-full '>
-                <tr>
-                  <td className='px-0 py-2'>
-                    <p>
-                      From:{' '}
-                      {new Date(
-                        new Date(electric.readingDate).setMonth(new Date(electric.readingDate).getMonth() - 1)
-                      ).toLocaleDateString('en-US')}
-                    </p>
-                  </td>
-                  <td className='px-4 py-2'>
-                    <p>To: {new Date(electric.readingDate).toLocaleDateString('en-US')}</p>
-                  </td>
-                </tr>
-                <tr>
-                  <td className='px-0 py-2'>
-                    <p>Owner: {electric.fullName}</p>
-                  </td>
-                  <td className='px-4 py-2'>
-                    <p>Email: {electric.email}</p>
-                  </td>
-                </tr>
+                <tbody>
+                  <tr>
+                    <td className='px-0 py-2'>
+                      <p>
+                        From:{' '}
+                        {new Date(
+                          new Date(electric.readingDate).setMonth(new Date(electric.readingDate).getMonth() - 1)
+                        ).toLocaleDateString('en-US')}
+                      </p>
+                    </td>
+                    <td className='px-4 py-2'>
+                      <p>To: {new Date(electric.readingDate).toLocaleDateString('en-US')}</p>
+                    </td>
+                  </tr>
+                  <tr>
+                    <td className='px-0 py-2'>
+                      <p>Owner: {electric.fullName}</p>
+                    </td>
+                    <td className='px-4 py-2'>
+                      <p>Email: {electric.email}</p>
+                    </td>
+                  </tr>
+                </tbody>
               </table>
 
               <p className='mt-[20px]'>Meter number: {electric.meterNumber}</p>
               <p className='mt-[10px]'>Previous Meter: {electric.pre_electric_number}</p>
               <p className='mt-[10px]'>Current Meter: {electric.current_electric_number}</p>
               <table className='border-1 border-separate border-spacing-y-2  w-full mt-[20px] '>
-                <tr>
-                  <td className='px-2 py-2'>Consumption</td>
-                  <td className='px-4 py-2'>Unit Price</td>
-                  <td className='px-2 py-2'>Total Price</td>
-                </tr>
-                <tr>
-                  <td className='px-2 py-2'>
-                    <p>{electric.consumption} kWh</p>
-                  </td>
-                  <td className='px-4 py-2'>
-                    <p>{electric.price} VND</p>
-                  </td>
-                  <td className='px-2 py-2'>
-                    <p>{electric.price * electric.consumption} VND</p>
-                  </td>
-                </tr>
+                <tbody>
+                  <tr>
+                    <td className='px-2 py-2'>Consumption</td>
+                    <td className='px-4 py-2'>Unit Price</td>
+                    <td className='px-2 py-2'>Total Price</td>
+                  </tr>
+                  <tr>
+                    <td className='px-2 py-2'>
+                      <p>{electric.consumption} kWh</p>
+                    </td>
+                    <td className='px-4 py-2'>
+                      <p>{electric.price} VND</p>
+                    </td>
+                    <td className='px-2 py-2'>
+                      <p>{electric.price * electric.consumption} VND</p>
+                    </td>
+                  </tr>
+                </tbody>
               </table>
 
               <div className='flex flex-col items-end mt-[40px] mb-[20px]'>

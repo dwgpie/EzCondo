@@ -20,6 +20,8 @@ import {
   TextField
 } from '@mui/material'
 import SubjectIcon from '@mui/icons-material/Subject'
+import LinearProgress from '@mui/material/LinearProgress'
+import useBufferProgress from '~/components/useBufferProgress'
 
 interface FormData {
   id?: string
@@ -56,6 +58,8 @@ const StyledTableRow = styled(TableRow)(() => ({
 }))
 
 export default function HistoryNotification() {
+  const [loading, setLoading] = useState(false)
+  const { progress, buffer } = useBufferProgress(loading)
   const [listNotification, setListNotification] = useState<FormData[]>([])
   const [receiver, setReceiver] = useState('all')
   const [type, setType] = useState('new')
@@ -66,6 +70,8 @@ export default function HistoryNotification() {
 
   useEffect(() => {
     const fetchData = async () => {
+      setLoading(true)
+
       const res = await filterNotification({
         receiver: receiver === 'all' ? 'all' : receiver,
         type,
@@ -74,6 +80,9 @@ export default function HistoryNotification() {
       setListNotification(res.data.notifications || res.data)
       setPage(1) // reset lại page về 1 khi lọc
     }
+    setTimeout(() => {
+      setLoading(false)
+    }, 1000)
 
     fetchData()
   }, [receiver, type, day])
@@ -97,7 +106,12 @@ export default function HistoryNotification() {
   }
 
   return (
-    <div className='mx-5 mt-5 mb-5 p-6 bg-gradient-to-br from-white via-white to-blue-100 drop-shadow-md rounded-xl'>
+    <div className='mx-5 mt-5 mb-5 px-6 py-6 pt-4 bg-gradient-to-br from-white via-white to-blue-100 drop-shadow-md rounded-xl'>
+      {loading && (
+        <div className='w-full px-6 fixed top-2 left-0 z-50'>
+          <LinearProgress variant='buffer' value={progress} valueBuffer={buffer} />
+        </div>
+      )}
       <div className='flex justify-between items-center '>
         <h2 className='text-2xl font-semibold text-gray-500'>History Notification</h2>
         <div className='mt-2 mb-4 flex gap-4 justify-end'>
@@ -147,7 +161,7 @@ export default function HistoryNotification() {
                 <StyledTableCell width='25%'>Title</StyledTableCell>
                 <StyledTableCell width='33%'>Content</StyledTableCell>
                 <StyledTableCell width='13%'>Date created</StyledTableCell>
-                <StyledTableCell width='15%'>Tyoe of notification</StyledTableCell>
+                <StyledTableCell width='15%'>Type of notification</StyledTableCell>
                 <StyledTableCell width='10%'>Receiver</StyledTableCell>
                 <StyledTableCell>Detail</StyledTableCell>
               </TableRow>

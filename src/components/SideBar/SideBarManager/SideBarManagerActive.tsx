@@ -65,16 +65,16 @@ export default function SideBarManagerActive() {
       <div className='w-full font-semibold overflow-y-auto custom-scrollbar'>
         {/* Dashboard */}
         <div className='flex items-center justify-between gap-[10px] h-[45px] px-5'>
-          <p className='text-[13px] text-gray-400 mt-2 mb-2 onClick={handleClickUser}'>HOMEPAGE</p>
+          <p className='text-[13px] text-gray-400 mt-2 mb-2'>HOMEPAGE</p>
           <div className='w-[70%] h-[1px] bg-[#bdbdbd]'></div>
         </div>
         <Link to='/manager/dashboard'>
           <div
             className={`flex justify-between px-4 ml-5 mr-2 h-[45px] rounded-xl cursor-pointer hover:bg-[#ebf2f5] ripple ${path === DashboardPath ? 'bg-[#eaf3fd] text-[#3385f0]' : 'hover:bg-[#ebf2f5]'}`}
           >
-            <div className='flex justify-center items-center gap-[15px]'>
+            <div className='flex justify-center items-center gap-x-[17px]'>
               <svg xmlns='http://www.w3.org/2000/svg' width='24' height='24' viewBox='0 0 24 24'>
-                <g fill='none' stroke='currentColor' stroke-linecap='round' stroke-linejoin='round' stroke-width='1.5'>
+                <g fill='none' stroke='currentColor' strokeLinecap='round' strokeLinejoin='round' strokeWidth='1.5'>
                   <path d='M6.133 21C4.955 21 4 20.02 4 18.81v-8.802c0-.665.295-1.295.8-1.71l5.867-4.818a2.09 2.09 0 0 1 2.666 0l5.866 4.818c.506.415.801 1.045.801 1.71v8.802c0 1.21-.955 2.19-2.133 2.19z' />
                   <path d='M9.5 21v-5.5a2 2 0 0 1 2-2h1a2 2 0 0 1 2 2V21' />
                 </g>
@@ -85,7 +85,7 @@ export default function SideBarManagerActive() {
         </Link>
 
         <div className='flex items-center justify-between gap-[10px] h-[45px] px-6'>
-          <p className='text-[13px] text-gray-400 mt-2 mb-2 onClick={handleClickUser}'>FEATURES</p>
+          <p className='text-[13px] text-gray-400 mt-2 mb-2'>FEATURES</p>
           <div className='w-[70%] h-[1px] bg-[#bdbdbd]'></div>
         </div>
 
@@ -95,20 +95,14 @@ export default function SideBarManagerActive() {
             className={`flex justify-between px-2 ml-5 mr-2 h-[45px] rounded-xl cursor-pointer hover:bg-[#ebf2f5] ripple ${path === ListUserPath ? 'bg-[#eaf3fd] text-[#3385f0]' : 'hover:bg-[#ebf2f5]'}`}
             onClick={handleClickUser}
           >
-            <div className='flex justify-center items-center gap-[6px]'>
-              <svg
-                xmlns='http://www.w3.org/2000/svg'
-                width='30'
-                height='30'
-                viewBox='0 0 30 30'
-                style={{ marginLeft: '5px' }}
-              >
-                <g fill='none' stroke='currentColor' stroke-width='1.5'>
+            <div className='flex justify-center items-center gap-x-[10px]'>
+              <svg xmlns='http://www.w3.org/2000/svg' width='30' height='30' viewBox='0 0 30 30' className='ml-2'>
+                <g fill='none' stroke='currentColor' strokeWidth='1.5'>
                   <circle cx='12' cy='6' r='4' />
                   <path d='M20 17.5c0 2.485 0 4.5-8 4.5s-8-2.015-8-4.5S7.582 13 12 13s8 2.015 8 4.5Z' />
                 </g>
               </svg>
-              <p className='text-[15px]'>User</p>
+              <p className='text-[15px]'>Users</p>
             </div>
             <div className='flex items-center justify-center'>{isOpenUser ? <ExpandLess /> : <ExpandMore />}</div>
           </div>
@@ -136,13 +130,13 @@ export default function SideBarManagerActive() {
             className={`flex justify-between px-2 ml-5 mr-2 h-[45px] rounded-xl cursor-pointer hover:bg-[#ebf2f5] ripple ${path === ElectricMeterPath || path === ElectricicReadingPath || path === ElectricUnpaidPath ? 'bg-[#eaf3fd] text-[#3385f0]' : 'hover:bg-[#ebf2f5]'}`}
             onClick={handleClickElectric}
           >
-            <div className='flex justify-center items-center gap-[6px]'>
-              <svg xmlns='http://www.w3.org/2000/svg' width='34' height='32' viewBox='0 0 24 20'>
+            <div className='flex justify-center items-center gap-x-[7px]'>
+              <svg xmlns='http://www.w3.org/2000/svg' width='34' height='32' viewBox='0 0 24 20' className='ml-2'>
                 <path
                   fill='currentColor'
-                  fill-rule='evenodd'
+                  fillRule='evenodd'
                   d='M15 8.5h-3.813l2.273-5.303A.5.5 0 0 0 13 2.5H8a.5.5 0 0 0-.46.303l-3 7A.5.5 0 0 0 5 10.5h2.474l-2.938 7.314c-.2.497.417.918.807.55l5.024-4.743l4.958-4.241A.5.5 0 0 0 15 8.5m-4.571 1h3.217l-3.948 3.378l-3.385 3.195l2.365-5.887a.5.5 0 0 0-.464-.686H5.758l2.572-6h3.912L9.969 8.803a.5.5 0 0 0 .46.697'
-                  clip-rule='evenodd'
+                  clipRule='evenodd'
                 />
               </svg>
               <p className='text-[15px]'>Electricity</p>
@@ -193,9 +187,9 @@ export default function SideBarManagerActive() {
                   <svg xmlns='http://www.w3.org/2000/svg' width='21' height='21' viewBox='0 0 16 16'>
                     <path
                       fill='currentColor'
-                      fill-rule='evenodd'
+                      fillRule='evenodd'
                       d='M5 1a.75.75 0 0 1 .75.75V3h5V1.75a.75.75 0 0 1 1.5 0V3H14a1 1 0 0 1 1 1v4.25a.75.75 0 0 1-1.5 0V7.5h-11v6h5.75a.75.75 0 0 1 0 1.5H2a1 1 0 0 1-1-1V4a1 1 0 0 1 1-1h2.25V1.75A.75.75 0 0 1 5 1M2.5 6h11V4.5h-11zm8.78 4.22a.75.75 0 1 0-1.06 1.06L11.94 13l-1.72 1.72a.75.75 0 1 0 1.06 1.06L13 14.06l1.72 1.72a.75.75 0 1 0 1.06-1.06L14.06 13l1.72-1.72a.75.75 0 1 0-1.06-1.06L13 11.94z'
-                      clip-rule='evenodd'
+                      clipRule='evenodd'
                     />
                   </svg>
                   <p className='text-[15px]'>Unpiad Electricity</p>
@@ -209,21 +203,21 @@ export default function SideBarManagerActive() {
             className={`flex justify-between px-2 ml-5 mr-2 h-[45px] rounded-xl cursor-pointer hover:bg-[#ebf2f5] ripple ${path === WaterMeterPath || path === WaterReadingPath || path === WaterUnpaidPath ? 'bg-[#eaf3fd] text-[#3385f0]' : 'hover:bg-[#ebf2f5]'}`}
             onClick={handleClickWater}
           >
-            <div className='flex justify-center items-center gap-[15px]'>
-              <svg xmlns='http://www.w3.org/2000/svg' width='24' height='24' viewBox='0 0 512 512'>
+            <div className='flex justify-center items-center gap-x-[17px]'>
+              <svg xmlns='http://www.w3.org/2000/svg' width='24' height='24' viewBox='0 0 512 512' className='ml-2'>
                 <path
                   fill='none'
                   stroke='currentColor'
-                  stroke-miterlimit='10'
-                  stroke-width='32'
+                  strokeMiterlimit='10'
+                  strokeWidth='32'
                   d='M400 320c0 88.37-55.63 144-144 144s-144-55.63-144-144c0-94.83 103.23-222.85 134.89-259.88a12 12 0 0 1 18.23 0C296.77 97.15 400 225.17 400 320Z'
                 />
                 <path
                   fill='none'
                   stroke='currentColor'
-                  stroke-linecap='round'
-                  stroke-linejoin='round'
-                  stroke-width='32'
+                  strokeLinecap='round'
+                  strokeLinejoin='round'
+                  strokeWidth='32'
                   d='M344 328a72 72 0 0 1-72 72'
                 />
               </svg>
@@ -272,9 +266,9 @@ export default function SideBarManagerActive() {
                   <svg xmlns='http://www.w3.org/2000/svg' width='21' height='21' viewBox='0 0 16 16'>
                     <path
                       fill='currentColor'
-                      fill-rule='evenodd'
+                      fillRule='evenodd'
                       d='M5 1a.75.75 0 0 1 .75.75V3h5V1.75a.75.75 0 0 1 1.5 0V3H14a1 1 0 0 1 1 1v4.25a.75.75 0 0 1-1.5 0V7.5h-11v6h5.75a.75.75 0 0 1 0 1.5H2a1 1 0 0 1-1-1V4a1 1 0 0 1 1-1h2.25V1.75A.75.75 0 0 1 5 1M2.5 6h11V4.5h-11zm8.78 4.22a.75.75 0 1 0-1.06 1.06L11.94 13l-1.72 1.72a.75.75 0 1 0 1.06 1.06L13 14.06l1.72 1.72a.75.75 0 1 0 1.06-1.06L14.06 13l1.72-1.72a.75.75 0 1 0-1.06-1.06L13 11.94z'
-                      clip-rule='evenodd'
+                      clipRule='evenodd'
                     />
                   </svg>
                   <p className='text-[15px]'>Unpiad Water</p>
@@ -288,8 +282,8 @@ export default function SideBarManagerActive() {
             className={`flex justify-between px-2 ml-5 mr-2 h-[45px] rounded-xl cursor-pointer hover:bg-[#ebf2f5] ripple ${path === ListIncidentPath ? 'bg-[#eaf3fd] text-[#3385f0]' : 'hover:bg-[#ebf2f5]'}`}
             onClick={handleClickIncident}
           >
-            <div className='flex justify-center items-center gap-[15px]'>
-              <svg xmlns='http://www.w3.org/2000/svg' width='25' height='25' viewBox='0 0 32 32'>
+            <div className='flex justify-center items-center gap-x-[17px]'>
+              <svg xmlns='http://www.w3.org/2000/svg' width='25' height='25' viewBox='0 0 32 32' className='ml-2'>
                 <path
                   fill='currentColor'
                   d='m21.018 26.722l.998 1.732l2.978-1.722V30h1.997v-3.268l3.01 1.74L31 26.74L27.99 25l3-1.735l-.998-1.733l-3.001 1.736V20h-1.997v3.267l-2.996-1.732L21 23.268L23.995 25zM16 23a1.5 1.5 0 1 0 0 3a1.5 1.5 0 0 0 0-3m-1-11h2v9h-2z'
@@ -318,7 +312,7 @@ export default function SideBarManagerActive() {
                       d='M8 17q.425 0 .713-.288T9 16t-.288-.712T8 15t-.712.288T7 16t.288.713T8 17m0-4q.425 0 .713-.288T9 12t-.288-.712T8 11t-.712.288T7 12t.288.713T8 13m0-4q.425 0 .713-.288T9 8t-.288-.712T8 7t-.712.288T7 8t.288.713T8 9m4 8h4q.425 0 .713-.288T17 16t-.288-.712T16 15h-4q-.425 0-.712.288T11 16t.288.713T12 17m0-4h4q.425 0 .713-.288T17 12t-.288-.712T16 11h-4q-.425 0-.712.288T11 12t.288.713T12 13m0-4h4q.425 0 .713-.288T17 8t-.288-.712T16 7h-4q-.425 0-.712.288T11 8t.288.713T12 9M5 21q-.825 0-1.412-.587T3 19V5q0-.825.588-1.412T5 3h14q.825 0 1.413.588T21 5v14q0 .825-.587 1.413T19 21zm0-2h14V5H5zM5 5v14z'
                     />
                   </svg>
-                  <p className='text-[15px]'>List Incident</p>
+                  <p className='text-[15px]'>List Incidents</p>
                 </div>
               </div>
             </Link>
@@ -329,17 +323,17 @@ export default function SideBarManagerActive() {
             className={`flex justify-between mt-1 px-2 ml-5 mr-2 h-[45px] rounded-xl cursor-pointer hover:bg-[#ebf2f5] ripple ${path === HistoryNotificationPath || path === AddNotificationPath ? 'bg-[#eaf3fd] text-[#3385f0]' : 'hover:bg-[#ebf2f5]'}`}
             onClick={handleClickNotification}
           >
-            <div className='flex justify-center items-center gap-[15px]'>
-              <svg xmlns='http://www.w3.org/2000/svg' width='28' height='28' viewBox='0 0 24 24'>
+            <div className='flex justify-center items-center gap-x-[13px]'>
+              <svg xmlns='http://www.w3.org/2000/svg' width='28' height='28' viewBox='0 0 24 24' className='ml-2'>
                 <path
                   fill='currentColor'
                   d='M11.943 1.25c-2.309 0-4.118 0-5.53.19c-1.444.194-2.584.6-3.479 1.494c-.895.895-1.3 2.035-1.494 3.48c-.19 1.411-.19 3.22-.19 5.529v.114c0 2.309 0 4.118.19 5.53c.194 1.444.6 2.584 1.494 3.479c.895.895 2.035 1.3 3.48 1.494c1.411.19 3.22.19 5.529.19h.114c2.309 0 4.118 0 5.53-.19c1.444-.194 2.584-.6 3.479-1.494c.895-.895 1.3-2.035 1.494-3.48c.19-1.411.19-3.22.19-5.529V10.5a.75.75 0 0 0-1.5 0V12c0 2.378-.002 4.086-.176 5.386c-.172 1.279-.5 2.05-1.069 2.62c-.57.569-1.34.896-2.619 1.068c-1.3.174-3.008.176-5.386.176s-4.086-.002-5.386-.176c-1.279-.172-2.05-.5-2.62-1.069c-.569-.57-.896-1.34-1.068-2.619c-.174-1.3-.176-3.008-.176-5.386s.002-4.086.176-5.386c.172-1.279.5-2.05 1.069-2.62c.57-.569 1.34-.896 2.619-1.068c1.3-.174 3.008-.176 5.386-.176h1.5a.75.75 0 0 0 0-1.5z'
                 />
                 <path
                   fill='currentColor'
-                  fill-rule='evenodd'
+                  fillRule='evenodd'
                   d='M19 1.25a3.75 3.75 0 1 0 0 7.5a3.75 3.75 0 0 0 0-7.5M16.75 5a2.25 2.25 0 1 1 4.5 0a2.25 2.25 0 0 1-4.5 0'
-                  clip-rule='evenodd'
+                  clipRule='evenodd'
                 />
                 <path
                   fill='currentColor'
@@ -365,9 +359,9 @@ export default function SideBarManagerActive() {
                     <g
                       fill='none'
                       stroke='currentColor'
-                      stroke-linecap='round'
-                      stroke-linejoin='round'
-                      stroke-width='1.5'
+                      strokeLinecap='round'
+                      strokeLinejoin='round'
+                      strokeWidth='1.5'
                       color='currentColor'
                     >
                       <path d='M17 2v2m-5-2v2M7 2v2m-3.5 6c0-3.3 0-4.95 1.025-5.975S7.2 3 10.5 3h3c3.3 0 4.95 0 5.975 1.025S20.5 6.7 20.5 10v5c0 3.3 0 4.95-1.025 5.975S16.8 22 13.5 22h-3c-3.3 0-4.95 0-5.975-1.025S3.5 18.3 3.5 15zm10 6H17m-3.5-7H17' />

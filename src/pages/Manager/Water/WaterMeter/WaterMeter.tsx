@@ -17,6 +17,8 @@ import { Button } from '@mui/material'
 import { toast } from 'react-toastify'
 import CloudUploadIcon from '@mui/icons-material/CloudUpload'
 import FileDownloadIcon from '@mui/icons-material/FileDownload'
+import LinearProgress from '@mui/material/LinearProgress'
+import useBufferProgress from '~/components/useBufferProgress'
 
 interface UploadFormData {
   file: FileList
@@ -59,7 +61,8 @@ export default function WaterMeter() {
   const { register, handleSubmit, setValue, clearErrors, reset } = useForm<UploadFormData>({
     resolver: yupResolver(addWaterMeterSchema)
   })
-
+  const [loading, setLoading] = useState(false)
+  const { progress, buffer } = useBufferProgress(loading)
   const [listWater, setListWater] = useState<WaterMeter[]>([])
   const [filteredWaters, setFilteredWaters] = useState<WaterMeter[]>([])
   const [page, setPage] = useState(1)
@@ -92,12 +95,16 @@ export default function WaterMeter() {
   }
   const getAllWaterMeters = useMutation({
     mutationFn: async () => {
+      setLoading(true)
       const response = await getAllWaterMeter()
       return response.data
     },
     onSuccess: (data) => {
       setListWater(data)
       setFilteredWaters(data)
+      setTimeout(() => {
+        setLoading(false)
+      }, 1000)
     }
   })
   useEffect(() => {
@@ -153,7 +160,12 @@ export default function WaterMeter() {
 
   return (
     <div className='mx-5 mt-5 mb-5 px-6 pb-3 pt-3 bg-gradient-to-br from-white via-white to-blue-100 drop-shadow-md rounded-xl'>
-      <form onSubmit={onSubmit}>
+      {loading && (
+        <div className='w-full px-6 fixed top-2 left-0 z-50'>
+          <LinearProgress variant='buffer' value={progress} valueBuffer={buffer} />
+        </div>
+      )}
+      <form onSubmit={onSubmit} className='mt-2'>
         <div className='flex justify-between items-center'>
           <h2 className='text-xl font-semibold text-gray-500'>Water Meter Management</h2>
           <div className='flex gap-3 mb-3'>

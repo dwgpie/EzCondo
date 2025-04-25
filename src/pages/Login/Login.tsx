@@ -12,6 +12,8 @@ import { useState } from 'react'
 import InputAdornment from '@mui/material/InputAdornment'
 import IconButton from '@mui/material/IconButton'
 import { saveAccessTokenToLocalStorage, saveUserRoleToLocalStorage } from '~/utils/auth'
+import LinearProgress from '@mui/material/LinearProgress'
+import useBufferProgress from '~/components/useBufferProgress'
 
 type FormData = LoginSchema
 
@@ -20,6 +22,9 @@ type FormData = LoginSchema
 
 export default function Login() {
   const navigate = useNavigate()
+  const [loading, setLoading] = useState(false)
+  const { progress, buffer } = useBufferProgress(loading)
+
   const {
     register,
     handleSubmit,
@@ -33,6 +38,8 @@ export default function Login() {
   })
 
   const onSubmit = handleSubmit((data) => {
+    setLoading(true) // bật progress
+
     loginMutation.mutate(data, {
       onSuccess: (data) => {
         const token = data.data.token
@@ -41,16 +48,22 @@ export default function Login() {
         saveAccessTokenToLocalStorage(token, role)
         saveUserRoleToLocalStorage(role)
 
-        if (role === 'admin') {
-          window.location.href = '/admin/dashboard'
-        } else if (role === 'manager') {
-          window.location.href = '/manager/list-resident'
-        } else {
-          navigate('/')
-        }
+        setTimeout(() => {
+          setLoading(false) // tắt progress sau 500ms
+
+          if (role === 'admin') {
+            window.location.href = '/admin/dashboard'
+          } else if (role === 'manager') {
+            window.location.href = '/manager/list-resident'
+          } else {
+            navigate('/')
+          }
+        }, 500)
+      },
+      onError: () => {
+        setLoading(false)
       }
     })
-    console.log(data)
   })
 
   const [showPassword, setShowPassword] = useState(false)
@@ -61,6 +74,11 @@ export default function Login() {
 
   return (
     <div className='w-full h-screen flex justify-center items-center bg-cover bg-center bg-[url(/public/imgs/bg/bg-2.webp)]'>
+      {loading && (
+        <div className='w-full fixed top-2 left-0 z-50'>
+          <LinearProgress variant='buffer' value={progress} valueBuffer={buffer} />
+        </div>
+      )}
       <div className='bg-white/50 backdrop-blur-md p-4 rounded-lg shadow-lg w-full max-w-6xl h-[600px] '>
         <div className='flex justify-between items-center p-4'>
           <Link to='/'>
