@@ -4,12 +4,12 @@ import Input from '~/components/Input'
 import { yupResolver } from '@hookform/resolvers/yup'
 import { addUserSchema } from '~/utils/rules'
 import { addOrUpdateCitizen } from '~/apis/citizen.api'
-import { registerAccount } from '~/apis/auth.api'
 import { getApartmentByStatus } from '~/apis/apartment.api'
 import { useEffect, useRef, useState } from 'react'
 import CloudUploadIcon from '@mui/icons-material/CloudUpload'
 import { toast } from 'react-toastify'
 import LoadingOverlay from '~/components/LoadingOverlay'
+import { registerAccount } from '~/apis/user.api'
 
 interface FormData {
   fullName: string
@@ -114,7 +114,7 @@ export default function AddUser() {
             clearInterval(Progress)
             return prev
           }
-          return prev + 5
+          return prev + 3
         })
       }, 150)
 
@@ -128,12 +128,7 @@ export default function AddUser() {
         roleName: formData.roleName
       })
 
-      // Kiểm tra nếu không có lỗi từ API
-      if (!response?.data) {
-        throw new Error('API error: Response data is missing')
-      }
-
-      const userId = response.data
+      const userId = response
       await addOrUpdateCitizen({
         userId,
         no: formData.no,

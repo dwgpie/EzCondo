@@ -12,7 +12,8 @@ import { useMutation } from '@tanstack/react-query'
 import { useContext, useEffect, useRef, useState } from 'react'
 import { Pagination } from '@mui/material'
 import { SearchContext } from '~/components/Search/SearchContext'
-
+import LinearProgress from '@mui/material/LinearProgress'
+import useBufferProgress from '~/components/useBufferProgress'
 interface FormData {
   id: string
   serviceName: string
@@ -51,22 +52,26 @@ const StyledTableRow = styled(TableRow)(() => ({
 }))
 
 export default function ListService() {
+  const [loading, setLoading] = useState(false)
+  const { progress, buffer } = useBufferProgress(loading)
   const { searchQuery } = useContext(SearchContext)!
   const [listService, setListService] = useState<FormData[]>([])
   const [originalList, setOriginalList] = useState<FormData[]>([]) // Lưu danh sách gốc
-
   const [page, setPage] = useState(1)
   const pageSize = 6
   const totalPages = Math.ceil(listService.length / pageSize)
 
   const getAllServiceMutation = useMutation({
     mutationFn: async () => {
+      setLoading(true)
       const response = await getAllService()
-      setListService(response.data)
       return response.data
     },
     onSuccess: (data) => {
-      console.log('Success vc:', data)
+      setListService(data)
+      setTimeout(() => {
+        setLoading(false)
+      }, 1000)
     },
     onError: (error) => {
       console.error('Error:', error)
@@ -129,6 +134,11 @@ export default function ListService() {
 
   return (
     <div className='mx-5 mt-5 mb-5 p-6 bg-gradient-to-br from-white via-white to-blue-100 drop-shadow-md rounded-xl'>
+      {loading && (
+        <div className='w-full px-6 fixed top-2 left-0 z-50'>
+          <LinearProgress variant='buffer' value={progress} valueBuffer={buffer} />
+        </div>
+      )}
       <div className='mb-[20px]'>
         <h2 className='text-2xl font-semibold text-gray-500'>List Services</h2>
       </div>

@@ -14,7 +14,7 @@ export default function DashboardManagerLayout({ children }: Props) {
   }
 
   return (
-    <div className='flex bg-[#f9fafb] min-h-screen'>
+    <div className='flex bg-[#efeff4] min-h-screen'>
       <div className={`transition-all duration-300 h-screen ${isOpen ? 'w-[20%]' : 'w-[7.5%]'} fixed z-100`}>
         <div className='relative w-full'>
           <div className={`transition-opacity duration-300 ${isOpen ? 'opacity-100' : 'opacity-0 hidden'}`}>

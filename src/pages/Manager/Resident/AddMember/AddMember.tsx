@@ -15,10 +15,11 @@ import { getUserById } from '~/apis/user.api'
 import { yupResolver } from '@hookform/resolvers/yup'
 import { addMemberSchema } from '~/utils/rules'
 import { useForm } from 'react-hook-form'
-
 import Swal from 'sweetalert2'
 import { addOrUpdateMember, deleteMember, getHouseholdMember } from '~/apis/householdMember.api'
 import Input from '~/components/Input'
+import LinearProgress from '@mui/material/LinearProgress'
+import useBufferProgress from '~/components/useBufferProgress'
 
 interface User {
   id?: string
@@ -69,7 +70,8 @@ export default function AddMember() {
   } = useForm<User>({
     resolver: yupResolver(addMemberSchema)
   })
-
+  const [loading, setLoading] = useState(false)
+  const { progress, buffer } = useBufferProgress(loading)
   const [listMember, setListMember] = useState<User[]>([])
   const [resident, setResident] = useState<Resident | null>(null)
   const getUserIdFromURL = () => {
@@ -82,6 +84,7 @@ export default function AddMember() {
 
   const getResident = useMutation({
     mutationFn: async () => {
+      setLoading(true)
       if (!userId) return
       const response = await getUserById(userId)
       setResident(response.data)
@@ -89,6 +92,9 @@ export default function AddMember() {
     },
     onSuccess: (data) => {
       console.log('get resident thành công:', data)
+      setTimeout(() => {
+        setLoading(false)
+      }, 1000)
     },
     onError: (error) => {
       console.error('Lỗi khi hiển thị danh sách cư dân:', error)
@@ -179,6 +185,11 @@ export default function AddMember() {
 
   return (
     <div className='mx-5 mt-5 mb-5 p-6 bg-gradient-to-br from-white via-white to-blue-100 drop-shadow-md rounded-xl'>
+      {loading && (
+        <div className='w-full px-6 fixed top-2 left-0 z-50'>
+          <LinearProgress variant='buffer' value={progress} valueBuffer={buffer} />
+        </div>
+      )}
       <div>
         <div className='flex gap-[100px] w-full h-[60px] rounded-t-xl bg-[#94cde7] items-center '>
           <h2 className='text-[20px] text-[#344050] font-semibold ml-[24px]'>Name: {resident?.fullName}</h2>
@@ -209,7 +220,7 @@ export default function AddMember() {
               <TableBody>
                 {listMember.length > 0 ? (
                   listMember.map((user, index) => (
-                    <StyledTableRow>
+                    <StyledTableRow key={user.id}>
                       <StyledTableCell sx={{ color: 'black', fontWeight: '600' }}>{index + 1}</StyledTableCell>
                       <StyledTableCell>{user.fullName}</StyledTableCell>
                       <StyledTableCell>

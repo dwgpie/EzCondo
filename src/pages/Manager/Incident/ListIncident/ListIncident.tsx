@@ -13,6 +13,8 @@ import DeleteIcon from '@mui/icons-material/Delete'
 import { getAllIncident } from '~/apis/incident.api'
 // import { SearchContext } from '~/components/Search/SearchContext'
 import Pagination from '@mui/material/Pagination'
+import LinearProgress from '@mui/material/LinearProgress'
+import useBufferProgress from '~/components/useBufferProgress'
 
 interface Incident {
   id: string
@@ -52,6 +54,8 @@ const StyledTableRow = styled(TableRow)(() => ({
 }))
 
 export default function ListIncident() {
+  const [loading, setLoading] = useState(false)
+  const { progress, buffer } = useBufferProgress(loading)
   // const { searchQuery } = useContext(SearchContext)!
   const [listIncident, setListIncident] = useState<Incident[]>([])
   // const [filteredIncident, setFilteredIncident] = useState<User[]>([])
@@ -71,11 +75,15 @@ export default function ListIncident() {
 
   const getAllIncidentMutation = useMutation({
     mutationFn: async () => {
+      setLoading(true)
       const response = await getAllIncident()
       return response.data
     },
     onSuccess: (data) => {
       setListIncident(data)
+      setTimeout(() => {
+        setLoading(false)
+      }, 1000)
     },
     onError: (error) => {
       console.error('Lỗi khi hiển thị danh sách incident:', error)
@@ -154,6 +162,11 @@ export default function ListIncident() {
 
   return (
     <div className='mx-5 mt-5 mb-5 p-6 bg-gradient-to-br from-white via-white to-blue-100 drop-shadow-md rounded-xl'>
+      {loading && (
+        <div className='w-full px-6 fixed top-2 left-0 z-50'>
+          <LinearProgress variant='buffer' value={progress} valueBuffer={buffer} />
+        </div>
+      )}
       <div className='mb-[20px]'>
         <h2 className='text-2xl font-semibold text-gray-500 ml-1'>List Incident</h2>
       </div>

@@ -134,9 +134,9 @@ export default function AddNotificationManager() {
             clearInterval(Progress)
             return prev
           }
-          return prev + 10
+          return prev + 5
         })
-      }, 300)
+      }, 150)
 
       const response = await addNotification({
         title: formData.title,
@@ -175,15 +175,15 @@ export default function AddNotificationManager() {
       setLoading(true)
       setProgress(0)
 
-      let progress = 0
-      const progressInterval = setInterval(() => {
-        progress += 1
-        if (progress >= 90) {
-          clearInterval(progressInterval)
-        } else {
-          setProgress(progress)
-        }
-      }, 30)
+      const Progress = setInterval(() => {
+        setProgress((prev) => {
+          if (prev >= 90) {
+            clearInterval(Progress)
+            return prev
+          }
+          return prev + 3
+        })
+      }, 150)
 
       // Gửi data
       const notificationData = apartmentChoosed.map((apartmentNumber) => ({
@@ -201,7 +201,6 @@ export default function AddNotificationManager() {
       }
 
       const NotificationId = response.data
-      console.log('Notification ID:', NotificationId)
 
       // Gửi ảnh nếu có
       for (const id of NotificationId) {
@@ -240,8 +239,6 @@ export default function AddNotificationManager() {
       requestAnimationFrame(animateTo100)
     } catch (error) {
       console.error('API call failed:', error)
-      toast.error('Có lỗi xảy ra khi tạo thông báo')
-
       // Nếu lỗi xảy ra, vẫn cho progress chạy nốt đến 100
       setProgress(100)
       setTimeout(() => {

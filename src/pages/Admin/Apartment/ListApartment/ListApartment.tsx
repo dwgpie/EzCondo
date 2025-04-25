@@ -18,6 +18,8 @@ import DomainAddIcon from '@mui/icons-material/DomainAdd'
 import { getAllApartment, editApartment } from '~/apis/apartment.api'
 import { getUserById } from '~/apis/user.api'
 import { Link } from 'react-router-dom'
+import LinearProgress from '@mui/material/LinearProgress'
+import useBufferProgress from '~/components/useBufferProgress'
 
 interface FormData {
   id?: string
@@ -34,6 +36,8 @@ interface FormData {
 }
 
 export default function ListApartment() {
+  const [loading, setLoading] = useState(false)
+  const { progress, buffer } = useBufferProgress(loading)
   const [apartmentList, setApartmentList] = useState<FormData[]>([])
   const [filteredApartments, setFilteredApartments] = useState<FormData[]>([]) // Lưu trữ các apartment đã lọc
   const [selectedFloor, setSelectedFloor] = useState<string>('Floor 1') // Mặc định là Floor 1
@@ -42,6 +46,7 @@ export default function ListApartment() {
 
   const getAllApartmentMutation = useMutation({
     mutationFn: async () => {
+      setLoading(true)
       const response = await getAllApartment()
       return response.data
     },
@@ -50,7 +55,10 @@ export default function ListApartment() {
         a.apartmentNumber.localeCompare(b.apartmentNumber, undefined, { numeric: true })
       )
       setApartmentList(sortedApartments)
-      filterApartments(sortedApartments, selectedFloor) // Lọc các apartment khi tải xong dữ liệu
+      filterApartments(sortedApartments, selectedFloor)
+      setTimeout(() => {
+        setLoading(false)
+      }, 1000)
     },
     onError: (error) => {
       console.error('Error:', error)
@@ -108,7 +116,9 @@ export default function ListApartment() {
           acreage: editingItem.acreage,
           description: editingItem.description
         })
-        toast.success('Apartment updated successfully!')
+        toast.success('Apartment updated successfully!', {
+          style: { width: 'fit-content' }
+        })
         handleCloseEditDialog()
         getAllApartmentMutation.mutate() // Refresh data after editing
       } catch (error) {
@@ -120,7 +130,12 @@ export default function ListApartment() {
 
   return (
     <div className='mx-5 mt-5 mb-5 p-6 bg-gradient-to-br from-white via-white to-blue-100 drop-shadow-md rounded-xl'>
-      <div className='flex justify-between items-center'>
+      {loading && (
+        <div className='w-full px-6 fixed top-2 left-0 z-50'>
+          <LinearProgress variant='buffer' value={progress} valueBuffer={buffer} />
+        </div>
+      )}
+      <div className='flex justify-between items-center mb-5'>
         <h2 className='text-2xl font-semibold text-gray-500'>List Apartments</h2>
         <div>
           <Select

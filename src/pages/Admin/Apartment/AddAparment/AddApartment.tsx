@@ -50,9 +50,9 @@ export default function AddApartment() {
             clearInterval(Progress)
             return prev
           }
-          return prev + 10
+          return prev + 5
         })
-      }, 300)
+      }, 150)
 
       await addApartment({
         apartmentNumber: formData.apartmentNumber,
