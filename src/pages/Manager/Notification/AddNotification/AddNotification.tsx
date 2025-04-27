@@ -398,10 +398,10 @@ export default function AddNotificationManager() {
             <Autocomplete
               multiple
               options={apartments.map((apt) => apt.apartmentNumber)}
-              onChange={(event, newValue) => {
-                setApartmentChoosed(newValue) // Cập nhật danh sách apartment đã chọn
-                setValue('apartmentNumber', newValue.join(', ')) // (nếu đang dùng react-hook-form)
-                clearErrors('apartmentNumber') // (nếu cần)
+              onChange={(_, newValue) => {
+                setApartmentChoosed(newValue)
+                setValue('apartmentNumber', newValue.join(', '))
+                clearErrors('apartmentNumber')
               }}
               value={apartmentChoosed}
               renderInput={(params) => <TextField {...params} placeholder='Search Apartment' variant='outlined' />}

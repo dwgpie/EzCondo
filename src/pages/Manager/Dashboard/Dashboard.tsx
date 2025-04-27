@@ -1,4 +1,3 @@
-import React from 'react'
 import { Card, CardContent } from '@mui/material'
 import { CircularProgress, Typography, Grid } from '@mui/material'
 import { LineChart, Line, BarChart, Bar, XAxis, YAxis, Tooltip, ResponsiveContainer } from 'recharts'
