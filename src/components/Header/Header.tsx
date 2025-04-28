@@ -1,5 +1,6 @@
 import * as React from 'react'
 import SearchIcon from '@mui/icons-material/Search'
+import NotificationsIcon from '@mui/icons-material/Notifications'
 import { Link } from 'react-router-dom'
 import { useContext, useEffect, useState, useRef } from 'react'
 import { SearchContext } from '../Search/SearchContext'
@@ -13,7 +14,6 @@ import LogoutIcon from '@mui/icons-material/Logout'
 import PasswordIcon from '@mui/icons-material/Password'
 import * as signalR from '@microsoft/signalr'
 import { format, formatDistanceToNow, isToday } from 'date-fns'
-import '../SideBar/SideBar.css'
 
 interface formData {
   avatar: File
@@ -32,9 +32,8 @@ export default function Header() {
   const [user, setUser] = useState<formData | null>(null)
   const [listNotification, setListNotification] = useState<Notification[]>([])
   const [type, setType] = useState('')
-  const [total, setTotal] = useState(0)
   const [page, setPage] = useState(1)
-  const pageSize = 6
+  const pageSize = 20
   const [isOpen, setIsOpen] = useState(false)
   const tabs = ['all', 'notice', 'fee', 'new']
   const tabIndex = tabs.indexOf(type || 'all')
@@ -146,8 +145,6 @@ export default function Header() {
       } else {
         setListNotification((prev) => [...prev, ...newNotifies])
       }
-
-      setTotal(res.data.total)
     } catch (error) {
       console.error('Lỗi khi tải thông báo:', error)
     }
@@ -159,30 +156,7 @@ export default function Header() {
 
   useEffect(() => {
     fetchPageNotification(page)
-  }, [page, type])
-
-  useEffect(() => {
-    const container = notificationRef.current
-    if (!isOpen || !container) return
-
-    const handleScroll = () => {
-      const { scrollTop, scrollHeight, clientHeight } = container
-
-      if (scrollTop + clientHeight >= scrollHeight - 10) {
-        console.log('đúng hay sai: ', listNotification.length < pageSize)
-
-        if (listNotification.length == pageSize || listNotification.length < pageSize) {
-          setPage((prev) => prev + 1)
-        }
-      }
-    }
-
-    container.addEventListener('scroll', handleScroll)
-
-    return () => {
-      container.removeEventListener('scroll', handleScroll)
-    }
-  }, [isOpen, listNotification, total])
+  }, [page, type, isOpen])
 
   const handleLogout = () => {
     localStorage.removeItem('token')
@@ -251,23 +225,12 @@ export default function Header() {
             className='border border-gray-400 rounded-full pl-10 pr-4 py-2 w-[300px] bg-[#edf2f9] shadow-sm'
           />
         </div>
-        <div className='flex gap-[20px] items-center transition-all duration-300'>
-          {localStorage.getItem('role') === 'manager' && (
-            <button ref={bellRef} onClick={handleNotification} className='relative cursor-pointer'>
-              <Badge badgeContent={countNotification} color='primary'>
-                <div className='p-2 text-gray-600 bg-[#ebf2f5] rounded-full shadow-lg hover:bg-[#eaf3fd] hover:text-[#3385f0] transition-all duration-300 ripple'>
-                  <svg xmlns='http://www.w3.org/2000/svg' width='19' height='19' viewBox='0 0 24 24'>
-                    <path
-                      fill='currentColor'
-                      fillRule='evenodd'
-                      d='M12 1.25A7.75 7.75 0 0 0 4.25 9v.704a3.53 3.53 0 0 1-.593 1.958L2.51 13.385c-1.334 2-.316 4.718 2.003 5.35q1.133.309 2.284.523l.002.005C7.567 21.315 9.622 22.75 12 22.75s4.433-1.435 5.202-3.487l.002-.005a29 29 0 0 0 2.284-.523c2.319-.632 3.337-3.35 2.003-5.35l-1.148-1.723a3.53 3.53 0 0 1-.593-1.958V9A7.75 7.75 0 0 0 12 1.25m3.376 18.287a28.5 28.5 0 0 1-6.753 0c.711 1.021 1.948 1.713 3.377 1.713s2.665-.692 3.376-1.713M5.75 9a6.25 6.25 0 1 1 12.5 0v.704c0 .993.294 1.964.845 2.79l1.148 1.723a2.02 2.02 0 0 1-1.15 3.071a26.96 26.96 0 0 1-14.187 0a2.02 2.02 0 0 1-1.15-3.07l1.15-1.724a5.03 5.03 0 0 0 .844-2.79z'
-                      clipRule='evenodd'
-                    />
-                  </svg>
-                </div>
-              </Badge>
-            </button>
-          )}
+        <div className='flex gap-[30px] items-center transition-all duration-300'>
+          <button ref={bellRef} onClick={handleNotification} className='relative cursor-pointer'>
+            <Badge badgeContent={countNotification} color='primary'>
+              <NotificationsIcon style={{ color: '#6C6E71' }} />
+            </Badge>
+          </button>
 
           <div
             ref={notificationRef}
@@ -309,8 +272,8 @@ export default function Header() {
                 <>
                   <p className='text-[14px] font-semibold text-[#1B2124] p-[5px] pl-[10px]'>Today</p>
                   {todayNotifications.map((notify) => (
-                    <div key={notify.id} className='relative hover:bg-[#f1f3f5]'>
-                      <div className='p-[10px] '>
+                    <div className='relative hover:bg-[#f1f3f5]'>
+                      <div key={notify.id} className='p-[10px] '>
                         <div className='flex justify-between ml-[20px]'>
                           <p
                             className='font-bold text-[#1B2124] overflow-hidden text-ellipsis'
@@ -324,7 +287,7 @@ export default function Header() {
                           </p>
 
                           <div
-                            className={`${getTypeColor(notify.type)} w-[80px] h-fit px-2 py-1 rounded-full text-sm font-semibold text-center`}
+                            className={`${getTypeColor(notify.type)} w-[80px] h-fit px-2 py-1 rounded-full text-sm font-semibold text-center w-[30%]`}
                           >
                             <span>{notify.type}</span>
                           </div>
@@ -356,8 +319,8 @@ export default function Header() {
                 <>
                   <p className='text-[14px] font-semibold text-[#1B2124] p-[5px] pl-[10px]'>Older</p>
                   {oldNotifications.map((notify) => (
-                    <div key={notify.id} className='relative hover:bg-[#f1f3f5]'>
-                      <div className='p-[10px] '>
+                    <div className='relative hover:bg-[#f1f3f5]'>
+                      <div key={notify.id} className='p-[10px] '>
                         <div className='flex justify-between ml-[20px]'>
                           <p
                             className='font-bold text-[#1B2124] overflow-hidden text-ellipsis'
@@ -371,7 +334,7 @@ export default function Header() {
                           </p>
 
                           <div
-                            className={`${getTypeColor(notify.type)} w-[80px] h-fit px-2 py-1 rounded-full text-sm font-semibold text-center`}
+                            className={`${getTypeColor(notify.type)} w-[80px] h-fit px-2 py-1 rounded-full text-sm font-semibold text-center w-[30%]`}
                           >
                             <span>{notify.type}</span>
                           </div>
@@ -402,11 +365,10 @@ export default function Header() {
               {listNotification.length === 0 && <p className='p-[10px]'>No notification Foundation</p>}
             </div>
             <div className='flex flex-col align-center items-center pt-[5px] pb-[5px]'>
-              <Link
-                to='/manager/history-notification'
-                className='block text-[#3385F0] font-medium text-center pt-[5px] pb-[5px] w-[200px] hover:bg-[#3385f01f] rounded-[10px]'
-              >
-                View all
+              <Link to='/manager/history-notification'>
+                <a className='block text-[#3385F0] font-medium text-center pt-[5px] pb-[5px] w-[200px] hover:bg-[#3385f01f] rounded-[10px]'>
+                  View all
+                </a>
               </Link>
             </div>
             {/* {listNotification.length < total && (
@@ -417,10 +379,7 @@ export default function Header() {
           <PopupState variant='popover' popupId='demo-popup-popover'>
             {(popupState) => (
               <div>
-                <div
-                  className='w-12 h-12 rounded-full overflow-hidden cursor-pointer shadow-lg'
-                  {...bindTrigger(popupState)}
-                >
+                <div className='w-12 h-12 rounded-full overflow-hidden cursor-pointer' {...bindTrigger(popupState)}>
                   {user?.avatar ? (
                     <img src={getImageSrc(user.avatar)} className='w-full h-full object-cover' />
                   ) : (
