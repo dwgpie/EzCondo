@@ -41,6 +41,7 @@ import WaterDetail from './pages/Manager/Water/WaterDetail'
 import UnpaidWater from './pages/Manager/Water/UnpaidWater'
 import LandingPage from './pages/LandingPage'
 import PageNotFound from './pages/PageNotFound'
+import UpdateIncident from './pages/Manager/Incident/UpdateIncident'
 
 export default function useRouteElements() {
   const { userRole } = useContext(AppContext)
@@ -254,6 +255,14 @@ export default function useRouteElements() {
                 element: (
                   <DashboardManagerLayout>
                     <ListIncident />
+                  </DashboardManagerLayout>
+                )
+              },
+              {
+                path: '/manager/update-incident',
+                element: (
+                  <DashboardManagerLayout>
+                    <UpdateIncident />
                   </DashboardManagerLayout>
                 )
               },

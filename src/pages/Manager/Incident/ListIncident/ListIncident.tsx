@@ -8,13 +8,10 @@ import TableContainer from '@mui/material/TableContainer'
 import TableHead from '@mui/material/TableHead'
 import TableRow from '@mui/material/TableRow'
 import Paper from '@mui/material/Paper'
-import EditIcon from '@mui/icons-material/Edit'
 import DeleteIcon from '@mui/icons-material/Delete'
 import { getAllIncident } from '~/apis/incident.api'
-// import { SearchContext } from '~/components/Search/SearchContext'
+import SubjectIcon from '@mui/icons-material/Subject'
 import Pagination from '@mui/material/Pagination'
-import LinearProgress from '@mui/material/LinearProgress'
-import useBufferProgress from '~/components/useBufferProgress'
 
 interface Incident {
   id: string
@@ -54,8 +51,6 @@ const StyledTableRow = styled(TableRow)(() => ({
 }))
 
 export default function ListIncident() {
-  const [loading, setLoading] = useState(false)
-  const { progress, buffer } = useBufferProgress(loading)
   // const { searchQuery } = useContext(SearchContext)!
   const [listIncident, setListIncident] = useState<Incident[]>([])
   // const [filteredIncident, setFilteredIncident] = useState<User[]>([])
@@ -64,26 +59,13 @@ export default function ListIncident() {
   const pageSize = 6
   const totalPages = Math.ceil(listIncident.length / pageSize)
 
-  // const handleButtonClick = (buttonName: string | string[]) => {
-  //   setActiveButton(Array.isArray(buttonName) ? 'all' : buttonName)
-  //   const filtered = Array.isArray(buttonName)
-  //     ? listUser.filter((user: User) => ['resident', 'manager', 'admin'].includes(user.roleName.toLowerCase()))
-  //     : listUser.filter((user: User) => user.roleName.toLowerCase() === buttonName.toLowerCase())
-  //   setFilteredUsers(filtered)
-  //   setPage(1) // Reset về trang đầu tiên khi lọc
-  // }
-
   const getAllIncidentMutation = useMutation({
     mutationFn: async () => {
-      setLoading(true)
       const response = await getAllIncident()
       return response.data
     },
     onSuccess: (data) => {
       setListIncident(data)
-      setTimeout(() => {
-        setLoading(false)
-      }, 1000)
     },
     onError: (error) => {
       console.error('Lỗi khi hiển thị danh sách incident:', error)
@@ -94,34 +76,9 @@ export default function ListIncident() {
     console.log('list: ', listIncident)
   }, [])
 
-  // const handleDelete = (id: string) => {
-  // Swal.fire({
-  //   title: 'Are you sure you want to delete?',
-  //   text: 'This action cannot be undone!',
-  //   icon: 'warning',
-  //   showCancelButton: true,
-  //   confirmButtonText: 'Delete',
-  //   cancelButtonText: 'Cancel',
-  //   confirmButtonColor: '#d33',
-  //   cancelButtonColor: '#3085d6'
-  // }).then((result) => {
-  //   if (result.isConfirmed) {
-  //     try {
-  //       deleteUser(id) // Gọi API xóa user
-  //       Swal.fire('Deleted!', 'The user has been successfully deleted.', 'success')
-  //       // Cập nhật danh sách user (nếu bạn lưu users trong state)
-  //       setListUser(listUser.filter((user) => user.id !== id))
-  //     } catch (error) {
-  //       Swal.fire('Error!', 'Unable to delete the user!', 'error')
-  //       console.error('Error deleting user:', error)
-  //     }
-  //   }
-  // })
-  // }
-
-  // const handleGetIncident = (id: string) => {
-  //   window.location.href = `/admin/edit-user?id=${id}`
-  // }
+  const handleDetailButton = (id: string) => {
+    window.location.href = `/manager/update-incident?id=${id}`
+  }
 
   const getStatusColor = (status: string) => {
     switch (status.toLowerCase()) {
@@ -162,11 +119,6 @@ export default function ListIncident() {
 
   return (
     <div className='mx-5 mt-5 mb-5 p-6 bg-gradient-to-br from-white via-white to-blue-100 drop-shadow-md rounded-xl'>
-      {loading && (
-        <div className='w-full px-6 fixed top-2 left-0 z-50'>
-          <LinearProgress variant='buffer' value={progress} valueBuffer={buffer} />
-        </div>
-      )}
       <div className='mb-[20px]'>
         <h2 className='text-2xl font-semibold text-gray-500 ml-1'>List Incident</h2>
       </div>
@@ -208,14 +160,14 @@ export default function ListIncident() {
                       </span>
                     </StyledTableCell>
                     <StyledTableCell>
-                      <div className='flex gap-2'>
+                      <div className='flex gap-4'>
                         <button
                           className='text-blue-500 cursor-pointer'
-                          // onClick={() => {
-                          //   handleGetIncident(incident.id)
-                          // }}
+                          onClick={() => {
+                            handleDetailButton(incident.id)
+                          }}
                         >
-                          <EditIcon />
+                          <SubjectIcon />
                         </button>
                         <button
                           className='text-red-500 cursor-pointer'
