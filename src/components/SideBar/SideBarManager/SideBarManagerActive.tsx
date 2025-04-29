@@ -49,7 +49,7 @@ export default function SideBarManagerActive() {
       <Link to='/manager/dashboard'>
         <div className='flex items-center gap-4 group transition-all duration-300 hover:opacity-95 mb-3'>
           {/* Logo Icon */}
-          <div className='w-12 h-12 rounded-md mt-2 bg-white shadow-sm flex items-center justify-center border border-gray-200 overflow-hidden'>
+          <div className='w-12 h-12 pl-1 rounded-md mt-2 bg-white shadow-sm flex items-center justify-center border border-gray-200'>
             <img src='/public/imgs/logo/logo-mini.png' alt='EzCondo Logo' className='w-full h-full object-cover' />
           </div>
 

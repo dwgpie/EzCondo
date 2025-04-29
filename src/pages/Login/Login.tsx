@@ -54,7 +54,7 @@ export default function Login() {
           if (role === 'admin') {
             window.location.href = '/admin/dashboard'
           } else if (role === 'manager') {
-            window.location.href = '/manager/list-resident'
+            window.location.href = '/manager/dashboard'
           } else {
             navigate('/')
           }
@@ -73,13 +73,13 @@ export default function Login() {
   }
 
   return (
-    <div className='w-full h-screen flex justify-center items-center bg-cover bg-center bg-[url(/public/imgs/bg/bg-2.webp)]'>
+    <div className='w-full h-screen flex justify-center items-center bg-cover bg-center bg-[url(/imgs/bg/bgm-2.jpg)]'>
       {loading && (
-        <div className='w-full fixed top-2 left-0 z-50'>
+        <div className='w-full px-6 fixed top-2 left-0 z-50'>
           <LinearProgress variant='buffer' value={progress} valueBuffer={buffer} />
         </div>
       )}
-      <div className='bg-white/50 backdrop-blur-md p-4 rounded-lg shadow-lg w-full max-w-6xl h-[600px] '>
+      <div className='bg-white/40 backdrop-blur-md p-4 rounded-lg shadow-lg w-full max-w-6xl h-[600px] '>
         <div className='flex justify-between items-center p-4'>
           <Link to='/'>
             <button className='border border-[#1f5fa3] text-[#1f5fa3] rounded-full px-5 py-2 font-semibold cursor-pointer hover:bg-[#cfdeee]'>

@@ -13,7 +13,7 @@ import EditIcon from '@mui/icons-material/Edit'
 import DeleteIcon from '@mui/icons-material/Delete'
 import { getAllUser, deleteUser, searchUser } from '~/apis/user.api'
 import Swal from 'sweetalert2'
-import { SearchContext } from '~/components/Search/SearchContext'
+import { SearchContext } from '~/contexts/SearchContext'
 import Pagination from '@mui/material/Pagination'
 import LinearProgress from '@mui/material/LinearProgress'
 import useBufferProgress from '~/components/useBufferProgress'
@@ -227,7 +227,7 @@ export default function ListUser() {
           <Table sx={{ minWidth: 700 }} aria-label='customized table'>
             <TableHead>
               <TableRow>
-                <StyledTableCell width='5%'>Id</StyledTableCell>
+                <StyledTableCell width='5%'>ID</StyledTableCell>
                 <StyledTableCell width='20%'>Full Name</StyledTableCell>
                 <StyledTableCell width='12%'>Date Of Birth</StyledTableCell>
                 <StyledTableCell width='12%'>Gender</StyledTableCell>

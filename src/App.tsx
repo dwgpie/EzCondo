@@ -1,9 +1,10 @@
 import { useEffect } from 'react'
 import { useNavigate, useLocation } from 'react-router-dom'
 import { ToastContainer } from 'react-toastify'
-import { SearchProvider } from './components/Search/SearchContext'
+import { SearchProvider } from './contexts/SearchContext'
 import useRouteElements from './useRouteElements'
 import { getAccessTokenFromLocalStorage, getUserRoleFromLocalStorage } from './utils/auth'
+import { UserProvider } from './contexts/UserContext'
 
 function App() {
   const routeElements = useRouteElements()
@@ -31,12 +32,14 @@ function App() {
   }, [location.pathname, navigate])
 
   return (
-    <SearchProvider>
-      <div>
-        {routeElements}
-        <ToastContainer />
-      </div>
-    </SearchProvider>
+    <UserProvider>
+      <SearchProvider>
+        <div>
+          {routeElements}
+          <ToastContainer />
+        </div>
+      </SearchProvider>
+    </UserProvider>
   )
 }
 

@@ -157,7 +157,7 @@ export default function HistoryNotification() {
           <Table aria-label='customized table'>
             <TableHead>
               <TableRow>
-                <StyledTableCell width='5%'>Id</StyledTableCell>
+                <StyledTableCell width='5%'>ID</StyledTableCell>
                 <StyledTableCell width='25%'>Title</StyledTableCell>
                 <StyledTableCell width='33%'>Content</StyledTableCell>
                 <StyledTableCell width='13%'>Date created</StyledTableCell>
