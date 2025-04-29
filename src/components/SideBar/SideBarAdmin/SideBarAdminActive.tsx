@@ -52,7 +52,7 @@ export default function SideBarAdminActive() {
       <Link to='/admin/dashboard'>
         <div className='flex items-center gap-4 group transition-all duration-300 hover:opacity-95 mb-3'>
           {/* Logo Icon */}
-          <div className='w-12 h-12 rounded-md mt-2 bg-white shadow-sm flex items-center justify-center border border-gray-200 overflow-hidden'>
+          <div className='w-12 h-12 pl-1 rounded-md mt-2 bg-white shadow-sm flex items-center justify-center border border-gray-200'>
             <img src='/public/imgs/logo/logo-mini.png' alt='EzCondo Logo' className='w-full h-full object-cover' />
           </div>
 
@@ -105,7 +105,7 @@ export default function SideBarAdminActive() {
                   <path d='M20 17.5c0 2.485 0 4.5-8 4.5s-8-2.015-8-4.5S7.582 13 12 13s8 2.015 8 4.5Z' />
                 </g>
               </svg>
-              <p className='text-[15px]'>User</p>
+              <p className='text-[15px]'>Users</p>
             </div>
             <div className='flex items-center justify-center'>{isOpenUser ? <ExpandLess /> : <ExpandMore />}</div>
           </div>

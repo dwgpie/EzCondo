@@ -10,6 +10,8 @@ import { toast } from 'react-toastify'
 import { Button } from '@mui/material'
 import InputEdit from '~/components/InputEdit'
 import { useNavigate } from 'react-router-dom'
+import { useUser } from '../../contexts/UserContext'
+import LoadingOverlay from '~/components/LoadingOverlay'
 
 interface formData {
   id?: string
@@ -32,10 +34,12 @@ export default function Profile() {
     resolver: yupResolver(profileAdminSchema)
   })
   const navigate = useNavigate()
-
+  const { refreshAvatar } = useUser()
   const [image, setImage] = useState<string | File | null>(null)
-
   const fileInputFrontRef = useRef<HTMLInputElement | null>(null)
+  const [user, setUser] = useState<formData | null>(null)
+  const [loading, setLoading] = useState(false)
+  const [progress, setProgress] = useState(0)
 
   const handleImageChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const file = event.target.files?.[0]
@@ -59,8 +63,6 @@ export default function Profile() {
     }
   }
 
-  const [user, setUser] = useState<formData | null>(null)
-
   const getProfileMutation = useMutation({
     mutationFn: async () => {
       const response = await getProfile()
@@ -83,26 +85,47 @@ export default function Profile() {
     mutateRef.current() // Gọi mutate từ ref để tránh dependency issue
   }, [])
 
-  const onSubmit = handleSubmit((formData) => {
+  const onSubmit = handleSubmit(async (formData) => {
     try {
-      updateProfile({
+      setLoading(true)
+      setProgress(0)
+
+      const Progress = setInterval(() => {
+        setProgress((prev) => {
+          if (prev >= 90) {
+            clearInterval(Progress)
+            return prev
+          }
+          return prev + 3
+        })
+      }, 150)
+
+      // Xử lý upload avatar trước
+      if (formData.avatar instanceof File) {
+        await addOrUpdateAvatar(formData.avatar)
+        await refreshAvatar() // Refresh avatar từ server thay vì dùng URL trực tiếp
+      }
+
+      // Sau đó cập nhật thông tin profile
+      await updateProfile({
         fullName: formData.fullName,
         dateOfBirth: formData.dateOfBirth,
         gender: formData.gender,
         phoneNumber: formData.phoneNumber
       })
-      // Kiểm tra avatar có phải File không trước khi gọi API
-      if (formData.avatar instanceof File) {
-        addOrUpdateAvatar(formData.avatar)
-      } else {
-        console.warn('Avatar is URL, no update!')
-      }
+
       toast.success('Profile updated successfully!', {
         style: { width: 'fit-content' }
       })
       getProfileMutation.mutate()
     } catch (error) {
-      console.error('Error updating user or citizen:', error)
+      console.error('Error updating profile:', error)
+      toast.error('Failed to update profile')
+    } finally {
+      setProgress(100)
+      setTimeout(() => {
+        setLoading(false)
+      }, 500)
     }
   })
 
@@ -115,6 +138,7 @@ export default function Profile() {
 
   return (
     <div className='mx-5 mt-5 mb-5 p-6 bg-gradient-to-br from-white via-white to-blue-100 drop-shadow-md rounded-xl'>
+      {loading && <LoadingOverlay value={progress} />}
       {user ? (
         <form className='rounded' noValidate onSubmit={onSubmit}>
           <div className='flex items-center justify-evenly gap-4'>

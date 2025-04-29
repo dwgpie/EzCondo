@@ -11,7 +11,7 @@ import { getAllService, searchService } from '~/apis/service.api'
 import { useMutation } from '@tanstack/react-query'
 import { useContext, useEffect, useRef, useState } from 'react'
 import { Pagination } from '@mui/material'
-import { SearchContext } from '~/components/Search/SearchContext'
+import { SearchContext } from '~/contexts/SearchContext'
 import LinearProgress from '@mui/material/LinearProgress'
 import useBufferProgress from '~/components/useBufferProgress'
 interface FormData {
@@ -147,7 +147,7 @@ export default function ListService() {
           <Table aria-label='customized table'>
             <TableHead>
               <TableRow>
-                <StyledTableCell width='5%'>Id</StyledTableCell>
+                <StyledTableCell width='5%'>ID</StyledTableCell>
                 <StyledTableCell width='15%'>Name</StyledTableCell>
                 <StyledTableCell width='30%'>Description</StyledTableCell>
                 <StyledTableCell width='15%'>Type Of Month</StyledTableCell>

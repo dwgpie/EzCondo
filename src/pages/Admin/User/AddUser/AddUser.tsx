@@ -157,7 +157,7 @@ export default function AddUser() {
   })
 
   return (
-    <div className='mx-5 mt-5 mb-5 p-6 bg-gradient-to-br from-white via-white to-blue-100 drop-shadow-md rounded-xl'>
+    <div className='mx-5 mt-5 mb-5 py-3 px-6 bg-gradient-to-br from-white via-white to-blue-100 drop-shadow-md rounded-xl'>
       {loading && <LoadingOverlay value={progress} />}
       <h2 className='text-xl mb-4 text-gray-500 font-semibold'>Account Information</h2>
       <form className='rounded' noValidate onSubmit={onSubmit}>

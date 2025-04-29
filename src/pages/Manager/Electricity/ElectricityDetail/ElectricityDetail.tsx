@@ -2,7 +2,6 @@ import { Button } from '@mui/material'
 import { getElectricDetail } from '~/apis/service.api'
 import { useEffect, useState, useRef } from 'react'
 import { useMutation } from '@tanstack/react-query'
-import PlagiarismOutlinedIcon from '@mui/icons-material/PlagiarismOutlined'
 import LinearProgress from '@mui/material/LinearProgress'
 import useBufferProgress from '~/components/useBufferProgress'
 
@@ -213,8 +212,13 @@ export default function ElectricityDetail() {
           </div>
         </>
       ) : (
-        <div className='mt-3 text-center text-gray-500'>
-          <PlagiarismOutlinedIcon fontSize='large' />
+        <div className='mt-3 flex flex-col items-center text-gray-500'>
+          <svg xmlns='http://www.w3.org/2000/svg' width='35' height='35' viewBox='0 0 24 24'>
+            <g fill='none' stroke='currentColor' strokeLinecap='round' strokeLinejoin='round' strokeWidth='1.5'>
+              <path d='m17.121 21.364l2.122-2.121m2.121-2.122l-2.121 2.122m0 0L17.12 17.12m2.122 2.122l2.121 2.121M4 6v6s0 3 7 3s7-3 7-3V6' />
+              <path d='M11 3c7 0 7 3 7 3s0 3-7 3s-7-3-7-3s0-3 7-3m0 18c-7 0-7-3-7-3v-6' />
+            </g>
+          </svg>
           <p className='mt-2'>No data available</p>
         </div>
       )}
