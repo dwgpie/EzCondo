@@ -17,6 +17,7 @@ interface Incident {
   id: string
   userId: string
   fullName: string
+  apartmentNumber: string
   type: string
   title: string
   description: string
@@ -84,7 +85,7 @@ export default function ListIncident() {
     switch (status.toLowerCase()) {
       case 'pending':
         return 'bg-red-200 text-red-800'
-      case 'in progress':
+      case 'underway':
         return 'bg-orange-200 text-orange-800'
       case 'resolved':
         return 'bg-green-200 text-green-800'
@@ -92,23 +93,6 @@ export default function ListIncident() {
         return ''
     }
   }
-
-  //Search Incident
-  // useEffect(() => {
-  //   const fetchUsers = async () => {
-  //     if (searchQuery.trim() === '') {
-  //       setFilteredUsers(listIncident)
-  //     } else {
-  //       try {
-  //         const response = await searchUser(searchQuery)
-  //         setFilteredUsers(response.data)
-  //       } catch (error) {
-  //         console.error('Error search:', error)
-  //       }
-  //     }
-  //   }
-  //   fetchUsers()
-  // }, [searchQuery, listUser])
 
   // Hàm lấy user theo trang hiện tại
   const paginatedIncidents = listIncident.slice((page - 1) * pageSize, page * pageSize)
@@ -146,7 +130,7 @@ export default function ListIncident() {
                       {(page - 1) * pageSize + index + 1}
                     </StyledTableCell>
                     <StyledTableCell>{incident.fullName}</StyledTableCell>
-                    <StyledTableCell>{incident.userId}</StyledTableCell>
+                    <StyledTableCell>{incident.apartmentNumber}</StyledTableCell>
                     <StyledTableCell>{incident.type}</StyledTableCell>
                     <StyledTableCell>{incident.title}</StyledTableCell>
                     <StyledTableCell>

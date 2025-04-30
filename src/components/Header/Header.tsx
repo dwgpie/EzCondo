@@ -3,7 +3,7 @@ import SearchIcon from '@mui/icons-material/Search'
 import { Link } from 'react-router-dom'
 import { useContext, useEffect, useState, useRef } from 'react'
 import { SearchContext } from '../../contexts/SearchContext'
-import { receiveNotification } from '~/apis/notification.api'
+import { markAsRead, receiveNotification } from '~/apis/notification.api'
 import Popover from '@mui/material/Popover'
 import Badge from '@mui/material/Badge'
 import PopupState, { bindTrigger, bindPopover } from 'material-ui-popup-state'
@@ -25,11 +25,12 @@ interface Notification {
 
 export default function Header() {
   const [listNotification, setListNotification] = useState<Notification[]>([])
+  const [isReadAll, setIsReadAll] = useState<string[]>([])
   const [type, setType] = useState('')
   const [page, setPage] = useState(1)
   const pageSize = 20
   const [isOpen, setIsOpen] = useState(false)
-  const tabs = ['all', 'notice', 'fee', 'new']
+  const tabs = ['all', 'notice', 'incident', 'parking']
   const tabIndex = tabs.indexOf(type || 'all')
   const notificationRef = React.useRef<HTMLDivElement>(null)
   const bellRef = useRef<HTMLButtonElement>(null)
@@ -115,7 +116,7 @@ export default function Header() {
     }
   }, [isOpen])
 
-  const fetchPageNotification = async (page: number) => {
+  const fetchNotifications = async (page: number) => {
     try {
       const res = await receiveNotification({
         type,
@@ -124,6 +125,9 @@ export default function Header() {
       })
       const newNotifies = res.data.notifications
 
+      const ids = res.data.notifications.map((item: Notification) => item.id)
+      console.log(ids)
+      setIsReadAll(ids)
       if (page === 1) {
         setListNotification(newNotifies)
       } else {
@@ -134,12 +138,35 @@ export default function Header() {
     }
   }
 
+  const fetchIsReadAllNotification = async () => {
+    try {
+      console.log('đọc')
+      await markAsRead({
+        notificationIds: isReadAll
+      })
+      fetchNotifications(page)
+    } catch (error) {
+      console.error('Lỗi đọc thông báo:', error)
+    }
+  }
+
+  const fetchIsReadNotification = async (id: string) => {
+    try {
+      await markAsRead({
+        notificationIds: [id]
+      })
+      fetchNotifications(page)
+    } catch (error) {
+      console.error('Lỗi đọc thông báo:', error)
+    }
+  }
+
   useEffect(() => {
     setPage(1) // reset về page 1 khi đổi loại
   }, [type])
 
   useEffect(() => {
-    fetchPageNotification(page)
+    fetchNotifications(page)
   }, [page, type, isOpen])
 
   const handleLogout = () => {
@@ -258,46 +285,63 @@ export default function Header() {
               {/* Hôm nay */}
               {todayNotifications.length > 0 && (
                 <>
-                  <p className='text-[14px] font-semibold text-[#1B2124] p-[5px] pl-[10px]'>Today</p>
+                  <div className='bg-[linear-gradient(to_right,_#f2fcfe_0%,_#d0f4ff_70%,_#9cdcff_100%)]'>
+                    <p className='text-[14px] font-semibold text-[#1B2124] p-[5px] pl-[10px] '>Today</p>
+                  </div>
                   {todayNotifications.map((notify) => (
-                    <div key={notify.id} className='relative hover:bg-[#f1f3f5]'>
-                      <div className='p-[10px] '>
-                        <div className='flex justify-between ml-[20px]'>
+                    <Link
+                      key={notify.id}
+                      to={
+                        notify.type === 'incident'
+                          ? '/manager/list-incident'
+                          : notify.type === 'notice'
+                            ? '/manager/history-notification'
+                            : '#'
+                      }
+                      onClick={() => {
+                        fetchIsReadNotification(notify.id)
+                        setIsOpen(false)
+                      }}
+                    >
+                      <div key={notify.id} className='relative hover:bg-[#f1f3f5]'>
+                        <div className='p-[10px] '>
+                          <div className='flex justify-between ml-[20px]'>
+                            <p
+                              className='font-bold text-[#1B2124] overflow-hidden text-ellipsis'
+                              style={{
+                                display: '-webkit-box',
+                                WebkitLineClamp: 2,
+                                WebkitBoxOrient: 'vertical'
+                              }}
+                            >
+                              {notify.title}
+                            </p>
+
+                            <div
+                              className={`${getTypeColor(notify.type)} w-[80px] h-fit px-2 py-1 rounded-full text-sm font-semibold text-center`}
+                            >
+                              <span>{notify.type}</span>
+                            </div>
+                          </div>
                           <p
-                            className='font-bold text-[#1B2124] overflow-hidden text-ellipsis'
+                            className='text-[#4D595E] overflow-hidden text-ellipsis ml-[20px]'
                             style={{
                               display: '-webkit-box',
-                              WebkitLineClamp: 2,
+                              WebkitLineClamp: 4,
                               WebkitBoxOrient: 'vertical'
                             }}
                           >
-                            {notify.title}
+                            {notify.content}
                           </p>
-
-                          <div
-                            className={`${getTypeColor(notify.type)} w-[80px] h-fit px-2 py-1 rounded-full text-sm font-semibold text-center`}
-                          >
-                            <span>{notify.type}</span>
+                          <div className='flex justify-end mt-[5px]'>
+                            <p className='text-[#4D595E] text-[12px]'>{formatNotificationTime(notify.createdAt)}</p>
                           </div>
                         </div>
-                        <p
-                          className='text-[#4D595E] overflow-hidden text-ellipsis ml-[20px]'
-                          style={{
-                            display: '-webkit-box',
-                            WebkitLineClamp: 4,
-                            WebkitBoxOrient: 'vertical'
-                          }}
-                        >
-                          {notify.content}
-                        </p>
-                        <div className='flex justify-end mt-[5px]'>
-                          <p className='text-[#4D595E] text-[12px]'>{formatNotificationTime(notify.createdAt)}</p>
-                        </div>
+                        {!notify.isRead && (
+                          <div className='absolute w-[7px] h-[7px] bg-[#D02241] rounded-[50%] top-[20px] left-[10px]'></div>
+                        )}
                       </div>
-                      {!notify.isRead && (
-                        <div className='absolute w-[7px] h-[7px] bg-[#D02241] rounded-[50%] top-[20px] left-[10px]'></div>
-                      )}
-                    </div>
+                    </Link>
                   ))}
                 </>
               )}
@@ -305,46 +349,60 @@ export default function Header() {
               {/* Những ngày trước */}
               {oldNotifications.length > 0 && (
                 <>
-                  <p className='text-[14px] font-semibold text-[#1B2124] p-[5px] pl-[10px]'>Older</p>
+                  <div className='bg-[linear-gradient(to_right,_#f2fcfe_0%,_#d0f4ff_70%,_#9cdcff_100%)]'>
+                    <p className='text-[14px] font-semibold text-[#1B2124] p-[5px] pl-[10px] '>Older</p>
+                  </div>
                   {oldNotifications.map((notify) => (
-                    <div key={notify.id} className='relative hover:bg-[#f1f3f5]'>
-                      <div className='p-[10px] '>
-                        <div className='flex justify-between ml-[20px]'>
+                    <Link
+                      key={notify.id}
+                      to={
+                        notify.type === 'incident'
+                          ? '/manager/list-incident'
+                          : notify.type === 'notice'
+                            ? '/manager/history-notification'
+                            : '#'
+                      }
+                      onClick={() => setIsOpen(false)}
+                    >
+                      <div key={notify.id} className='relative hover:bg-[#f1f3f5]'>
+                        <div className='p-[10px] '>
+                          <div className='flex justify-between ml-[20px]'>
+                            <p
+                              className='font-bold text-[#1B2124] overflow-hidden text-ellipsis'
+                              style={{
+                                display: '-webkit-box',
+                                WebkitLineClamp: 2,
+                                WebkitBoxOrient: 'vertical'
+                              }}
+                            >
+                              {notify.title}
+                            </p>
+
+                            <div
+                              className={`${getTypeColor(notify.type)} w-[80px] h-fit px-2 py-1 rounded-full text-sm font-semibold text-center`}
+                            >
+                              <span>{notify.type}</span>
+                            </div>
+                          </div>
                           <p
-                            className='font-bold text-[#1B2124] overflow-hidden text-ellipsis'
+                            className='text-[#4D595E] overflow-hidden text-ellipsis ml-[20px]'
                             style={{
                               display: '-webkit-box',
-                              WebkitLineClamp: 2,
+                              WebkitLineClamp: 4,
                               WebkitBoxOrient: 'vertical'
                             }}
                           >
-                            {notify.title}
+                            {notify.content}
                           </p>
-
-                          <div
-                            className={`${getTypeColor(notify.type)} w-[80px] h-fit px-2 py-1 rounded-full text-sm font-semibold text-center`}
-                          >
-                            <span>{notify.type}</span>
+                          <div className='flex justify-end mt-[5px]'>
+                            <p className='text-[#4D595E] text-[12px]'>{formatNotificationTime(notify.createdAt)}</p>
                           </div>
                         </div>
-                        <p
-                          className='text-[#4D595E] overflow-hidden text-ellipsis ml-[20px]'
-                          style={{
-                            display: '-webkit-box',
-                            WebkitLineClamp: 4,
-                            WebkitBoxOrient: 'vertical'
-                          }}
-                        >
-                          {notify.content}
-                        </p>
-                        <div className='flex justify-end mt-[5px]'>
-                          <p className='text-[#4D595E] text-[12px]'>{formatNotificationTime(notify.createdAt)}</p>
-                        </div>
+                        {!notify.isRead && (
+                          <div className='absolute w-[7px] h-[7px] bg-[#D02241] rounded-[50%] top-[20px] left-[10px]'></div>
+                        )}
                       </div>
-                      {!notify.isRead && (
-                        <div className='absolute w-[7px] h-[7px] bg-[#D02241] rounded-[50%] top-[20px] left-[10px]'></div>
-                      )}
-                    </div>
+                    </Link>
                   ))}
                 </>
               )}
@@ -353,12 +411,12 @@ export default function Header() {
               {listNotification.length === 0 && <p className='p-[10px]'>No notification Foundation</p>}
             </div>
             <div className='flex flex-col align-center items-center pt-[5px] pb-[5px]'>
-              <Link
-                to='/manager/history-notification'
+              <button
                 className='block text-[#3385F0] font-medium text-center pt-[5px] pb-[5px] w-[200px] hover:bg-[#3385f01f] rounded-[10px]'
+                onClick={() => fetchIsReadAllNotification()}
               >
-                View all
-              </Link>
+                Read all
+              </button>
             </div>
             {/* {listNotification.length < total && (
                 <div className='text-center text-sm text-gray-500 py-2'>Đang tải thêm...</div>

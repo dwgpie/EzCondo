@@ -51,3 +51,6 @@ export const receiveNotification = (body: { type: string; page: number; pageSize
     `/api/Notification/user-get-notifications?type=${body.type}&page=${body.page}&pageSize=${body.pageSize}`
   )
 }
+
+export const markAsRead = (body: { notificationIds: string[] }) =>
+  http.post('/api/Notification/notifications/mark-as-read', body)
