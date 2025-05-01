@@ -187,6 +187,13 @@ export const addElectricityReading = async (file: File) => {
         throw new Error('Apartment have no user')
       }
 
+      if (status === 500) {
+        toast.error('Electricity reading is lower than last month', {
+          style: { width: 'fit-content' }
+        })
+        throw new Error('Electricity reading is lower than last month')
+      }
+
       toast.error('Something went wrong', {
         style: { width: 'fit-content' }
       })
@@ -281,6 +288,13 @@ export const addWaterReading = async (file: File) => {
         throw new Error('Apartment have no user')
       }
 
+      if (status === 500) {
+        toast.error('Water reading is lower than last month', {
+          style: { width: 'fit-content' }
+        })
+        throw new Error('Water reading is lower than last month')
+      }
+
       toast.error('Something went wrong', {
         style: { width: 'fit-content' }
       })
@@ -307,4 +321,20 @@ export const dowloadTemplateWaterReading = () => {
   return http.get('http://localhost:7254/api/Water/Download-Template-Water-Reading', {
     responseType: 'blob'
   })
+}
+
+export const filterElectric = (body: { status: string; day: number }) => {
+  return http.get(`/api/Electric/Get-All-Electric?status=${body.status}&day=${body.day}`)
+}
+
+export const updateBillElectric = (body: { electricBillId: string }[]) => {
+  return http.patch('/api/Electric/Update-Electric-Bill', body)
+}
+
+export const filterWater = (body: { status: string; day: number }) => {
+  return http.get(`/api/Water/Get-All-Water?status=${body.status}&day=${body.day}`)
+}
+
+export const updateBillWater = (body: { waterBillId: string }[]) => {
+  return http.patch('/api/Water/Update-Water-Bill', body)
 }

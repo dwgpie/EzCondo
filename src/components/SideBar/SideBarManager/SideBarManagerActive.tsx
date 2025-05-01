@@ -45,22 +45,69 @@ export default function SideBarManagerActive() {
   }
 
   return (
-    <div className='flex flex-col items-center bg-[#fff] mb-10 w-full h-screen border-r-2 border-[#d1d5dc] text-[#4d595e] overflow-hidden'>
+    <div className='flex flex-col items-center bg-[#fff] mb-10 w-full h-screen border-r-2 border-[#eaeaea] text-[#4d595e] overflow-hidden'>
       <Link to='/manager/dashboard'>
-        <div className='flex items-center gap-4 group transition-all duration-300 hover:opacity-95 mb-3'>
-          {/* Logo Icon */}
-          <div className='w-12 h-12 pl-1 rounded-md mt-2 bg-white shadow-sm flex items-center justify-center border border-gray-200'>
-            <img src='/public/imgs/logo/logo-mini.png' alt='EzCondo Logo' className='w-full h-full object-cover' />
+        <div className='flex items-center gap-3 group mt-2 px-4 py-2 transition-all duration-300 hover:bg-blue-50 rounded-lg mb-3'>
+          <div className='relative w-12 h-12'>
+            <div className='absolute inset-0 bg-[#1976d3] rounded-lg rotate-45 group-hover:rotate-[135deg] transition-all duration-700 ease-in-out'></div>
+            <div
+              className='absolute inset-0 bg-[#1976d3] rounded-lg -rotate-45 group-hover:rotate-0 transition-all duration-700 ease-in-out 
+                          flex items-center justify-center overflow-hidden'
+            >
+              <img
+                src='/public/imgs/logo/logo-mini.png'
+                alt='EzCondo Logo'
+                className='w-10 h-10 object-cover group-hover:scale-105 transition-all duration-700 ease-in-out brightness-0 invert'
+              />
+            </div>
           </div>
+          <div className='flex flex-col'>
+            <h2 className='text-2xl font-black tracking-tight text-gray-800 group-hover:text-[#3385f0] transition-all duration-300'>
+              Ez<span className='text-[#3385f0] group-hover:text-gray-800 transition-colors duration-300'>Condo</span>
+            </h2>
+            <span className='text-[10px] text-gray-500 font-medium tracking-wider group-hover:text-[#3385f0] transition-colors duration-300'>
+              Live Comfortably, Manage Smartly
+            </span>
+          </div>
+        </div>
+      </Link>
 
-          {/* Logo Text */}
+      {/* <Link to='/admin/dashboard'>
+        <div className='flex items-center gap-3 group mt-2 px-4 py-2 transition-all duration-300 hover:bg-blue-50 rounded-lg mb-3'>
+          <div className='relative w-12 h-12'>
+            <div className='absolute inset-0 bg-[#1976d3] rounded-lg rotate-45 group-hover:rotate-90 transition-all duration-500'></div>
+            <div
+              className='absolute inset-0 bg-[#1976d3] rounded-lg -rotate-45 group-hover:rotate-0 transition-all duration-500 
+                          flex items-center justify-center overflow-hidden'
+            >
+              <img
+                src='/public/imgs/logo/logo-mini.png'
+                alt='EzCondo Logo'
+                className='w-10 h-10 object-cover group-hover:scale-110 transition-transform duration-500 brightness-0 invert'
+              />
+            </div>
+          </div>
+          <div className='flex flex-col'>
+            <h2 className='text-2xl font-black tracking-tight text-gray-800 group-hover:text-[#3385f0] transition-all duration-300'>
+              Ez<span className='text-[#3385f0] group-hover:text-gray-800 transition-colors duration-300'>Condo</span>
+            </h2>
+            <span className='text-[10px] text-gray-500 font-medium tracking-wider group-hover:text-[#3385f0] transition-colors duration-300'>
+              Live Comfortably, Manage Smartly
+            </span>
+          </div>
+        </div>
+      </Link>
+
+      <Link to='/admin/dashboard'>
+        <div className='flex items-center gap-4 group transition-all duration-300 hover:opacity-95 mb-3'>
+          <img src='/public/imgs/logo/logo-mini.png' alt='EzCondo Logo' className='w-12 h-12 object-cover' />
           <div className='leading-none'>
             <h2 className='text-3xl font-black tracking-tight text-[#1976d3] group-hover:tracking-wider transition-all duration-300'>
               <span className='text-[#1976d3]'>EzCondo</span>
             </h2>
           </div>
         </div>
-      </Link>
+      </Link> */}
 
       <div className='w-full font-semibold overflow-y-auto custom-scrollbar'>
         {/* Dashboard */}

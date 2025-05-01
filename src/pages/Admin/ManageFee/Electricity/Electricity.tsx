@@ -173,11 +173,11 @@ export default function Electricity() {
               valueLabelDisplay='on'
               valueLabelFormat={(value) => `${value} kWh`}
               min={0}
-              max={5000}
-              step={100}
+              max={1000}
+              step={50}
               marks={Array.from({ length: 21 }, (_, i) => ({
-                value: i * 500,
-                label: `${i * 500}`
+                value: i * 100,
+                label: `${i * 100}`
               }))}
               sx={{
                 '& .MuiSlider-valueLabel': {

@@ -19,7 +19,7 @@ import { getApartmentByStatusTrue } from '~/apis/apartment.api'
 import { useEffect, useRef, useState } from 'react'
 import CloudUploadIcon from '@mui/icons-material/CloudUpload'
 import { toast } from 'react-toastify'
-import { useNavigate } from 'react-router-dom'
+import { useNavigate, useLocation } from 'react-router-dom'
 import LoadingOverlay from '~/components/LoadingOverlay'
 
 interface FormData {
@@ -38,6 +38,9 @@ interface Apartment {
 }
 
 export default function AddNotificationManager() {
+  const location = useLocation()
+  const preSelectedApartments = location.state?.selectedApartments || []
+
   const {
     register,
     handleSubmit,
@@ -58,7 +61,7 @@ export default function AddNotificationManager() {
 
   const [apartments, setApartments] = useState<Apartment[]>([])
   const [apartmentChoosed, setApartmentChoosed] = useState<string[]>([])
-  const [radio, setRadio] = useState('resident')
+  const [radio, setRadio] = useState(preSelectedApartments.length > 0 ? 'apartment' : 'resident')
 
   const fetchApartments = async () => {
     try {
@@ -71,8 +74,15 @@ export default function AddNotificationManager() {
       console.error('Error fetching apartments:', error)
     }
   }
+
   useEffect(() => {
-    setValue('receiver', 'resident')
+    if (preSelectedApartments.length > 0) {
+      setValue('receiver', 'apartment')
+      setApartmentChoosed(preSelectedApartments)
+      setValue('apartmentNumber', preSelectedApartments.join(', '))
+    } else {
+      setValue('receiver', 'resident')
+    }
     fetchApartments()
   }, [])
 
@@ -282,7 +292,7 @@ export default function AddNotificationManager() {
 
               <RadioGroup
                 aria-labelledby='demo-radio-buttons-group-label'
-                defaultValue='resident'
+                value={radio}
                 name='radio-buttons-group'
                 onChange={handleChangeRadio}
               >

@@ -30,7 +30,8 @@ interface ElectricityMeter {
   fullName: string
   apartmentNumber: string
   phoneNumber: string
-  readingDate: string
+  readingPreDate: string
+  readingCurrentDate: string
   consumption: string
   status: string
 }
@@ -68,7 +69,6 @@ export default function ElectricityReading() {
   })
   const [loading, setLoading] = useState(false)
   const { progress, buffer } = useBufferProgress(loading)
-  const [listElectric, setListElectric] = useState<ElectricityMeter[]>([])
   const [filteredElectrics, setFilteredElectrics] = useState<ElectricityMeter[]>([])
   const [page, setPage] = useState(1)
   const pageSize = 5
@@ -106,7 +106,6 @@ export default function ElectricityReading() {
       return response.data
     },
     onSuccess: (data) => {
-      setListElectric(data)
       setFilteredElectrics(data)
       setTimeout(() => {
         setLoading(false)
@@ -115,7 +114,6 @@ export default function ElectricityReading() {
   })
   useEffect(() => {
     getAllElectricityReadings.mutate()
-    console.log('list: ', listElectric)
   }, [])
 
   const handleCallAPI = async (formData: UploadFormData) => {
@@ -130,16 +128,26 @@ export default function ElectricityReading() {
     }
   }
 
-  const onSubmit = handleSubmit((formData) => {
-    handleCallAPI(formData)
-    reset()
-    // Reset thêm DOM file input
-    if (fileInputExcelRef.current) {
-      fileInputExcelRef.current.value = ''
+  const onSubmit = handleSubmit(
+    (formData) => {
+      handleCallAPI(formData)
+      reset()
+      // Reset thêm DOM file input
+      if (fileInputExcelRef.current) {
+        fileInputExcelRef.current.value = ''
+      }
+      // Reset tên file hiển thị
+      setExcelFileName(null)
+    },
+    (errors) => {
+      // Show error message when validation fails
+      if (errors.file) {
+        toast.error(errors.file.message, {
+          style: { width: 'fit-content' }
+        })
+      }
     }
-    // Reset tên file hiển thị
-    setExcelFileName(null)
-  })
+  )
 
   const paginatedElectricMeter = filteredElectrics.slice((page - 1) * pageSize, page * pageSize)
 
@@ -150,13 +158,11 @@ export default function ElectricityReading() {
   const getStatusColor = (status: string) => {
     switch (status.toLowerCase()) {
       case 'completed':
-        return 'bg-green-300 text-green-900 hover:bg-green-400 hover:text-white'
+        return 'bg-green-500 text-white'
       case 'pending':
-        return 'bg-orange-300 text-orange-900 hover:bg-orange-400 hover:text-white'
+        return 'bg-orange-500 text-white'
       case 'overdue':
-        return 'bg-red-400 text-red-900 hover:bg-red-500 hover:text-white'
-      default:
-        return 'bg-gray-200 text-gray-700 hover:bg-gray-300'
+        return 'bg-red-500 text-white'
     }
   }
 
@@ -265,13 +271,14 @@ export default function ElectricityReading() {
             <TableHead>
               <TableRow>
                 <StyledTableCell width='2%'>ID</StyledTableCell>
-                <StyledTableCell width='15%'>Name</StyledTableCell>
-                <StyledTableCell width='12%'>Apartment Number</StyledTableCell>
+                <StyledTableCell width='17%'>Name</StyledTableCell>
+                <StyledTableCell width='14%'>Apartment Number</StyledTableCell>
                 <StyledTableCell width='10%'>Phone</StyledTableCell>
-                <StyledTableCell width='12%'>Reading Date</StyledTableCell>
+                <StyledTableCell width='15%'>Reading Pre Date</StyledTableCell>
+                <StyledTableCell width='15%'>Reading Current Date</StyledTableCell>
                 <StyledTableCell width='8%'>Consumption</StyledTableCell>
-                <StyledTableCell width='10%'>Status</StyledTableCell>
-                <StyledTableCell width='6%'>Detail</StyledTableCell>
+                <StyledTableCell width='1%'>Status</StyledTableCell>
+                <StyledTableCell width='3%'>Detail</StyledTableCell>
               </TableRow>
             </TableHead>
             <TableBody>
@@ -290,7 +297,17 @@ export default function ElectricityReading() {
                         year: 'numeric',
                         month: '2-digit',
                         day: '2-digit'
-                      }).format(new Date(electric.readingDate))}
+                      }).format(new Date(electric.readingPreDate))}
+                    </StyledTableCell>
+                    <StyledTableCell>
+                      {new Intl.DateTimeFormat('vi-VN', {
+                        hour: '2-digit',
+                        minute: '2-digit',
+                        second: '2-digit',
+                        year: 'numeric',
+                        month: '2-digit',
+                        day: '2-digit'
+                      }).format(new Date(electric.readingCurrentDate))}
                     </StyledTableCell>
                     <StyledTableCell>{electric.consumption}</StyledTableCell>
                     <StyledTableCell>

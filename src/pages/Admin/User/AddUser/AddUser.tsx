@@ -203,7 +203,7 @@ export default function AddUser() {
             />
           </div>
         </div>
-        <div className='grid grid-cols-4 gap-4'>
+        <div className='grid grid-cols-4 gap-4 mt-2'>
           <div className=''>
             <label className='block text-sm font-semibold'>
               Date of birth
@@ -282,7 +282,7 @@ export default function AddUser() {
                 </label>
                 <Input name='no' type='no' register={register} className='mt-1' errorMessage={errors.no?.message} />
               </div>
-              <div className=''>
+              <div className='mt-2'>
                 <label className='block text-sm font-semibold'>
                   Date of issue
                   <span className='text-red-600 ml-1'>*</span>
@@ -295,7 +295,7 @@ export default function AddUser() {
                   errorMessage={errors.dateOfIssue?.message}
                 />
               </div>
-              <div className=''>
+              <div className='mt-2'>
                 <label className='block text-sm font-semibold'>
                   Date of expiry
                   <span className='text-red-600 ml-1'>*</span>
@@ -379,7 +379,7 @@ export default function AddUser() {
             </div>
           </div>
         </div>
-        <div className='flex justify-end gap-4 mt-[-15px]'>
+        <div className='flex justify-end gap-4 mt-[-13px]'>
           <Button
             type='submit'
             variant='contained'

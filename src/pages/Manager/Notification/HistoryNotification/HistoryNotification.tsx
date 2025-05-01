@@ -62,7 +62,7 @@ export default function HistoryNotificationManager() {
   const { progress, buffer } = useBufferProgress(loading)
   const [listNotification, setListNotification] = useState<FormData[]>([])
   const [type, setType] = useState('new')
-  const [day, setDay] = useState(7)
+  const [day, setDay] = useState(3)
   const [page, setPage] = useState(1)
   const pageSize = 6
   const [openEditDialog, setOpenEditDialog] = useState(false)
@@ -133,8 +133,8 @@ export default function HistoryNotificationManager() {
               onChange={(e) => setDay(Number(e.target.value))}
               sx={{ width: '200px', height: '40px' }}
             >
-              <MenuItem value={7}>Fewer than 7 days</MenuItem>
-              <MenuItem value={10}>More than 7 days</MenuItem>
+              <MenuItem value={3}>Last 3 days</MenuItem>
+              <MenuItem value={7}>Last 7 days</MenuItem>
             </Select>
           </div>
         </div>

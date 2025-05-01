@@ -123,16 +123,26 @@ export default function ElectricityMeter() {
     }
   }
 
-  const onSubmit = handleSubmit((formData) => {
-    handleCallAPI(formData)
-    reset()
-    // Reset thêm DOM file input
-    if (fileInputExcelRef.current) {
-      fileInputExcelRef.current.value = ''
+  const onSubmit = handleSubmit(
+    (formData) => {
+      handleCallAPI(formData)
+      reset()
+      // Reset thêm DOM file input
+      if (fileInputExcelRef.current) {
+        fileInputExcelRef.current.value = ''
+      }
+      // Reset tên file hiển thị
+      setExcelFileName(null)
+    },
+    (errors) => {
+      // Show error message when validation fails
+      if (errors.file) {
+        toast.error(errors.file.message, {
+          style: { width: 'fit-content' }
+        })
+      }
     }
-    // Reset tên file hiển thị
-    setExcelFileName(null)
-  })
+  )
 
   const paginatedElectricMeter = filteredElectrics.slice((page - 1) * pageSize, page * pageSize)
 

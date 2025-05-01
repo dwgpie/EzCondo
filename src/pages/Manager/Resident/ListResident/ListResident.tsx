@@ -91,9 +91,9 @@ export default function ListResident() {
   const getStatusColor = (status: string) => {
     switch (status.toLowerCase()) {
       case 'active':
-        return 'bg-green-200 text-green-800'
+        return 'bg-green-500 text-white'
       case 'inactive':
-        return 'bg-red-200 text-red-800'
+        return 'bg-red-500 text-white'
       default:
         return ''
     }
