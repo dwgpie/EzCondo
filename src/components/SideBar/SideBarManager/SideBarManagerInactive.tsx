@@ -19,7 +19,7 @@ export default function SideBarManagerInactive() {
   const WaterUnpaidPath = '/manager/unpaid-water'
 
   return (
-    <div className='flex flex-col items-center bg-[#fff] mb-10 w-full h-screen border-r-2 border-[#d1d5dc] text-[#4d595e]'>
+    <div className='flex flex-col items-center bg-[#fff] mb-10 w-full h-screen border-r-2 border-[#eaeaea] text-[#4d595e]'>
       <Link to='/manager/dashboard'>
         <div className='w-20 h-20 ml-2'>
           <img src='/public/imgs/logo/logo-mini.png' className='w-full h-full object-cover' />

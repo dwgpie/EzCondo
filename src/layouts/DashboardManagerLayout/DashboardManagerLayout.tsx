@@ -25,39 +25,42 @@ export default function DashboardManagerLayout({ children }: Props) {
             <SideBarManagerInactive />
           </div>
 
-          {isOpen ? (
-            <div
-              className='rounded-full p-2 border-1 text-[#576367] border-[#576367] hover:bg-[#eaf3fd] bg-[#fff] text-center absolute bottom-[22px] right-[-16px] z-100 cursor-pointer'
-              onClick={activeSideBar}
-            >
-              <svg xmlns='http://www.w3.org/2000/svg' width='24' height='24' viewBox='0 0 24 24'>
+          <button
+            className={`absolute top-4 -right-3 z-50 p-1.5 rounded-full bg-white shadow-md 
+              hover:shadow-lg transform transition-all duration-200 hover:scale-105
+              border border-gray-100 focus:outline-none cursor-pointer
+              ${isOpen ? 'hover:bg-gray-50' : 'hover:bg-blue-50'}`}
+            onClick={activeSideBar}
+            aria-label={isOpen ? 'Collapse sidebar' : 'Expand sidebar'}
+          >
+            {isOpen ? (
+              <svg
+                xmlns='http://www.w3.org/2000/svg'
+                className='h-4 w-4 text-gray-600'
+                viewBox='0 0 20 20'
+                fill='currentColor'
+              >
                 <path
-                  fill='currentColor'
-                  d='M11.28 9.53L8.81 12l2.47 2.47a.749.749 0 0 1-.326 1.275a.75.75 0 0 1-.734-.215l-3-3a.75.75 0 0 1 0-1.06l3-3a.749.749 0 0 1 1.275.326a.75.75 0 0 1-.215.734'
-                />
-                <path
-                  fill='currentColor'
-                  d='M3.75 2h16.5c.966 0 1.75.784 1.75 1.75v16.5A1.75 1.75 0 0 1 20.25 22H3.75A1.75 1.75 0 0 1 2 20.25V3.75C2 2.784 2.784 2 3.75 2M3.5 3.75v16.5c0 .138.112.25.25.25H15v-17H3.75a.25.25 0 0 0-.25.25m13 16.75h3.75a.25.25 0 0 0 .25-.25V3.75a.25.25 0 0 0-.25-.25H16.5Z'
-                />
-              </svg>{' '}
-            </div>
-          ) : (
-            <div
-              className='rounded-full p-2 border-1 text-[#576367] border-[#576367] hover:bg-[#eaf3fd] bg-[#fff] text-center absolute bottom-[22px] right-[-16px] z-100 cursor-pointer'
-              onClick={activeSideBar}
-            >
-              <svg xmlns='http://www.w3.org/2000/svg' width='24' height='24' viewBox='0 0 24 24'>
-                <path
-                  fill='currentColor'
-                  d='M7.22 14.47L9.69 12L7.22 9.53a.749.749 0 0 1 .326-1.275a.75.75 0 0 1 .734.215l3 3a.75.75 0 0 1 0 1.06l-3 3a.75.75 0 0 1-1.042-.018a.75.75 0 0 1-.018-1.042'
-                />
-                <path
-                  fill='currentColor'
-                  d='M3.75 2h16.5c.966 0 1.75.784 1.75 1.75v16.5A1.75 1.75 0 0 1 20.25 22H3.75A1.75 1.75 0 0 1 2 20.25V3.75C2 2.784 2.784 2 3.75 2M3.5 3.75v16.5c0 .138.112.25.25.25H15v-17H3.75a.25.25 0 0 0-.25.25m13 16.75h3.75a.25.25 0 0 0 .25-.25V3.75a.25.25 0 0 0-.25-.25H16.5Z'
+                  fillRule='evenodd'
+                  d='M12.707 5.293a1 1 0 010 1.414L9.414 10l3.293 3.293a1 1 0 01-1.414 1.414l-4-4a1 1 0 010-1.414l4-4a1 1 0 011.414 0z'
+                  clipRule='evenodd'
                 />
               </svg>
-            </div>
-          )}
+            ) : (
+              <svg
+                xmlns='http://www.w3.org/2000/svg'
+                className='h-4 w-4 text-gray-600'
+                viewBox='0 0 20 20'
+                fill='currentColor'
+              >
+                <path
+                  fillRule='evenodd'
+                  d='M7.293 14.707a1 1 0 010-1.414L10.586 10 7.293 6.707a1 1 0 011.414-1.414l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0z'
+                  clipRule='evenodd'
+                />
+              </svg>
+            )}
+          </button>
         </div>
       </div>
 

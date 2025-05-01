@@ -51,7 +51,11 @@ class Http {
         return response
       },
       function (error: AxiosError) {
-        if (error.response?.status !== HttpStatusCode.UnprocessableEntity) {
+        if (error.response?.status === 401) {
+          localStorage.removeItem('token')
+          localStorage.removeItem('role')
+          window.location.href = '/login'
+        } else if (error.response?.status !== HttpStatusCode.UnprocessableEntity) {
           const data: any | undefined = error.response?.data
           const message = data.message || error.message
           console.log('Error message:', message)

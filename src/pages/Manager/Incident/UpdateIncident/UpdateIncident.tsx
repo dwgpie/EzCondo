@@ -102,11 +102,11 @@ export default function UpdateIncident() {
   const getStatusColor = (status: string) => {
     switch (status.toLowerCase()) {
       case 'pending':
-        return 'bg-red-200 text-red-800'
+        return 'bg-red-500 text-white'
       case 'underway':
-        return 'bg-orange-200 text-orange-800'
+        return 'bg-orange-500 text-white'
       case 'resolved':
-        return 'bg-green-200 text-green-800'
+        return 'bg-green-500 text-white'
       default:
         return ''
     }
@@ -131,16 +131,18 @@ export default function UpdateIncident() {
           <div className='w-[70%] border-r-1 border-[#333] py-[10px] px-[20px] overflow-y-auto custom-scrollbar'>
             <div className='flex items-center justify-between'>
               <div className='flex items-center gap-[10px]'>
-                <svg xmlns='http://www.w3.org/2000/svg' width='35' height='35' viewBox='0 0 24 24'>
+                <svg xmlns='http://www.w3.org/2000/svg' width='30' height='30' viewBox='0 0 24 24'>
                   <path
                     fill='currentColor'
                     d='M7.001 16.154q.328 0 .548-.222t.22-.549t-.221-.548t-.55-.22t-.547.222t-.22.549t.221.548t.55.22M7 13.23q.213 0 .356-.144t.143-.356V8.346q0-.212-.144-.356t-.357-.144t-.356.144t-.143.356v4.385q0 .212.144.356t.357.144m4 1.269h6q.213 0 .356-.144t.144-.357t-.144-.356T17 13.5h-6q-.213 0-.356.144t-.144.357t.144.356t.356.143m0-4h6q.213 0 .356-.144t.144-.357t-.144-.356T17 9.5h-6q-.213 0-.356.144t-.144.357t.144.356t.356.143M4.616 19q-.691 0-1.153-.462T3 17.384V6.616q0-.691.463-1.153T4.615 5h14.77q.69 0 1.152.463T21 6.616v10.769q0 .69-.463 1.153T19.385 19zm0-1h14.769q.23 0 .423-.192t.192-.424V6.616q0-.231-.192-.424T19.385 6H4.615q-.23 0-.423.192T4 6.616v10.769q0 .23.192.423t.423.192M4 18V6z'
                   />
                 </svg>
-                <span className='text-[26px] text-[#4D5969] font-bold'>Detail report</span>
+                <span className='text-2xl text-[#4D5969] font-bold'>Detail report</span>
               </div>
 
-              <span className={`${getStatusColor(incident.status)} px-2 py-1 rounded-full text-sm font-semibold`}>
+              <span
+                className={`${getStatusColor(incident.status)} capitalize px-2 py-1 rounded-full text-sm font-semibold`}
+              >
                 {incident.status}
               </span>
             </div>
@@ -158,7 +160,7 @@ export default function UpdateIncident() {
             </div>
 
             <div className='flex items-center gap-[10px] mt-[20px] mb-[20px]'>
-              <svg xmlns='http://www.w3.org/2000/svg' width='35' height='35' viewBox='0 0 48 48'>
+              <svg xmlns='http://www.w3.org/2000/svg' width='30' height='30' viewBox='0 0 48 48'>
                 <path
                   fill='none'
                   stroke='currentColor'
@@ -168,7 +170,7 @@ export default function UpdateIncident() {
                   d='M24.707 9.565L9.858 24.415a9 9 0 0 0 0 12.727v0a9 9 0 0 0 12.728 0l17.678-17.677a6 6 0 0 0 0-8.486v0a6 6 0 0 0-8.486 0L14.101 28.657a3 3 0 0 0 0 4.243v0a3 3 0 0 0 4.242 0l14.85-14.85'
                 />
               </svg>
-              <span className='text-[26px] text-[#4D5969] font-bold'>Image</span>
+              <span className='text-2xl text-[#4D5969] font-bold'>Image</span>
             </div>
             <div className='flex gap-[15px] ml-[45px] flex-wrap'>
               {images.length > 0 ? (
@@ -177,7 +179,7 @@ export default function UpdateIncident() {
                     key={index}
                     src={getImageSrc(img?.imgPath)}
                     alt={`incident-${index}`}
-                    className='w-[125px] h-[125px] rounded-[5px] cursor-pointer object-cover shadow-md hover:scale-105 transition-transform duration-300'
+                    className='w-[125px] h-[125px] rounded-md cursor-pointer object-cover shadow-lg hover:scale-105 transition-transform duration-300'
                     onClick={() => {
                       setCurrentImageIndex(index)
                       setLightboxOpen(true)
@@ -185,7 +187,16 @@ export default function UpdateIncident() {
                   />
                 ))
               ) : (
-                <p>Không có ảnh đính kèm</p>
+                <div className='mt-3 flex flex-col items-center justify-center m-auto text-gray-500'>
+                  <svg xmlns='http://www.w3.org/2000/svg' width='35' height='35' viewBox='0 0 512 512'>
+                    <path
+                      fill='currentColor'
+                      fill-rule='evenodd'
+                      d='m72.837 72.837l362.667 362.667l-30.17 30.17L387.66 448H64V124.34l-21.333-21.332zm204.497 289.83L170.667 256l-64.001 101.12v48.213h238.327l-56.282-56.283zM448 64v323.661L313.796 253.457l27.538-27.537l63.999 64V106.666H167.005L124.339 64zM106.666 167.005v108.872l41.741-67.131zm202.668-17.671c17.673 0 32 14.327 32 32s-14.327 32-32 32s-32-14.327-32-32s14.327-32 32-32'
+                    />
+                  </svg>
+                  <p className='mt-2'>No image available</p>
+                </div>
               )}
 
               <Lightbox

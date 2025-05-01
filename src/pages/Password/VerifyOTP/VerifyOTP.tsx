@@ -47,7 +47,7 @@ export default function VerifyOTP() {
   })
 
   return (
-    <div className='w-full h-screen flex justify-center items-center bg-cover bg-center bg-[url(/public/imgs/bg/bg-2.webp)]'>
+    <div className='w-full h-screen flex justify-center items-center bg-cover bg-center bg-[url(/imgs/bg/bgm-2.jpg)]'>
       <div className='bg-white/50 backdrop-blur-md p-4 rounded-lg shadow-lg w-full max-w-6xl h-[600px] '>
         <div className='flex justify-between items-center p-4'>
           <Link to='/'>

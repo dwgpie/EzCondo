@@ -92,9 +92,9 @@ export default function ListService() {
   const getStatusColor = (status: string) => {
     switch (status.toLowerCase()) {
       case 'active':
-        return 'bg-green-200 text-green-800'
+        return 'bg-green-500 text-white'
       case 'inactive':
-        return 'bg-red-200 text-red-800'
+        return 'bg-red-500 text-white'
       default:
         return ''
     }
@@ -185,8 +185,8 @@ export default function ListService() {
                     >
                       {service.description}
                     </StyledTableCell>
-                    <StyledTableCell>{service.priceOfMonth}</StyledTableCell>
-                    <StyledTableCell>{service.priceOfYear}</StyledTableCell>
+                    <StyledTableCell>{service.priceOfMonth?.toLocaleString('en-US')}</StyledTableCell>
+                    <StyledTableCell>{service.priceOfYear?.toLocaleString('en-US')}</StyledTableCell>
                     <StyledTableCell>
                       <span
                         className={`${getStatusColor(service.status)} px-2 py-1 rounded-full text-sm font-semibold capitalize`}

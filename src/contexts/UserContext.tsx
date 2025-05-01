@@ -1,5 +1,6 @@
 import { createContext, useContext, useState, ReactNode, useEffect, useCallback } from 'react'
 import { getProfile } from '~/apis/auth.api'
+import { AxiosError } from 'axios'
 
 interface UserContextType {
   avatar: string
@@ -14,12 +15,23 @@ export function UserProvider({ children }: { children: ReactNode }) {
 
   const refreshAvatar = useCallback(async () => {
     try {
+      // Only try to fetch avatar if we have a token
+      const token = localStorage.getItem('token')
+      if (!token) {
+        return
+      }
+
       const response = await getProfile()
       if (response.data.avatar) {
         setAvatar(response.data.avatar)
       }
     } catch (error) {
-      console.error('Error fetching avatar:', error)
+      // If we get a 401, clear the avatar
+      if (error instanceof AxiosError && error.response?.status === 401) {
+        setAvatar('')
+      } else {
+        console.error('Error fetching avatar:', error)
+      }
     }
   }, [])
 

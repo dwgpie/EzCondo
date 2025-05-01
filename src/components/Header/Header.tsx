@@ -7,9 +7,6 @@ import { markAsRead, receiveNotification } from '~/apis/notification.api'
 import Popover from '@mui/material/Popover'
 import Badge from '@mui/material/Badge'
 import PopupState, { bindTrigger, bindPopover } from 'material-ui-popup-state'
-import AccountCircleIcon from '@mui/icons-material/AccountCircle'
-import LogoutIcon from '@mui/icons-material/Logout'
-import PasswordIcon from '@mui/icons-material/Password'
 import * as signalR from '@microsoft/signalr'
 import { format, formatDistanceToNow, isToday } from 'date-fns'
 import { useUser } from '../../contexts/UserContext'
@@ -215,9 +212,9 @@ export default function Header() {
   }
 
   return (
-    <div className='bg-[#fff] h-[80px]  w-full pl-[20px] pr-[20px] border-b-[3px] border-gray-300 z-50'>
-      <div className='flex items-center justify-between w-full  h-[80px]'>
-        <div className='relative flex items-center w-[40%]'>
+    <div className='bg-[#fff] h-[80px] w-full pl-[20px] pr-[20px] border-b-2 border-[#eaeaea] z-50'>
+      <div className='flex items-center justify-between w-full h-[80px]'>
+        <div className='relative flex items-center ml-3'>
           <span className='absolute left-3 text-gray-400'>
             <SearchIcon />
           </span>
@@ -226,14 +223,21 @@ export default function Header() {
             value={searchQuery}
             onChange={handleChange}
             placeholder='Search'
-            className='border border-gray-400 rounded-full pl-10 pr-4 py-2 w-[300px] bg-[#edf2f9] shadow-sm'
+            className='border border-gray-300 rounded-full pl-10 pr-4 py-2 w-[300px] bg-[#eef5ff] shadow-sm 
+            focus:outline-none focus:ring-1 focus:ring-blue-400 focus:border-blue-400 
+            transition duration-200 ease-in-out hover:border-blue-400'
           />
         </div>
-        <div className='flex gap-[30px] items-center transition-all duration-300'>
+
+        <div className='flex gap-[20px] items-center transition-all duration-300'>
           {localStorage.getItem('role') === 'manager' && (
             <button ref={bellRef} onClick={handleNotification} className='relative cursor-pointer'>
               <Badge badgeContent={countNotification} color='primary'>
-                <div className='p-2 text-gray-600 bg-[#ebf2f5] rounded-full shadow-lg hover:bg-[#eaf3fd] hover:text-[#3385f0] transition-all duration-300 ripple'>
+                <div
+                  className={`p-2 rounded-full border-1 transition-all duration-300 ripple ${
+                    isOpen ? 'bg-[#eaf3fd] text-[#3385f0] border-[#3385f0]' : 'bg-[#ebf2f5] border-[#eaeaea]'
+                  }`}
+                >
                   <svg xmlns='http://www.w3.org/2000/svg' width='19' height='19' viewBox='0 0 24 24'>
                     <path
                       fill='currentColor'
@@ -249,7 +253,7 @@ export default function Header() {
 
           <div
             ref={notificationRef}
-            className={`absolute w-[350px] bg-white right-[10px] top-18 border border-[#7a8699] rounded-[10px] shadow-lg transition-all duration-500 ease-in-out origin-top transform ${
+            className={`absolute w-[350px] bg-white right-[110px] top-18.5 border border-[#eaeaea] rounded-[10px] shadow-lg transition-all duration-500 ease-in-out origin-top transform ${
               isOpen
                 ? 'opacity-100 scale-100 translate-y-0 visible'
                 : 'opacity-0 scale-95 -translate-y-2 invisible pointer-events-none'
@@ -425,8 +429,11 @@ export default function Header() {
 
           <PopupState variant='popover' popupId='demo-popup-popover'>
             {(popupState) => (
-              <div>
-                <div className='w-12 h-12 rounded-full overflow-hidden cursor-pointer' {...bindTrigger(popupState)}>
+              <div className=''>
+                <div
+                  className='w-14 h-14 rounded-full overflow-hidden cursor-pointer border-1 border-[#eaeaea]'
+                  {...bindTrigger(popupState)}
+                >
                   <img
                     src={avatar || '/imgs/avt/default-avt.jpg'}
                     alt='User avatar'
@@ -434,7 +441,7 @@ export default function Header() {
                   />
                 </div>
                 <Popover
-                  className='mt-3'
+                  className='mt-[6px]'
                   {...bindPopover(popupState)}
                   anchorOrigin={{
                     vertical: 'bottom',
@@ -444,23 +451,51 @@ export default function Header() {
                     vertical: 'top',
                     horizontal: 'right'
                   }}
+                  sx={{
+                    '& .MuiPaper-root': {
+                      borderRadius: '10px',
+                      boxShadow: '0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1)',
+                      overflow: 'hidden',
+                      border: '1px solid #eaeaea'
+                    }
+                  }}
                 >
-                  <div className='w-[180px] bg-white shadow-lg rounded-lg overflow-hidden font-semibold text-gray-500 flex flex-col'>
+                  <div className='w-[180px] bg-white overflow-hidden font-semibold text-gray-500 flex flex-col'>
                     <Link
                       to='/profile'
                       onClick={() => popupState.close()}
-                      className='px-4 py-1 text-l hover:bg-gray-100 transition flex items-center'
+                      className={`px-4 py-1 text-l transition flex items-center ${
+                        location.pathname === '/profile' ? 'bg-[#eaf3fd] text-[#3385f0]' : 'hover:bg-[#ebf2f5]'
+                      }`}
                     >
-                      <AccountCircleIcon />
-                      <span className='ml-4 my-2'>Profile</span>
+                      <div className='w-7 h-7 rounded-full overflow-hidden cursor-pointer'>
+                        <img
+                          src={avatar || '/imgs/avt/default-avt.jpg'}
+                          alt='User avatar'
+                          className={`w-full h-full object-cover rounded-full ${
+                            location.pathname === '/profile' ? 'border-1 border-[#3385f0]' : 'border-1 border-[#eaeaea]'
+                          }`}
+                        />
+                      </div>
+                      <span className='ml-3 my-2'>Profile</span>
                     </Link>
                     <hr className='border-t border-gray-300 w-full' />
                     <Link
                       to='/change-password'
                       onClick={() => popupState.close()}
-                      className='px-4 py-1 text-l hover:bg-gray-100 transition flex items-center'
+                      className={`px-4 py-1 text-l transition flex items-center ${
+                        location.pathname === '/change-password' ? 'bg-[#eaf3fd] text-[#3385f0]' : 'hover:bg-[#ebf2f5]'
+                      }`}
                     >
-                      <PasswordIcon />
+                      <svg xmlns='http://www.w3.org/2000/svg' width='24' height='24' viewBox='0 0 24 24'>
+                        <path
+                          fill='none'
+                          stroke='currentColor'
+                          strokeLinecap='round'
+                          strokeWidth='1.5'
+                          d='M12 10v4m-1.732-3l3.464 2m0-2l-3.465 2m-3.535-3v4M5 11l3.464 2m0-2L5 13m12.268-3v4m-1.732-3L19 13m0-2l-3.465 2M22 12c0 3.771 0 5.657-1.172 6.828S17.771 20 14 20h-4c-3.771 0-5.657 0-6.828-1.172S2 15.771 2 12s0-5.657 1.172-6.828S6.229 4 10 4h4c3.771 0 5.657 0 6.828 1.172c.654.653.943 1.528 1.07 2.828'
+                        />
+                      </svg>
                       <span className='ml-4 my-2'>Password</span>
                     </Link>
                     <hr className='border-t border-gray-300 w-full' />
@@ -469,9 +504,18 @@ export default function Header() {
                         popupState.close()
                         handleLogout()
                       }}
-                      className='px-4 py-1 text-l hover:bg-gray-100 transition flex items-center cursor-pointer'
+                      className='px-4 py-1 text-l hover:bg-[#fdeaea] hover:text-[#f03333] transition flex items-center cursor-pointer'
                     >
-                      <LogoutIcon />
+                      <svg xmlns='http://www.w3.org/2000/svg' width='24' height='24' viewBox='0 0 24 24'>
+                        <path
+                          fill='none'
+                          stroke='currentColor'
+                          strokeLinecap='round'
+                          strokeLinejoin='round'
+                          strokeWidth='2'
+                          d='M20 12h-9.5m7.5 3l3-3l-3-3m-5-2V6a2 2 0 0 0-2-2H6a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h5a2 2 0 0 0 2-2v-1'
+                        />
+                      </svg>
                       <span className='ml-4 my-2'>Logout</span>
                     </div>
                   </div>

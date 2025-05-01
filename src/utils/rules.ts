@@ -114,12 +114,10 @@ export const registerSchema = yup.object({
   dateOfExpiry: yup
     .string()
     .required('Date of expiry is required')
-    .test('not-today-or-future', 'Date of expiry is not valid', (value) => {
-      const inputDate = new Date(value)
-      const today = new Date()
-      inputDate.setHours(0, 0, 0, 0)
-      today.setHours(0, 0, 0, 0)
-      return inputDate < today
+    .test('after-issue-date', 'Date of expiry must be after date of issue', function (value) {
+      const expiryDate = new Date(value)
+      const issueDate = new Date(this.parent.dateOfIssue)
+      return expiryDate > issueDate
     }),
   frontImage: yup.mixed<File>().required('Front image is required') as yup.Schema<File>,
   backImage: yup.mixed<File>().required('Back image is required') as yup.Schema<File>

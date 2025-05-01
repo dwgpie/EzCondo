@@ -84,11 +84,11 @@ export default function ListIncident() {
   const getStatusColor = (status: string) => {
     switch (status.toLowerCase()) {
       case 'pending':
-        return 'bg-red-200 text-red-800'
+        return 'bg-red-500 text-white'
       case 'underway':
-        return 'bg-orange-200 text-orange-800'
+        return 'bg-orange-500 text-white'
       case 'resolved':
-        return 'bg-green-200 text-green-800'
+        return 'bg-green-500 text-white'
       default:
         return ''
     }
@@ -126,7 +126,6 @@ export default function ListIncident() {
                 paginatedIncidents.map((incident, index) => (
                   <StyledTableRow key={incident.id}>
                     <StyledTableCell sx={{ color: 'black', fontWeight: '600' }}>
-                      {' '}
                       {(page - 1) * pageSize + index + 1}
                     </StyledTableCell>
                     <StyledTableCell>{incident.fullName}</StyledTableCell>
@@ -138,7 +137,7 @@ export default function ListIncident() {
                     </StyledTableCell>
                     <StyledTableCell>
                       <span
-                        className={`${getStatusColor(incident.status)} px-2 py-1 rounded-full text-sm font-semibold`}
+                        className={`${getStatusColor(incident.status)} capitalize px-2 py-1 rounded-full text-sm font-semibold`}
                       >
                         {incident.status}
                       </span>

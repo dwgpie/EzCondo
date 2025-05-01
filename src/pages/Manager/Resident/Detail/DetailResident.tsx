@@ -79,8 +79,8 @@ export default function DetailResident() {
   }
 
   return (
-    <div className='mx-5 mt-5 mb-5 p-6 bg-gradient-to-br from-white via-white to-blue-100 drop-shadow-md rounded-xl'>
-      <h2 className='text-xl mb-4 text-black font-semibold'>Account Information</h2>
+    <div className='mx-5 mt-5 mb-5 py-3 px-6 bg-gradient-to-br from-white via-white to-blue-100 drop-shadow-md rounded-xl'>
+      <h2 className='text-xl mb-4 text-gray-500 font-semibold'>Account Information</h2>
       {user ? (
         <form className='rounded' noValidate>
           <div className='grid grid-cols-4 gap-4'>
@@ -188,8 +188,8 @@ export default function DetailResident() {
             </div>
           </div>
 
-          <div className='mt-4'>
-            <h3 className='text-lg mb-4 font-semibold'>Citizen Identity Card</h3>
+          <div className='mt-3'>
+            <h3 className='text-lg mb-3 font-semibold text-gray-500'>Citizen Identity Number</h3>
             <div className='grid grid-cols-3 gap-4'>
               <div className=''>
                 <label className='block text-sm font-semibold'>

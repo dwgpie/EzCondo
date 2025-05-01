@@ -48,9 +48,14 @@ export default function ResetPassword() {
   })
 
   const [showPassword, setShowPassword] = useState(false)
+  const [showPassword2, setShowPassword2] = useState(false)
 
   const toggleShowPassword = () => {
     setShowPassword((prev) => !prev)
+  }
+
+  const toggleShowPassword2 = () => {
+    setShowPassword2((prev) => !prev)
   }
 
   return (
@@ -91,7 +96,7 @@ export default function ResetPassword() {
               <div className='mt-3 relative'>
                 <Input
                   name='confirmPassword'
-                  type={showPassword ? 'text' : 'password'}
+                  type={showPassword2 ? 'text' : 'password'}
                   placeholder='Confirm Password'
                   register={register}
                   className='w-full'
@@ -99,8 +104,8 @@ export default function ResetPassword() {
                   autoComplete='on'
                 />
                 <InputAdornment position='end' className='absolute right-0 top-0 mt-2 mr-4'>
-                  <IconButton onClick={toggleShowPassword} edge='end' aria-label='toggle password visibility'>
-                    {showPassword ? <Visibility /> : <VisibilityOff />}
+                  <IconButton onClick={toggleShowPassword2} edge='end' aria-label='toggle password visibility'>
+                    {showPassword2 ? <Visibility /> : <VisibilityOff />}
                   </IconButton>
                 </InputAdornment>
               </div>
