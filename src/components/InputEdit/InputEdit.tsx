@@ -36,7 +36,7 @@ export default function InputEdit({
     <div className={className}>
       {type === 'textarea' ? (
         <textarea
-          className='w-full py-2 pl-2 outline-none border border-gray-300 focus:border-gray-500 rounded-sm focus:shadow-sm'
+          className='w-full py-2 pl-2 outline-none border bg-white border-gray-300 focus:border-gray-500 rounded-sm focus:shadow-sm'
           placeholder={placeholder}
           defaultValue={defaultValue}
           readOnly={!isEditable}
@@ -46,7 +46,7 @@ export default function InputEdit({
       ) : (
         <input
           type={type}
-          className='w-full py-3 pl-2 outline-none border border-gray-300 focus:border-gray-500 rounded-sm focus:shadow-sm'
+          className='w-full py-3 pl-2 outline-none border bg-white border-gray-300 focus:border-gray-500 rounded-sm focus:shadow-sm'
           placeholder={placeholder}
           autoComplete={autoComplete}
           defaultValue={defaultValue} // Thêm value vào input

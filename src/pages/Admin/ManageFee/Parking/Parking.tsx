@@ -167,6 +167,7 @@ export default function Parking() {
                 type='number'
                 {...register('pricePerMotor')}
                 onChange={(e) => setValue('pricePerMotor', Number(e.target.value))}
+                sx={{ backgroundColor: 'white' }}
               />
             </div>
           </div>
@@ -210,6 +211,7 @@ export default function Parking() {
                 type='number'
                 {...register('pricePerOto')}
                 onChange={(e) => setValue('pricePerOto', Number(e.target.value))}
+                sx={{ backgroundColor: 'white' }}
               />
             </div>
           </div>
@@ -235,6 +237,7 @@ export default function Parking() {
                 name='pricePerMotor'
                 type='text'
                 value={parking?.pricePerMotor ?? ''} // Nếu `undefined` hoặc `null`, đặt về ""
+                sx={{ backgroundColor: 'white' }}
               />
             </div>
             <div className='mt-2'>
@@ -246,6 +249,7 @@ export default function Parking() {
                 name='pricePerOto'
                 type='text'
                 value={parking?.pricePerOto ?? ''} // Nếu `undefined` hoặc `null`, đặt về ""
+                sx={{ backgroundColor: 'white' }}
               />
             </div>
             <div className='mt-7'>
@@ -281,6 +285,7 @@ export default function Parking() {
                   setEditingItem((prev) => (prev ? { ...prev, pricePerMotor: Number(e.target.value) } : null))
                 }
                 fullWidth
+                sx={{ backgroundColor: 'white' }}
               />
             </div>
             <div className='flex flex-col gap-4 mt-4'>
@@ -292,6 +297,7 @@ export default function Parking() {
                   setEditingItem((prev) => (prev ? { ...prev, pricePerOto: Number(e.target.value) } : null))
                 }
                 fullWidth
+                sx={{ backgroundColor: 'white' }}
               />
             </div>
           </DialogContent>

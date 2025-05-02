@@ -28,7 +28,7 @@ export default function Input({
     <div className={className}>
       {type === 'textarea' ? (
         <textarea
-          className='w-full pl-2 outline-none border border-gray-300 focus:border-gray-500 rounded-sm focus:shadow-sm p-2'
+          className='w-full pl-2 outline-none border bg-white border-gray-300 focus:border-gray-500 rounded-sm focus:shadow-sm p-2'
           placeholder={placeholder}
           {...register(name, rules)}
           rows={rows}
@@ -36,7 +36,7 @@ export default function Input({
       ) : (
         <input
           type={type}
-          className='w-full h-11 pl-2 outline-none border border-gray-300 focus:border-gray-500 rounded-sm focus:shadow-sm'
+          className='w-full h-11 pl-2 outline-none border bg-white border-gray-300 focus:border-gray-500 rounded-sm focus:shadow-sm'
           placeholder={placeholder}
           {...register(name, rules)}
           autoComplete={autoComplete}

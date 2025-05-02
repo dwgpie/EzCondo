@@ -9,7 +9,7 @@ import TableHead from '@mui/material/TableHead'
 import TableRow from '@mui/material/TableRow'
 import Paper from '@mui/material/Paper'
 import Pagination from '@mui/material/Pagination'
-import { getAllWater, filterWater, updateBillWater } from '~/apis/service.api'
+import { getAllWater, filterWater } from '~/apis/service.api'
 import { Button, MenuItem, Select, Checkbox } from '@mui/material'
 import { toast } from 'react-toastify'
 import LinearProgress from '@mui/material/LinearProgress'
@@ -18,7 +18,6 @@ import { useNavigate } from 'react-router-dom'
 
 interface WaterForm {
   id?: string
-  waterBillId?: string
   email: string
   fullName: string
   apartmentNumber: string
@@ -65,8 +64,7 @@ export default function UnpaidWater() {
   const pageSize = 7
   const totalPages = Math.ceil(filteredWaters.length / pageSize)
   const [status, setStatus] = useState<string>('false')
-  const [day, setDay] = useState<number>(10)
-  const [selectedIds, setSelectedIds] = useState<string[]>([])
+  const [day, setDay] = useState<string>('All')
   const [selectedApartments, setSelectedApartments] = useState<string[]>([])
 
   const getAllWaterRecords = useMutation({
@@ -76,7 +74,11 @@ export default function UnpaidWater() {
       return response.data
     },
     onSuccess: (data) => {
-      setFilteredWaters(data)
+      // Sort data by readingCurrentDate in descending order
+      const sortedData = [...data].sort(
+        (a, b) => new Date(b.readingCurrentDate).getTime() - new Date(a.readingCurrentDate).getTime()
+      )
+      setFilteredWaters(sortedData)
       setTimeout(() => {
         setLoading(false)
       }, 1000)
@@ -93,8 +95,12 @@ export default function UnpaidWater() {
         status,
         day
       })
-      setFilteredWaters(res.data)
-      setPage(1) // reset lại page về 1 khi lọc
+      // Sort filtered data by readingCurrentDate in descending order
+      const sortedData = [...res.data].sort(
+        (a, b) => new Date(b.readingCurrentDate).getTime() - new Date(a.readingCurrentDate).getTime()
+      )
+      setFilteredWaters(sortedData)
+      setPage(1)
       setTimeout(() => {
         setLoading(false)
       }, 1000)
@@ -121,15 +127,7 @@ export default function UnpaidWater() {
   }
 
   // Modify handleCheckboxChange to also track selected apartments
-  const handleCheckboxChange = (waterBillId: string, apartmentNumber: string) => {
-    setSelectedIds((prev) => {
-      if (prev.includes(waterBillId)) {
-        return prev.filter((id) => id !== waterBillId)
-      } else {
-        return [...prev, waterBillId]
-      }
-    })
-
+  const handleCheckboxChange = (apartmentNumber: string) => {
     setSelectedApartments((prev) => {
       if (prev.includes(apartmentNumber)) {
         return prev.filter((apt) => apt !== apartmentNumber)
@@ -139,37 +137,6 @@ export default function UnpaidWater() {
     })
   }
 
-  // Add handler for processing selected IDs
-  const handleProcessSelected = async () => {
-    if (selectedIds.length === 0) {
-      toast.warning('Please select at least one bill', {
-        style: { width: 'fit-content' }
-      })
-      return
-    }
-    try {
-      setLoading(true)
-      const formattedData = selectedIds.map((id) => ({
-        waterBillId: id
-      }))
-      await updateBillWater(formattedData)
-      toast.success('Bills processed successfully!', {
-        style: { width: 'fit-content' }
-      })
-      getAllWaterRecords.mutate()
-      // Reset both selections
-      setSelectedIds([])
-      setSelectedApartments([])
-    } catch (error) {
-      toast.error('Failed to process bills!', {
-        style: { width: 'fit-content' }
-      })
-      console.error('Error processing bills:', error)
-    } finally {
-      setLoading(false)
-    }
-  }
-
   const handleSendNotification = () => {
     if (selectedApartments.length === 0) {
       toast.warning('Please select at least one apartment', {
@@ -177,7 +144,13 @@ export default function UnpaidWater() {
       })
       return
     }
-    navigate('/manager/add-notification', { state: { selectedApartments } })
+    const currentDate = new Date().toLocaleDateString('vi-VN')
+    const notificationData = {
+      selectedApartments,
+      title: 'Thông Báo Trễ Hạn Thanh Toán Tiền Nước',
+      content: `Kính gửi Quý cư dân,\n\nChúng tôi xin thông báo rằng hóa đơn tiền Nước của căn hộ Quý vị hiện vẫn chưa được thanh toán. Quý cư dân vui lòng hoàn tất việc thanh toán trong thời gian sớm nhất để tránh gián đoạn dịch vụ.\n\nNgày thông báo: ${currentDate}\n\nTrân trọng,\nBan Quản Lý Tòa Nhà.`
+    }
+    navigate('/manager/add-notification', { state: notificationData })
   }
 
   return (
@@ -190,15 +163,6 @@ export default function UnpaidWater() {
       <div className='flex justify-between items-center'>
         <h2 className='text-2xl font-semibold text-gray-500'>Water bill paid or unpaid</h2>
         <div className='mt-2 mb-4 flex gap-4 justify-end items-center'>
-          <Button
-            variant='contained'
-            color='error'
-            onClick={handleProcessSelected}
-            disabled={selectedIds.length === 0}
-            sx={{ width: '200px' }}
-          >
-            Set as Overdue ({selectedIds.length})
-          </Button>
           <Button
             variant='contained'
             color='primary'
@@ -217,11 +181,19 @@ export default function UnpaidWater() {
           <div>
             <Select
               value={day}
-              onChange={(e) => setDay(Number(e.target.value))}
-              sx={{ width: '150px', height: '40px' }}
+              onChange={(e) => setDay(e.target.value === 'All' ? '' : e.target.value)}
+              sx={{ width: '200px', height: '40px' }}
+              displayEmpty
+              renderValue={(selected) => {
+                if (selected === '' || selected === 'All') return 'All'
+                return `More than ${selected} days`
+              }}
             >
-              <MenuItem value={10}>Last 10 days</MenuItem>
-              <MenuItem value={15}>Last 15 days</MenuItem>
+              <MenuItem value='All'>All</MenuItem>
+              <MenuItem value='1'>More than 1 days</MenuItem>
+              <MenuItem value='2'>More than 2 days</MenuItem>
+              <MenuItem value='10'>More than 10 days</MenuItem>
+              <MenuItem value='15'>More than 15 days</MenuItem>
             </Select>
           </div>
         </div>
@@ -248,9 +220,8 @@ export default function UnpaidWater() {
                   <StyledTableRow key={`${water.fullName}-${index}`}>
                     <StyledTableCell>
                       <Checkbox
-                        checked={selectedIds.includes(water.waterBillId || '')}
-                        onChange={() => handleCheckboxChange(water.waterBillId || '', water.apartmentNumber)}
-                        disabled={!water.waterBillId}
+                        checked={selectedApartments.includes(water.apartmentNumber)}
+                        onChange={() => handleCheckboxChange(water.apartmentNumber)}
                       />
                     </StyledTableCell>
                     <StyledTableCell sx={{ fontWeight: 600 }}>{(page - 1) * pageSize + index + 1}</StyledTableCell>

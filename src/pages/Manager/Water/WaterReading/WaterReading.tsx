@@ -25,7 +25,7 @@ interface UploadFormData {
   file: FileList
 }
 
-interface WaterMeter {
+interface WaterReading {
   id?: string
   fullName: string
   apartmentNumber: string
@@ -69,8 +69,7 @@ export default function WaterReading() {
   })
   const [loading, setLoading] = useState(false)
   const { progress, buffer } = useBufferProgress(loading)
-  const [listWater, setListWater] = useState<WaterMeter[]>([])
-  const [filteredWaters, setFilteredWaters] = useState<WaterMeter[]>([])
+  const [filteredWaters, setFilteredWaters] = useState<WaterReading[]>([])
   const [page, setPage] = useState(1)
   const pageSize = 5
   const totalPages = Math.ceil(filteredWaters.length / pageSize)
@@ -107,8 +106,11 @@ export default function WaterReading() {
       return response.data
     },
     onSuccess: (data) => {
-      setListWater(data)
-      setFilteredWaters(data)
+      // Sort data by readingCurrentDate in descending order
+      const sortedData = [...data].sort(
+        (a, b) => new Date(b.readingCurrentDate).getTime() - new Date(a.readingCurrentDate).getTime()
+      )
+      setFilteredWaters(sortedData)
       setTimeout(() => {
         setLoading(false)
       }, 1000)
@@ -116,7 +118,6 @@ export default function WaterReading() {
   })
   useEffect(() => {
     getAllWaterReadings.mutate()
-    console.log('list: ', listWater)
   }, [])
 
   const handleCallAPI = async (formData: UploadFormData) => {
@@ -274,14 +275,14 @@ export default function WaterReading() {
             <TableHead>
               <TableRow>
                 <StyledTableCell width='2%'>ID</StyledTableCell>
-                <StyledTableCell width='17%'>Name</StyledTableCell>
-                <StyledTableCell width='14%'>Apartment Number</StyledTableCell>
+                <StyledTableCell width='16%'>Name</StyledTableCell>
+                <StyledTableCell width='16%'>Apartment Number</StyledTableCell>
                 <StyledTableCell width='10%'>Phone</StyledTableCell>
-                <StyledTableCell width='15%'>Reading Pre Date</StyledTableCell>
-                <StyledTableCell width='15%'>Reading Current Date</StyledTableCell>
+                <StyledTableCell width='17%'>Reading Pre Date</StyledTableCell>
+                <StyledTableCell width='17%'>Reading Current Date</StyledTableCell>
                 <StyledTableCell width='8%'>Consumption</StyledTableCell>
-                <StyledTableCell width='1%'>Status</StyledTableCell>
-                <StyledTableCell width='3%'>Detail</StyledTableCell>
+                <StyledTableCell width='0%'>Status</StyledTableCell>
+                <StyledTableCell width='0%'>Detail</StyledTableCell>
               </TableRow>
             </TableHead>
             <TableBody>

@@ -4,6 +4,7 @@ import { LineChart, Line, BarChart, Bar, XAxis, YAxis, Tooltip, ResponsiveContai
 import { PeopleAlt, MedicalServices, LocalHospital, DirectionsCar } from '@mui/icons-material'
 import { ArrowUpward } from '@mui/icons-material'
 import { Box, Chip } from '@mui/material'
+import Weather from '../../../components/Weather'
 
 export default function DashboardManager() {
   const patientTrend = [
@@ -186,6 +187,9 @@ export default function DashboardManager() {
         </CardContent>
       </Card>
       <Grid container spacing={3}>
+        <Grid item xs={12} md={4}>
+          <Weather />
+        </Grid>
         <Grid container spacing={3}>
           {stats.map((item, index) => (
             <Grid item xs={12} sm={6} md={3} key={index}>

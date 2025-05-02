@@ -197,6 +197,7 @@ export default function Electricity() {
                   type='number'
                   {...register('minKWh')}
                   onChange={(e) => setValue('minKWh', Number(e.target.value))}
+                  sx={{ backgroundColor: 'white' }}
                 />
               </div>
               <div className='flex flex-col items-start'>
@@ -208,6 +209,7 @@ export default function Electricity() {
                   type='number'
                   {...register('maxKWh')}
                   onChange={(e) => setValue('maxKWh', Number(e.target.value))}
+                  sx={{ backgroundColor: 'white' }}
                 />
               </div>
               <div>
@@ -219,6 +221,7 @@ export default function Electricity() {
                   type='number'
                   {...register('pricePerKWh')}
                   onChange={(e) => setValue('pricePerKWh', Math.round(Number(e.target.value)))}
+                  sx={{ backgroundColor: 'white' }}
                 />
                 <div className='mt-1 text-xs text-red-500 min-h-4'>{errors.pricePerKWh?.message}</div>
               </div>
@@ -243,21 +246,21 @@ export default function Electricity() {
                   Min KWh
                   <span className='text-red-600 ml-1'>*</span>
                 </label>
-                <TextField name='electric' type='text' value={electric.minKWh} />
+                <TextField name='electric' type='text' value={electric.minKWh} sx={{ backgroundColor: 'white' }} />
               </div>
               <div className=''>
                 <label className='block text-sm font-semibold mb-1'>
                   Max KWh
                   <span className='text-red-600 ml-1'>*</span>
                 </label>
-                <TextField name='electric' type='text' value={electric.maxKWh} />
+                <TextField name='electric' type='text' value={electric.maxKWh} sx={{ backgroundColor: 'white' }} />
               </div>
               <div className=''>
                 <label className='block text-sm font-semibold mb-1'>
                   Price Per KWh
                   <span className='text-red-600 ml-1'>*</span>
                 </label>
-                <TextField name='electric' type='text' value={electric.pricePerKWh} />
+                <TextField name='electric' type='text' value={electric.pricePerKWh} sx={{ backgroundColor: 'white' }} />
               </div>
               <div className='mt-7'>
                 <button
@@ -303,6 +306,7 @@ export default function Electricity() {
                 value={editingItem?.minKWh || ''}
                 onChange={(e) => setEditingItem((prev) => (prev ? { ...prev, minKWh: Number(e.target.value) } : null))}
                 fullWidth
+                sx={{ backgroundColor: 'white' }}
               />
               <TextField
                 label='Max KWh'
@@ -310,6 +314,7 @@ export default function Electricity() {
                 value={editingItem?.maxKWh || ''}
                 onChange={(e) => setEditingItem((prev) => (prev ? { ...prev, maxKWh: Number(e.target.value) } : null))}
                 fullWidth
+                sx={{ backgroundColor: 'white' }}
               />
               <TextField
                 label='Price Per KWh'
@@ -321,6 +326,7 @@ export default function Electricity() {
                 fullWidth
                 error={!!errors.pricePerKWh}
                 helperText={errors.pricePerKWh?.message}
+                sx={{ backgroundColor: 'white' }}
               />
             </div>
           </DialogContent>

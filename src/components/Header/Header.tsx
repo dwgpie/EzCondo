@@ -212,7 +212,7 @@ export default function Header() {
   }
 
   return (
-    <div className='bg-[#fff] h-[80px] w-full pl-[20px] pr-[20px] border-b-2 border-[#eaeaea] z-50'>
+    <div className='bg-blue-50 h-[80px] w-full pl-[20px] pr-[20px] border-b-2 border-[#eaeaea] z-50'>
       <div className='flex items-center justify-between w-full h-[80px]'>
         <div className='relative flex items-center ml-3'>
           <span className='absolute left-3 text-gray-400'>
@@ -223,7 +223,7 @@ export default function Header() {
             value={searchQuery}
             onChange={handleChange}
             placeholder='Search'
-            className='border border-gray-300 rounded-full pl-10 pr-4 py-2 w-[300px] bg-[#eef5ff] shadow-sm 
+            className='border border-gray-300 rounded-full pl-10 pr-4 py-2 w-[300px] bg-[#fff] shadow-sm 
             focus:outline-none focus:ring-1 focus:ring-blue-400 focus:border-blue-400 
             transition duration-200 ease-in-out hover:border-blue-400'
           />

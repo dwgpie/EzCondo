@@ -92,7 +92,7 @@ export default function AddApartment() {
               type='number'
               value={roomNumber}
               onChange={handleRoomChange}
-              sx={{ width: '200px', marginTop: '6px' }}
+              sx={{ width: '200px', marginTop: '6px', backgroundColor: 'white' }}
             />
           </div>
           <div>
@@ -105,7 +105,7 @@ export default function AddApartment() {
               value={floor}
               onChange={handleFloorChange}
               defaultValue='1'
-              sx={{ width: '200px' }}
+              sx={{ width: '200px', backgroundColor: 'white' }}
             >
               <MenuItem value='1'>Floor 1</MenuItem>
               <MenuItem value='2'>Floor 2</MenuItem>
@@ -123,7 +123,7 @@ export default function AddApartment() {
               value={roomNumber && floor ? `${floor}${roomNumber}` : ''}
               {...register('apartmentNumber')}
               className='bg-gray-100'
-              sx={{ width: '200px', marginTop: '6px' }}
+              sx={{ width: '200px', marginTop: '6px', backgroundColor: 'white' }}
             />
             <div className='mt-1 text-xs text-red-500 min-h-4'>{errors.apartmentNumber?.message}</div>
           </div>
@@ -132,7 +132,11 @@ export default function AddApartment() {
               Acreage
               <span className='text-red-600 ml-1'>*</span>
             </label>
-            <TextField type='number' {...register('acreage')} sx={{ width: '200px', marginTop: '6px' }} />
+            <TextField
+              type='number'
+              {...register('acreage')}
+              sx={{ width: '200px', marginTop: '6px', backgroundColor: 'white' }}
+            />
             <div className='mt-1 text-xs text-red-500 min-h-4'>{errors.acreage?.message}</div>
           </div>
         </div>
