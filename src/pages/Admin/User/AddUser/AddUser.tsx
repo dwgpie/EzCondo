@@ -225,7 +225,7 @@ export default function AddUser() {
             <select
               {...register('gender')}
               defaultValue='Male'
-              className='mt-1 w-full h-11 pl-2 cursor-pointer outline-none border border-gray-300 focus:border-gray-500 rounded-sm focus:shadow-sm'
+              className='mt-1 w-full h-11 pl-2 cursor-pointer outline-none border border-gray-300 focus:border-gray-500 rounded-sm focus:shadow-sm bg-white'
             >
               <option value='male'>Male</option>
               <option value='female'>Female</option>
@@ -240,7 +240,7 @@ export default function AddUser() {
             <select
               {...register('roleName')}
               defaultValue='resident'
-              className='mt-1 w-full h-11 pl-2 cursor-pointer  outline-none border border-gray-300 focus:border-gray-500 rounded-sm focus:shadow-sm'
+              className='mt-1 w-full h-11 pl-2 cursor-pointer outline-none border border-gray-300 focus:border-gray-500 rounded-sm focus:shadow-sm bg-white'
             >
               <option value='resident'>Resident</option>
               <option value='manager'>Manager</option>
@@ -254,7 +254,7 @@ export default function AddUser() {
             <select
               {...register('apartmentNumber')}
               defaultValue=''
-              className='mt-1 w-full h-11 pl-2 cursor-pointer  outline-none border border-gray-300 focus:border-gray-500 rounded-sm focus:shadow-sm'
+              className='mt-1 w-full h-11 pl-2 cursor-pointer outline-none border border-gray-300 focus:border-gray-500 rounded-sm focus:shadow-sm bg-white'
               onChange={(e) => {
                 setValue('apartmentNumber', e.target.value)
                 clearErrors('apartmentNumber')

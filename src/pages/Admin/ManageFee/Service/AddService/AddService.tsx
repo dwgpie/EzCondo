@@ -195,7 +195,7 @@ export default function AddService() {
                     disabled={!typeOfMonth}
                     variant='outlined'
                     size='small'
-                    sx={{ width: '150px' }}
+                    sx={{ width: '150px', backgroundColor: 'white' }}
                     {...register('priceOfMonth')}
                   />
                   <div className='mt-1 ml-3 text-xs text-red-500 min-h-4'>{errors.priceOfMonth?.message}</div>
@@ -212,14 +212,14 @@ export default function AddService() {
                       }
                     }}
                   />
-                  <div className='mr-[54px]'>Year</div>
+                  <div className='mr-[56px]'>Year</div>
                   <TextField
                     type='number'
                     disabled={!typeOfYear}
                     {...register('priceOfYear')}
                     variant='outlined'
                     size='small'
-                    sx={{ width: '150px' }}
+                    sx={{ width: '150px', backgroundColor: 'white' }}
                   />
                   <div className='mt-1 ml-3 text-xs text-red-500 min-h-4'>{errors.priceOfYear?.message}</div>
                 </div>
@@ -239,10 +239,14 @@ export default function AddService() {
                 onDragOver={(e) => e.preventDefault()}
               >
                 {images.length > 0 ? (
-                  <div className='flex flex-wrap flex-start gap-10'>
+                  <div className='flex flex-wrap flex-start gap-3'>
                     {images.map((img, index) => (
                       <div key={index} className='relative group'>
-                        <img src={img} alt='Preview' className='w-24 h-24 object-fit rounded-md' />
+                        <img
+                          src={img}
+                          alt='Preview'
+                          className='w-auto h-24 rounded-lg object-cover shadow-lg hover:scale-105 transition-transform duration-300'
+                        />
                         <button
                           type='button'
                           onClick={(e) => {

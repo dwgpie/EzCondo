@@ -160,6 +160,7 @@ export default function Water() {
                   type='number'
                   {...register('pricePerM3')}
                   onChange={(e) => setValue('pricePerM3', Number(e.target.value))}
+                  sx={{ backgroundColor: 'white' }}
                 />
               </div>
             </div>
@@ -188,6 +189,7 @@ export default function Water() {
                 name='water'
                 type='text'
                 value={water?.pricePerM3 ?? ''} // Nếu `undefined` hoặc `null`, đặt về ""
+                sx={{ backgroundColor: 'white' }}
               />
             </div>
             <div className='mt-7'>
@@ -223,6 +225,7 @@ export default function Water() {
                   setEditingItem((prev) => (prev ? { ...prev, pricePerM3: Number(e.target.value) } : null))
                 }
                 fullWidth
+                sx={{ backgroundColor: 'white' }}
               />
             </div>
           </DialogContent>

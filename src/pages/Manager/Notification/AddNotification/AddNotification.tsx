@@ -76,12 +76,22 @@ export default function AddNotificationManager() {
   }
 
   useEffect(() => {
-    if (preSelectedApartments.length > 0) {
-      setValue('receiver', 'apartment')
-      setApartmentChoosed(preSelectedApartments)
-      setValue('apartmentNumber', preSelectedApartments.join(', '))
-    } else {
-      setValue('receiver', 'resident')
+    if (location.state) {
+      const { selectedApartments, title, content } = location.state
+      if (selectedApartments?.length > 0) {
+        setValue('receiver', 'apartment')
+        setApartmentChoosed(selectedApartments)
+        setValue('apartmentNumber', selectedApartments.join(', '))
+      } else {
+        setValue('receiver', 'resident')
+      }
+
+      if (title) {
+        setValue('title', title)
+      }
+      if (content) {
+        setValue('content', content)
+      }
     }
     fetchApartments()
   }, [])
@@ -310,7 +320,7 @@ export default function AddNotificationManager() {
               id='demo-select-small'
               defaultValue='new'
               {...register('type')}
-              sx={{ width: '200px', height: '55px' }}
+              sx={{ width: '200px', height: '55px', backgroundColor: 'white' }}
             >
               <MenuItem value='new'>New</MenuItem>
               <MenuItem value='notice'>Notice</MenuItem>
@@ -393,7 +403,7 @@ export default function AddNotificationManager() {
                 register={register}
                 className='mt-1'
                 errorMessage={errors.content?.message}
-                rows={4}
+                rows={7}
               />
             </div>
           </div>
@@ -414,7 +424,14 @@ export default function AddNotificationManager() {
                 clearErrors('apartmentNumber')
               }}
               value={apartmentChoosed}
-              renderInput={(params) => <TextField {...params} placeholder='Search Apartment' variant='outlined' />}
+              renderInput={(params) => (
+                <TextField
+                  {...params}
+                  placeholder='Search Apartment'
+                  variant='outlined'
+                  sx={{ backgroundColor: 'white' }}
+                />
+              )}
             />
 
             <div className='mt-1 text-xs text-red-500 min-h-4'>{errors.apartmentNumber?.message}</div>

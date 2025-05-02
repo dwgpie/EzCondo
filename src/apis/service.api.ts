@@ -323,7 +323,7 @@ export const dowloadTemplateWaterReading = () => {
   })
 }
 
-export const filterElectric = (body: { status: string; day: number }) => {
+export const filterElectric = (body: { status: string; day: string }) => {
   return http.get(`/api/Electric/Get-All-Electric?status=${body.status}&day=${body.day}`)
 }
 
@@ -331,7 +331,7 @@ export const updateBillElectric = (body: { electricBillId: string }[]) => {
   return http.patch('/api/Electric/Update-Electric-Bill', body)
 }
 
-export const filterWater = (body: { status: string; day: number }) => {
+export const filterWater = (body: { status: string; day: string }) => {
   return http.get(`/api/Water/Get-All-Water?status=${body.status}&day=${body.day}`)
 }
 

@@ -19,7 +19,7 @@ export default function SideBarManagerInactive() {
   const WaterUnpaidPath = '/manager/unpaid-water'
 
   return (
-    <div className='flex flex-col items-center bg-[#fff] mb-10 w-full h-screen border-r-2 border-[#eaeaea] text-[#4d595e]'>
+    <div className='flex flex-col items-center bg-blue-50 mb-10 w-full h-screen border-r-2 border-[#eaeaea] text-blue-900'>
       <Link to='/manager/dashboard'>
         <div className='w-20 h-20 ml-2'>
           <img src='/public/imgs/logo/logo-mini.png' className='w-full h-full object-cover' />
@@ -28,10 +28,10 @@ export default function SideBarManagerInactive() {
 
       <div className='w-full font-semibold flex flex-col items-center'>
         {/* Dashboard */}
-        <p className='text-[13px] text-gray-400 mt-2 mb-2'>HOMEPAGE</p>
+        <p className='text-[13px] text-blue-600 mt-2 mb-2'>HOMEPAGE</p>
         <Link to='/manager/dashboard'>
           <div
-            className={`flex justify-between px-[13px] h-[80px] rounded-xl cursor-pointer hover:bg-[#ebf2f5] ripple ${path === DashboardPath ? 'bg-[#eaf3fd] text-[#3385f0]' : 'hover:bg-[#ebf2f5]'}`}
+            className={`flex justify-between px-[13px] h-[80px] rounded-xl cursor-pointer hover:bg-blue-100 ripple ${path === DashboardPath ? 'bg-blue-100 text-blue-600' : 'hover:bg-blue-100'}`}
           >
             <div className='flex flex-col justify-center items-center gap-[2px]'>
               <svg xmlns='http://www.w3.org/2000/svg' width='24' height='24' viewBox='0 0 24 24'>
@@ -45,13 +45,13 @@ export default function SideBarManagerInactive() {
           </div>
         </Link>
 
-        <p className='text-[13px] text-gray-400 mt-3 mb-2'>FEATURES</p>
+        <p className='text-[13px] text-blue-600 mt-3 mb-2'>FEATURES</p>
         <div className='flex flex-col items-center'>
           {/* User */}
           <div className='relative group'>
             {/* Nút bấm */}
             <div
-              className={`flex justify-between px-[29px] h-[80px] rounded-xl cursor-pointer hover:bg-[#ebf2f5] ripple ${path === ListUserPath ? 'bg-[#eaf3fd] text-[#3385f0]' : 'hover:bg-[#ebf2f5]'}`}
+              className={`flex justify-between px-[29px] h-[80px] rounded-xl cursor-pointer hover:bg-blue-100 ripple ${path === ListUserPath ? 'bg-blue-100 text-blue-600' : 'hover:bg-blue-100'}`}
             >
               <div className='flex flex-col justify-center items-center gap-[2px]'>
                 <svg
@@ -75,7 +75,7 @@ export default function SideBarManagerInactive() {
               <ul>
                 <Link to='/manager/list-resident'>
                   <div
-                    className={`flex justify-between h-[40px] pl-[20px] pr-[20px] text-[13px] rounded-2xl hover:bg-[#ebf2f5] ripple ${path === ListUserPath ? 'bg-[#eaf3fd] text-[#3385f0]' : 'hover:bg-[#ebf2f5]'}`}
+                    className={`flex justify-between h-[40px] pl-[20px] pr-[20px] text-[13px] rounded-2xl hover:bg-blue-100 ripple ${path === ListUserPath ? 'bg-blue-100 text-blue-600' : 'hover:bg-blue-100'}`}
                   >
                     <div className='flex items-center gap-[10px]'>
                       <svg xmlns='http://www.w3.org/2000/svg' width='25' height='25' viewBox='0 0 250 250'>
@@ -96,7 +96,7 @@ export default function SideBarManagerInactive() {
           <div className='relative group'>
             {/* Nút bấm */}
             <div
-              className={`flex justify-between px-[23px] py-2 mt-1 h-[80px] rounded-xl cursor-pointer hover:bg-[#ebf2f5] ripple ${path === ElectricMeterPath || path === ElectricicReadingPath || path === ElectricUnpaidPath ? 'bg-[#eaf3fd] text-[#3385f0]' : 'hover:bg-[#ebf2f5]'}`}
+              className={`flex justify-between px-[23px] py-2 mt-1 h-[80px] rounded-xl cursor-pointer hover:bg-blue-100 ripple ${path === ElectricMeterPath || path === ElectricicReadingPath || path === ElectricUnpaidPath ? 'bg-blue-100 text-blue-600' : 'hover:bg-blue-100'}`}
             >
               <div className='flex flex-col justify-center items-center gap-[2px]'>
                 <svg xmlns='http://www.w3.org/2000/svg' width='34' height='32' viewBox='0 0 24 20' className='ml-2'>
@@ -116,7 +116,7 @@ export default function SideBarManagerInactive() {
               <ul>
                 <Link to='/manager/add-electricity-meter'>
                   <div
-                    className={`flex justify-between h-[40px] pl-[20px] pr-[20px] text-[13px] mb-1 rounded-2xl hover:bg-[#ebf2f5] ripple ${path === ElectricMeterPath ? 'bg-[#eaf3fd] text-[#3385f0]' : 'hover:bg-[#ebf2f5]'}`}
+                    className={`flex justify-between h-[40px] pl-[20px] pr-[20px] text-[13px] mb-1 rounded-2xl hover:bg-blue-100 ripple ${path === ElectricMeterPath ? 'bg-blue-100 text-blue-600' : 'hover:bg-blue-100'}`}
                   >
                     <div className='flex items-center gap-[6px]'>
                       <svg xmlns='http://www.w3.org/2000/svg' width='29' height='29' viewBox='0 0 24 24'>
@@ -131,7 +131,7 @@ export default function SideBarManagerInactive() {
                 </Link>
                 <Link to='/manager/add-electricity-reading'>
                   <div
-                    className={`flex justify-between h-[40px] pl-[20px] pr-[20px] text-[13px] mb-1 rounded-2xl hover:bg-[#ebf2f5] ripple ${path === ElectricicReadingPath ? 'bg-[#eaf3fd] text-[#3385f0]' : 'hover:bg-[#ebf2f5]'}`}
+                    className={`flex justify-between h-[40px] pl-[20px] pr-[20px] text-[13px] mb-1 rounded-2xl hover:bg-blue-100 ripple ${path === ElectricicReadingPath ? 'bg-blue-100 text-blue-600' : 'hover:bg-blue-100'}`}
                   >
                     <div className='flex items-center gap-[10px]'>
                       <svg xmlns='http://www.w3.org/2000/svg' width='26' height='26' viewBox='0 0 24 24'>
@@ -146,7 +146,7 @@ export default function SideBarManagerInactive() {
                 </Link>
                 <Link to='/manager/unpaid-electricity'>
                   <div
-                    className={`flex justify-between h-[40px] pl-[20px] pr-[20px] text-[13px] rounded-2xl hover:bg-[#ebf2f5] ripple ${path === ElectricUnpaidPath ? 'bg-[#eaf3fd] text-[#3385f0]' : 'hover:bg-[#ebf2f5]'}`}
+                    className={`flex justify-between h-[40px] pl-[20px] pr-[20px] text-[13px] rounded-2xl hover:bg-blue-100 ripple ${path === ElectricUnpaidPath ? 'bg-blue-100 text-blue-600' : 'hover:bg-blue-100'}`}
                   >
                     <div className='flex items-center gap-[12px]'>
                       <svg xmlns='http://www.w3.org/2000/svg' width='21' height='21' viewBox='0 0 16 16'>
@@ -169,7 +169,7 @@ export default function SideBarManagerInactive() {
           <div className='relative group'>
             {/* Nút bấm */}
             <div
-              className={`flex justify-between px-[29px] py-2 mt-1 h-[80px] rounded-xl cursor-pointer hover:bg-[#ebf2f5] ripple ${path === WaterMeterPath || path === WaterReadingPath || path === WaterUnpaidPath ? 'bg-[#eaf3fd] text-[#3385f0]' : 'hover:bg-[#ebf2f5]'}`}
+              className={`flex justify-between px-[29px] py-2 mt-1 h-[80px] rounded-xl cursor-pointer hover:bg-blue-100 ripple ${path === WaterMeterPath || path === WaterReadingPath || path === WaterUnpaidPath ? 'bg-blue-100 text-blue-600' : 'hover:bg-blue-100'}`}
             >
               <div className='flex flex-col justify-center items-center gap-[2px]'>
                 <svg xmlns='http://www.w3.org/2000/svg' width='24' height='24' viewBox='0 0 512 512'>
@@ -198,7 +198,7 @@ export default function SideBarManagerInactive() {
               <ul>
                 <Link to='/manager/add-water-meter'>
                   <div
-                    className={`flex justify-between h-[40px] pl-[20px] pr-[20px] text-[13px] mb-1 rounded-2xl hover:bg-[#ebf2f5] ripple ${path === WaterMeterPath ? 'bg-[#eaf3fd] text-[#3385f0]' : 'hover:bg-[#ebf2f5]'}`}
+                    className={`flex justify-between h-[40px] pl-[20px] pr-[20px] text-[13px] mb-1 rounded-2xl hover:bg-blue-100 ripple ${path === WaterMeterPath ? 'bg-blue-100 text-blue-600' : 'hover:bg-blue-100'}`}
                   >
                     <div className='flex items-center gap-[6px]'>
                       <svg xmlns='http://www.w3.org/2000/svg' width='26' height='26' viewBox='0 0 24 24'>
@@ -213,7 +213,7 @@ export default function SideBarManagerInactive() {
                 </Link>
                 <Link to='/manager/add-water-reading'>
                   <div
-                    className={`flex justify-between h-[40px] pl-[20px] pr-[20px] text-[13px] mb-1 rounded-2xl hover:bg-[#ebf2f5] ripple ${path === WaterReadingPath ? 'bg-[#eaf3fd] text-[#3385f0]' : 'hover:bg-[#ebf2f5]'}`}
+                    className={`flex justify-between h-[40px] pl-[20px] pr-[20px] text-[13px] mb-1 rounded-2xl hover:bg-blue-100 ripple ${path === WaterReadingPath ? 'bg-blue-100 text-blue-600' : 'hover:bg-blue-100'}`}
                   >
                     <div className='flex items-center gap-[10px]'>
                       <svg xmlns='http://www.w3.org/2000/svg' width='24' height='24' viewBox='0 0 24 24'>
@@ -228,7 +228,7 @@ export default function SideBarManagerInactive() {
                 </Link>
                 <Link to='/manager/unpaid-water'>
                   <div
-                    className={`flex justify-between h-[40px] pl-[20px] pr-[20px] text-[13px] rounded-2xl hover:bg-[#ebf2f5] ripple ${path === WaterUnpaidPath ? 'bg-[#eaf3fd] text-[#3385f0]' : 'hover:bg-[#ebf2f5]'}`}
+                    className={`flex justify-between h-[40px] pl-[20px] pr-[20px] text-[13px] rounded-2xl hover:bg-blue-100 ripple ${path === WaterUnpaidPath ? 'bg-blue-100 text-blue-600' : 'hover:bg-blue-100'}`}
                   >
                     <div className='flex items-center gap-[12px]'>
                       <svg xmlns='http://www.w3.org/2000/svg' width='21' height='21' viewBox='0 0 16 16'>
@@ -251,7 +251,7 @@ export default function SideBarManagerInactive() {
           <div className='relative group'>
             {/* Nút bấm */}
             <div
-              className={`flex justify-between px-[7px] py-2 mt-1 h-[80px] rounded-xl cursor-pointer hover:bg-[#ebf2f5] ripple ${path === HistoryNotificationPath || path === AddNotificationPath ? 'bg-[#eaf3fd] text-[#3385f0]' : 'hover:bg-[#ebf2f5]'}`}
+              className={`flex justify-between px-[7px] py-2 mt-1 h-[80px] rounded-xl cursor-pointer hover:bg-blue-100 ripple ${path === HistoryNotificationPath || path === AddNotificationPath ? 'bg-blue-100 text-blue-600' : 'hover:bg-blue-100'}`}
             >
               <div className='flex flex-col justify-center items-center gap-[2px]'>
                 <svg xmlns='http://www.w3.org/2000/svg' width='28' height='28' viewBox='0 0 24 24'>
@@ -279,7 +279,7 @@ export default function SideBarManagerInactive() {
               <ul>
                 <Link to='/manager/history-notification'>
                   <div
-                    className={`flex justify-between h-[40px] pl-[20px] pr-[20px] text-[13px] mb-1 rounded-2xl hover:bg-[#ebf2f5] ripple ${path === HistoryNotificationPath ? 'bg-[#eaf3fd] text-[#3385f0]' : 'hover:bg-[#ebf2f5]'}`}
+                    className={`flex justify-between h-[40px] pl-[20px] pr-[20px] text-[13px] mb-1 rounded-2xl hover:bg-blue-100 ripple ${path === HistoryNotificationPath ? 'bg-blue-100 text-blue-600' : 'hover:bg-blue-100'}`}
                   >
                     <div className='flex items-center gap-[10px]'>
                       <svg xmlns='http://www.w3.org/2000/svg' width='26' height='26' viewBox='0 0 24 24'>
@@ -301,7 +301,7 @@ export default function SideBarManagerInactive() {
                 </Link>
                 <Link to='/manager/add-notification'>
                   <div
-                    className={`flex justify-between h-[40px] pl-[20px] pr-[20px] text-[13px] rounded-2xl hover:bg-[#ebf2f5] ripple ${path === AddNotificationPath ? 'bg-[#eaf3fd] text-[#3385f0]' : 'hover:bg-[#ebf2f5]'}`}
+                    className={`flex justify-between h-[40px] pl-[20px] pr-[20px] text-[13px] rounded-2xl hover:bg-blue-100 ripple ${path === AddNotificationPath ? 'bg-blue-100 text-blue-600' : 'hover:bg-blue-100'}`}
                   >
                     <div className='flex items-center gap-[10px]'>
                       <svg xmlns='http://www.w3.org/2000/svg' width='26' height='26' viewBox='0 0 24 24'>

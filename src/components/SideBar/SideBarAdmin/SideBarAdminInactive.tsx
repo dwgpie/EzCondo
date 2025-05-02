@@ -19,7 +19,7 @@ export default function SideBarAdminInactive() {
   const ListApartmentPath = '/admin/list-apartment'
 
   return (
-    <div className='flex flex-col items-center bg-[#fff] mb-10 w-full h-screen border-r-2 border-[#eaeaea] text-[#4d595e]'>
+    <div className='flex flex-col items-center bg-blue-50 mb-10 w-full h-screen border-r-2 border-[#eaeaea] text-blue-900'>
       <Link to='/admin/dashboard'>
         <div className='w-20 h-20 ml-2'>
           <img src='/public/imgs/logo/logo-mini.png' className='w-full h-full object-cover' />
@@ -28,10 +28,10 @@ export default function SideBarAdminInactive() {
 
       <div className='w-full font-semibold flex flex-col items-center'>
         {/* Dashboard */}
-        <p className='text-[13px] text-gray-400 mt-2 mb-2'>HOMEPAGE</p>
+        <p className='text-[13px] text-blue-600 mt-2 mb-2'>HOMEPAGE</p>
         <Link to='/admin/dashboard'>
           <div
-            className={`flex justify-between px-[13px] h-[80px] rounded-xl cursor-pointer hover:bg-[#ebf2f5] ripple ${path === DashboardPath ? 'bg-[#eaf3fd] text-[#3385f0]' : 'hover:bg-[#ebf2f5]'}`}
+            className={`flex justify-between px-[13px] h-[80px] rounded-xl cursor-pointer hover:bg-blue-100 ripple ${path === DashboardPath ? 'bg-blue-100 text-blue-600' : 'hover:bg-blue-100'}`}
           >
             <div className='flex flex-col justify-center items-center gap-[2px]'>
               <svg xmlns='http://www.w3.org/2000/svg' width='24' height='24' viewBox='0 0 24 24'>
@@ -45,13 +45,13 @@ export default function SideBarAdminInactive() {
           </div>
         </Link>
 
-        <p className='text-[13px] text-gray-400 mt-3 mb-2'>FEATURES</p>
+        <p className='text-[13px] text-blue-600 mt-3 mb-2'>FEATURES</p>
         <div className='flex flex-col items-center'>
           {/* User */}
           <div className='relative group'>
             {/* Nút bấm */}
             <div
-              className={`flex justify-between px-[29px] h-[80px] rounded-xl cursor-pointer hover:bg-[#ebf2f5] ripple ${path === ListUserPath || path === AddUserPath ? 'bg-[#eaf3fd] text-[#3385f0]' : 'hover:bg-[#ebf2f5]'}`}
+              className={`flex justify-between px-[29px] h-[80px] rounded-xl cursor-pointer hover:bg-blue-100 ripple ${path === ListUserPath || path === AddUserPath ? 'bg-blue-100 text-blue-600' : 'hover:bg-blue-100'}`}
             >
               <div className='flex flex-col justify-center items-center gap-[2px]'>
                 <svg
@@ -74,7 +74,7 @@ export default function SideBarAdminInactive() {
               <ul>
                 <Link to='/admin/list-user'>
                   <div
-                    className={`flex justify-between h-[40px] pl-[20px] pr-[20px] mb-1 text-[13px] rounded-2xl hover:bg-[#ebf2f5] ripple ${path === ListUserPath ? 'bg-[#eaf3fd] text-[#3385f0]' : 'hover:bg-[#ebf2f5]'}`}
+                    className={`flex justify-between h-[40px] pl-[20px] pr-[20px] mb-1 text-[13px] rounded-2xl hover:bg-blue-100 ripple ${path === ListUserPath ? 'bg-blue-100 text-blue-600' : 'hover:bg-blue-100'}`}
                   >
                     <div className='flex items-center gap-[10px]'>
                       <svg xmlns='http://www.w3.org/2000/svg' width='25' height='25' viewBox='0 0 250 250'>
@@ -89,7 +89,7 @@ export default function SideBarAdminInactive() {
                 </Link>
                 <Link to='/admin/add-user'>
                   <div
-                    className={`flex justify-between h-[40px] pl-[20px] pr-[20px] text-[13px] rounded-2xl hover:bg-[#ebf2f5] ripple ${path === AddUserPath ? 'bg-[#eaf3fd] text-[#3385f0]' : 'hover:bg-[#ebf2f5]'}`}
+                    className={`flex justify-between h-[40px] pl-[20px] pr-[20px] text-[13px] rounded-2xl hover:bg-blue-100 ripple ${path === AddUserPath ? 'bg-blue-100 text-blue-600' : 'hover:bg-blue-100'}`}
                   >
                     <div className='flex items-center gap-[10px]'>
                       <svg xmlns='http://www.w3.org/2000/svg' width='24' height='24' viewBox='0 0 24 24'>
@@ -113,7 +113,7 @@ export default function SideBarAdminInactive() {
           <div className='relative group'>
             {/* Nút bấm */}
             <div
-              className={`flex justify-between px-[21px] py-2 mt-1 h-[80px] rounded-xl cursor-pointer hover:bg-[#ebf2f5] ripple ${path === ListServicePath || path === AddServicePath ? 'bg-[#eaf3fd] text-[#3385f0]' : 'hover:bg-[#ebf2f5]'}`}
+              className={`flex justify-between px-[21px] py-2 mt-1 h-[80px] rounded-xl cursor-pointer hover:bg-blue-100 ripple ${path === ListServicePath || path === AddServicePath ? 'bg-blue-100 text-blue-600' : 'hover:bg-blue-100'}`}
             >
               <div className='flex flex-col justify-center items-center gap-[2px]'>
                 <svg xmlns='http://www.w3.org/2000/svg' width='28' height='28' viewBox='0 0 2048 2048' style={{}}>
@@ -130,7 +130,7 @@ export default function SideBarAdminInactive() {
               <ul>
                 <Link to='/admin/list-service'>
                   <div
-                    className={`flex justify-between h-[40px] pl-[20px] pr-[20px] mb-1 text-[13px] rounded-2xl hover:bg-[#ebf2f5] ripple ${path === ListServicePath ? 'bg-[#eaf3fd] text-[#3385f0]' : 'hover:bg-[#ebf2f5]'}`}
+                    className={`flex justify-between h-[40px] pl-[20px] pr-[20px] mb-1 text-[13px] rounded-2xl hover:bg-blue-100 ripple ${path === ListServicePath ? 'bg-blue-100 text-blue-600' : 'hover:bg-blue-100'}`}
                   >
                     <div className='flex items-center gap-[10px]'>
                       <svg xmlns='http://www.w3.org/2000/svg' width='24' height='24' viewBox='0 0 24 24'>
@@ -147,7 +147,7 @@ export default function SideBarAdminInactive() {
                 </Link>
                 <Link to='/admin/add-service'>
                   <div
-                    className={`flex justify-between h-[40px] pl-[20px] pr-[20px] text-[13px] rounded-2xl hover:bg-[#ebf2f5] ripple ${path === AddServicePath ? 'bg-[#eaf3fd] text-[#3385f0]' : 'hover:bg-[#ebf2f5]'}`}
+                    className={`flex justify-between h-[40px] pl-[20px] pr-[20px] text-[13px] rounded-2xl hover:bg-blue-100 ripple ${path === AddServicePath ? 'bg-blue-100 text-blue-600' : 'hover:bg-blue-100'}`}
                   >
                     <div className={`flex items-center gap-[10px] ${path === AddServicePath ? 'text-[#1976d3]' : ''}`}>
                       <svg xmlns='http://www.w3.org/2000/svg' width='24' height='24' viewBox='0 0 24 24'>
@@ -168,7 +168,7 @@ export default function SideBarAdminInactive() {
           <div className='relative group'>
             {/* Nút bấm */}
             <div
-              className={`flex justify-between px-[30px] py-2 mt-1 h-[80px] rounded-xl cursor-pointer hover:bg-[#ebf2f5] ripple ${path === ElectricityPath || path === WaterPath || path === ParkingPath ? 'bg-[#eaf3fd] text-[#3385f0]' : 'hover:bg-[#ebf2f5]'}`}
+              className={`flex justify-between px-[30px] py-2 mt-1 h-[80px] rounded-xl cursor-pointer hover:bg-blue-100 ripple ${path === ElectricityPath || path === WaterPath || path === ParkingPath ? 'bg-blue-100 text-blue-600' : 'hover:bg-blue-100'}`}
             >
               <div className='flex flex-col justify-center items-center gap-[2px]'>
                 <svg xmlns='http://www.w3.org/2000/svg' width='35' height='35' viewBox='0 0 24 24'>
@@ -186,7 +186,7 @@ export default function SideBarAdminInactive() {
               <ul>
                 <Link to='/admin/setting-fee-electricity'>
                   <div
-                    className={`flex justify-between h-[40px] pl-[20px] pr-[20px] text-[13px] mb-1 rounded-2xl hover:bg-[#ebf2f5] ripple ${path === ElectricityPath ? 'bg-[#eaf3fd] text-[#3385f0]' : 'hover:bg-[#ebf2f5]'}`}
+                    className={`flex justify-between h-[40px] pl-[20px] pr-[20px] text-[13px] mb-1 rounded-2xl hover:bg-blue-100 ripple ${path === ElectricityPath ? 'bg-blue-100 text-blue-600' : 'hover:bg-blue-100'}`}
                   >
                     <div className='flex items-center'>
                       <svg xmlns='http://www.w3.org/2000/svg' width='34' height='32' viewBox='0 0 24 20'>
@@ -203,7 +203,7 @@ export default function SideBarAdminInactive() {
                 </Link>
                 <Link to='/admin/setting-fee-water'>
                   <div
-                    className={`flex justify-between h-[40px] pl-[20px] pr-[20px] text-[13px] mb-1 rounded-2xl hover:bg-[#ebf2f5] ripple ${path === WaterPath ? 'bg-[#eaf3fd] text-[#3385f0]' : 'hover:bg-[#ebf2f5]'}`}
+                    className={`flex justify-between h-[40px] pl-[20px] pr-[20px] text-[13px] mb-1 rounded-2xl hover:bg-blue-100 ripple ${path === WaterPath ? 'bg-blue-100 text-blue-600' : 'hover:bg-blue-100'}`}
                   >
                     <div className='flex items-center gap-[10px]'>
                       <svg xmlns='http://www.w3.org/2000/svg' width='24' height='24' viewBox='0 0 512 512'>
@@ -229,7 +229,7 @@ export default function SideBarAdminInactive() {
                 </Link>
                 <Link to='/admin/setting-fee-parking'>
                   <div
-                    className={`flex justify-between h-[40px] pl-[20px] pr-[20px] text-[13px] rounded-2xl hover:bg-[#ebf2f5] ripple ${path === ParkingPath ? 'bg-[#eaf3fd] text-[#3385f0]' : 'hover:bg-[#ebf2f5]'}`}
+                    className={`flex justify-between h-[40px] pl-[20px] pr-[20px] text-[13px] rounded-2xl hover:bg-blue-100 ripple ${path === ParkingPath ? 'bg-blue-100 text-blue-600' : 'hover:bg-blue-100'}`}
                   >
                     <div className='flex items-center gap-[6px]'>
                       <svg xmlns='http://www.w3.org/2000/svg' width='27' height='27' viewBox='0 0 24 24'>
@@ -256,7 +256,7 @@ export default function SideBarAdminInactive() {
           <div className='relative group'>
             {/* Nút bấm */}
             <div
-              className={`flex justify-between px-[10px] py-2 mt-1 h-[80px] rounded-xl cursor-pointer hover:bg-[#ebf2f5] ripple ${path === ListApartmentPath || path === AddApartmentPath ? 'bg-[#eaf3fd] text-[#3385f0]' : 'hover:bg-[#ebf2f5]'}`}
+              className={`flex justify-between px-[10px] py-2 mt-1 h-[80px] rounded-xl cursor-pointer hover:bg-blue-100 ripple ${path === ListApartmentPath || path === AddApartmentPath ? 'bg-blue-100 text-blue-600' : 'hover:bg-blue-100'}`}
             >
               <div className='flex flex-col justify-center items-center gap-[2px]'>
                 <svg xmlns='http://www.w3.org/2000/svg' width='35' height='35' viewBox='0 0 24 24'>
@@ -274,7 +274,7 @@ export default function SideBarAdminInactive() {
               <ul>
                 <Link to='/admin/list-apartment'>
                   <div
-                    className={`flex justify-between h-[40px] pl-[20px] pr-[20px] text-[13px] mb-1 rounded-2xl hover:bg-[#ebf2f5] ripple ${path === ListApartmentPath ? 'bg-[#eaf3fd] text-[#3385f0]' : 'hover:bg-[#ebf2f5]'}`}
+                    className={`flex justify-between h-[40px] pl-[20px] pr-[20px] text-[13px] mb-1 rounded-2xl hover:bg-blue-100 ripple ${path === ListApartmentPath ? 'bg-blue-100 text-blue-600' : 'hover:bg-blue-100'}`}
                   >
                     <div className='flex items-center gap-[7px]'>
                       <svg xmlns='http://www.w3.org/2000/svg' width='27' height='27' viewBox='0 0 1024 1024'>
@@ -289,7 +289,7 @@ export default function SideBarAdminInactive() {
                 </Link>
                 <Link to='/admin/add-apartment'>
                   <div
-                    className={`flex justify-between h-[40px] pl-[20px] pr-[20px] text-[13px] rounded-2xl hover:bg-[#ebf2f5] ripple ${path === AddApartmentPath ? 'bg-[#eaf3fd] text-[#3385f0]' : 'hover:bg-[#ebf2f5]'}`}
+                    className={`flex justify-between h-[40px] pl-[20px] pr-[20px] text-[13px] rounded-2xl hover:bg-blue-100 ripple ${path === AddApartmentPath ? 'bg-blue-100 text-blue-600' : 'hover:bg-blue-100'}`}
                   >
                     <div className='flex items-center gap-[10px]'>
                       <svg xmlns='http://www.w3.org/2000/svg' width='22' height='22' viewBox='0 0 2048 2048'>
@@ -310,7 +310,7 @@ export default function SideBarAdminInactive() {
           <div className='relative group'>
             {/* Nút bấm */}
             <div
-              className={`flex justify-between px-[7px] py-2 mt-1 h-[80px] rounded-xl cursor-pointer hover:bg-[#ebf2f5] ripple ${path === HistoryNotificationPath || path === AddNotificationPath ? 'bg-[#eaf3fd] text-[#3385f0]' : 'hover:bg-[#ebf2f5]'}`}
+              className={`flex justify-between px-[7px] py-2 mt-1 h-[80px] rounded-xl cursor-pointer hover:bg-blue-100 ripple ${path === HistoryNotificationPath || path === AddNotificationPath ? 'bg-blue-100 text-blue-600' : 'hover:bg-blue-100'}`}
             >
               <div className='flex flex-col justify-center items-center gap-[2px]'>
                 <svg xmlns='http://www.w3.org/2000/svg' width='28' height='28' viewBox='0 0 24 24'>
@@ -338,7 +338,7 @@ export default function SideBarAdminInactive() {
               <ul>
                 <Link to='/admin/history-notification'>
                   <div
-                    className={`flex justify-between h-[40px] pl-[20px] pr-[20px] text-[13px] mb-1 rounded-2xl hover:bg-[#ebf2f5] ripple ${path === HistoryNotificationPath ? 'bg-[#eaf3fd] text-[#3385f0]' : 'hover:bg-[#ebf2f5]'}`}
+                    className={`flex justify-between h-[40px] pl-[20px] pr-[20px] text-[13px] mb-1 rounded-2xl hover:bg-blue-100 ripple ${path === HistoryNotificationPath ? 'bg-blue-100 text-blue-600' : 'hover:bg-blue-100'}`}
                   >
                     <div className='flex items-center gap-[10px]'>
                       <svg xmlns='http://www.w3.org/2000/svg' width='26' height='26' viewBox='0 0 24 24'>
@@ -360,7 +360,7 @@ export default function SideBarAdminInactive() {
                 </Link>
                 <Link to='/admin/add-notification'>
                   <div
-                    className={`flex justify-between h-[40px] pl-[20px] pr-[20px] text-[13px] rounded-2xl hover:bg-[#ebf2f5] ripple ${path === AddNotificationPath ? 'bg-[#eaf3fd] text-[#3385f0]' : 'hover:bg-[#ebf2f5]'}`}
+                    className={`flex justify-between h-[40px] pl-[20px] pr-[20px] text-[13px] rounded-2xl hover:bg-blue-100 ripple ${path === AddNotificationPath ? 'bg-blue-100 text-blue-600' : 'hover:bg-blue-100'}`}
                   >
                     <div className='flex items-center gap-[10px]'>
                       <svg xmlns='http://www.w3.org/2000/svg' width='26' height='26' viewBox='0 0 24 24'>

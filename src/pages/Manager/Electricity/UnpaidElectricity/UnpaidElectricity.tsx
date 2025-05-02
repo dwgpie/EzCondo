@@ -9,7 +9,7 @@ import TableHead from '@mui/material/TableHead'
 import TableRow from '@mui/material/TableRow'
 import Paper from '@mui/material/Paper'
 import Pagination from '@mui/material/Pagination'
-import { getAllElectric, filterElectric, updateBillElectric } from '~/apis/service.api'
+import { getAllElectric, filterElectric } from '~/apis/service.api'
 import { Button, MenuItem, Select, Checkbox } from '@mui/material'
 import { toast } from 'react-toastify'
 import LinearProgress from '@mui/material/LinearProgress'
@@ -18,7 +18,6 @@ import { useNavigate } from 'react-router-dom'
 
 interface ElectricityForm {
   electricReadingId?: string
-  electricBillId?: string
   email: string
   fullName: string
   apartmentNumber: string
@@ -65,8 +64,7 @@ export default function UnpaidElectricity() {
   const pageSize = 7
   const totalPages = Math.ceil(filteredElectrics.length / pageSize)
   const [status, setStatus] = useState<string>('false')
-  const [day, setDay] = useState<number>(10)
-  const [selectedIds, setSelectedIds] = useState<string[]>([])
+  const [day, setDay] = useState<string>('All')
   const [selectedApartments, setSelectedApartments] = useState<string[]>([])
 
   const getAllElectricityRecords = useMutation({
@@ -76,7 +74,11 @@ export default function UnpaidElectricity() {
       return response.data
     },
     onSuccess: (data) => {
-      setFilteredElectrics(data)
+      // Sort data by readingCurrentDate in descending order
+      const sortedData = [...data].sort(
+        (a, b) => new Date(b.readingCurrentDate).getTime() - new Date(a.readingCurrentDate).getTime()
+      )
+      setFilteredElectrics(sortedData)
       setTimeout(() => {
         setLoading(false)
       }, 1000)
@@ -93,8 +95,12 @@ export default function UnpaidElectricity() {
         status,
         day
       })
-      setFilteredElectrics(res.data)
-      setPage(1) // reset lại page về 1 khi lọc
+      // Sort filtered data by readingCurrentDate in descending order
+      const sortedData = [...res.data].sort(
+        (a, b) => new Date(b.readingCurrentDate).getTime() - new Date(a.readingCurrentDate).getTime()
+      )
+      setFilteredElectrics(sortedData)
+      setPage(1)
       setTimeout(() => {
         setLoading(false)
       }, 1000)
@@ -120,16 +126,7 @@ export default function UnpaidElectricity() {
     }
   }
 
-  // Sửa đổi handleCheckboxChange để theo dõi cả những căn hộ đã chọn
-  const handleCheckboxChange = (electricBillId: string, apartmentNumber: string) => {
-    setSelectedIds((prev) => {
-      if (prev.includes(electricBillId)) {
-        return prev.filter((id) => id !== electricBillId)
-      } else {
-        return [...prev, electricBillId]
-      }
-    })
-
+  const handleCheckboxChange = (apartmentNumber: string) => {
     setSelectedApartments((prev) => {
       if (prev.includes(apartmentNumber)) {
         return prev.filter((apt) => apt !== apartmentNumber)
@@ -139,37 +136,6 @@ export default function UnpaidElectricity() {
     })
   }
 
-  // Thêm trình xử lý để xử lý ID đã chọn
-  const handleProcessSelected = async () => {
-    if (selectedIds.length === 0) {
-      toast.warning('Please select at least one bill', {
-        style: { width: 'fit-content' }
-      })
-      return
-    }
-    try {
-      setLoading(true)
-      const formattedData = selectedIds.map((id) => ({
-        electricBillId: id
-      }))
-      await updateBillElectric(formattedData)
-      toast.success('Bills processed successfully!', {
-        style: { width: 'fit-content' }
-      })
-      getAllElectricityRecords.mutate()
-      // Reset both selections
-      setSelectedIds([])
-      setSelectedApartments([])
-    } catch (error) {
-      toast.error('Failed to process bills!', {
-        style: { width: 'fit-content' }
-      })
-      console.error('Error processing bills:', error)
-    } finally {
-      setLoading(false)
-    }
-  }
-
   const handleSendNotification = () => {
     if (selectedApartments.length === 0) {
       toast.warning('Please select at least one apartment', {
@@ -177,7 +143,15 @@ export default function UnpaidElectricity() {
       })
       return
     }
-    navigate('/manager/add-notification', { state: { selectedApartments } })
+
+    const currentDate = new Date().toLocaleDateString('vi-VN')
+    const notificationData = {
+      selectedApartments,
+      title: 'Thông Báo Trễ Hạn Thanh Toán Tiền Điện',
+      content: `Kính gửi Quý cư dân,\n\nChúng tôi xin thông báo rằng hóa đơn tiền Điện của căn hộ Quý vị hiện vẫn chưa được thanh toán. Quý cư dân vui lòng hoàn tất việc thanh toán trong thời gian sớm nhất để tránh gián đoạn dịch vụ.\n\nNgày thông báo: ${currentDate}\n\nTrân trọng,\nBan Quản Lý Tòa Nhà.`
+    }
+
+    navigate('/manager/add-notification', { state: notificationData })
   }
 
   return (
@@ -190,15 +164,6 @@ export default function UnpaidElectricity() {
       <div className='flex justify-between items-center'>
         <h2 className='text-2xl font-semibold text-gray-500'>Electricity bill paid or unpaid</h2>
         <div className='mt-2 mb-4 flex gap-4 justify-end items-center'>
-          <Button
-            variant='contained'
-            color='error'
-            onClick={handleProcessSelected}
-            disabled={selectedIds.length === 0}
-            sx={{ width: '200px' }}
-          >
-            Set as Overdue ({selectedIds.length})
-          </Button>
           <Button
             variant='contained'
             color='primary'
@@ -217,11 +182,19 @@ export default function UnpaidElectricity() {
           <div>
             <Select
               value={day}
-              onChange={(e) => setDay(Number(e.target.value))}
-              sx={{ width: '150px', height: '40px' }}
+              onChange={(e) => setDay(e.target.value === 'All' ? '' : e.target.value)}
+              sx={{ width: '200px', height: '40px' }}
+              displayEmpty
+              renderValue={(selected) => {
+                if (selected === '' || selected === 'All') return 'All'
+                return `More than ${selected} days`
+              }}
             >
-              <MenuItem value={10}>Last 10 days</MenuItem>
-              <MenuItem value={15}>Last 15 days</MenuItem>
+              <MenuItem value='All'>All</MenuItem>
+              <MenuItem value='1'>More than 1 days</MenuItem>
+              <MenuItem value='2'>More than 2 days</MenuItem>
+              <MenuItem value='10'>More than 10 days</MenuItem>
+              <MenuItem value='15'>More than 15 days</MenuItem>
             </Select>
           </div>
         </div>
@@ -233,8 +206,8 @@ export default function UnpaidElectricity() {
               <TableRow>
                 <StyledTableCell width='1%'>Select</StyledTableCell>
                 <StyledTableCell width='2%'>ID</StyledTableCell>
-                <StyledTableCell width='17%'>Name</StyledTableCell>
-                <StyledTableCell width='17%'>Apartment Number</StyledTableCell>
+                <StyledTableCell width='16%'>Name</StyledTableCell>
+                <StyledTableCell width='16%'>Apartment Number</StyledTableCell>
                 <StyledTableCell width='10%'>Phone</StyledTableCell>
                 <StyledTableCell width='17%'>Reading Pre Date</StyledTableCell>
                 <StyledTableCell width='17%'>Reading Current Date</StyledTableCell>
@@ -248,9 +221,8 @@ export default function UnpaidElectricity() {
                   <StyledTableRow key={`${electric.fullName}-${index}`}>
                     <StyledTableCell>
                       <Checkbox
-                        checked={selectedIds.includes(electric.electricBillId || '')}
-                        onChange={() => handleCheckboxChange(electric.electricBillId || '', electric.apartmentNumber)}
-                        disabled={!electric.electricBillId}
+                        checked={selectedApartments.includes(electric.apartmentNumber)}
+                        onChange={() => handleCheckboxChange(electric.apartmentNumber)}
                       />
                     </StyledTableCell>
                     <StyledTableCell sx={{ fontWeight: 600 }}>{(page - 1) * pageSize + index + 1}</StyledTableCell>

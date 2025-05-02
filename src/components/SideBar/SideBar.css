@@ -1,8 +1,10 @@
 /* Custom scrollbar styling */
 .custom-scrollbar {
-  overflow-y: scroll !important; /* Force scrollbar to always show */
+  overflow-y: auto !important; /* Changed from scroll to auto */
   scrollbar-width: thin;
   scrollbar-color: #d1d5dc transparent;
+  height: 100%; /* Add this */
+  padding-bottom: 2rem; /* Add this */
 }
 
 .custom-scrollbar::-webkit-scrollbar {
@@ -72,7 +74,6 @@
   font-weight: 600 !important;
   color: #6b7280 !important;
 }
-
 
 .relative.group {
   position: relative;
