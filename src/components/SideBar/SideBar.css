@@ -123,3 +123,7 @@
   opacity: 1;
   visibility: visible;
 }
+
+.hover-menu-notification {
+  top: -10px !important; /* Đẩy menu lên trên, chỉnh số này tùy ý */
+}

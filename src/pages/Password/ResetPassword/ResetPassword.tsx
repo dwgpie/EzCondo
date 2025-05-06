@@ -38,7 +38,9 @@ export default function ResetPassword() {
     loginMutation.mutate(data, {
       onSuccess: () => {
         setIsAuthenticated(true)
-        toast.success('Reset password successfully')
+        toast.success('Reset password successfully', {
+          style: { width: 'fit-content' }
+        })
         navigate('/login')
       },
       onError: (error) => {

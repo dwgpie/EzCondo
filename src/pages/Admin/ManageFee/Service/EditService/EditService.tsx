@@ -52,7 +52,6 @@ export default function EditService() {
       'serviceImages',
       files.filter((_, i) => i !== index)
     )
-    console.log(files)
   }
 
   const handleImageChange = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -108,7 +107,6 @@ export default function EditService() {
         // Định nghĩa kiểu dữ liệu cho img
         const imageUrls = data.serviceImages.map((img: { imgPath: string }) => img.imgPath)
         setImages(imageUrls) // Chỉ lưu imgPath
-        console.log('url ảnh: ', imageUrls)
 
         // Chuyển URL ảnh thành File giả lập
         const parseFiles = await Promise.all(
@@ -160,7 +158,6 @@ export default function EditService() {
         priceOfMonth: formData.priceOfMonth || 0,
         priceOfYear: formData.priceOfYear || 0
       })
-      console.log(formData)
       await addOrUpdateImage({
         service_Id: serviceId ?? '',
         serviceImages: files
@@ -307,7 +304,11 @@ export default function EditService() {
                   <div className='flex flex-wrap flex-start gap-10'>
                     {files.map((imgPath, index) => (
                       <div key={index} className='relative group'>
-                        <img src={getImageSrc(imgPath)} alt='Preview' className='w-24 h-24 object-fit rounded-md' />
+                        <img
+                          src={getImageSrc(imgPath)}
+                          alt='Preview'
+                          className='w-auto h-24 rounded-lg object-cover shadow-lg hover:scale-105 transition-transform duration-300'
+                        />
                         <button
                           type='button'
                           onClick={(e) => {

@@ -159,7 +159,7 @@ export default function AddUser() {
   return (
     <div className='mx-5 mt-5 mb-5 py-3 px-6 bg-gradient-to-br from-white via-white to-blue-100 drop-shadow-md rounded-xl'>
       {loading && <LoadingOverlay value={progress} />}
-      <h2 className='text-xl mb-4 text-gray-500 font-semibold'>Account Information</h2>
+      <h2 className='text-xl mb-2 text-gray-500 font-semibold'>Account Information</h2>
       <form className='rounded' noValidate onSubmit={onSubmit}>
         <div className='grid grid-cols-3 gap-4'>
           <div className=''>
@@ -272,7 +272,7 @@ export default function AddUser() {
         </div>
 
         <div className='mt-3'>
-          <h3 className='text-lg mb-3 font-semibold text-gray-500'>Citizen Identity Number</h3>
+          <h3 className='text-lg mb-2 font-semibold text-gray-500'>Citizen Identity Number</h3>
           <div className='flex justify-between'>
             <div className='w-[30%]'>
               <div className=''>
@@ -323,7 +323,11 @@ export default function AddUser() {
                     onDragOver={(e) => e.preventDefault()}
                   >
                     {imagePreviewFront ? (
-                      <img src={imagePreviewFront} alt='Preview' className='w-full h-full object-cover rounded-md' />
+                      <img
+                        src={imagePreviewFront}
+                        alt='Preview'
+                        className='w-full h-full object-cover rounded-md hover:scale-105 transition-transform duration-300'
+                      />
                     ) : (
                       <>
                         <CloudUploadIcon className='text-gray-700 text-4xl' />
@@ -355,7 +359,11 @@ export default function AddUser() {
                       onDragOver={(e) => e.preventDefault()}
                     >
                       {imagePreviewBack ? (
-                        <img src={imagePreviewBack} alt='Preview' className='w-full h-full object-cover rounded-md' />
+                        <img
+                          src={imagePreviewBack}
+                          alt='Preview'
+                          className='w-full h-full object-cover rounded-md hover:scale-105 transition-transform duration-300'
+                        />
                       ) : (
                         <>
                           <CloudUploadIcon className='text-gray-700 text-4xl' />

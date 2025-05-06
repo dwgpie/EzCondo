@@ -42,6 +42,10 @@ import UnpaidWater from './pages/Manager/Water/UnpaidWater'
 import LandingPage from './pages/LandingPage'
 import PageNotFound from './pages/PageNotFound'
 import UpdateIncident from './pages/Manager/Incident/UpdateIncident'
+import Demo from './pages/Demo'
+import RequestParking from './pages/Manager/Parking/RequestParking'
+import ListParking from './pages/Manager/Parking/ListParking'
+import DetailParking from './pages/Manager/Parking/DetailParking'
 
 export default function useRouteElements() {
   const { userRole } = useContext(AppContext)
@@ -331,6 +335,30 @@ export default function useRouteElements() {
                 )
               },
               {
+                path: '/manager/request-parking',
+                element: (
+                  <DashboardManagerLayout>
+                    <RequestParking />
+                  </DashboardManagerLayout>
+                )
+              },
+              {
+                path: '/manager/list-parking',
+                element: (
+                  <DashboardManagerLayout>
+                    <ListParking />
+                  </DashboardManagerLayout>
+                )
+              },
+              {
+                path: '/manager/detail-parking',
+                element: (
+                  <DashboardManagerLayout>
+                    <DetailParking />
+                  </DashboardManagerLayout>
+                )
+              },
+              {
                 path: '/profile',
                 element: (
                   <DashboardManagerLayout>
@@ -343,6 +371,14 @@ export default function useRouteElements() {
                 element: (
                   <DashboardManagerLayout>
                     <ChangePassword />
+                  </DashboardManagerLayout>
+                )
+              },
+              {
+                path: '/demo',
+                element: (
+                  <DashboardManagerLayout>
+                    <Demo />
                   </DashboardManagerLayout>
                 )
               }

@@ -37,7 +37,9 @@ export default function VerifyOTP() {
     loginMutation.mutate(data, {
       onSuccess: (response) => {
         setIsAuthenticated(true)
-        toast.success('Verify OTP successfully')
+        toast.success('Verify OTP successfully', {
+          style: { width: 'fit-content' }
+        })
         navigate('/reset-password', { state: { tokenMemory: response.data } })
       },
       onError: (error) => {

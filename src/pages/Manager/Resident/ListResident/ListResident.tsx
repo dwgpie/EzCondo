@@ -8,11 +8,9 @@ import TableContainer from '@mui/material/TableContainer'
 import TableHead from '@mui/material/TableHead'
 import TableRow from '@mui/material/TableRow'
 import Paper from '@mui/material/Paper'
-import PersonAddIcon from '@mui/icons-material/PersonAdd'
 import { getAllResident, searchResident } from '~/apis/householdMember.api'
 import { SearchContext } from '~/contexts/SearchContext'
 import Pagination from '@mui/material/Pagination'
-import SubjectIcon from '@mui/icons-material/Subject'
 import LinearProgress from '@mui/material/LinearProgress'
 import useBufferProgress from '~/components/useBufferProgress'
 
@@ -171,25 +169,36 @@ export default function ListResident() {
                       </span>
                     </StyledTableCell>
                     <StyledTableCell colSpan={1} align='center'>
-                      <div className='flex gap-2 ml-2'>
+                      <div className=''>
                         <button
                           className='text-blue-500 cursor-pointer'
                           onClick={() => {
                             handleDetail(user.id)
                           }}
                         >
-                          <SubjectIcon />
+                          <svg xmlns='http://www.w3.org/2000/svg' width='24' height='24' viewBox='0 0 48 48'>
+                            <g fill='none' stroke='currentColor' strokeLinejoin='round' strokeWidth='4'>
+                              <rect width='36' height='36' x='6' y='6' rx='3' />
+                              <path d='M13 13h8v8h-8z' />
+                              <path strokeLinecap='round' d='M27 13h8m-8 7h8m-22 8h22m-22 7h22' />
+                            </g>
+                          </svg>
                         </button>
                       </div>
                     </StyledTableCell>
                     <StyledTableCell colSpan={1} align='center'>
                       <button
-                        className='text-amber-700 cursor-pointer'
+                        className='text-gray-500  cursor-pointer'
                         onClick={() => {
                           handleAddMember(user.id)
                         }}
                       >
-                        <PersonAddIcon />
+                        <svg xmlns='http://www.w3.org/2000/svg' width='24' height='24' viewBox='0 0 24 24'>
+                          <path
+                            fill='currentColor'
+                            d='M14 14.252V22H4a8 8 0 0 1 10-7.748M12 13c-3.315 0-6-2.685-6-6s2.685-6 6-6s6 2.685 6 6s-2.685 6-6 6m6 4v-3h2v3h3v2h-3v3h-2v-3h-3v-2z'
+                          />
+                        </svg>
                       </button>
                     </StyledTableCell>
                   </StyledTableRow>

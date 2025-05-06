@@ -18,6 +18,11 @@ export default function SideBarManagerInactive() {
   const WaterReadingPath = '/manager/add-water-reading'
   const WaterUnpaidPath = '/manager/unpaid-water'
 
+  const ListIncidentPath = '/manager/list-incident'
+
+  const RequestParkingPath = '/manager/request-parking'
+  const ListParkingPath = '/manager/list-parking'
+
   return (
     <div className='flex flex-col items-center bg-blue-50 mb-10 w-full h-screen border-r-2 border-[#eaeaea] text-blue-900'>
       <Link to='/manager/dashboard'>
@@ -28,7 +33,7 @@ export default function SideBarManagerInactive() {
 
       <div className='w-full font-semibold flex flex-col items-center'>
         {/* Dashboard */}
-        <p className='text-[13px] text-blue-600 mt-2 mb-2'>HOMEPAGE</p>
+        <p className='text-[13px] text-blue-600 mt-1 mb-1'>HOMEPAGE</p>
         <Link to='/manager/dashboard'>
           <div
             className={`flex justify-between px-[13px] h-[80px] rounded-xl cursor-pointer hover:bg-blue-100 ripple ${path === DashboardPath ? 'bg-blue-100 text-blue-600' : 'hover:bg-blue-100'}`}
@@ -45,7 +50,7 @@ export default function SideBarManagerInactive() {
           </div>
         </Link>
 
-        <p className='text-[13px] text-blue-600 mt-3 mb-2'>FEATURES</p>
+        <p className='text-[13px] text-blue-600 mt-2 mb-2'>FEATURES</p>
         <div className='flex flex-col items-center'>
           {/* User */}
           <div className='relative group'>
@@ -66,7 +71,7 @@ export default function SideBarManagerInactive() {
                     <path d='M20 17.5c0 2.485 0 4.5-8 4.5s-8-2.015-8-4.5S7.582 13 12 13s8 2.015 8 4.5Z' />
                   </g>
                 </svg>
-                <p className='text-[13px]'>Users</p>
+                <p className='text-[13px]'>User</p>
               </div>
             </div>
 
@@ -84,7 +89,7 @@ export default function SideBarManagerInactive() {
                           d='M152 80a8 8 0 0 1 8-8h88a8 8 0 0 1 0 16h-88a8 8 0 0 1-8-8m96 40h-88a8 8 0 0 0 0 16h88a8 8 0 0 0 0-16m0 48h-64a8 8 0 0 0 0 16h64a8 8 0 0 0 0-16m-96.25 22a8 8 0 0 1-5.76 9.74a7.6 7.6 0 0 1-2 .26a8 8 0 0 1-7.75-6c-6.16-23.94-30.34-42-56.25-42s-50.09 18.05-56.25 42a8 8 0 0 1-15.5-4c5.59-21.71 21.84-39.29 42.46-48a48 48 0 1 1 58.58 0c20.63 8.71 36.88 26.29 42.47 48M80 136a32 32 0 1 0-32-32a32 32 0 0 0 32 32'
                         />
                       </svg>
-                      <li className='flex items-center h-[30px] pl-[10px]'>List Residents</li>
+                      <li className='flex items-center h-[30px] pl-[10px]'>Resident List</li>
                     </div>
                   </div>
                 </Link>
@@ -146,9 +151,9 @@ export default function SideBarManagerInactive() {
                 </Link>
                 <Link to='/manager/unpaid-electricity'>
                   <div
-                    className={`flex justify-between h-[40px] pl-[20px] pr-[20px] text-[13px] rounded-2xl hover:bg-blue-100 ripple ${path === ElectricUnpaidPath ? 'bg-blue-100 text-blue-600' : 'hover:bg-blue-100'}`}
+                    className={`flex justify-between h-[40px] pl-[23px] text-[13px] rounded-2xl hover:bg-blue-100 ripple ${path === ElectricUnpaidPath ? 'bg-blue-100 text-blue-600' : 'hover:bg-blue-100'}`}
                   >
-                    <div className='flex items-center gap-[12px]'>
+                    <div className='flex items-center gap-[10px]'>
                       <svg xmlns='http://www.w3.org/2000/svg' width='21' height='21' viewBox='0 0 16 16'>
                         <path
                           fill='currentColor'
@@ -157,7 +162,7 @@ export default function SideBarManagerInactive() {
                           clipRule='evenodd'
                         />
                       </svg>
-                      <li className='flex items-center h-[30px] pl-[10px] '>Unpiad Electric</li>
+                      <li className='flex items-center h-[30px] pl-[10px] '>Unpiad Electric Bill</li>
                     </div>
                   </div>
                 </Link>
@@ -228,9 +233,9 @@ export default function SideBarManagerInactive() {
                 </Link>
                 <Link to='/manager/unpaid-water'>
                   <div
-                    className={`flex justify-between h-[40px] pl-[20px] pr-[20px] text-[13px] rounded-2xl hover:bg-blue-100 ripple ${path === WaterUnpaidPath ? 'bg-blue-100 text-blue-600' : 'hover:bg-blue-100'}`}
+                    className={`flex justify-between h-[40px] pl-[23px] text-[13px] rounded-2xl hover:bg-blue-100 ripple ${path === WaterUnpaidPath ? 'bg-blue-100 text-blue-600' : 'hover:bg-blue-100'}`}
                   >
-                    <div className='flex items-center gap-[12px]'>
+                    <div className='flex items-center gap-[9px]'>
                       <svg xmlns='http://www.w3.org/2000/svg' width='21' height='21' viewBox='0 0 16 16'>
                         <path
                           fill='currentColor'
@@ -239,7 +244,101 @@ export default function SideBarManagerInactive() {
                           clipRule='evenodd'
                         />
                       </svg>
-                      <li className='flex items-center h-[30px] pl-[10px] '>Unpiad Water</li>
+                      <li className='flex items-center h-[30px] pl-[10px] '>Unpiad Water Bill</li>
+                    </div>
+                  </div>
+                </Link>
+              </ul>
+            </div>
+          </div>
+
+          {/* Parking */}
+          <div className='relative group'>
+            {/* Nút bấm */}
+            <div
+              className={`flex justify-between px-[25px] py-2 mt-1 h-[80px] rounded-xl cursor-pointer hover:bg-blue-100 ripple ${path === ListParkingPath || path === RequestParkingPath ? 'bg-blue-100 text-blue-600' : 'hover:bg-blue-100'}`}
+            >
+              <div className='flex flex-col justify-center items-center gap-[2px]'>
+                <svg xmlns='http://www.w3.org/2000/svg' width='24' height='24' viewBox='0 0 15 15'>
+                  <path fill='currentColor' d='M4 2v11h2V9h2.5a3.5 3.5 0 1 0 0-7zm2 5V4h2.5a1.5 1.5 0 1 1 0 3z' />
+                </svg>
+                <p className='text-[13px]'>Parking</p>
+              </div>
+            </div>
+
+            {/* Hover Menu */}
+            <div className='hover-menu'>
+              <ul>
+                <Link to='/manager/list-parking'>
+                  <div
+                    className={`flex justify-between h-[40px] pl-[20px] pr-[20px] text-[13px] mb-1 rounded-2xl hover:bg-blue-100 ripple ${path === ListParkingPath ? 'bg-blue-100 text-blue-600' : 'hover:bg-blue-100'}`}
+                  >
+                    <div className='flex items-center gap-[10px]'>
+                      <svg xmlns='http://www.w3.org/2000/svg' width='24' height='24' viewBox='0 0 15 15'>
+                        <path
+                          fill='currentColor'
+                          d='M10.5 10.14a3.53 3.53 0 0 1-2.29.66h-1.9V14h-1.9V5h3.92a3.2 3.2 0 0 1 2.16.69a2.69 2.69 0 0 1 .81 2.15a2.76 2.76 0 0 1-.8 2.3M9 6.9a1.56 1.56 0 0 0-1-.3H6.31v2.65H8a1.48 1.48 0 0 0 1-.32a1.3 1.3 0 0 0 .36-1A1.23 1.23 0 0 0 9 6.9m5.41-2.69a.5.5 0 0 0-.24-.66L7.5.45L.79 3.55a.501.501 0 1 0 .42.91L7.5 1.55l6.29 2.9a.5.5 0 0 0 .66-.24z'
+                        />
+                      </svg>
+                      <li className='flex items-center h-[30px] pl-[10px]'>Parking List</li>
+                    </div>
+                  </div>
+                </Link>
+                <Link to='/manager/request-parking'>
+                  <div
+                    className={`flex justify-between h-[40px] pl-[20px] pr-[10px] text-[13px] rounded-2xl hover:bg-blue-100 ripple ${path === RequestParkingPath ? 'bg-blue-100 text-blue-600' : 'hover:bg-blue-100'}`}
+                  >
+                    <div className='flex items-center gap-[4px]'>
+                      <svg xmlns='http://www.w3.org/2000/svg' width='30' height='30' viewBox='0 0 24 24'>
+                        <path
+                          fill='currentColor'
+                          d='M13 7h-3a1 1 0 0 0-1 1v8a1 1 0 0 0 2 0v-2h2a3 3 0 0 0 3-3v-1a3 3 0 0 0-3-3m1 4a1 1 0 0 1-1 1h-2V9h2a1 1 0 0 1 1 1Zm-2-9a10 10 0 1 0 10 10A10 10 0 0 0 12 2m0 18a8 8 0 1 1 8-8a8 8 0 0 1-8 8'
+                        />
+                      </svg>
+                      <li className='flex items-center h-[30px] pl-[10px]'>Parking Request</li>
+                    </div>
+                  </div>
+                </Link>
+              </ul>
+            </div>
+          </div>
+
+          {/* Incident */}
+          <div className='relative group'>
+            {/* Nút bấm */}
+            <div
+              className={`flex justify-between px-[23px] py-2 mt-1 h-[80px] rounded-xl cursor-pointer hover:bg-blue-100 ripple ${path === ListIncidentPath ? 'bg-blue-100 text-blue-600' : 'hover:bg-blue-100'}`}
+            >
+              <div className='flex flex-col justify-center items-center gap-[2px]'>
+                <svg xmlns='http://www.w3.org/2000/svg' width='25' height='25' viewBox='0 0 32 32'>
+                  <path
+                    fill='currentColor'
+                    d='m21.018 26.722l.998 1.732l2.978-1.722V30h1.997v-3.268l3.01 1.74L31 26.74L27.99 25l3-1.735l-.998-1.733l-3.001 1.736V20h-1.997v3.267l-2.996-1.732L21 23.268L23.995 25zM16 23a1.5 1.5 0 1 0 0 3a1.5 1.5 0 0 0 0-3m-1-11h2v9h-2z'
+                  />
+                  <path
+                    fill='currentColor'
+                    d='M18 30H3a1 1 0 0 1-.887-1.461l13-25c.172-.331.53-.539.887-.539s.715.208.887.539l6.76 13l-1.774.922L16 6.168L4.647 28H18z'
+                  />
+                </svg>
+                <p className='text-[13px]'>Incident</p>
+              </div>
+            </div>
+
+            {/* Hover Menu */}
+            <div className='hover-menu'>
+              <ul>
+                <Link to='/manager/list-incident'>
+                  <div
+                    className={`flex justify-between h-[40px] pl-[20px] pr-[20px] text-[13px] rounded-2xl hover:bg-blue-100 ripple ${path === ListIncidentPath ? 'bg-blue-100 text-blue-600' : 'hover:bg-blue-100'}`}
+                  >
+                    <div className='flex items-center gap-[10px]'>
+                      <svg xmlns='http://www.w3.org/2000/svg' width='24' height='24' viewBox='0 0 24 24'>
+                        <path
+                          fill='currentColor'
+                          d='M8 17q.425 0 .713-.288T9 16t-.288-.712T8 15t-.712.288T7 16t.288.713T8 17m0-4q.425 0 .713-.288T9 12t-.288-.712T8 11t-.712.288T7 12t.288.713T8 13m0-4q.425 0 .713-.288T9 8t-.288-.712T8 7t-.712.288T7 8t.288.713T8 9m4 8h4q.425 0 .713-.288T17 16t-.288-.712T16 15h-4q-.425 0-.712.288T11 16t.288.713T12 17m0-4h4q.425 0 .713-.288T17 12t-.288-.712T16 11h-4q-.425 0-.712.288T11 12t.288.713T12 13m0-4h4q.425 0 .713-.288T17 8t-.288-.712T16 7h-4q-.425 0-.712.288T11 8t.288.713T12 9M5 21q-.825 0-1.412-.587T3 19V5q0-.825.588-1.412T5 3h14q.825 0 1.413.588T21 5v14q0 .825-.587 1.413T19 21zm0-2h14V5H5zM5 5v14z'
+                        />
+                      </svg>
+                      <li className='flex items-center h-[30px] pl-[10px]'>Incident List</li>
                     </div>
                   </div>
                 </Link>
@@ -270,16 +369,16 @@ export default function SideBarManagerInactive() {
                     d='M6.25 14a.75.75 0 0 1 .75-.75h9a.75.75 0 0 1 0 1.5H7a.75.75 0 0 1-.75-.75M7 16.75a.75.75 0 0 0 0 1.5h6a.75.75 0 0 0 0-1.5z'
                   />
                 </svg>
-                <p className='text-[13px]'>Notifications</p>
+                <p className='text-[13px]'>Notification</p>
               </div>
             </div>
 
             {/* Hover Menu */}
-            <div className='hover-menu'>
+            <div className='hover-menu hover-menu-notification'>
               <ul>
                 <Link to='/manager/history-notification'>
                   <div
-                    className={`flex justify-between h-[40px] pl-[20px] pr-[20px] text-[13px] mb-1 rounded-2xl hover:bg-blue-100 ripple ${path === HistoryNotificationPath ? 'bg-blue-100 text-blue-600' : 'hover:bg-blue-100'}`}
+                    className={`flex justify-between h-[40px] pl-[10px] text-[13px] mb-1 rounded-2xl hover:bg-blue-100 ripple ${path === HistoryNotificationPath ? 'bg-blue-100 text-blue-600' : 'hover:bg-blue-100'}`}
                   >
                     <div className='flex items-center gap-[10px]'>
                       <svg xmlns='http://www.w3.org/2000/svg' width='26' height='26' viewBox='0 0 24 24'>
@@ -295,13 +394,13 @@ export default function SideBarManagerInactive() {
                           <path d='M7 10s.5 0 1 1c0 0 1.588-2.5 3-3m-4 9s.5 0 1 1c0 0 1.588-2.5 3-3' />
                         </g>
                       </svg>
-                      <li className='flex items-center h-[30px] pl-[10px]'>History Notify</li>
+                      <li className='flex items-center h-[30px] pl-[10px]'>Notification History</li>
                     </div>
                   </div>
                 </Link>
                 <Link to='/manager/add-notification'>
                   <div
-                    className={`flex justify-between h-[40px] pl-[20px] pr-[20px] text-[13px] rounded-2xl hover:bg-blue-100 ripple ${path === AddNotificationPath ? 'bg-blue-100 text-blue-600' : 'hover:bg-blue-100'}`}
+                    className={`flex justify-between h-[40px] pl-[10px] text-[13px] rounded-2xl hover:bg-blue-100 ripple ${path === AddNotificationPath ? 'bg-blue-100 text-blue-600' : 'hover:bg-blue-100'}`}
                   >
                     <div className='flex items-center gap-[10px]'>
                       <svg xmlns='http://www.w3.org/2000/svg' width='26' height='26' viewBox='0 0 24 24'>
@@ -310,7 +409,7 @@ export default function SideBarManagerInactive() {
                           d='M12 22q-.825 0-1.412-.587T10 20h4q0 .825-.587 1.413T12 22m6-9v-3h-3V8h3V5h2v3h3v2h-3v3zM4 19v-2h2v-7q0-2.075 1.25-3.687T10.5 4.2V2h3v2.2q.35.1.688.213t.637.287q-.375.35-.675.763t-.525.887q-.375-.175-.788-.262T12 6q-1.65 0-2.825 1.175T8 10v7h8v-2.8q.45.275.95.45t1.05.275V17h2v2z'
                         />
                       </svg>
-                      <li className='flex items-center h-[30px] pl-[10px]'>Add Notify</li>
+                      <li className='flex items-center h-[30px] pl-[10px]'>Add Notification</li>
                     </div>
                   </div>
                 </Link>

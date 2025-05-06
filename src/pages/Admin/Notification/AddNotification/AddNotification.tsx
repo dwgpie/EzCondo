@@ -200,10 +200,14 @@ export default function AddNotification() {
                 onDragOver={(e) => e.preventDefault()}
               >
                 {images.length > 0 ? (
-                  <div className='flex flex-wrap flex-start gap-10'>
+                  <div className='flex flex-wrap flex-start gap-3'>
                     {images.map((img, index) => (
                       <div key={index} className='relative group'>
-                        <img src={img} alt='Preview' className='w-24 h-24 object-fit rounded-md' />
+                        <img
+                          src={img}
+                          alt='Preview'
+                          className='w-auto h-24 rounded-lg object-cover shadow-lg hover:scale-105 transition-transform duration-300'
+                        />
                         <button
                           type='button'
                           onClick={(e) => {

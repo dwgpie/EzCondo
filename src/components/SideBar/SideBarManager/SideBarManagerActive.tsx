@@ -22,11 +22,15 @@ export default function SideBarManagerActive() {
 
   const ListIncidentPath = '/manager/list-incident'
 
+  const RequestParkingPath = '/manager/request-parking'
+  const ListParkingPath = '/manager/list-parking'
+
   const [isOpenUser, setIsOpenUser] = useState(false)
   const [isOpenElectric, setIsOpenElectric] = useState(false)
   const [isOpenWater, setIsOpenWater] = useState(false)
   const [isOpenNotification, setIsOpenNotification] = useState(false)
   const [isOpenIncident, setIsOpenIncident] = useState(false)
+  const [isOpenParking, setIsOpenParking] = useState(false)
 
   const handleClickUser = () => {
     setIsOpenUser(!isOpenUser)
@@ -42,6 +46,9 @@ export default function SideBarManagerActive() {
   }
   const handleClickIncident = () => {
     setIsOpenIncident(!isOpenIncident)
+  }
+  const handleClickParking = () => {
+    setIsOpenParking(!isOpenParking)
   }
 
   return (
@@ -110,7 +117,7 @@ export default function SideBarManagerActive() {
                   <path d='M20 17.5c0 2.485 0 4.5-8 4.5s-8-2.015-8-4.5S7.582 13 12 13s8 2.015 8 4.5Z' />
                 </g>
               </svg>
-              <p className='text-[15px]'>Users</p>
+              <p className='text-[15px]'>User</p>
             </div>
             <div className='flex items-center justify-center'>{isOpenUser ? <ExpandLess /> : <ExpandMore />}</div>
           </div>
@@ -127,7 +134,7 @@ export default function SideBarManagerActive() {
                       d='M152 80a8 8 0 0 1 8-8h88a8 8 0 0 1 0 16h-88a8 8 0 0 1-8-8m96 40h-88a8 8 0 0 0 0 16h88a8 8 0 0 0 0-16m0 48h-64a8 8 0 0 0 0 16h64a8 8 0 0 0 0-16m-96.25 22a8 8 0 0 1-5.76 9.74a7.6 7.6 0 0 1-2 .26a8 8 0 0 1-7.75-6c-6.16-23.94-30.34-42-56.25-42s-50.09 18.05-56.25 42a8 8 0 0 1-15.5-4c5.59-21.71 21.84-39.29 42.46-48a48 48 0 1 1 58.58 0c20.63 8.71 36.88 26.29 42.47 48M80 136a32 32 0 1 0-32-32a32 32 0 0 0 32 32'
                     />
                   </svg>
-                  <p className='text-[15px]'>List Residents</p>
+                  <p className='text-[15px]'>Resident List</p>
                 </div>
               </div>
             </Link>
@@ -200,7 +207,7 @@ export default function SideBarManagerActive() {
                       clipRule='evenodd'
                     />
                   </svg>
-                  <p className='text-[15px]'>Unpiad Electricity</p>
+                  <p className='text-[15px]'>Unpiad Electricity Bill</p>
                 </div>
               </div>
             </Link>
@@ -279,7 +286,54 @@ export default function SideBarManagerActive() {
                       clipRule='evenodd'
                     />
                   </svg>
-                  <p className='text-[15px]'>Unpiad Water</p>
+                  <p className='text-[15px]'>Unpiad Water Bill</p>
+                </div>
+              </div>
+            </Link>
+          </div>
+
+          {/* Parking */}
+          <div
+            className={`flex justify-between px-2 ml-7 mr-2 h-[45px] rounded-xl cursor-pointer hover:bg-blue-100 ripple ${path === ListParkingPath || path === RequestParkingPath ? 'bg-blue-100 text-blue-600' : 'hover:bg-blue-100 text-blue-900'}`}
+            onClick={handleClickParking}
+          >
+            <div className='flex justify-center items-center gap-x-[17px]'>
+              <svg xmlns='http://www.w3.org/2000/svg' width='24' height='24' viewBox='0 0 15 15'>
+                <path fill='currentColor' d='M4 2v11h2V9h2.5a3.5 3.5 0 1 0 0-7zm2 5V4h2.5a1.5 1.5 0 1 1 0 3z' />
+              </svg>
+              <p className='text-[15px]'>Parking</p>
+            </div>
+            <div className='flex items-center justify-center'>{isOpenParking ? <ExpandLess /> : <ExpandMore />}</div>
+          </div>
+
+          <div className={`overflow-hidden transition-all duration-300 ${isOpenParking ? 'max-h-[100px]' : 'max-h-0'}`}>
+            <Link to='/manager/list-parking'>
+              <div
+                className={`flex justify-between px-4 mr-2 ml-15 h-[45px] mb-1 mt-1 rounded-xl cursor-pointer hover:bg-blue-100 ripple ${path === ListParkingPath ? 'bg-blue-100 text-blue-600' : 'hover:bg-blue-100 text-blue-900'}`}
+              >
+                <div className='flex items-center gap-[15px]'>
+                  <svg xmlns='http://www.w3.org/2000/svg' width='24' height='24' viewBox='0 0 15 15'>
+                    <path
+                      fill='currentColor'
+                      d='M10.5 10.14a3.53 3.53 0 0 1-2.29.66h-1.9V14h-1.9V5h3.92a3.2 3.2 0 0 1 2.16.69a2.69 2.69 0 0 1 .81 2.15a2.76 2.76 0 0 1-.8 2.3M9 6.9a1.56 1.56 0 0 0-1-.3H6.31v2.65H8a1.48 1.48 0 0 0 1-.32a1.3 1.3 0 0 0 .36-1A1.23 1.23 0 0 0 9 6.9m5.41-2.69a.5.5 0 0 0-.24-.66L7.5.45L.79 3.55a.501.501 0 1 0 .42.91L7.5 1.55l6.29 2.9a.5.5 0 0 0 .66-.24z'
+                    />
+                  </svg>
+                  <p className='text-[15px]'>Parking List</p>
+                </div>
+              </div>
+            </Link>
+            <Link to='/manager/request-parking'>
+              <div
+                className={`flex justify-between px-4 mr-2 ml-15 h-[45px] mb-1 mt-1 rounded-xl cursor-pointer hover:bg-blue-100 ripple ${path === RequestParkingPath ? 'bg-blue-100 text-blue-600' : 'hover:bg-blue-100 text-blue-900'}`}
+              >
+                <div className='flex items-center gap-[10px]'>
+                  <svg xmlns='http://www.w3.org/2000/svg' width='30' height='30' viewBox='0 0 24 24'>
+                    <path
+                      fill='currentColor'
+                      d='M13 7h-3a1 1 0 0 0-1 1v8a1 1 0 0 0 2 0v-2h2a3 3 0 0 0 3-3v-1a3 3 0 0 0-3-3m1 4a1 1 0 0 1-1 1h-2V9h2a1 1 0 0 1 1 1Zm-2-9a10 10 0 1 0 10 10A10 10 0 0 0 12 2m0 18a8 8 0 1 1 8-8a8 8 0 0 1-8 8'
+                    />
+                  </svg>
+                  <p className='text-[15px]'>Parking Request</p>
                 </div>
               </div>
             </Link>
@@ -320,7 +374,7 @@ export default function SideBarManagerActive() {
                       d='M8 17q.425 0 .713-.288T9 16t-.288-.712T8 15t-.712.288T7 16t.288.713T8 17m0-4q.425 0 .713-.288T9 12t-.288-.712T8 11t-.712.288T7 12t.288.713T8 13m0-4q.425 0 .713-.288T9 8t-.288-.712T8 7t-.712.288T7 8t.288.713T8 9m4 8h4q.425 0 .713-.288T17 16t-.288-.712T16 15h-4q-.425 0-.712.288T11 16t.288.713T12 17m0-4h4q.425 0 .713-.288T17 12t-.288-.712T16 11h-4q-.425 0-.712.288T11 12t.288.713T12 13m0-4h4q.425 0 .713-.288T17 8t-.288-.712T16 7h-4q-.425 0-.712.288T11 8t.288.713T12 9M5 21q-.825 0-1.412-.587T3 19V5q0-.825.588-1.412T5 3h14q.825 0 1.413.588T21 5v14q0 .825-.587 1.413T19 21zm0-2h14V5H5zM5 5v14z'
                     />
                   </svg>
-                  <p className='text-[15px]'>List Incidents</p>
+                  <p className='text-[15px]'>Incident List</p>
                 </div>
               </div>
             </Link>
@@ -348,7 +402,7 @@ export default function SideBarManagerActive() {
                   d='M6.25 14a.75.75 0 0 1 .75-.75h9a.75.75 0 0 1 0 1.5H7a.75.75 0 0 1-.75-.75M7 16.75a.75.75 0 0 0 0 1.5h6a.75.75 0 0 0 0-1.5z'
                 />
               </svg>
-              <p className='text-[15px]'>Notifications</p>
+              <p className='text-[15px]'>Notification</p>
             </div>
             <div className='flex items-center justify-center'>
               {isOpenNotification ? <ExpandLess /> : <ExpandMore />}
@@ -376,7 +430,7 @@ export default function SideBarManagerActive() {
                       <path d='M7 10s.5 0 1 1c0 0 1.588-2.5 3-3m-4 9s.5 0 1 1c0 0 1.588-2.5 3-3' />
                     </g>
                   </svg>
-                  <p className='text-[15px]'>History Notification</p>
+                  <p className='text-[15px]'>Notification History</p>
                 </div>
               </div>
             </Link>
