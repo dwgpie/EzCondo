@@ -289,45 +289,79 @@ export default function AddNotificationManager() {
         </div>
       )}
       <form className='rounded' noValidate onSubmit={onSubmit}>
-        <div className='grid grid-cols-4 gap-4'>
+        <div className='grid grid-cols-2 gap-4'>
           <div className='col-span-1'>
-            <FormControl>
-              <FormLabel
-                sx={{ color: '#000', fontWeight: '500', fontSize: '16px', marginBottom: '1px' }}
-                id='demo-radio-buttons-group-label'
-              >
-                Receiver
-                <span className='text-red-600 ml-1'>*</span>
-              </FormLabel>
+            <div className='flex justify-between'>
+              <FormControl>
+                <FormLabel
+                  sx={{ color: '#000', fontWeight: '500', fontSize: '16px', marginBottom: '1px' }}
+                  id='demo-radio-buttons-group-label'
+                >
+                  Receiver
+                  <span className='text-red-600 ml-1'>*</span>
+                </FormLabel>
 
-              <RadioGroup
-                aria-labelledby='demo-radio-buttons-group-label'
-                value={radio}
-                name='radio-buttons-group'
-                onChange={handleChangeRadio}
-              >
-                <FormControlLabel value='resident' control={<Radio />} label='Resident' />
-                <FormControlLabel value='apartment' control={<Radio />} label='Apartment' />
-              </RadioGroup>
-            </FormControl>
+                <RadioGroup
+                  aria-labelledby='demo-radio-buttons-group-label'
+                  value={radio}
+                  name='radio-buttons-group'
+                  onChange={handleChangeRadio}
+                >
+                  <FormControlLabel value='resident' control={<Radio />} label='Resident' />
+                  <FormControlLabel value='apartment' control={<Radio />} label='Apartment' />
+                </RadioGroup>
+              </FormControl>
+              <div className='mr-18'>
+                <label className='block text-sm font-semibold mb-[6px]'>
+                  Type
+                  <span className='text-red-600 ml-1'>*</span>
+                </label>
+                <Select
+                  id='demo-select-small'
+                  defaultValue='new'
+                  {...register('type')}
+                  sx={{ width: '200px', height: '55px', backgroundColor: 'white' }}
+                >
+                  <MenuItem value='new'>New</MenuItem>
+                  <MenuItem value='notice'>Notice</MenuItem>
+                  <MenuItem value='fee'>Fee</MenuItem>
+                </Select>
+              </div>
+            </div>
+            <div className='mt-10'>
+              <div className=''>
+                <div className=''>
+                  <label className='block text-sm font-semibold mt-4'>
+                    Title
+                    <span className='text-red-600 ml-1'>*</span>
+                  </label>
+                  <Input
+                    name='title'
+                    type='textarea'
+                    register={register}
+                    className='mt-1'
+                    errorMessage={errors.title?.message}
+                    rows={2}
+                  />
+                </div>
+                <div className=''>
+                  <label className='block text-sm font-semibold mt-3'>
+                    Content
+                    <span className='text-red-600 ml-1'>*</span>
+                  </label>
+                  <Input
+                    name='content'
+                    type='textarea'
+                    register={register}
+                    className='mt-1'
+                    errorMessage={errors.content?.message}
+                    rows={7}
+                  />
+                </div>
+              </div>
+            </div>
           </div>
           <div className='col-span-1'>
-            <label className='block text-sm font-semibold mb-[6px]'>
-              Type
-              <span className='text-red-600 ml-1'>*</span>
-            </label>
-            <Select
-              id='demo-select-small'
-              defaultValue='new'
-              {...register('type')}
-              sx={{ width: '200px', height: '55px', backgroundColor: 'white' }}
-            >
-              <MenuItem value='new'>New</MenuItem>
-              <MenuItem value='notice'>Notice</MenuItem>
-              <MenuItem value='fee'>Fee</MenuItem>
-            </Select>
-          </div>
-          <div className='col-span-2'>
             <label className='block text-sm font-semibold'>
               Images
               <span className='text-red-600 ml-1'>*</span>
@@ -339,10 +373,14 @@ export default function AddNotificationManager() {
               onDragOver={(e) => e.preventDefault()}
             >
               {images.length > 0 ? (
-                <div className='flex flex-wrap flex-start gap-10'>
+                <div className='flex flex-wrap flex-start gap-3'>
                   {images.map((img, index) => (
                     <div key={index} className='relative group'>
-                      <img src={img} alt='Preview' className='w-24 h-24 object-fit rounded-md' />
+                      <img
+                        src={img}
+                        alt='Preview'
+                        className='w-auto h-24 rounded-lg object-cover shadow-lg hover:scale-105 transition-transform duration-300'
+                      />
                       <button
                         type='button'
                         onClick={(e) => {
@@ -374,67 +412,35 @@ export default function AddNotificationManager() {
               />
             </div>
             <div className='mt-1 text-xs text-red-500 min-h-4'>{errors.Image?.message}</div>
-          </div>
-        </div>
-        <div className='grid grid-cols-2 gap-4'>
-          <div className='mt-[-15px]'>
-            <div className=''>
-              <label className='block text-sm font-semibold mt-4'>
-                Title
-                <span className='text-red-600 ml-1'>*</span>
-              </label>
-              <Input
-                name='title'
-                type='textarea'
-                register={register}
-                className='mt-1'
-                errorMessage={errors.title?.message}
-                rows={2}
-              />
-            </div>
-            <div className=''>
-              <label className='block text-sm font-semibold mt-3'>
-                Content
-                <span className='text-red-600 ml-1'>*</span>
-              </label>
-              <Input
-                name='content'
-                type='textarea'
-                register={register}
-                className='mt-1'
-                errorMessage={errors.content?.message}
-                rows={7}
-              />
-            </div>
-          </div>
-          <div
-            className={` transition-all duration-300
+            <div
+              className={` transition-all duration-300
                   ${radio === 'resident' ? 'opacity-0 pointer-events-none' : 'opacity-100'}`}
-          >
-            <label className='block text-sm font-semibold mb-[6px]'>
-              Apartment
-              <span className='text-red-600 ml-1'>*</span>
-            </label>
-            <Autocomplete
-              multiple
-              options={apartments.map((apt) => apt.apartmentNumber)}
-              onChange={(_, newValue) => {
-                setApartmentChoosed(newValue)
-                setValue('apartmentNumber', newValue.join(', '))
-                clearErrors('apartmentNumber')
-              }}
-              value={apartmentChoosed}
-              renderInput={(params) => (
-                <TextField
-                  {...params}
-                  placeholder='Search Apartment'
-                  variant='outlined'
-                  sx={{ backgroundColor: 'white' }}
-                />
-              )}
-            />
+            >
+              <label className='block text-sm font-semibold mb-[6px]'>
+                Apartment
+                <span className='text-red-600 ml-1'>*</span>
+              </label>
+              <Autocomplete
+                multiple
+                options={apartments.map((apt) => apt.apartmentNumber)}
+                onChange={(_, newValue) => {
+                  setApartmentChoosed(newValue)
+                  setValue('apartmentNumber', newValue.join(', '))
+                  clearErrors('apartmentNumber')
+                }}
+                value={apartmentChoosed}
+                renderInput={(params) => (
+                  <TextField
+                    {...params}
+                    placeholder='Search Apartment'
+                    variant='outlined'
+                    sx={{ backgroundColor: 'white' }}
+                  />
+                )}
+              />
 
-            <div className='mt-1 text-xs text-red-500 min-h-4'>{errors.apartmentNumber?.message}</div>
+              <div className='mt-1 text-xs text-red-500 min-h-4'>{errors.apartmentNumber?.message}</div>
+            </div>
           </div>
         </div>
 

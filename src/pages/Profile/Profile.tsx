@@ -204,7 +204,7 @@ export default function Profile() {
                   <span className='text-red-600 ml-1'>*</span>
                 </label>
                 <select
-                  className='w-full h-11 pl-2 outline-none border border-gray-300 focus:border-gray-500 rounded-sm focus:shadow-sm'
+                  className='w-full h-11 pl-2 outline-none border bg-white border-gray-300 focus:border-gray-500 rounded-sm focus:shadow-sm'
                   defaultValue={user.gender || ''}
                   {...register('gender')}
                 >
@@ -225,7 +225,7 @@ export default function Profile() {
                   <img
                     src={getImageSrc(image) || getImageSrc(user?.avatar)}
                     alt='Preview'
-                    className='w-full h-full object-cover rounded-full'
+                    className='w-full h-full object-cover rounded-full hover:scale-105 transition-transform duration-300'
                   />
                 ) : (
                   <>

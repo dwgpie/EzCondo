@@ -1,295 +1,493 @@
 import { Card, CardContent } from '@mui/material'
-import { CircularProgress, Typography, Grid } from '@mui/material'
-import { LineChart, Line, BarChart, Bar, XAxis, YAxis, Tooltip, ResponsiveContainer } from 'recharts'
-import { PeopleAlt, MedicalServices, LocalHospital, DirectionsCar } from '@mui/icons-material'
-import { ArrowUpward } from '@mui/icons-material'
-import { Box, Chip } from '@mui/material'
+import { Typography } from '@mui/material'
+import Grid from '@mui/material/Grid/Grid'
+import {
+  XAxis,
+  YAxis,
+  Tooltip,
+  ResponsiveContainer,
+  Area,
+  AreaChart,
+  CartesianGrid,
+  PieChart,
+  Pie,
+  Cell,
+  BarChart,
+  Bar
+} from 'recharts'
+import {
+  Apartment,
+  ReportProblem,
+  Group,
+  ArrowUpward,
+  ArrowDownward,
+  Pool,
+  FitnessCenter,
+  LocalParking,
+  Security,
+  CleaningServices
+} from '@mui/icons-material'
+import { styles } from './DashboardStyles'
+import Weather from '../../../components/Weather'
+import { useState } from 'react'
 
 export default function DashboardManager() {
-  const patientTrend = [
-    { month: 'Oct 2019', inpatients: 4000, outpatients: 1200 },
-    { month: 'Nov 2019', inpatients: 4200, outpatients: 1300 },
-    { month: 'Dec 2019', inpatients: 4500, outpatients: 1250 },
-    { month: 'Jan 2020', inpatients: 3900, outpatients: 1150 },
-    { month: 'Feb 2020', inpatients: 4300, outpatients: 1350 },
-    { month: 'Mar 2020', inpatients: 4100, outpatients: 1200 }
-  ]
-
-  const timeAdmitted = [
-    { time: '07 am', value: 80 },
-    { time: '08 am', value: 113 },
-    { time: '09 am', value: 95 },
-    { time: '10 am', value: 55 },
-    { time: '11 am', value: 90 },
-    { time: '12 pm', value: 100 }
-  ]
-
-  const divisionData = [
-    { division: 'Cardiology', pt: 247 },
-    { division: 'Neurology', pt: 164 },
-    { division: 'Surgery', pt: 86 }
-  ]
-
   const stats = [
     {
-      title: 'Total Patients',
-      value: '3,256',
-      icon: <PeopleAlt className='text-purple-600' fontSize='large' />,
-      bg: 'bg-purple-100'
+      title: 'Tỷ lệ lấp đầy',
+      value: '85%',
+      icon: <Apartment className='text-blue-600' fontSize='large' />,
+      bg: 'bg-blue-100',
+      trend: 'up',
+      percent: 2.5,
+      compareText: 'Tăng so với tuần trước'
     },
     {
-      title: 'Available Staff',
-      value: '394',
-      icon: <MedicalServices className='text-blue-600' fontSize='large' />,
-      bg: 'bg-blue-100'
+      title: 'Cư dân hiện tại',
+      value: '350',
+      icon: <Group className='text-green-600' fontSize='large' />,
+      bg: 'bg-green-100',
+      trend: 'up',
+      percent: 1.2,
+      compareText: 'Tăng so với tuần trước'
     },
     {
-      title: 'Avg Treat. Costs',
-      value: '$2,536',
-      icon: <LocalHospital className='text-green-600' fontSize='large' />,
-      bg: 'bg-green-100'
+      title: 'Sự cố đang xử lý',
+      value: '5',
+      icon: <ReportProblem className='text-red-600' fontSize='large' />,
+      bg: 'bg-red-100',
+      trend: 'down',
+      percent: 0.8,
+      compareText: 'Giảm so với tuần trước'
     },
     {
-      title: 'Available Cars',
-      value: '38',
-      icon: <DirectionsCar className='text-pink-600' fontSize='large' />,
-      bg: 'bg-pink-100'
+      title: 'Số xe đang gửi',
+      value: '180',
+      icon: <LocalParking className='text-purple-600' fontSize='large' />,
+      bg: 'bg-purple-100',
+      trend: 'up',
+      percent: 1.2,
+      compareText: 'Tăng so với tuần trước'
     }
   ]
 
-  const data = [{ value: 10 }, { value: 12 }, { value: 100 }, { value: 16 }, { value: 18 }, { value: 22 }]
-  const chartData = [10, 20, 30, 40, 50, 60, 70, 80, 90, 100, 80, 60, 40, 20, 10]
+  const monthlyData = [
+    { name: 'Jan', value: 85 },
+    { name: 'Feb', value: 92 },
+    { name: 'Mar', value: 32 },
+    { name: 'Apr', value: 95 },
+    { name: 'May', value: 37 },
+    { name: 'Jun', value: 87 },
+    { name: 'Jul', value: 19 },
+    { name: 'Aug', value: 18 },
+    { name: 'Sep', value: 91 },
+    { name: 'Oct', value: 93 },
+    { name: 'Nov', value: 96 },
+    { name: 'Dec', value: 10 }
+  ]
 
+  const serviceData = [
+    { name: 'Bảo vệ', value: 38, icon: <Security style={{ color: '#4F46E5' }} />, color: '#4F46E5' },
+    { name: 'Vệ sinh', value: 25, icon: <CleaningServices style={{ color: '#10b910' }} />, color: '#10b910' },
+    { name: 'Bể bơi', value: 60, icon: <Pool style={{ color: '#3bd1f6' }} />, color: '#3bd1f6' },
+    { name: 'Gym', value: 12, icon: <FitnessCenter style={{ color: '#F59E0B' }} />, color: '#F59E0B' },
+    { name: 'Bãi xe', value: 10, icon: <LocalParking style={{ color: '#EC4899' }} />, color: '#EC4899' }
+  ]
+
+  const paymentData = [
+    {
+      month: 'Jan',
+      paid: 18,
+      unpaid: -12
+    },
+    {
+      month: 'Feb',
+      paid: 5,
+      unpaid: -18
+    },
+    {
+      month: 'Mar',
+      paid: 14,
+      unpaid: -8
+    },
+    {
+      month: 'Apr',
+      paid: 28,
+      unpaid: -12
+    },
+    {
+      month: 'May',
+      paid: 16,
+      unpaid: -3
+    },
+    {
+      month: 'Jun',
+      paid: 10,
+      unpaid: -15
+    },
+    {
+      month: 'Jul',
+      paid: 8,
+      unpaid: -12
+    }
+  ]
+
+  const CustomTooltip = ({ active, payload }: any) => {
+    if (active && payload && payload.length) {
+      return (
+        <div
+          style={{
+            backgroundColor: 'white',
+            padding: '10px',
+            border: 'none',
+            borderRadius: '8px',
+            boxShadow: '0 2px 8px rgba(0,0,0,0.15)'
+          }}
+        >
+          <p
+            style={{
+              color: payload[0].payload.color,
+              margin: '0',
+              fontWeight: 600,
+              display: 'flex',
+              alignItems: 'center',
+              gap: '8px'
+            }}
+          >
+            {payload[0].payload.icon}
+            {payload[0].payload.name}
+          </p>
+          <p
+            style={{
+              color: '#111827',
+              margin: '5px 0 0 0',
+              fontWeight: 600,
+              fontSize: '1.1rem'
+            }}
+          >
+            {payload[0].value}%
+          </p>
+        </div>
+      )
+    }
+    return null
+  }
+
+  const PaymentTooltip = ({ active, payload, label }: any) => {
+    if (active && payload && payload.length) {
+      return (
+        <div
+          style={{
+            backgroundColor: 'white',
+            padding: '12px',
+            border: 'none',
+            borderRadius: '8px',
+            boxShadow: '0 2px 8px rgba(0,0,0,0.15)'
+          }}
+        >
+          <p style={{ color: '#111827', margin: '0 0 8px 0', fontWeight: 600 }}>{label}</p>
+          <p style={{ color: '#6366F1', margin: '4px 0', display: 'flex', justifyContent: 'space-between' }}>
+            <span>Đã thanh toán:</span>
+            <span style={{ fontWeight: 600 }}>{payload[0].value} căn</span>
+          </p>
+          <p style={{ color: '#60A5FA', margin: '4px 0', display: 'flex', justifyContent: 'space-between' }}>
+            <span>Chưa thanh toán:</span>
+            <span style={{ fontWeight: 600 }}>{Math.abs(payload[1].value)} căn</span>
+          </p>
+        </div>
+      )
+    }
+    return null
+  }
+
+  const [hoveredIndex, setHoveredIndex] = useState<number | null>(null)
 
   return (
-    <div className='p-6 bg-gray-50 min-h-screen'>
-      <Card className='rounded-2xl shadow-md px-2 py-3 w-100 mb-4'>
-        <CardContent className='flex justify-between items-center p-0'>
-          {/* Left side */}
-          <Box>
-            <Typography variant='body2' className='text-gray-500 mb-1'>
-              Your Set Goal
-            </Typography>
-            <div className='flex items-end gap-1'>
-              <Typography variant='h4' className='text-blue-600 font-bold leading-tight'>
-                127
-              </Typography>
-              <Typography variant='body2' className='text-gray-500 mb-1'>
-                ml
-              </Typography>
-            </div>
-            <Chip label='125ml/day' size='small' className='mt-1 bg-gray-100 text-gray-700 text-xs font-medium' />
-          </Box>
-
-          {/* Right side: mini custom bar chart */}
-          <div className='flex items-end gap-[2px] h-16 ml-2'>
-            {chartData.map((val, index) => (
-              <div
-                key={index}
-                className={`w-[3px] rounded-md ${
-                  index === Math.floor(chartData.length / 2) ? 'bg-blue-500' : 'bg-gray-300'
-                }`}
-                style={{ height: `${val * 0.6}%` }}
-              />
-            ))}
-          </div>
-        </CardContent>
-      </Card>
-      <Card className='rounded-2xl shadow-md px-2 py-3 mb-4 w-100'>
-        <CardContent className='flex justify-between items-center p-0'>
-          {/* Left section */}
-          <Box>
-            <Typography variant='body2' className='text-gray-500 mb-1'>
-              Your Set Goal
-            </Typography>
-            <div className='flex items-end gap-1'>
-              <Typography variant='h4' className='text-blue-600 font-bold leading-tight'>
-                35
-              </Typography>
-              <Typography variant='body2' className='text-gray-500 mb-1'>
-                %
-              </Typography>
-            </div>
-            <Typography variant='caption' className='text-gray-400'>
-              more than last week
-            </Typography>
-          </Box>
-
-          {/* Right section */}
-          <div className='flex flex-col items-end gap-2'>
-            <Chip label='40%/day' size='small' className='bg-gray-100 text-gray-700 text-xs font-medium' />
-            <div className='flex gap-2'>
-              {/* "Water level" column 1 */}
-              <div className='w-4 h-10 rounded-md bg-gray-200 flex flex-col justify-end overflow-hidden'>
-                <div className='bg-purple-400 w-full h-[50%] rounded-b-md'></div>
-              </div>
-              {/* "Water level" column 2 */}
-              <div className='w-4 h-10 rounded-md bg-gray-200 flex flex-col justify-end overflow-hidden'>
-                <div className='bg-blue-500 w-full h-[70%] rounded-b-md'></div>
-              </div>
-            </div>
-          </div>
-        </CardContent>
-      </Card>
-      <Card className='rounded-2xl shadow-md px-2 py-3 mb-4 w-100'>
-        <CardContent className='flex justify-between items-center p-0'>
-          {/* Left side: text and value */}
-          <Box>
-            <Typography variant='body2' className='text-gray-500 mb-1'>
-              Your Set Goal
-            </Typography>
-            <Typography variant='h4' className='text-blue-600 font-bold leading-tight'>
-              164<span className='text-sm text-gray-500 ml-1'>mg</span>
-            </Typography>
-            <Chip label='160ml/day' size='small' className='mt-1 bg-gray-100 text-gray-700 text-xs font-medium' />
-          </Box>
-
-          {/* Right side: mini bar chart */}
-          <div className='w-24 h-16'>
-            <ResponsiveContainer width='100%' height='100%'>
-              <BarChart data={data}>
-                <Bar dataKey='value' fill='#3B82F6' radius={[4, 4, 0, 0]} barSize={6} />
-              </BarChart>
-            </ResponsiveContainer>
-          </div>
-        </CardContent>
-      </Card>
-
-      <Card className='rounded-2xl shadow-md mb-10 w-100'>
-        <CardContent className='flex justify-between items-center'>
-          {/* Left side - text info */}
-          <Box>
-            <Typography variant='subtitle2' className='text-gray-500'>
-              New subscriptions
-            </Typography>
-            <div className='flex items-center gap-2 mt-1'>
-              <Typography variant='h5' className='font-bold'>
-                22
-              </Typography>
-              <div className='flex items-center text-green-600 text-sm font-medium'>
-                <ArrowUpward fontSize='small' />
-                15%
-              </div>
-            </div>
-            <Typography variant='caption' className='text-gray-400'>
-              compared to last week
-            </Typography>
-          </Box>
-
-          {/* Right side - mini chart */}
-          <div className='w-24 h-16'>
-            <ResponsiveContainer width='100%' height='100%'>
-              <LineChart data={data}>
-                <Line type='monotone' dataKey='value' stroke='#8B5CF6' strokeWidth={2} dot={false} />
-              </LineChart>
-            </ResponsiveContainer>
-          </div>
-        </CardContent>
-      </Card>
+    <div className='mx-5 mt-5 mb-5 '>
       <Grid container spacing={3}>
-        <Grid container spacing={3}>
-          {stats.map((item, index) => (
+        {stats.map((item, index) => {
+          let glowColor = '#4F46E5'
+          if (item.icon.props.className?.includes('text-blue-600')) glowColor = '#2563eb'
+          if (item.icon.props.className?.includes('text-green-600')) glowColor = '#22c55e'
+          if (item.icon.props.className?.includes('text-red-600')) glowColor = '#ef4444'
+          if (item.icon.props.className?.includes('text-purple-600')) glowColor = '#a21caf'
+          return (
             <Grid item xs={12} sm={6} md={3} key={index}>
-              <Card className='rounded-2xl shadow-md hover:shadow-lg transition-all'>
-                <CardContent className='flex items-center gap-4'>
-                  <div className={`p-3 rounded-full ${item.bg} flex items-center justify-center`}>{item.icon}</div>
-                  <div>
-                    <Typography variant='body2' className='text-gray-500'>
-                      {item.title}
-                    </Typography>
-                    <Typography variant='h5' className='font-semibold'>
-                      {item.value}
-                    </Typography>
+              <Card
+                sx={{ border: '1px solid #d9dbdd' }}
+                style={styles.card}
+                onMouseEnter={() => setHoveredIndex(index)}
+                onMouseLeave={() => setHoveredIndex(null)}
+              >
+                <CardContent style={styles.cardContent}>
+                  <div style={styles.flexContainer}>
+                    <div
+                      className='dashboard-icon'
+                      style={{
+                        ...styles.iconContainer(item.bg),
+                        transition: 'transform 0.35s cubic-bezier(.68,-0.55,.27,1.55), box-shadow 0.3s, filter 0.3s',
+                        transform: hoveredIndex === index ? 'scale(1.18) rotate(-8deg)' : undefined,
+                        boxShadow: hoveredIndex === index ? `0 4px 16px ${glowColor}55` : undefined,
+                        filter:
+                          hoveredIndex === index ? `brightness(1.15) drop-shadow(0 0 8px ${glowColor}aa)` : undefined
+                      }}
+                    >
+                      {item.icon}
+                    </div>
+                    <div>
+                      <Typography variant='body2' style={styles.title}>
+                        {item.title}
+                      </Typography>
+                      <div style={styles.trendBox}>
+                        <Typography variant='h5' style={styles.value}>
+                          {item.value}
+                        </Typography>
+                        <span style={styles.trendContainer}>
+                          {item.trend === 'up' ? (
+                            <ArrowUpward style={styles.arrowUp} />
+                          ) : (
+                            <ArrowDownward style={styles.arrowDown} />
+                          )}
+                          <span style={styles.trendValue(item.trend === 'up')}>
+                            {item.trend === 'up' ? '+' : '-'}
+                            {item.percent}%
+                          </span>
+                        </span>
+                      </div>
+                      <Typography variant='caption' style={styles.compareText}>
+                        {item.compareText}
+                      </Typography>
+                    </div>
                   </div>
                 </CardContent>
               </Card>
             </Grid>
-          ))}
-        </Grid>
+          )
+        })}
+      </Grid>
 
-        <Grid item xs={12} md={8}>
-          <Card className='rounded-2xl shadow-md'>
-            <CardContent>
-              <Typography variant='h6'>Outpatients vs. Inpatients Trend</Typography>
-              <ResponsiveContainer width='100%' height={300}>
-                <BarChart data={patientTrend}>
-                  <XAxis dataKey='month' />
-                  <YAxis />
-                  <Tooltip />
-                  <Bar dataKey='inpatients' fill='#7C3AED' />
-                  <Bar dataKey='outpatients' fill='#34D399' />
-                </BarChart>
-              </ResponsiveContainer>
-            </CardContent>
-          </Card>
-        </Grid>
-
-        <Grid item xs={12} md={4}>
-          <Card className='rounded-2xl shadow-md flex items-center justify-center h-full'>
-            <CardContent className='text-center'>
-              <Typography variant='h6'>Inpatients 72% / Outpatients 28%</Typography>
-              <CircularProgress variant='determinate' value={28} size={100} thickness={4} />
-              <Typography>Outpatients</Typography>
-            </CardContent>
-          </Card>
-        </Grid>
-
-        <Grid item xs={12} md={4}>
-          <Card className='rounded-2xl shadow-md text-center'>
-            <CardContent>
-              <Typography variant='h6'>Patients by Gender</Typography>
-              <div className='flex justify-center'>
-                <CircularProgress variant='determinate' value={52} size={100} thickness={4} />
-              </div>
-              <Typography>52% Female / 48% Male</Typography>
-            </CardContent>
-          </Card>
-        </Grid>
-
-        <Grid item xs={12} md={4}>
-          <Card className='rounded-2xl shadow-md'>
-            <CardContent>
-              <Typography variant='h6'>Patients By Division</Typography>
-              {divisionData.map((item, index) => (
-                <div key={index} className='flex justify-between py-1'>
-                  <Typography>{item.division}</Typography>
-                  <Typography>{item.pt}</Typography>
+      <Grid container spacing={3} style={{ marginTop: '1px' }}>
+        <Grid item xs={12} md={6}>
+          <Card style={styles.card} sx={{ border: '1px solid #d9dbdd' }}>
+            <CardContent style={{ padding: '1.5rem' }}>
+              <div style={{ display: 'flex', alignItems: 'flex-start', justifyContent: 'space-between' }}>
+                <div>
+                  <Typography variant='h6' style={{ color: '#111827', marginBottom: '0.5rem' }}>
+                    Thống kê dịch vụ
+                  </Typography>
+                  <Typography variant='h3' style={{ fontWeight: 600, color: '#111827' }}>
+                    100%
+                  </Typography>
+                  <Typography variant='body2' style={{ color: '#6B7280' }}>
+                    Tổng tỷ lệ sử dụng
+                  </Typography>
                 </div>
-              ))}
+
+                <div style={{ width: '200px', height: '200px' }}>
+                  <ResponsiveContainer>
+                    <PieChart>
+                      <Pie
+                        data={serviceData}
+                        cx='50%'
+                        cy='50%'
+                        innerRadius={60}
+                        outerRadius={80}
+                        paddingAngle={5}
+                        dataKey='value'
+                      >
+                        {serviceData.map((entry, index) => (
+                          <Cell key={`cell-${index}`} fill={entry.color} />
+                        ))}
+                      </Pie>
+                      <Tooltip content={<CustomTooltip />} />
+                    </PieChart>
+                  </ResponsiveContainer>
+                </div>
+              </div>
+
+              <div style={{ marginTop: '2rem' }}>
+                {serviceData.map((service, index) => (
+                  <div
+                    key={index}
+                    style={{
+                      display: 'flex',
+                      alignItems: 'center',
+                      gap: '1rem',
+                      marginBottom: '1rem',
+                      padding: '0.75rem',
+                      borderRadius: '0.5rem',
+                      backgroundColor: `${service.color}40`,
+                      transition: 'all 0.3s ease'
+                    }}
+                  >
+                    <div
+                      style={{
+                        backgroundColor: '#fff',
+                        padding: '0.5rem',
+                        borderRadius: '0.5rem',
+                        display: 'flex',
+                        alignItems: 'center',
+                        justifyContent: 'center'
+                      }}
+                    >
+                      {service.icon}
+                    </div>
+                    <div style={{ flex: 1 }}>
+                      <Typography variant='body1' style={{ fontWeight: 500 }}>
+                        {service.name}
+                      </Typography>
+                      <Typography variant='body2' style={{ color: '#6B7280' }}>
+                        Tỷ lệ sử dụng
+                      </Typography>
+                    </div>
+                    <Typography variant='h6' style={{ fontWeight: 600, color: service.color }}>
+                      {service.value}%
+                    </Typography>
+                  </div>
+                ))}
+              </div>
             </CardContent>
           </Card>
         </Grid>
-
-        <Grid item xs={12} md={4}>
-          <Card className='rounded-2xl shadow-md'>
-            <CardContent>
-              <Typography variant='h6'>Time Admitted</Typography>
-              <ResponsiveContainer width='100%' height={200}>
-                <LineChart data={timeAdmitted}>
-                  <XAxis dataKey='time' />
-                  <YAxis />
-                  <Tooltip />
-                  <Line type='monotone' dataKey='value' stroke='#F97316' strokeWidth={2} />
-                </LineChart>
-              </ResponsiveContainer>
+        <Grid item xs={12} md={6}>
+          <Card style={styles.card} sx={{ border: '1px solid #d9dbdd' }}>
+            <CardContent style={{ padding: '1.5rem' }}>
+              <div
+                style={{
+                  display: 'flex',
+                  justifyContent: 'space-between',
+                  alignItems: 'center',
+                  marginBottom: '1.5rem'
+                }}
+              >
+                <div>
+                  <Typography variant='h6' style={{ color: '#111827', marginBottom: '0.5rem' }}>
+                    Thanh toán phí dịch vụ
+                  </Typography>
+                  <Typography variant='body2' style={{ color: '#6B7280' }}>
+                    6 tháng gần nhất
+                  </Typography>
+                </div>
+              </div>
+              <div style={{ height: '300px', width: '100%' }}>
+                <ResponsiveContainer>
+                  <BarChart
+                    data={paymentData}
+                    stackOffset='sign'
+                    margin={{ top: 20, right: 30, left: 20, bottom: 5 }}
+                    barGap={0}
+                    barCategoryGap='25%'
+                  >
+                    <CartesianGrid strokeDasharray='3 3' horizontal={true} vertical={false} stroke='#E5E7EB' />
+                    <XAxis dataKey='month' axisLine={false} tickLine={false} tick={{ fill: '#9CA3AF', fontSize: 12 }} />
+                    <YAxis
+                      axisLine={false}
+                      tickLine={false}
+                      tick={{ fill: '#9CA3AF', fontSize: 12 }}
+                      domain={[-30, 30]}
+                      ticks={[-30, -20, -10, 0, 10, 20, 30]}
+                    />
+                    <Tooltip content={<PaymentTooltip />} />
+                    <Bar dataKey='paid' fill='#6366F1' radius={[4, 4, 0, 0]} maxBarSize={25} />
+                    <Bar dataKey='unpaid' fill='#60A5FA' radius={[4, 4, 0, 0]} maxBarSize={25} />
+                  </BarChart>
+                </ResponsiveContainer>
+              </div>
+              <div style={{ display: 'flex', justifyContent: 'center', gap: '2rem', marginTop: '1rem' }}>
+                <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
+                  <div style={{ width: 12, height: 12, backgroundColor: '#6366F1', borderRadius: 2 }} />
+                  <Typography variant='body2'>Đã thanh toán</Typography>
+                </div>
+                <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
+                  <div style={{ width: 12, height: 12, backgroundColor: '#60A5FA', borderRadius: 2 }} />
+                  <Typography variant='body2'>Chưa thanh toán</Typography>
+                </div>
+              </div>
             </CardContent>
           </Card>
+          <Grid item xs={12} md={12} style={{ marginTop: '22px' }}>
+            <Weather />
+          </Grid>
         </Grid>
+      </Grid>
 
-        <Grid item xs={12} md={4}>
-          <Card className='rounded-2xl shadow-md bg-purple-600 text-white'>
-            <CardContent>
-              <Typography variant='h5'>3,240</Typography>
-              <Typography>Patients this month</Typography>
-              <ResponsiveContainer width='100%' height={100}>
-                <LineChart data={timeAdmitted}>
-                  <Line type='monotone' dataKey='value' stroke='#fff' strokeWidth={2} />
-                </LineChart>
-              </ResponsiveContainer>
+      <Grid container spacing={3} style={{ marginTop: '1px' }}>
+        <Grid item xs={12}>
+          <Card style={styles.card} sx={{ border: '1px solid #d9dbdd' }}>
+            <CardContent style={{ padding: '1.5rem' }}>
+              <div style={{ display: 'flex', alignItems: 'center', marginBottom: '1rem' }}>
+                <div style={{ marginRight: '1rem' }}>
+                  <Typography variant='body2' style={{ color: '#6B7280', marginBottom: '0.25rem' }}>
+                    Tổng thu nhập
+                  </Typography>
+                  <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
+                    <Typography variant='h4' style={{ fontWeight: 600, color: '#111827' }}>
+                      $459.1k
+                    </Typography>
+                    <span
+                      style={{
+                        color: '#10B981',
+                        fontSize: '0.875rem',
+                        fontWeight: 500,
+                        display: 'flex',
+                        alignItems: 'center'
+                      }}
+                    >
+                      <ArrowUpward style={{ fontSize: '1rem', marginRight: '2px' }} />
+                      65%
+                    </span>
+                  </div>
+                </div>
+              </div>
+              <div style={{ height: '300px', width: '100%' }}>
+                <ResponsiveContainer width='100%' height='100%'>
+                  <AreaChart data={monthlyData}>
+                    <defs>
+                      <linearGradient id='colorRevenue' x1='0' y1='0' x2='0' y2='1'>
+                        <stop offset='0%' stopColor='#4F46E5' stopOpacity={0.3} />
+                        <stop offset='50%' stopColor='#4F46E5' stopOpacity={0.1} />
+                        <stop offset='100%' stopColor='#4F46E5' stopOpacity={0} />
+                      </linearGradient>
+                    </defs>
+                    <CartesianGrid strokeDasharray='3 3' vertical={false} stroke='#E5E7EB' />
+                    <XAxis
+                      dataKey='name'
+                      axisLine={false}
+                      tickLine={false}
+                      tick={{ fill: '#9CA3AF', fontSize: 12 }}
+                      dy={10}
+                    />
+                    <YAxis
+                      axisLine={false}
+                      tickLine={false}
+                      tick={{ fill: '#9CA3AF', fontSize: 12 }}
+                      dx={-10}
+                      tickFormatter={(value) => `$${value}k`}
+                    />
+                    <Tooltip content={<CustomTooltip />} />
+                    <Area
+                      type='monotone'
+                      dataKey='value'
+                      stroke='#4F46E5'
+                      strokeWidth={2.5}
+                      fill='url(#colorRevenue)'
+                      dot={{ fill: '#4F46E5', r: 4, strokeWidth: 2, stroke: '#fff' }}
+                      activeDot={{
+                        r: 6,
+                        fill: '#4F46E5',
+                        stroke: '#fff',
+                        strokeWidth: 2
+                      }}
+                    />
+                  </AreaChart>
+                </ResponsiveContainer>
+              </div>
             </CardContent>
           </Card>
         </Grid>
       </Grid>
+
+      <style>{styles.keyframes}</style>
     </div>
   )
 }

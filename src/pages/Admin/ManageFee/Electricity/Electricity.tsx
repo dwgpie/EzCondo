@@ -5,7 +5,6 @@ import { useMutation } from '@tanstack/react-query'
 import { toast } from 'react-toastify'
 import Swal from 'sweetalert2'
 import { Button, Dialog, DialogActions, DialogContent, DialogTitle, Slider, TextField } from '@mui/material'
-import { EditNoteTwoTone as EditNoteTwoToneIcon, Delete as DeleteIcon } from '@mui/icons-material'
 import { addElectric, getElectric, editElectric, deleteElectric } from '~/apis/service.api'
 import { electricitySchema } from '~/utils/rules'
 import LinearProgress from '@mui/material/LinearProgress'
@@ -268,7 +267,12 @@ export default function Electricity() {
                   className='text-blue-500 cursor-pointer bg-blue-100 p-2 rounded-full'
                   onClick={() => handleEditClick(electric)}
                 >
-                  <EditNoteTwoToneIcon />
+                  <svg xmlns='http://www.w3.org/2000/svg' width='23' height='23' viewBox='0 0 24 24'>
+                    <g fill='none' stroke='currentColor' strokeLinecap='round' strokeLinejoin='round' strokeWidth='2'>
+                      <path d='M12 3H5a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7' />
+                      <path d='M18.375 2.625a1 1 0 0 1 3 3l-9.013 9.014a2 2 0 0 1-.853.505l-2.873.84a.5.5 0 0 1-.62-.62l.84-2.873a2 2 0 0 1 .506-.852z' />
+                    </g>
+                  </svg>
                 </button>
                 <button
                   type='button'
@@ -277,7 +281,18 @@ export default function Electricity() {
                     handleDelete(electric.id)
                   }}
                 >
-                  <DeleteIcon />
+                  <svg xmlns='http://www.w3.org/2000/svg' width='23' height='23' viewBox='0 0 48 48'>
+                    <defs>
+                      <mask id='ipTDelete0'>
+                        <g fill='none' stroke='#fff' strokeLinejoin='round' strokeWidth='4'>
+                          <path fill='#555555' d='M9 10v34h30V10z' />
+                          <path strokeLinecap='round' d='M20 20v13m8-13v13M4 10h40' />
+                          <path fill='#555555' d='m16 10l3.289-6h9.488L32 10z' />
+                        </g>
+                      </mask>
+                    </defs>
+                    <path fill='currentColor' d='M0 0h48v48H0z' mask='url(#ipTDelete0)' />
+                  </svg>{' '}
                 </button>
               </div>
             </div>

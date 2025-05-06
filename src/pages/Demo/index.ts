@@ -1,3 +1,3 @@
-// import DemoApp from "./Demo";
+import Demo from './Demo'
 
-// export default DemoApp
+export default Demo

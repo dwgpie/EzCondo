@@ -64,7 +64,7 @@ export default function UnpaidElectricity() {
   const pageSize = 7
   const totalPages = Math.ceil(filteredElectrics.length / pageSize)
   const [status, setStatus] = useState<string>('false')
-  const [day, setDay] = useState<string>('All')
+  const [day, setDay] = useState<string>('')
   const [selectedApartments, setSelectedApartments] = useState<string[]>([])
 
   const getAllElectricityRecords = useMutation({

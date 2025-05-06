@@ -8,20 +8,19 @@ import TableContainer from '@mui/material/TableContainer'
 import TableHead from '@mui/material/TableHead'
 import TableRow from '@mui/material/TableRow'
 import Paper from '@mui/material/Paper'
-import { getAllIncident } from '~/apis/incident.api'
 import Pagination from '@mui/material/Pagination'
+import LinearProgress from '@mui/material/LinearProgress'
+import useBufferProgress from '~/components/useBufferProgress'
+import { getAllParking } from '~/apis/service.api'
 
-interface Incident {
-  id: string
-  userId: string
-  fullName: string
-  apartmentNumber: string
-  type: string
-  title: string
-  description: string
-  reportedAt: string
-  status: string
-  priority: number
+interface Parking {
+  parkingId: string
+  name: string
+  apartment: string
+  numberOfMotorbike: number
+  numberOfCar: number
+  accept: boolean
+  total: number
 }
 
 const StyledTableCell = styled(TableCell)(({ theme }) => ({
@@ -49,51 +48,44 @@ const StyledTableRow = styled(TableRow)(() => ({
   }
 }))
 
-export default function ListIncident() {
-  // const { searchQuery } = useContext(SearchContext)!
-  const [listIncident, setListIncident] = useState<Incident[]>([])
-  // const [filteredIncident, setFilteredIncident] = useState<User[]>([])
-
+export default function ListParking() {
+  const [loading, setLoading] = useState(false)
+  const { progress, buffer } = useBufferProgress(loading)
+  const [listParking, setListParking] = useState<Parking[]>([])
   const [page, setPage] = useState(1)
   const pageSize = 6
-  const totalPages = Math.ceil(listIncident.length / pageSize)
 
-  const getAllIncidentMutation = useMutation({
+  const getAllParkingMutation = useMutation({
     mutationFn: async () => {
-      const response = await getAllIncident()
+      setLoading(true)
+      const response = await getAllParking()
       return response.data
     },
     onSuccess: (data) => {
-      setListIncident(data)
+      setListParking(data)
+
+      // Delay để progress có thời gian hiển thị
+      setTimeout(() => {
+        setLoading(false)
+      }, 1000)
     },
     onError: (error) => {
-      console.error('Lỗi khi hiển thị danh sách incident:', error)
+      console.error(error)
     }
   })
+
   useEffect(() => {
-    getAllIncidentMutation.mutate()
-    console.log('list: ', listIncident)
+    getAllParkingMutation.mutate()
   }, [])
 
-  const handleDetailButton = (id: string) => {
-    window.location.href = `/manager/update-incident?id=${id}`
-  }
-
-  const getStatusColor = (status: string) => {
-    switch (status.toLowerCase()) {
-      case 'pending':
-        return 'bg-red-500 text-white'
-      case 'underway':
-        return 'bg-orange-500 text-white'
-      case 'resolved':
-        return 'bg-green-500 text-white'
-      default:
-        return ''
-    }
+  const handleGetParking = (parkingId: string) => {
+    window.location.href = `/manager/detail-parking?parkingLotId=${parkingId}`
   }
 
   // Hàm lấy user theo trang hiện tại
-  const paginatedIncidents = listIncident.slice((page - 1) * pageSize, page * pageSize)
+  const filteredParking = listParking.filter((parking) => parking.accept === true)
+  const totalPages = Math.ceil(filteredParking.length / pageSize)
+  const paginatedUsers = filteredParking.slice((page - 1) * pageSize, page * pageSize)
 
   const handlePageChange = (_event: React.ChangeEvent<unknown>, newPage: number) => {
     setPage(newPage)
@@ -101,8 +93,13 @@ export default function ListIncident() {
 
   return (
     <div className='mx-5 mt-5 mb-5 p-6 bg-gradient-to-br from-white via-white to-blue-100 drop-shadow-md rounded-xl'>
-      <div className='mb-[20px]'>
-        <h2 className='text-2xl font-semibold text-gray-500 ml-1'>List Incident</h2>
+      {loading && (
+        <div className='w-full px-6 fixed top-2 left-0 z-50'>
+          <LinearProgress variant='buffer' value={progress} valueBuffer={buffer} />
+        </div>
+      )}
+      <div className='flex gap-4 mb-6 justify-between font-bold '>
+        <h2 className='text-2xl font-semibold text-gray-500'>List Parkings</h2>
       </div>
       <Paper elevation={4} sx={{ borderRadius: '12px', overflow: 'hidden' }}>
         <TableContainer>
@@ -110,42 +107,32 @@ export default function ListIncident() {
             <TableHead>
               <TableRow>
                 <StyledTableCell width='5%'>ID</StyledTableCell>
-                <StyledTableCell width='15%'>Full Name</StyledTableCell>
-                <StyledTableCell width='12%'>Apartment</StyledTableCell>
-                <StyledTableCell width='10%'>Type</StyledTableCell>
-                <StyledTableCell width='15%'>Title</StyledTableCell>
-                <StyledTableCell width='15%'>Date of report</StyledTableCell>
-                <StyledTableCell width='13%'>Status</StyledTableCell>
+                <StyledTableCell width='24%'>Full Name</StyledTableCell>
+                <StyledTableCell width='10%'>Apartment</StyledTableCell>
+                <StyledTableCell width='15%'>Number Of Motobike</StyledTableCell>
+                <StyledTableCell width='15%'>Number Of Car</StyledTableCell>
+                <StyledTableCell width='10%'>Total</StyledTableCell>
                 <StyledTableCell width='8%'>Detail</StyledTableCell>
               </TableRow>
             </TableHead>
             <TableBody>
-              {paginatedIncidents.length > 0 ? (
-                paginatedIncidents.map((incident, index) => (
-                  <StyledTableRow key={incident.id}>
+              {paginatedUsers.length > 0 ? (
+                paginatedUsers.map((parking, index) => (
+                  <StyledTableRow key={parking.parkingId}>
                     <StyledTableCell sx={{ color: 'black', fontWeight: '600' }}>
                       {(page - 1) * pageSize + index + 1}
                     </StyledTableCell>
-                    <StyledTableCell>{incident.fullName}</StyledTableCell>
-                    <StyledTableCell>{incident.apartmentNumber}</StyledTableCell>
-                    <StyledTableCell>{incident.type}</StyledTableCell>
-                    <StyledTableCell>{incident.title}</StyledTableCell>
-                    <StyledTableCell>
-                      {new Intl.DateTimeFormat('vi-VN').format(new Date(incident.reportedAt))}
-                    </StyledTableCell>
-                    <StyledTableCell>
-                      <span
-                        className={`${getStatusColor(incident.status)} capitalize px-2 py-1 rounded-full text-sm font-semibold`}
-                      >
-                        {incident.status}
-                      </span>
-                    </StyledTableCell>
+                    <StyledTableCell>{parking.name}</StyledTableCell>
+                    <StyledTableCell>{parking.apartment}</StyledTableCell>
+                    <StyledTableCell>{parking.numberOfMotorbike}</StyledTableCell>
+                    <StyledTableCell>{parking.numberOfCar}</StyledTableCell>
+                    <StyledTableCell>{parking.total}</StyledTableCell>
                     <StyledTableCell colSpan={1}>
                       <div className='ml-2'>
                         <button
                           className='text-blue-500 cursor-pointer'
                           onClick={() => {
-                            handleDetailButton(incident.id)
+                            handleGetParking(parking.parkingId)
                           }}
                         >
                           <svg xmlns='http://www.w3.org/2000/svg' width='24' height='24' viewBox='0 0 48 48'>
@@ -163,7 +150,7 @@ export default function ListIncident() {
               ) : (
                 <TableRow>
                   <TableCell colSpan={8} align='center'>
-                    No incidents found
+                    No parkings found
                   </TableCell>
                 </TableRow>
               )}

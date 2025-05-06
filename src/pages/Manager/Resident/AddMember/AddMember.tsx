@@ -10,7 +10,6 @@ import TableHead from '@mui/material/TableHead'
 import TableRow from '@mui/material/TableRow'
 import Paper from '@mui/material/Paper'
 import Button from '@mui/material/Button'
-import DeleteIcon from '@mui/icons-material/Delete'
 import { getUserById } from '~/apis/user.api'
 import { yupResolver } from '@hookform/resolvers/yup'
 import { addMemberSchema } from '~/utils/rules'
@@ -236,14 +235,25 @@ export default function AddMember() {
                       </StyledTableCell>
                       <StyledTableCell colSpan={1} align='center'>
                         <button
-                          className=' cursor-pointer '
+                          className='text-red-500 cursor-pointer'
                           onClick={() => {
                             if (user.id) {
                               handleDelete(user.id)
                             }
                           }}
                         >
-                          <DeleteIcon sx={{ color: 'red' }} />
+                          <svg xmlns='http://www.w3.org/2000/svg' width='25' height='25' viewBox='0 0 48 48'>
+                            <defs>
+                              <mask id='ipTDelete0'>
+                                <g fill='none' stroke='#fff' strokeLinejoin='round' strokeWidth='4'>
+                                  <path fill='#555555' d='M9 10v34h30V10z' />
+                                  <path strokeLinecap='round' d='M20 20v13m8-13v13M4 10h40' />
+                                  <path fill='#555555' d='m16 10l3.289-6h9.488L32 10z' />
+                                </g>
+                              </mask>
+                            </defs>
+                            <path fill='currentColor' d='M0 0h48v48H0z' mask='url(#ipTDelete0)' />
+                          </svg>{' '}
                         </button>
                       </StyledTableCell>
                     </StyledTableRow>

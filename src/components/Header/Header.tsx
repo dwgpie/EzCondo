@@ -235,7 +235,7 @@ export default function Header() {
               <Badge badgeContent={countNotification} color='primary'>
                 <div
                   className={`p-2 rounded-full border-1 transition-all duration-300 ripple ${
-                    isOpen ? 'bg-[#eaf3fd] text-[#3385f0] border-[#3385f0]' : 'bg-[#ebf2f5] border-[#eaeaea]'
+                    isOpen ? 'bg-[#cbe1fa] text-blue-600 border-[#3385f0]' : 'bg-[#ebebeb] border-[#d1d1d1]'
                   }`}
                 >
                   <svg xmlns='http://www.w3.org/2000/svg' width='19' height='19' viewBox='0 0 24 24'>
@@ -412,7 +412,7 @@ export default function Header() {
               )}
 
               {/* Trường hợp không có gì */}
-              {listNotification.length === 0 && <p className='p-[10px]'>No notification Foundation</p>}
+              {listNotification.length === 0 && <p className='p-[10px] flex justify-center'>No notifications</p>}
             </div>
             <div className='flex flex-col align-center items-center pt-[5px] pb-[5px]'>
               <button
@@ -431,7 +431,9 @@ export default function Header() {
             {(popupState) => (
               <div className=''>
                 <div
-                  className='w-14 h-14 rounded-full overflow-hidden cursor-pointer border-1 border-[#eaeaea]'
+                  className={`w-14 h-14 rounded-full overflow-hidden cursor-pointer border-1 transition-all duration-300 ${
+                    popupState.isOpen ? 'border-[#3385f0]' : 'border-[#d1d1d1]'
+                  }`}
                   {...bindTrigger(popupState)}
                 >
                   <img

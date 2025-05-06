@@ -113,7 +113,7 @@ export default function SideBarAdminActive() {
                   <path d='M20 17.5c0 2.485 0 4.5-8 4.5s-8-2.015-8-4.5S7.582 13 12 13s8 2.015 8 4.5Z' />
                 </g>
               </svg>
-              <p className='text-[15px]'>Users</p>
+              <p className='text-[15px]'>User</p>
             </div>
             <div className='flex items-center justify-center'>{isOpenUser ? <ExpandLess /> : <ExpandMore />}</div>
           </div>
@@ -129,7 +129,7 @@ export default function SideBarAdminActive() {
                       d='M152 80a8 8 0 0 1 8-8h88a8 8 0 0 1 0 16h-88a8 8 0 0 1-8-8m96 40h-88a8 8 0 0 0 0 16h88a8 8 0 0 0 0-16m0 48h-64a8 8 0 0 0 0 16h64a8 8 0 0 0 0-16m-96.25 22a8 8 0 0 1-5.76 9.74a7.6 7.6 0 0 1-2 .26a8 8 0 0 1-7.75-6c-6.16-23.94-30.34-42-56.25-42s-50.09 18.05-56.25 42a8 8 0 0 1-15.5-4c5.59-21.71 21.84-39.29 42.46-48a48 48 0 1 1 58.58 0c20.63 8.71 36.88 26.29 42.47 48M80 136a32 32 0 1 0-32-32a32 32 0 0 0 32 32'
                     />
                   </svg>
-                  <p className='text-[15px]'>List Users</p>
+                  <p className='text-[15px]'>User List</p>
                 </div>
               </div>
             </Link>
@@ -147,7 +147,7 @@ export default function SideBarAdminActive() {
                       />
                     </g>
                   </svg>
-                  <p className='text-[15px]'>Add Users</p>
+                  <p className='text-[15px]'>Add User</p>
                 </div>
               </div>
             </Link>
@@ -165,7 +165,7 @@ export default function SideBarAdminActive() {
                   d='M320 640q66 0 124 25t101 69t69 102t26 124t-25 124t-69 102t-102 69t-124 25t-124-25t-102-68t-69-102T0 960t25-124t68-101t102-69t125-26m0 512q40 0 75-15t61-41t41-61t15-75t-15-75t-41-61t-61-41t-75-15t-75 15t-61 41t-41 61t-15 75t15 75t41 61t61 41t75 15m1532 78q46 30 82 71t62 89t38 101t14 109q0 93-35 174t-96 143t-142 96t-175 35q-93 0-174-35t-143-96t-96-142t-35-175q0-50 10-94q-88-29-160-83t-125-126t-80-158t-29-179q0-119 45-224t124-183t183-123t224-46q18 0 36 1t36 3q-8-35-8-68q0-66 25-124t68-101t102-69t125-26t124 25t101 69t69 102t26 124q0 53-17 102t-48 90t-74 71t-94 45q52 73 78 157t27 175q0 71-17 139t-51 131m-316-910q0 62 37 111q35 15 68 35t63 44q6 1 12 1t12 1q40 0 75-15t61-41t41-61t15-75t-15-75t-41-61t-61-41t-75-15t-75 15t-61 41t-41 61t-15 75M896 960q0 72 22 139t64 124t98 99t126 64q62-109 165-171t229-63q71 0 137 21q27-49 41-103t14-110q0-95-38-181t-108-150l-4-1q-35-29-69-50t-77-39l-1-1q-73-26-151-26q-93 0-174 35t-142 96t-96 142t-36 175m704 960q66 0 124-25t101-68t69-102t26-125q0-70-26-128t-71-101t-105-67t-128-24q-64 0-120 26t-99 71t-66 102t-25 121q0 66 25 124t68 102t102 69t125 25'
                 />
               </svg>
-              <p className='text-[15px]'>Services</p>
+              <p className='text-[15px]'>Service</p>
             </div>
             <div className='flex items-center justify-center'>{isOpenService ? <ExpandLess /> : <ExpandMore />}</div>
           </div>
@@ -184,7 +184,7 @@ export default function SideBarAdminActive() {
                       clipRule='evenodd'
                     />
                   </svg>
-                  <p className='text-[15px]'>List Services</p>
+                  <p className='text-[15px]'>Service List</p>
                 </div>
               </div>
             </Link>
@@ -217,7 +217,7 @@ export default function SideBarAdminActive() {
                   d='M4.616 19q-.691 0-1.153-.462T3 17.384V6.616q0-.691.463-1.153T4.615 5h14.77q.69 0 1.152.463T21 6.616v10.769q0 .69-.463 1.153T19.385 19zm0-1h14.769q.23 0 .423-.192t.192-.424V6.616q0-.231-.192-.424T19.385 6H4.615q-.23 0-.423.192T4 6.616v10.769q0 .23.192.423t.423.192M4 18V6zm6.5-3.5H7q-.213 0-.357.143T6.5 15t.143.357T7 15.5h1.5v.5q0 .214.143.357T9 16.5t.357-.143T9.5 16v-.5h1.23q.33 0 .55-.22t.22-.55v-2.46q0-.33-.22-.55t-.55-.22H7.5v-2H11q.214 0 .357-.143T11.5 9t-.143-.357T11 8.5H9.5V8q0-.213-.143-.357T9 7.5t-.357.143T8.5 8v.5H7.27q-.33 0-.55.22t-.22.55v2.46q0 .33.22.55t.55.22h3.23zm5.637 1.344l1.054-1.053q.105-.106.052-.227q-.052-.122-.19-.122h-2.107q-.136 0-.19.122q-.052.12.054.227l1.053 1.053q.056.056.137.056t.137-.056m-1.19-6.036h2.107q.137 0 .19-.121t-.054-.227l-1.054-1.054Q16.082 8.35 16 8.35t-.136.056l-1.055 1.053q-.105.106-.052.227t.19.122'
                 />
               </svg>
-              <p className='text-[15px]'>Fees</p>
+              <p className='text-[15px]'>Fee</p>
             </div>
             <div className='flex items-center justify-center'>{isOpenFee ? <ExpandLess /> : <ExpandMore />}</div>
           </div>
@@ -236,7 +236,7 @@ export default function SideBarAdminActive() {
                       clipRule='evenodd'
                     />
                   </svg>
-                  <p className='text-[15px]'>Fee Electricity</p>
+                  <p className='text-[15px]'>Electricity Fee</p>
                 </div>
               </div>
             </Link>
@@ -262,7 +262,7 @@ export default function SideBarAdminActive() {
                       d='M344 328a72 72 0 0 1-72 72'
                     />
                   </svg>
-                  <p className='text-[15px]'>Fee Water</p>
+                  <p className='text-[15px]'>Water Fee</p>
                 </div>
               </div>
             </Link>
@@ -277,7 +277,7 @@ export default function SideBarAdminActive() {
                       <path d='M21 12a9 9 0 1 1-18 0a9 9 0 0 1 18 0' />
                     </g>
                   </svg>
-                  <p className='text-[15px]'>Fee Parking</p>
+                  <p className='text-[15px]'>Parking Fee</p>
                 </div>
               </div>
             </Link>
@@ -295,7 +295,7 @@ export default function SideBarAdminActive() {
                   d='M4.539 20.154q-.441 0-.74-.3t-.299-.738V8.192q0-.44.299-.739q.299-.3.74-.3H7.5v-2.96q0-.441.299-.74q.299-.3.74-.3h6.923q.44 0 .739.3q.299.299.299.74v6.96h2.962q.44 0 .739.3q.299.299.299.74v6.923q0 .44-.299.739t-.74.299H13.5v-4h-3v4zm-.039-1h3v-3h-3zm0-4h3v-3h-3zm0-4h3v-3h-3zm4 4h3v-3h-3zm0-4h3v-3h-3zm0-4h3v-3h-3zm4 8h3v-3h-3zm0-4h3v-3h-3zm0-4h3v-3h-3zm4 12h3v-3h-3zm0-4h3v-3h-3z'
                 />
               </svg>
-              <p className='text-[15px]'>Apartments</p>
+              <p className='text-[15px]'>Apartment</p>
             </div>
             <div className='flex items-center justify-center'>{isOpenApartment ? <ExpandLess /> : <ExpandMore />}</div>
           </div>
@@ -313,7 +313,7 @@ export default function SideBarAdminActive() {
                       d='M908 640H804V488c0-4.4-3.6-8-8-8H548v-96h108c8.8 0 16-7.2 16-16V80c0-8.8-7.2-16-16-16H368c-8.8 0-16 7.2-16 16v288c0 8.8 7.2 16 16 16h108v96H228c-4.4 0-8 3.6-8 8v152H116c-8.8 0-16 7.2-16 16v288c0 8.8 7.2 16 16 16h288c8.8 0 16-7.2 16-16V656c0-8.8-7.2-16-16-16H292v-88h440v88H620c-8.8 0-16 7.2-16 16v288c0 8.8 7.2 16 16 16h288c8.8 0 16-7.2 16-16V656c0-8.8-7.2-16-16-16zm-564 76v168H176V716zm84-408V140h168v168zm420 576H680V716h168z'
                     />
                   </svg>
-                  <p className='text-[15px]'>List Apartments</p>
+                  <p className='text-[15px]'>Apartment List</p>
                 </div>
               </div>
             </Link>
@@ -356,7 +356,7 @@ export default function SideBarAdminActive() {
                   d='M6.25 14a.75.75 0 0 1 .75-.75h9a.75.75 0 0 1 0 1.5H7a.75.75 0 0 1-.75-.75M7 16.75a.75.75 0 0 0 0 1.5h6a.75.75 0 0 0 0-1.5z'
                 />
               </svg>
-              <p className='text-[15px]'>Notifications</p>
+              <p className='text-[15px]'>Notification</p>
             </div>
             <div className='flex items-center justify-center'>
               {isOpenNotification ? <ExpandLess /> : <ExpandMore />}
@@ -384,7 +384,7 @@ export default function SideBarAdminActive() {
                       <path d='M7 10s.5 0 1 1c0 0 1.588-2.5 3-3m-4 9s.5 0 1 1c0 0 1.588-2.5 3-3' />
                     </g>
                   </svg>
-                  <p className='text-[15px]'>History Notification</p>
+                  <p className='text-[15px]'>Notification History</p>
                 </div>
               </div>
             </Link>

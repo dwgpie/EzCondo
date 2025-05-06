@@ -38,7 +38,7 @@ export default function Weather() {
 
         // If no cache or cache expired, fetch new data
         const apiKey = import.meta.env.VITE_WEATHERSTACK_API_KEY
-        const response = await fetch(`https://api.weatherstack.com/current?access_key=${apiKey}&query=Ho Chi Minh`)
+        const response = await fetch(`https://api.weatherstack.com/current?access_key=${apiKey}&query=Da Nang`)
         const data = await response.json()
 
         if (data.error) {
@@ -77,19 +77,30 @@ export default function Weather() {
 
   if (loading) {
     return (
-      <Card className='rounded-2xl shadow-md'>
+      <Card
+        sx={{
+          borderRadius: 4,
+          boxShadow: ' rgba(0, 0, 0, 0.1) 0px 4px 6px -1px, rgba(0, 0, 0, 0.06) 0px 2px 4px -1px',
+          border: '1px solid #d9dbdd'
+        }}
+      >
         <CardContent className='flex justify-center items-center h-[200px]'>
           <CircularProgress />
         </CardContent>
       </Card>
     )
   }
-
   return (
-    <Card className='rounded-2xl shadow-md'>
+    <Card
+      sx={{
+        borderRadius: 4,
+        boxShadow: ' rgba(0, 0, 0, 0.1) 0px 4px 6px -1px, rgba(0, 0, 0, 0.06) 0px 2px 4px -1px',
+        border: '1px solid #d9dbdd'
+      }}
+    >
       <CardContent>
         <div className='flex justify-between items-center mb-4'>
-          <Typography variant='h6'>Weather in Ho Chi Minh City</Typography>
+          <Typography variant='h6'>Weather in Da Nang City</Typography>
           {weather && (
             <Typography variant='caption' color='textSecondary' className='text-xs'>
               Updated: {new Date(weather.timestamp).toLocaleTimeString()}
@@ -103,7 +114,7 @@ export default function Weather() {
           </Typography>
         ) : (
           <div className='grid grid-cols-2 gap-4'>
-            <div className='flex items-center gap-2'>
+            <div className='flex items-center gap-5'>
               <WbSunny className='text-yellow-500' />
               <div>
                 <Typography variant='body2' color='textSecondary'>
@@ -113,17 +124,19 @@ export default function Weather() {
               </div>
             </div>
 
-            <div className='flex items-center gap-2'>
+            <div className='flex items-center gap-5'>
               <Cloud className='text-gray-500' />
               <div>
                 <Typography variant='body2' color='textSecondary'>
                   Condition
                 </Typography>
-                <Typography variant='h6'>{weather?.weather_descriptions[0]}</Typography>
+                <Typography variant='h6' style={{ fontSize: '1.2rem' }}>
+                  {weather?.weather_descriptions[0]}
+                </Typography>
               </div>
             </div>
 
-            <div className='flex items-center gap-2'>
+            <div className='flex items-center gap-5'>
               <WaterDrop className='text-blue-500' />
               <div>
                 <Typography variant='body2' color='textSecondary'>
@@ -133,7 +146,7 @@ export default function Weather() {
               </div>
             </div>
 
-            <div className='flex items-center gap-2'>
+            <div className='flex items-center gap-5'>
               <Air className='text-green-500' />
               <div>
                 <Typography variant='body2' color='textSecondary'>

@@ -107,7 +107,6 @@ export default function AddService() {
       }
 
       const service_Id = response.data
-      console.log('Service ID:', service_Id)
 
       await addOrUpdateImage({
         service_Id,

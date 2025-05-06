@@ -14,7 +14,6 @@ import { getAllWater, addWaterReading, dowloadTemplateWaterReading } from '~/api
 import { yupResolver } from '@hookform/resolvers/yup'
 import { addWaterMeterSchema } from '~/utils/rules'
 import { Button } from '@mui/material'
-import SubjectIcon from '@mui/icons-material/Subject'
 import { toast } from 'react-toastify'
 import CloudUploadIcon from '@mui/icons-material/CloudUpload'
 import FileDownloadIcon from '@mui/icons-material/FileDownload'
@@ -324,12 +323,18 @@ export default function WaterReading() {
                       </span>
                     </StyledTableCell>
                     <StyledTableCell>
-                      <div className='flex p-2'>
+                      <div className='ml-2'>
                         <button
-                          className='text-blue-600 hover:text-blue-800 transition-colors cursor-pointer'
+                          className='text-blue-500 cursor-pointer'
                           onClick={() => handleDetailClick(water.id || '')}
                         >
-                          <SubjectIcon />
+                          <svg xmlns='http://www.w3.org/2000/svg' width='24' height='24' viewBox='0 0 48 48'>
+                            <g fill='none' stroke='currentColor' strokeLinejoin='round' strokeWidth='4'>
+                              <rect width='36' height='36' x='6' y='6' rx='3' />
+                              <path d='M13 13h8v8h-8z' />
+                              <path strokeLinecap='round' d='M27 13h8m-8 7h8m-22 8h22m-22 7h22' />
+                            </g>
+                          </svg>
                         </button>
                       </div>
                     </StyledTableCell>

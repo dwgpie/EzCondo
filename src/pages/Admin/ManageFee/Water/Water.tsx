@@ -6,7 +6,6 @@ import { addWater, getWater, editWater } from '~/apis/service.api'
 import { toast } from 'react-toastify'
 import { useEffect, useRef, useState } from 'react'
 import { useMutation } from '@tanstack/react-query'
-import EditNoteTwoToneIcon from '@mui/icons-material/EditNoteTwoTone'
 import { Dialog, DialogActions, DialogContent, DialogTitle } from '@mui/material'
 import LinearProgress from '@mui/material/LinearProgress'
 import useBufferProgress from '~/components/useBufferProgress'
@@ -198,7 +197,12 @@ export default function Water() {
                 className='text-blue-500 cursor-pointer bg-blue-100 p-2 rounded-full'
                 onClick={() => handleEditClick(water)}
               >
-                <EditNoteTwoToneIcon />
+                <svg xmlns='http://www.w3.org/2000/svg' width='23' height='23' viewBox='0 0 24 24'>
+                  <g fill='none' stroke='currentColor' strokeLinecap='round' strokeLinejoin='round' strokeWidth='2'>
+                    <path d='M12 3H5a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7' />
+                    <path d='M18.375 2.625a1 1 0 0 1 3 3l-9.013 9.014a2 2 0 0 1-.853.505l-2.873.84a.5.5 0 0 1-.62-.62l.84-2.873a2 2 0 0 1 .506-.852z' />
+                  </g>
+                </svg>{' '}
               </button>
             </div>
           </div>

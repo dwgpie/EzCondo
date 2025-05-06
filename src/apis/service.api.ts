@@ -338,3 +338,24 @@ export const filterWater = (body: { status: string; day: string }) => {
 export const updateBillWater = (body: { waterBillId: string }[]) => {
   return http.patch('/api/Water/Update-Water-Bill', body)
 }
+
+//Parking
+export const getAllParking = () => {
+  return http.get('/api/ParkingLot/Get-All-Parking-Lot')
+}
+
+export const getParkingById = (parkingLotId: string) => {
+  return http.get(`/api/ParkingLot/Get-Parking-Lot-Detail?parkingLotId=${parkingLotId}`)
+}
+
+export const acceptParking = (body: { parkingLotId: string; accept: boolean }) => {
+  return http.post('/api/ParkingLot/Accept-Or-Reject-Parking-Lot', body)
+}
+
+export const updateParkingLot = (body: { parkingLotDetailId: string; status: boolean; checking: boolean }) => {
+  return http.patch('/api/ParkingLot/Update-Parking-Lot-Detail', body)
+}
+
+export const deleteParkingLot = (parkingLotDetailId: string) => {
+  return http.delete(`/api/ParkingLot/Delete-Parking-Lot-Detail?parkingLotDetailId=${parkingLotDetailId}`)
+}

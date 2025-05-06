@@ -64,7 +64,7 @@ export default function UnpaidWater() {
   const pageSize = 7
   const totalPages = Math.ceil(filteredWaters.length / pageSize)
   const [status, setStatus] = useState<string>('false')
-  const [day, setDay] = useState<string>('All')
+  const [day, setDay] = useState<string>('')
   const [selectedApartments, setSelectedApartments] = useState<string[]>([])
 
   const getAllWaterRecords = useMutation({

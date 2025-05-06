@@ -1,5 +1,5 @@
 import { useForm } from 'react-hook-form'
-import { Link, useNavigate } from 'react-router-dom'
+import { Link } from 'react-router-dom'
 import Input from '~/components/Input'
 import { yupResolver } from '@hookform/resolvers/yup'
 import { loginSchema, LoginSchema } from '~/utils/rules'
@@ -14,6 +14,7 @@ import IconButton from '@mui/material/IconButton'
 import { saveAccessTokenToLocalStorage, saveUserRoleToLocalStorage } from '~/utils/auth'
 import LinearProgress from '@mui/material/LinearProgress'
 import useBufferProgress from '~/components/useBufferProgress'
+import { toast } from 'react-toastify'
 
 type FormData = LoginSchema
 
@@ -21,7 +22,6 @@ type FormData = LoginSchema
 //   "password": "Roguemice2002@"
 
 export default function Login() {
-  const navigate = useNavigate()
   const [loading, setLoading] = useState(false)
   const { progress, buffer } = useBufferProgress(loading)
 
@@ -38,25 +38,31 @@ export default function Login() {
   })
 
   const onSubmit = handleSubmit((data) => {
-    setLoading(true) // bật progress
+    setLoading(true)
 
     loginMutation.mutate(data, {
       onSuccess: (data) => {
         const token = data.data.token
         const role = data.data.role
 
+        if (role === 'resident') {
+          toast.error('Resident cannot log in to this website', {
+            style: { width: 'fit-content' }
+          })
+          setLoading(false)
+          return
+        }
+
         saveAccessTokenToLocalStorage(token, role)
         saveUserRoleToLocalStorage(role)
 
         setTimeout(() => {
-          setLoading(false) // tắt progress sau 500ms
+          setLoading(false)
 
           if (role === 'admin') {
             window.location.href = '/admin/dashboard'
           } else if (role === 'manager') {
             window.location.href = '/manager/dashboard'
-          } else {
-            navigate('/')
           }
         }, 500)
       },

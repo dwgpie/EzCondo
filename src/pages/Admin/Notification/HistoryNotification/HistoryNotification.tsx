@@ -19,7 +19,6 @@ import {
   Select,
   TextField
 } from '@mui/material'
-import SubjectIcon from '@mui/icons-material/Subject'
 import LinearProgress from '@mui/material/LinearProgress'
 import useBufferProgress from '~/components/useBufferProgress'
 
@@ -200,12 +199,22 @@ export default function HistoryNotification() {
                     <StyledTableCell>
                       {new Intl.DateTimeFormat('vi-VN').format(new Date(notify.createdAt))}
                     </StyledTableCell>
-                    <StyledTableCell>{notify.type}</StyledTableCell>
-                    <StyledTableCell>{notify.receiver}</StyledTableCell>
                     <StyledTableCell>
-                      <div className='flex gap-2 ml-2'>
+                      <span className='capitalize'>{notify.type}</span>
+                    </StyledTableCell>
+                    <StyledTableCell>
+                      <span className='capitalize'>{notify.receiver}</span>
+                    </StyledTableCell>
+                    <StyledTableCell>
+                      <div className='ml-2'>
                         <button className='text-blue-500 cursor-pointer' onClick={() => handleEditClick(notify)}>
-                          <SubjectIcon />
+                          <svg xmlns='http://www.w3.org/2000/svg' width='24' height='24' viewBox='0 0 48 48'>
+                            <g fill='none' stroke='currentColor' strokeLinejoin='round' strokeWidth='4'>
+                              <rect width='36' height='36' x='6' y='6' rx='3' />
+                              <path d='M13 13h8v8h-8z' />
+                              <path strokeLinecap='round' d='M27 13h8m-8 7h8m-22 8h22m-22 7h22' />
+                            </g>
+                          </svg>
                         </button>
                       </div>
                     </StyledTableCell>

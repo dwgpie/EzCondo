@@ -274,6 +274,8 @@ export default function ListApartment() {
                 setEditingItem((prev) => (prev ? { ...prev, description: String(e.target.value) } : null))
               }
               fullWidth
+              multiline
+              rows={4}
             />
           </div>
         </DialogContent>
