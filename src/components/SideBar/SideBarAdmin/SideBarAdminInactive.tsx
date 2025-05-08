@@ -22,7 +22,7 @@ export default function SideBarAdminInactive() {
     <div className='flex flex-col items-center bg-blue-50 mb-10 w-full h-screen border-r-2 border-[#eaeaea] text-blue-900'>
       <Link to='/admin/dashboard'>
         <div className='w-20 h-20 ml-2'>
-          <img src='/public/imgs/logo/logo-mini.png' className='w-full h-full object-cover' />
+          <img src='/imgs/logo/logo-mini.png' className='w-full h-full object-cover' />
         </div>
       </Link>
 

@@ -196,7 +196,7 @@ export default function LandingPage() {
         <div className='max-w-7xl mx-auto flex justify-between items-center px-4'>
           <h2 className='text-3xl font-extrabold text-[#1976d3] flex items-center'>
             <div className='w-20 h-16 mr-[-8px]'>
-              <img src='/public/imgs/logo/logo-mini.png' className='w-full h-full object-cover' />
+              <img src='/imgs/logo/logo-mini.png' className='w-full h-full object-cover' />
             </div>
             <span>EzCondo</span>
           </h2>

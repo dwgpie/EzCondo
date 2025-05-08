@@ -60,7 +60,7 @@ export default function VerifyOTP() {
         </div>
         <div className='flex justify-between px-12 py-8'>
           <div className='flex flex-col items-center justify-center'>
-            <img src='/public/imgs/logo/lo23-Photoroom.png' className='w-50 h-50 object-cover' />
+            <img src='/imgs/logo/lo23-Photoroom.png' className='w-50 h-50 object-cover' />
             <h1 className='text-[#1f5fa3] font-bold text-5xl mt-5'> Verify OTP !</h1>
             <p className='text-[#1f5fa3] text-3xl mt-7 w-[460px] text-center'>Enter your OTP.</p>
           </div>
