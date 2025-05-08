@@ -230,7 +230,7 @@ export default function ElectricityMeter() {
             <p className='text-green-700 font-medium text-center text-xs'>{excelFileName}</p>
           ) : (
             <>
-              <img src='/public/imgs/logo/excel.png' alt='excel' className='w-11' />
+              <img src='/imgs/logo/excel.png' alt='excel' className='w-11' />
               <p className='text-blue-800 font-semibold text-[13px] mt-1'>Upload Excel File</p>
               <p className='text-gray-500 text-[12px] text-center'>Drag & drop .xlsx or .xls files</p>
             </>

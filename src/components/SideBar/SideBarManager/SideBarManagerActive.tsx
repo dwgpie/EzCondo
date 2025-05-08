@@ -60,7 +60,7 @@ export default function SideBarManagerActive() {
             <div className='absolute inset-0 bg-blue-500 rounded-lg -rotate-45 group-hover:rotate-0 transition-all duration-700 ease-in-out'></div>
             <div className='absolute inset-0 flex items-center justify-center'>
               <img
-                src='/public/imgs/logo/logo-mini.png'
+                src='/imgs/logo/logo-mini.png'
                 alt='EzCondo Logo'
                 className='w-10 h-10 object-cover group-hover:scale-105 transition-all duration-700 ease-in-out brightness-0 invert'
               />

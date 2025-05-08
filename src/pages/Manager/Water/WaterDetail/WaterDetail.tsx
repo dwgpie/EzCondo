@@ -118,7 +118,7 @@ export default function WaterDetail() {
             {/* Header */}
             <div className='flex justify-between items-center'>
               <p className='font-semibold text-lg'>Apartment Management Board</p>
-              <img src='/public/imgs/logo/lo23-Photoroom.png' alt='Logo' className='w-16 h-16 object-cover' />
+              <img src='/imgs/logo/lo23-Photoroom.png' alt='Logo' className='w-16 h-16 object-cover' />
             </div>
 
             <div className='text-center mb-8'>
@@ -192,7 +192,7 @@ export default function WaterDetail() {
                     Day {day}, Month {month}, Year {year}
                   </p>
                   <p>Apartment Management Board</p>
-                  <img src='/public/imgs/bg/ck-5.png' alt='Signature' className='w-30 mr-8 mt-2' />
+                  <img src='/imgs/bg/ck-5.png' alt='Signature' className='w-30 mr-8 mt-2' />
                 </div>
               </div>
             </div>
