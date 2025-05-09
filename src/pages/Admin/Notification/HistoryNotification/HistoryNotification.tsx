@@ -21,6 +21,7 @@ import {
 } from '@mui/material'
 import LinearProgress from '@mui/material/LinearProgress'
 import useBufferProgress from '~/components/useBufferProgress'
+import { useTranslation } from 'react-i18next'
 
 interface FormData {
   id?: string
@@ -57,6 +58,7 @@ const StyledTableRow = styled(TableRow)(() => ({
 }))
 
 export default function HistoryNotification() {
+  const { t } = useTranslation('notification')
   const [loading, setLoading] = useState(false)
   const { progress, buffer } = useBufferProgress(loading)
   const [listNotification, setListNotification] = useState<FormData[]>([])
@@ -112,7 +114,7 @@ export default function HistoryNotification() {
         </div>
       )}
       <div className='flex justify-between items-center '>
-        <h2 className='text-2xl font-semibold text-gray-500'>History Notification</h2>
+        <h2 className='text-2xl font-semibold text-gray-500'>{t('notification_history')}</h2>
         <div className='mt-2 mb-4 flex gap-4 justify-end'>
           <div>
             <Select
@@ -120,23 +122,23 @@ export default function HistoryNotification() {
               onChange={(e) => setReceiver(e.target.value)}
               sx={{ width: '200px', height: '40px' }}
             >
-              <MenuItem value='all'>All</MenuItem>
-              <MenuItem value='manager'>Manager</MenuItem>
-              <MenuItem value='resident'>Resident</MenuItem>
+              <MenuItem value='all'>{t('all')}</MenuItem>
+              <MenuItem value='manager'>{t('manager')}</MenuItem>
+              <MenuItem value='resident'>{t('resident')}</MenuItem>
             </Select>
           </div>
           <div>
             <Select
-              value={type} // Giá trị thực tế là ""
+              value={type}
               onChange={(e) => setType(e.target.value === 'all' ? '' : e.target.value)}
               sx={{ width: '200px', height: '40px' }}
               displayEmpty
-              renderValue={(selected) => (selected === '' ? 'All' : selected)}
+              renderValue={(selected) => (selected === '' ? t('all') : t(selected))}
             >
-              <MenuItem value='new'>New</MenuItem>
-              <MenuItem value='notice'>Notice</MenuItem>
-              <MenuItem value='fee'>Fee</MenuItem>
-              <MenuItem value='all'>All</MenuItem>
+              <MenuItem value='new'>{t('new')}</MenuItem>
+              <MenuItem value='notice'>{t('notice')}</MenuItem>
+              <MenuItem value='fee'>{t('fee')}</MenuItem>
+              <MenuItem value='all'>{t('all')}</MenuItem>
             </Select>
           </div>
           <div>
@@ -145,8 +147,8 @@ export default function HistoryNotification() {
               onChange={(e) => setDay(Number(e.target.value))}
               sx={{ width: '200px', height: '40px' }}
             >
-              <MenuItem value={3}>Last 3 days</MenuItem>
-              <MenuItem value={7}>Last 7 days</MenuItem>
+              <MenuItem value={3}>{t('last_3_days')}</MenuItem>
+              <MenuItem value={7}>{t('last_7_days')}</MenuItem>
             </Select>
           </div>
         </div>
@@ -156,13 +158,13 @@ export default function HistoryNotification() {
           <Table aria-label='customized table'>
             <TableHead>
               <TableRow>
-                <StyledTableCell width='5%'>ID</StyledTableCell>
-                <StyledTableCell width='25%'>Title</StyledTableCell>
-                <StyledTableCell width='33%'>Content</StyledTableCell>
-                <StyledTableCell width='13%'>Date created</StyledTableCell>
-                <StyledTableCell width='15%'>Type of notification</StyledTableCell>
-                <StyledTableCell width='10%'>Receiver</StyledTableCell>
-                <StyledTableCell>Detail</StyledTableCell>
+                <StyledTableCell width='5%'>{t('id')}</StyledTableCell>
+                <StyledTableCell width='22%'>{t('title')}</StyledTableCell>
+                <StyledTableCell width='30%'>{t('content')}</StyledTableCell>
+                <StyledTableCell width='12%'>{t('date_created')}</StyledTableCell>
+                <StyledTableCell width='13%'>{t('type_of_notification')}</StyledTableCell>
+                <StyledTableCell width='10%'>{t('receiver')}</StyledTableCell>
+                <StyledTableCell width='10%'>{t('detail')}</StyledTableCell>
               </TableRow>
             </TableHead>
             <TableBody>
@@ -200,10 +202,10 @@ export default function HistoryNotification() {
                       {new Intl.DateTimeFormat('vi-VN').format(new Date(notify.createdAt))}
                     </StyledTableCell>
                     <StyledTableCell>
-                      <span className='capitalize'>{notify.type}</span>
+                      <span className='capitalize'>{t(notify.type)}</span>
                     </StyledTableCell>
                     <StyledTableCell>
-                      <span className='capitalize'>{notify.receiver}</span>
+                      <span className='capitalize'>{t(notify.receiver)}</span>
                     </StyledTableCell>
                     <StyledTableCell>
                       <div className='ml-2'>
@@ -223,7 +225,7 @@ export default function HistoryNotification() {
               ) : (
                 <TableRow>
                   <TableCell colSpan={8} align='center'>
-                    No notifications found
+                    {t('no_notifications_found')}
                   </TableCell>
                 </TableRow>
               )}
@@ -235,20 +237,22 @@ export default function HistoryNotification() {
         <Pagination count={totalPages} page={page} onChange={handlePageChange} />
       </div>
       <Dialog open={openEditDialog} onClose={handleCloseEditDialog} disableEnforceFocus disableRestoreFocus>
-        <DialogTitle sx={{ color: '#1976d3', fontWeight: 'bold', fontSize: '22px' }}>Detail notification</DialogTitle>
+        <DialogTitle sx={{ color: '#1976d3', fontWeight: 'bold', fontSize: '22px' }}>
+          {t('detail_notification')}
+        </DialogTitle>
         <DialogContent>
           <div className='grid grid-cols-2 gap-4'>
             <div className='flex flex-col gap-4'>
-              <label className='block text-sm font-semibold'>Type of notification</label>
-              <TextField type='text' sx={{ marginTop: '-13px' }} value={notify?.type} disabled fullWidth />
+              <label className='block text-sm font-semibold'>{t('type_of_notification')}</label>
+              <TextField type='text' sx={{ marginTop: '-13px' }} value={t(notify?.type || '')} disabled fullWidth />
             </div>
             <div className='flex flex-col gap-4'>
-              <label className='block text-sm font-semibold'>Receiver</label>
-              <TextField type='text' sx={{ marginTop: '-13px' }} value={notify?.receiver} disabled fullWidth />
+              <label className='block text-sm font-semibold'>{t('receiver')}</label>
+              <TextField type='text' sx={{ marginTop: '-13px' }} value={t(notify?.receiver || '')} disabled fullWidth />
             </div>
           </div>
           <div className='flex flex-col gap-4 mt-3'>
-            <label className='block text-sm font-semibold'>Title</label>
+            <label className='block text-sm font-semibold'>{t('title')}</label>
             <TextField
               type='text'
               sx={{ marginTop: '-13px' }}
@@ -261,7 +265,7 @@ export default function HistoryNotification() {
             />
           </div>
           <div className='flex flex-col gap-4 mt-3'>
-            <label className='block text-sm font-semibold'>Content</label>
+            <label className='block text-sm font-semibold'>{t('content')}</label>
             <TextField
               type='text'
               sx={{ marginTop: '-13px' }}
@@ -275,7 +279,7 @@ export default function HistoryNotification() {
           </div>
         </DialogContent>
         <DialogActions>
-          <Button onClick={handleCloseEditDialog}>Cancel</Button>
+          <Button onClick={handleCloseEditDialog}>{t('cancel')}</Button>
         </DialogActions>
       </Dialog>
     </div>

@@ -1,0 +1,23 @@
+{
+  "incident_list": "Incident List",
+  "id": "ID",
+  "full_name": "Full Name",
+  "apartment": "Apartment",
+  "type": "Type",
+  "title": "Title",
+  "date_of_report": "Date of report",
+  "status": "Status",
+  "detail": "Detail",
+  "no_incidents_found": "No incidents found",
+  "pending": "Pending",
+  "underway": "Underway",
+  "resolved": "Resolved",
+  "detail_report": "Detail report",
+  "image": "Image",
+  "no_image_available": "No image available",
+  "email": "Email",
+  "phone_number": "Phone Number",
+  "cancel": "Cancel",
+  "update": "Update",
+  "data_loading": "Data loading..."
+}

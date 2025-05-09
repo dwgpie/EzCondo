@@ -13,6 +13,7 @@ import LinearProgress from '@mui/material/LinearProgress'
 import useBufferProgress from '~/components/useBufferProgress'
 import { getAllParking, acceptParking } from '~/apis/service.api'
 import Swal from 'sweetalert2'
+import { useTranslation } from 'react-i18next'
 
 interface Parking {
   parkingId: string
@@ -50,6 +51,7 @@ const StyledTableRow = styled(TableRow)(() => ({
 }))
 
 export default function RequestParking() {
+  const { t } = useTranslation('parkingManager')
   const [loading, setLoading] = useState(false)
   const { progress, buffer } = useBufferProgress(loading)
   const [listParking, setListParking] = useState<Parking[]>([])
@@ -143,21 +145,21 @@ export default function RequestParking() {
         </div>
       )}
       <div className='flex gap-4 mb-6 justify-between font-bold '>
-        <h2 className='text-2xl font-semibold text-gray-500'>List Parking Requests</h2>
+        <h2 className='text-2xl font-semibold text-gray-500'>{t('parking_request_list')}</h2>
       </div>
       <Paper elevation={4} sx={{ borderRadius: '12px', overflow: 'hidden' }}>
         <TableContainer>
           <Table sx={{ minWidth: 700 }} aria-label='customized table'>
             <TableHead>
               <TableRow>
-                <StyledTableCell width='5%'>ID</StyledTableCell>
-                <StyledTableCell width='24%'>Full Name</StyledTableCell>
-                <StyledTableCell width='10%'>Apartment</StyledTableCell>
-                <StyledTableCell width='15%'>Number Of Motobike</StyledTableCell>
-                <StyledTableCell width='15%'>Number Of Car</StyledTableCell>
-                <StyledTableCell width='10%'>Total</StyledTableCell>
-                <StyledTableCell width='8%'>Accept</StyledTableCell>
-                <StyledTableCell width='8%'>Reject</StyledTableCell>
+                <StyledTableCell width='5%'>{t('id')}</StyledTableCell>
+                <StyledTableCell width='24%'>{t('full_name')}</StyledTableCell>
+                <StyledTableCell width='10%'>{t('apartment')}</StyledTableCell>
+                <StyledTableCell width='17%'>{t('number_of_motorbike')}</StyledTableCell>
+                <StyledTableCell width='15%'>{t('number_of_car')}</StyledTableCell>
+                <StyledTableCell width='9%'>{t('total')}</StyledTableCell>
+                <StyledTableCell width='10%'>{t('accept')}</StyledTableCell>
+                <StyledTableCell width='8%'>{t('reject')}</StyledTableCell>
               </TableRow>
             </TableHead>
             <TableBody>
@@ -217,7 +219,7 @@ export default function RequestParking() {
               ) : (
                 <TableRow>
                   <TableCell colSpan={8} align='center'>
-                    No parkings found
+                    {t('no_parkings_found')}
                   </TableCell>
                 </TableRow>
               )}

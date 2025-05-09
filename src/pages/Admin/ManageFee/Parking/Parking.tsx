@@ -8,6 +8,7 @@ import { addParking, getParking, editParking } from '~/apis/service.api'
 import { parkingSchema } from '~/utils/rules'
 import LinearProgress from '@mui/material/LinearProgress'
 import useBufferProgress from '~/components/useBufferProgress'
+import { useTranslation } from 'react-i18next'
 
 interface FormData {
   id?: string
@@ -16,6 +17,7 @@ interface FormData {
 }
 
 export default function Parking() {
+  const { t } = useTranslation('parking')
   const [loading, setLoading] = useState(false)
   const { progress, buffer } = useBufferProgress(loading)
   const [openEditDialog, setOpenEditDialog] = useState(false)
@@ -77,12 +79,15 @@ export default function Parking() {
         pricePerOto: formData.pricePerOto
       })
 
-      toast.success('Set Parking created successfully!', {
+      toast.success(t('parking_create_success'), {
         style: { width: 'fit-content' }
       })
       getParkingMutation.mutate() // Refresh data after adding
     } catch (error) {
-      console.error('API call failed:', error)
+      const err = error as Error
+      toast.error(t(err.message), {
+        style: { width: 'fit-content' }
+      })
     }
   }
 
@@ -109,13 +114,16 @@ export default function Parking() {
           pricePerMotor: editingItem.pricePerMotor,
           pricePerOto: editingItem.pricePerOto
         })
-        toast.success('Parking fee updated successfully!', {
+        toast.success(t('parking_update_success'), {
           style: { width: 'fit-content' }
         })
         handleCloseEditDialog()
         getParkingMutation.mutate() // Refresh data after editing
       } catch (error) {
-        console.error('Update failed:', error)
+        const err = error as Error
+        toast.error(t(err.message), {
+          style: { width: 'fit-content' }
+        })
       }
     }
   }
@@ -129,7 +137,7 @@ export default function Parking() {
       )}
       <form className='rounded' noValidate onSubmit={onSubmit}>
         <div className=''>
-          <h2 className='text-2xl font-semibold text-gray-500'>Motorbike</h2>
+          <h2 className='text-2xl font-semibold text-gray-500'>{t('motorbike')}</h2>
           <div className=' mt-10 px-10 flex gap-4'>
             <div className='w-full'>
               <Slider
@@ -159,7 +167,7 @@ export default function Parking() {
             </div>
             <div className='ml-5 mt-[-30px]'>
               <label className='block text-sm font-semibold mb-1'>
-                Price Per Motor
+                {t('price_per_motor')}
                 <span className='text-red-600 ml-1'>*</span>
               </label>
               <TextField
@@ -172,7 +180,7 @@ export default function Parking() {
           </div>
         </div>
         <div className='mt-8'>
-          <h2 className='text-2xl font-semibold text-gray-500'>Car</h2>
+          <h2 className='text-2xl font-semibold text-gray-500'>{t('car')}</h2>
           <div className=' mt-10 px-10 flex gap-4'>
             <div className='w-full'>
               <Slider
@@ -203,7 +211,7 @@ export default function Parking() {
 
             <div className='ml-5 mt-[-30px]'>
               <label className='block text-sm font-semibold mb-1'>
-                Price Per Car
+                {t('price_per_car')}
                 <span className='text-red-600 ml-1'>*</span>
               </label>
               <TextField
@@ -221,15 +229,15 @@ export default function Parking() {
             variant='contained'
             style={{ color: 'white', background: '#2976ce', fontWeight: 'semi-bold' }}
           >
-            Submit
+            {t('submit')}
           </Button>
         </div>
-        <h2 className='text-2xl font-semibold text-gray-500'>Parking Price</h2>
+        <h2 className='text-2xl font-semibold text-gray-500'>{t('parking_price')}</h2>
         {parking ? (
           <div className='flex gap-9 mt-3 items-center'>
             <div className='mt-2'>
               <label className='block text-sm font-semibold mb-1'>
-                Price Per Motorbike
+                {t('price_per_motorbike')}
                 <span className='text-red-600 ml-1'>*</span>
               </label>
               <TextField
@@ -241,7 +249,7 @@ export default function Parking() {
             </div>
             <div className='mt-2'>
               <label className='block text-sm font-semibold mb-1'>
-                Price Per Car
+                {t('price_per_car')}
                 <span className='text-red-600 ml-1'>*</span>
               </label>
               <TextField
@@ -274,15 +282,17 @@ export default function Parking() {
                 <path d='M11 3c7 0 7 3 7 3s0 3-7 3s-7-3-7-3s0-3 7-3m0 18c-7 0-7-3-7-3v-6' />
               </g>
             </svg>
-            <p className='mt-2'>No data available</p>
+            <p className='mt-2'>{t('no_data')}</p>
           </div>
         )}
         <Dialog open={openEditDialog} onClose={handleCloseEditDialog} disableEnforceFocus disableRestoreFocus>
-          <DialogTitle sx={{ color: '#1976d3', fontWeight: 'bold', fontSize: '22px' }}>Edit Parking Fee</DialogTitle>
+          <DialogTitle sx={{ color: '#1976d3', fontWeight: 'bold', fontSize: '22px' }}>
+            {t('edit_parking_fee')}
+          </DialogTitle>
           <DialogContent>
             <div className='flex flex-col gap-4 mt-4'>
               <TextField
-                label='Price Per Motorbike'
+                label={t('price_per_motorbike')}
                 type='number'
                 value={editingItem?.pricePerMotor || ''}
                 onChange={(e) =>
@@ -294,7 +304,7 @@ export default function Parking() {
             </div>
             <div className='flex flex-col gap-4 mt-4'>
               <TextField
-                label='Price Per Car'
+                label={t('price_per_car')}
                 type='number'
                 value={editingItem?.pricePerOto || ''}
                 onChange={(e) =>
@@ -306,9 +316,9 @@ export default function Parking() {
             </div>
           </DialogContent>
           <DialogActions>
-            <Button onClick={handleCloseEditDialog}>Cancel</Button>
+            <Button onClick={handleCloseEditDialog}>{t('cancel')}</Button>
             <Button onClick={handleEditSubmit} variant='contained' color='primary'>
-              Save Changes
+              {t('save_changes')}
             </Button>
           </DialogActions>
         </Dialog>

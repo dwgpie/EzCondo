@@ -7,8 +7,8 @@ import { addNotification, addNotificationImages } from '~/apis/notification.api'
 import { useRef, useState } from 'react'
 import CloudUploadIcon from '@mui/icons-material/CloudUpload'
 import { toast } from 'react-toastify'
-import { useNavigate } from 'react-router-dom'
 import LoadingOverlay from '~/components/LoadingOverlay'
+import { useTranslation } from 'react-i18next'
 
 interface FormData {
   title: string
@@ -20,6 +20,7 @@ interface FormData {
 }
 
 export default function AddNotification() {
+  const { t } = useTranslation('notification')
   const {
     register,
     handleSubmit,
@@ -31,7 +32,6 @@ export default function AddNotification() {
     resolver: yupResolver(notificationSchema)
   })
 
-  const navigate = useNavigate()
   const [images, setImages] = useState<string[]>([]) // Lưu trữ URL của ảnh
   const [files, setFiles] = useState<File[]>([]) // Lưu trữ danh sách file ảnh
   const fileInputRef = useRef<HTMLInputElement | null>(null)
@@ -96,7 +96,7 @@ export default function AddNotification() {
       })
 
       if (!response?.data) {
-        toast.error('Failed to create service')
+        toast.error(t('create_service_failed'))
       }
 
       const NotificationId = response.data
@@ -107,7 +107,7 @@ export default function AddNotification() {
         Image: formData.Image
       })
 
-      toast.success('Notification created successfully!', {
+      toast.success(t('notification_create_success'), {
         style: { width: 'fit-content' }
       })
       setImages([])
@@ -137,30 +137,30 @@ export default function AddNotification() {
             <div className='grid grid-cols-2 gap-4 mb-4'>
               <div>
                 <label className='block text-sm font-semibold mb-[6px]'>
-                  Receiver
+                  {t('receiver')}
                   <span className='text-red-600 ml-1'>*</span>
                 </label>
                 <Select id='demo-select-small' defaultValue='manager' {...register('receiver')} sx={{ width: '200px' }}>
-                  <MenuItem value='manager'>Manager</MenuItem>
-                  <MenuItem value='resident'>Resident</MenuItem>
-                  <MenuItem value='all'>All</MenuItem>
+                  <MenuItem value='manager'>{t('manager')}</MenuItem>
+                  <MenuItem value='resident'>{t('resident')}</MenuItem>
+                  <MenuItem value='all'>{t('all')}</MenuItem>
                 </Select>
               </div>
               <div>
                 <label className='block text-sm font-semibold mb-[6px]'>
-                  Type
+                  {t('type')}
                   <span className='text-red-600 ml-1'>*</span>
                 </label>
                 <Select id='demo-select-small' defaultValue='new' {...register('type')} sx={{ width: '200px' }}>
-                  <MenuItem value='new'>New</MenuItem>
-                  <MenuItem value='notice'>Notice</MenuItem>
-                  <MenuItem value='fee'>Fee</MenuItem>
+                  <MenuItem value='new'>{t('new')}</MenuItem>
+                  <MenuItem value='notice'>{t('notice')}</MenuItem>
+                  <MenuItem value='fee'>{t('fee')}</MenuItem>
                 </Select>
               </div>
             </div>
             <div className='mb-3'>
               <label className='block text-sm font-semibold'>
-                Title
+                {t('title')}
                 <span className='text-red-600 ml-1'>*</span>
               </label>
               <Input
@@ -174,7 +174,7 @@ export default function AddNotification() {
             </div>
             <div className=''>
               <label className='block text-sm font-semibold'>
-                Content
+                {t('content')}
                 <span className='text-red-600 ml-1'>*</span>
               </label>
               <Input
@@ -190,7 +190,7 @@ export default function AddNotification() {
           <div className=''>
             <div>
               <label className='block text-sm font-semibold'>
-                Images
+                {t('images')}
                 <span className='text-red-600 ml-1'>*</span>
               </label>
               <div
@@ -205,7 +205,7 @@ export default function AddNotification() {
                       <div key={index} className='relative group'>
                         <img
                           src={img}
-                          alt='Preview'
+                          alt={t('preview')}
                           className='w-auto h-24 rounded-lg object-cover shadow-lg hover:scale-105 transition-transform duration-300'
                         />
                         <button
@@ -224,8 +224,8 @@ export default function AddNotification() {
                 ) : (
                   <>
                     <CloudUploadIcon className='text-gray-700 text-4xl' />
-                    <p className='text-gray-700 font-semibold'>Upload Files</p>
-                    <p className='text-gray-500 text-sm'>Drag and drop files here</p>
+                    <p className='text-gray-700 font-semibold'>{t('upload_files')}</p>
+                    <p className='text-gray-500 text-sm'>{t('drag_and_drop')}</p>
                   </>
                 )}
                 <input
@@ -244,18 +244,11 @@ export default function AddNotification() {
         </div>
         <div className='flex justify-end gap-4 mt-3'>
           <Button
-            variant='contained'
-            style={{ color: 'white', background: 'red', fontWeight: 'semi-bold' }}
-            onClick={() => navigate(-1)}
-          >
-            Cancel
-          </Button>
-          <Button
             type='submit'
             variant='contained'
             style={{ color: 'white', background: '#2976ce', fontWeight: 'semi-bold' }}
           >
-            Submit
+            {t('submit')}
           </Button>
         </div>
       </form>

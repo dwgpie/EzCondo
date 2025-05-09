@@ -12,6 +12,7 @@ import InputEdit from '~/components/InputEdit'
 import { useNavigate } from 'react-router-dom'
 import { useUser } from '../../contexts/UserContext'
 import LoadingOverlay from '~/components/LoadingOverlay'
+import { useTranslation } from 'react-i18next'
 
 interface formData {
   id?: string
@@ -24,6 +25,7 @@ interface formData {
 }
 
 export default function Profile() {
+  const { t } = useTranslation('profile')
   const {
     register,
     handleSubmit,
@@ -114,7 +116,7 @@ export default function Profile() {
         phoneNumber: formData.phoneNumber
       })
 
-      toast.success('Profile updated successfully!', {
+      toast.success(t('success'), {
         style: { width: 'fit-content' }
       })
       getProfileMutation.mutate()
@@ -145,7 +147,7 @@ export default function Profile() {
             <div>
               <div className='w-[300px]'>
                 <label className='block text-sm font-semibold'>
-                  Name
+                  {t('name')}
                   <span className='text-red-600 ml-1'>*</span>
                 </label>
                 <InputEdit
@@ -153,13 +155,13 @@ export default function Profile() {
                   type='text'
                   className='mt-1'
                   errorMessage={errors.fullName?.message}
-                  defaultValue={user.fullName} // Sử dụng defaultValue thay vì value
+                  defaultValue={user.fullName}
                   register={register}
                 />
               </div>
               <div className=''>
                 <label className='block text-sm font-semibold'>
-                  Phone number
+                  {t('phone')}
                   <span className='text-red-600 ml-1'>*</span>
                 </label>
                 <InputEdit
@@ -174,7 +176,7 @@ export default function Profile() {
             </div>
             <div>
               <div className='w-[300px]'>
-                <label className='block text-sm font-semibold'>Email</label>
+                <label className='block text-sm font-semibold'>{t('email')}</label>
                 <InputEdit
                   name='email'
                   type='text'
@@ -186,7 +188,7 @@ export default function Profile() {
               </div>
               <div className=''>
                 <label className='block text-sm font-semibold'>
-                  Date of birth
+                  {t('dob')}
                   <span className='text-red-600 ml-1'>*</span>
                 </label>
                 <InputEdit
@@ -194,13 +196,13 @@ export default function Profile() {
                   type='date'
                   className='mt-1'
                   errorMessage={errors.dateOfBirth?.message}
-                  defaultValue={user.dateOfBirth?.split('T')[0]} // Chỉ lấy phần YYYY-MM-DD để input hoạt động
+                  defaultValue={user.dateOfBirth?.split('T')[0]}
                   register={register}
                 />
               </div>
               <div className=''>
                 <label className='block text-sm font-semibold mb-1'>
-                  Gender
+                  {t('gender')}
                   <span className='text-red-600 ml-1'>*</span>
                 </label>
                 <select
@@ -208,9 +210,9 @@ export default function Profile() {
                   defaultValue={user.gender || ''}
                   {...register('gender')}
                 >
-                  <option value='male'>Male</option>
-                  <option value='female'>Female</option>
-                  <option value='other'>Other</option>
+                  <option value='male'>{t('male')}</option>
+                  <option value='female'>{t('female')}</option>
+                  <option value='other'>{t('other')}</option>
                 </select>
               </div>
             </div>
@@ -231,8 +233,8 @@ export default function Profile() {
                   <>
                     <div className='flex-col items-center justify-center text-center'>
                       <CloudUploadIcon className='text-gray-700 text-4xl' />
-                      <p className='text-gray-700 font-semibold'>Upload a File</p>
-                      <p className='text-gray-500 text-sm'>Drag and drop files here</p>
+                      <p className='text-gray-700 font-semibold'>{t('upload')}</p>
+                      <p className='text-gray-500 text-sm'>{t('drag')}</p>
                     </div>
                   </>
                 )}
@@ -251,21 +253,21 @@ export default function Profile() {
                   variant='contained'
                   style={{ color: 'white', background: 'red', fontWeight: 'semi-bold' }}
                 >
-                  Cancel
+                  {t('cancel')}
                 </Button>
                 <Button
                   type='submit'
                   variant='contained'
                   style={{ color: 'white', background: '#2976ce', fontWeight: 'semi-bold' }}
                 >
-                  Submit
+                  {t('submit')}
                 </Button>
               </div>
             </div>
           </div>
         </form>
       ) : (
-        <p>Loading data...</p>
+        <p>{t('loading')}</p>
       )}
     </div>
   )

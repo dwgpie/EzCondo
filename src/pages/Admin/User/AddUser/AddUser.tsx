@@ -10,6 +10,7 @@ import CloudUploadIcon from '@mui/icons-material/CloudUpload'
 import { toast } from 'react-toastify'
 import LoadingOverlay from '~/components/LoadingOverlay'
 import { registerAccount } from '~/apis/user.api'
+import { useTranslation } from 'react-i18next'
 
 interface FormData {
   fullName: string
@@ -49,6 +50,7 @@ export default function AddUser() {
   const fileInputBackRef = useRef<HTMLInputElement | null>(null)
   const [loading, setLoading] = useState(false)
   const [progress, setProgress] = useState(0)
+  const { t } = useTranslation('user')
 
   const handleImageChange = (event: React.ChangeEvent<HTMLInputElement>, type: 'front' | 'back') => {
     const file = event.target.files?.[0]
@@ -138,7 +140,7 @@ export default function AddUser() {
         backImage: formData.backImage
       })
 
-      toast.success('User created successfully!', {
+      toast.success(t('user_create_success'), {
         style: { width: 'fit-content' }
       })
     } catch (error: any) {
@@ -159,12 +161,12 @@ export default function AddUser() {
   return (
     <div className='mx-5 mt-5 mb-5 py-3 px-6 bg-gradient-to-br from-white via-white to-blue-100 drop-shadow-md rounded-xl'>
       {loading && <LoadingOverlay value={progress} />}
-      <h2 className='text-xl mb-2 text-gray-500 font-semibold'>Account Information</h2>
+      <h2 className='text-xl mb-2 text-gray-500 font-semibold'>{t('account_information')}</h2>
       <form className='rounded' noValidate onSubmit={onSubmit}>
         <div className='grid grid-cols-3 gap-4'>
           <div className=''>
             <label className='block text-sm font-semibold'>
-              Name
+              {t('name')}
               <span className='text-red-600 ml-1'>*</span>
             </label>
             <Input
@@ -178,7 +180,7 @@ export default function AddUser() {
 
           <div className=''>
             <label className='block text-sm font-semibold'>
-              Phone number
+              {t('phone_number')}
               <span className='text-red-600 ml-1'>*</span>
             </label>
             <Input
@@ -191,7 +193,7 @@ export default function AddUser() {
           </div>
           <div className=''>
             <label className='block text-sm font-semibold'>
-              Email
+              {t('email')}
               <span className='text-red-600 ml-1'>*</span>
             </label>
             <Input
@@ -206,7 +208,7 @@ export default function AddUser() {
         <div className='grid grid-cols-4 gap-4 mt-2'>
           <div className=''>
             <label className='block text-sm font-semibold'>
-              Date of birth
+              {t('date_of_birth')}
               <span className='text-red-600 ml-1'>*</span>
             </label>
             <Input
@@ -219,7 +221,7 @@ export default function AddUser() {
           </div>
           <div className=''>
             <label className='block text-sm font-semibold'>
-              Gender
+              {t('gender')}
               <span className='text-red-600 ml-1'>*</span>
             </label>
             <select
@@ -227,14 +229,14 @@ export default function AddUser() {
               defaultValue='Male'
               className='mt-1 w-full h-11 pl-2 cursor-pointer outline-none border border-gray-300 focus:border-gray-500 rounded-sm focus:shadow-sm bg-white'
             >
-              <option value='male'>Male</option>
-              <option value='female'>Female</option>
-              <option value='other'>Other</option>
+              <option value='male'>{t('male')}</option>
+              <option value='female'>{t('female')}</option>
+              <option value='other'>{t('other')}</option>
             </select>
           </div>
           <div className=''>
             <label className='block text-sm font-semibold'>
-              Role
+              {t('role')}
               <span className='text-red-600 ml-1'>*</span>
             </label>
             <select
@@ -242,13 +244,13 @@ export default function AddUser() {
               defaultValue='resident'
               className='mt-1 w-full h-11 pl-2 cursor-pointer outline-none border border-gray-300 focus:border-gray-500 rounded-sm focus:shadow-sm bg-white'
             >
-              <option value='resident'>Resident</option>
-              <option value='manager'>Manager</option>
+              <option value='resident'>{t('resident')}</option>
+              <option value='manager'>{t('manager')}</option>
             </select>
           </div>
           <div className=''>
             <label className='block text-sm font-semibold'>
-              Apartment
+              {t('apartment')}
               <span className='text-red-600 ml-1'>*</span>
             </label>
             <select
@@ -272,19 +274,19 @@ export default function AddUser() {
         </div>
 
         <div className='mt-3'>
-          <h3 className='text-lg mb-2 font-semibold text-gray-500'>Citizen Identity Number</h3>
+          <h3 className='text-lg mb-2 font-semibold text-gray-500'>{t('citizen_identity_number')}</h3>
           <div className='flex justify-between'>
             <div className='w-[30%]'>
               <div className=''>
                 <label className='block text-sm font-semibold'>
-                  No
+                  {t('no')}
                   <span className='text-red-600 ml-1'>*</span>
                 </label>
                 <Input name='no' type='no' register={register} className='mt-1' errorMessage={errors.no?.message} />
               </div>
               <div className='mt-2'>
                 <label className='block text-sm font-semibold'>
-                  Date of issue
+                  {t('date_of_issue')}
                   <span className='text-red-600 ml-1'>*</span>
                 </label>
                 <Input
@@ -297,7 +299,7 @@ export default function AddUser() {
               </div>
               <div className='mt-2'>
                 <label className='block text-sm font-semibold'>
-                  Date of expiry
+                  {t('date_of_expiry')}
                   <span className='text-red-600 ml-1'>*</span>
                 </label>
                 <Input
@@ -313,7 +315,7 @@ export default function AddUser() {
               <div className='flex justify-between'>
                 <div className='w-[47%]'>
                   <label className='block text-sm font-semibold'>
-                    Font Image
+                    {t('front_image')}
                     <span className='text-red-600 ml-1'>*</span>
                   </label>
                   <div
@@ -331,8 +333,8 @@ export default function AddUser() {
                     ) : (
                       <>
                         <CloudUploadIcon className='text-gray-700 text-4xl' />
-                        <p className='text-gray-700 font-semibold'>Upload a File</p>
-                        <p className='text-gray-500 text-sm'>Drag and drop files here</p>
+                        <p className='text-gray-700 font-semibold'>{t('upload_file')}</p>
+                        <p className='text-gray-500 text-sm'>{t('drag_and_drop')}</p>
                       </>
                     )}
                     <input
@@ -349,7 +351,7 @@ export default function AddUser() {
                 <div className='w-[47%]'>
                   <div>
                     <label className='block text-sm font-semibold'>
-                      Back Image
+                      {t('back_image')}
                       <span className='text-red-600 ml-1'>*</span>
                     </label>
                     <div
@@ -367,8 +369,8 @@ export default function AddUser() {
                       ) : (
                         <>
                           <CloudUploadIcon className='text-gray-700 text-4xl' />
-                          <p className='text-gray-700 font-semibold'>Upload a File</p>
-                          <p className='text-gray-500 text-sm'>Drag and drop files here</p>
+                          <p className='text-gray-700 font-semibold'>{t('upload_file')}</p>
+                          <p className='text-gray-500 text-sm'>{t('drag_and_drop')}</p>
                         </>
                       )}
                       <input
@@ -393,7 +395,7 @@ export default function AddUser() {
             variant='contained'
             style={{ color: 'white', background: '#2976ce', fontWeight: 'semi-bold' }}
           >
-            Submit
+            {t('submit')}
           </Button>
         </div>
       </form>

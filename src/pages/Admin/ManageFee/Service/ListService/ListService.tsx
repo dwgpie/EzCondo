@@ -13,6 +13,8 @@ import { Pagination } from '@mui/material'
 import { SearchContext } from '~/contexts/SearchContext'
 import LinearProgress from '@mui/material/LinearProgress'
 import useBufferProgress from '~/components/useBufferProgress'
+import { useTranslation } from 'react-i18next'
+
 interface FormData {
   id: string
   serviceName: string
@@ -59,6 +61,7 @@ export default function ListService() {
   const [page, setPage] = useState(1)
   const pageSize = 6
   const totalPages = Math.ceil(listService.length / pageSize)
+  const { t } = useTranslation('service')
 
   const getAllServiceMutation = useMutation({
     mutationFn: async () => {
@@ -91,11 +94,9 @@ export default function ListService() {
   const getStatusColor = (status: string) => {
     switch (status.toLowerCase()) {
       case 'active':
-        return 'bg-green-500 text-white'
+        return 'bg-gradient-to-r from-green-200 to-green-300 text-green-700 font-semibold rounded-lg shadow-sm'
       case 'inactive':
-        return 'bg-red-500 text-white'
-      default:
-        return ''
+        return 'bg-gradient-to-r from-red-200 to-red-300 text-red-700 font-semibold rounded-lg shadow-sm'
     }
   }
 
@@ -139,20 +140,20 @@ export default function ListService() {
         </div>
       )}
       <div className='mb-[20px]'>
-        <h2 className='text-2xl font-semibold text-gray-500'>List Services</h2>
+        <h2 className='text-2xl font-semibold text-gray-500'>{t('service_list')}</h2>
       </div>
       <Paper elevation={4} sx={{ borderRadius: '12px', overflow: 'hidden' }}>
         <TableContainer>
           <Table aria-label='customized table'>
             <TableHead>
               <TableRow>
-                <StyledTableCell width='5%'>ID</StyledTableCell>
-                <StyledTableCell width='15%'>Name</StyledTableCell>
-                <StyledTableCell width='30%'>Description</StyledTableCell>
-                <StyledTableCell width='15%'>Type Of Month</StyledTableCell>
-                <StyledTableCell width='15%'>Type Of Year</StyledTableCell>
-                <StyledTableCell width='13%'>Status</StyledTableCell>
-                <StyledTableCell sx={{}}>Edit</StyledTableCell>
+                <StyledTableCell width='5%'>{t('id')}</StyledTableCell>
+                <StyledTableCell width='15%'>{t('name')}</StyledTableCell>
+                <StyledTableCell width='30%'>{t('description')}</StyledTableCell>
+                <StyledTableCell width='14%'>{t('type_of_month')}</StyledTableCell>
+                <StyledTableCell width='14%'>{t('type_of_year')}</StyledTableCell>
+                <StyledTableCell width='13%'>{t('status')}</StyledTableCell>
+                <StyledTableCell width='16%'>{t('edit')}</StyledTableCell>
               </TableRow>
             </TableHead>
             <TableBody>
@@ -194,7 +195,7 @@ export default function ListService() {
                       </span>
                     </StyledTableCell>
                     <StyledTableCell>
-                      <div className='ml-1'>
+                      <div className=''>
                         <button
                           className='text-blue-500 cursor-pointer'
                           onClick={() => {
@@ -221,7 +222,7 @@ export default function ListService() {
               ) : (
                 <TableRow>
                   <TableCell colSpan={8} align='center'>
-                    No services found
+                    {t('no_services_found')}
                   </TableCell>
                 </TableRow>
               )}

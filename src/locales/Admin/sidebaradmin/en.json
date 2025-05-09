@@ -1,0 +1,22 @@
+{
+  "homepage": "HOMEPAGE",
+  "features": "FEATURES",
+  "dashboard": "Dashboard",
+  "user": "User",
+  "user_list": "User List",
+  "add_user": "Add User",
+  "service": "Service",
+  "service_list": "Service List",
+  "add_service": "Add Service",
+  "fee": "Fee",
+  "electricity_fee": "Electricity Fee",
+  "water_fee": "Water Fee",
+  "parking_fee": "Parking Fee",
+  "apartment": "Apartment",
+  "apartment_list": "Apartment List",
+  "add_apartment": "Add Apartment",
+  "notification": "Notification",
+  "notification_history": "Notification History",
+  "add_notification": "Add Notification",
+  "slogan": "Live Comfortably, Manage Smartly"
+}

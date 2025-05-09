@@ -15,6 +15,7 @@ import { toast } from 'react-toastify'
 import LinearProgress from '@mui/material/LinearProgress'
 import useBufferProgress from '~/components/useBufferProgress'
 import { useNavigate } from 'react-router-dom'
+import { useTranslation } from 'react-i18next'
 
 interface ElectricityForm {
   electricReadingId?: string
@@ -57,6 +58,7 @@ const StyledTableRow = styled(TableRow)(() => ({
 
 export default function UnpaidElectricity() {
   const navigate = useNavigate()
+  const { t } = useTranslation('electricManager')
   const [loading, setLoading] = useState(false)
   const { progress, buffer } = useBufferProgress(loading)
   const [filteredElectrics, setFilteredElectrics] = useState<ElectricityForm[]>([])
@@ -118,11 +120,11 @@ export default function UnpaidElectricity() {
   const getStatusColor = (status: string) => {
     switch (status.toLowerCase()) {
       case 'completed':
-        return 'bg-green-500 text-white'
+        return 'bg-gradient-to-r from-green-200 to-green-300 text-green-700 font-semibold rounded-lg shadow-sm'
       case 'pending':
-        return 'bg-orange-500 text-white'
+        return 'bg-gradient-to-r from-yellow-200 to-yellow-300 text-yellow-700 font-semibold rounded-lg shadow-sm'
       case 'overdue':
-        return 'bg-red-500 text-white'
+        return 'bg-gradient-to-r from-red-200 to-red-300 text-red-700 font-semibold rounded-lg shadow-sm'
     }
   }
 
@@ -138,7 +140,7 @@ export default function UnpaidElectricity() {
 
   const handleSendNotification = () => {
     if (selectedApartments.length === 0) {
-      toast.warning('Please select at least one apartment', {
+      toast.warning(t('please_select_apartment'), {
         style: { width: 'fit-content' }
       })
       return
@@ -147,8 +149,8 @@ export default function UnpaidElectricity() {
     const currentDate = new Date().toLocaleDateString('vi-VN')
     const notificationData = {
       selectedApartments,
-      title: 'Thông Báo Trễ Hạn Thanh Toán Tiền Điện',
-      content: `Kính gửi Quý cư dân,\n\nChúng tôi xin thông báo rằng hóa đơn tiền Điện của căn hộ Quý vị hiện vẫn chưa được thanh toán. Quý cư dân vui lòng hoàn tất việc thanh toán trong thời gian sớm nhất để tránh gián đoạn dịch vụ.\n\nNgày thông báo: ${currentDate}\n\nTrân trọng,\nBan Quản Lý Tòa Nhà.`
+      title: t('notification_title'),
+      content: t('notification_content', { date: currentDate })
     }
 
     navigate('/manager/add-notification', { state: notificationData })
@@ -162,7 +164,7 @@ export default function UnpaidElectricity() {
         </div>
       )}
       <div className='flex justify-between items-center'>
-        <h2 className='text-2xl font-semibold text-gray-500'>Electricity bill paid or unpaid</h2>
+        <h2 className='text-2xl font-semibold text-gray-500'>{t('electricity_bill_paid_or_unpaid')}</h2>
         <div className='mt-2 mb-4 flex gap-4 justify-end items-center'>
           <Button
             variant='contained'
@@ -171,12 +173,12 @@ export default function UnpaidElectricity() {
             disabled={selectedApartments.length === 0}
             sx={{ width: '200px' }}
           >
-            Send Notification ({selectedApartments.length})
+            {t('send_notification')} ({selectedApartments.length})
           </Button>
           <div>
             <Select value={status} onChange={(e) => setStatus(e.target.value)} sx={{ width: '150px', height: '40px' }}>
-              <MenuItem value='false'>Unpaid</MenuItem>
-              <MenuItem value='true'>Paid</MenuItem>
+              <MenuItem value='false'>{t('unpaid')}</MenuItem>
+              <MenuItem value='true'>{t('paid')}</MenuItem>
             </Select>
           </div>
           <div>
@@ -186,15 +188,15 @@ export default function UnpaidElectricity() {
               sx={{ width: '200px', height: '40px' }}
               displayEmpty
               renderValue={(selected) => {
-                if (selected === '' || selected === 'All') return 'All'
-                return `More than ${selected} days`
+                if (selected === '' || selected === 'All') return t('all')
+                return t('more_than_days', { days: selected })
               }}
             >
-              <MenuItem value='All'>All</MenuItem>
-              <MenuItem value='1'>More than 1 days</MenuItem>
-              <MenuItem value='2'>More than 2 days</MenuItem>
-              <MenuItem value='10'>More than 10 days</MenuItem>
-              <MenuItem value='15'>More than 15 days</MenuItem>
+              <MenuItem value='All'>{t('all')}</MenuItem>
+              <MenuItem value='1'>{t('more_than_days', { days: 1 })}</MenuItem>
+              <MenuItem value='2'>{t('more_than_days', { days: 2 })}</MenuItem>
+              <MenuItem value='10'>{t('more_than_days', { days: 10 })}</MenuItem>
+              <MenuItem value='15'>{t('more_than_days', { days: 15 })}</MenuItem>
             </Select>
           </div>
         </div>
@@ -204,15 +206,15 @@ export default function UnpaidElectricity() {
           <Table sx={{ minWidth: 700 }} aria-label='customized table'>
             <TableHead>
               <TableRow>
-                <StyledTableCell width='1%'>Select</StyledTableCell>
-                <StyledTableCell width='2%'>ID</StyledTableCell>
-                <StyledTableCell width='16%'>Name</StyledTableCell>
-                <StyledTableCell width='16%'>Apartment Number</StyledTableCell>
-                <StyledTableCell width='10%'>Phone</StyledTableCell>
-                <StyledTableCell width='17%'>Reading Pre Date</StyledTableCell>
-                <StyledTableCell width='17%'>Reading Current Date</StyledTableCell>
-                <StyledTableCell width='8%'>Consumption</StyledTableCell>
-                <StyledTableCell width='1%'>Status</StyledTableCell>
+                <StyledTableCell width='1%'>{t('select')}</StyledTableCell>
+                <StyledTableCell width='2%'>{t('id')}</StyledTableCell>
+                <StyledTableCell width='16%'>{t('name')}</StyledTableCell>
+                <StyledTableCell width='16%'>{t('apartment_number')}</StyledTableCell>
+                <StyledTableCell width='11%'>{t('phone')}</StyledTableCell>
+                <StyledTableCell width='17%'>{t('reading_pre_date')}</StyledTableCell>
+                <StyledTableCell width='17%'>{t('reading_current_date')}</StyledTableCell>
+                <StyledTableCell width='8%'>{t('consumption')}</StyledTableCell>
+                <StyledTableCell width='8%'>{t('status')}</StyledTableCell>
               </TableRow>
             </TableHead>
             <TableBody>
@@ -264,7 +266,7 @@ export default function UnpaidElectricity() {
               ) : (
                 <TableRow>
                   <TableCell colSpan={10} align='center'>
-                    No electrics found.
+                    {t('no_electrics_found')}
                   </TableCell>
                 </TableRow>
               )}

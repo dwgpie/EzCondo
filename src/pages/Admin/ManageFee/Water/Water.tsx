@@ -9,6 +9,7 @@ import { useMutation } from '@tanstack/react-query'
 import { Dialog, DialogActions, DialogContent, DialogTitle } from '@mui/material'
 import LinearProgress from '@mui/material/LinearProgress'
 import useBufferProgress from '~/components/useBufferProgress'
+import { useTranslation } from 'react-i18next'
 
 interface FormData {
   id?: string
@@ -21,6 +22,7 @@ export default function Water() {
   const [openEditDialog, setOpenEditDialog] = useState(false)
   const [editingItem, setEditingItem] = useState<FormData | null>(null)
   const [water, setWater] = useState<FormData | null>(null)
+  const { t } = useTranslation('water')
 
   const { register, handleSubmit, watch, setValue } = useForm<FormData>({
     resolver: yupResolver(waterSchema),
@@ -68,12 +70,16 @@ export default function Water() {
         pricePerM3: formData.pricePerM3
       })
 
-      toast.success('Set Water created successfully!', {
+      toast.success(t('water_create_success'), {
         style: { width: 'fit-content' }
       })
       getWaterMutation.mutate() // Refresh data after adding
     } catch (error) {
-      console.error('API call failed:', error)
+      // Hiển thị toast lỗi với key dịch trả về từ API
+      const err = error as Error
+      toast.error(t(err.message), {
+        style: { width: 'fit-content' }
+      })
     }
   }
 
@@ -99,7 +105,7 @@ export default function Water() {
           id: editingItem.id,
           pricePerM3: editingItem.pricePerM3
         })
-        toast.success('Water Fee updated successfully!', {
+        toast.success(t('water_update_success'), {
           style: { width: 'fit-content' }
         })
         handleCloseEditDialog()
@@ -119,7 +125,7 @@ export default function Water() {
       )}
       <form className='rounded' noValidate onSubmit={onSubmit}>
         <div className=''>
-          <h2 className='text-2xl font-semibold text-gray-500'>Water</h2>
+          <h2 className='text-2xl font-semibold text-gray-500'>{t('water')}</h2>
           <div className='w-full mt-10 px-10'>
             <Slider
               value={pricePerM3}
@@ -152,7 +158,7 @@ export default function Water() {
             <div className='flex justify-between gap-2.5 mt-3'>
               <div>
                 <label className='block text-sm font-semibold mb-1'>
-                  Price Per m³
+                  {t('price_per_m3')}
                   <span className='text-red-600 ml-1'>*</span>
                 </label>
                 <TextField
@@ -171,17 +177,17 @@ export default function Water() {
             variant='contained'
             style={{ color: 'white', background: '#2976ce', fontWeight: 'semi-bold' }}
           >
-            Submit
+            {t('submit')}
           </Button>
         </div>
 
-        <h2 className='text-2xl font-semibold text-gray-500'>Water Price</h2>
+        <h2 className='text-2xl font-semibold text-gray-500'>{t('water_price')}</h2>
 
         {water ? (
           <div className='flex gap-9 mt-3 items-center'>
             <div className=''>
               <label className='block text-sm font-semibold mb-1'>
-                Price Per m³
+                {t('price_per_m3')}
                 <span className='text-red-600 ml-1'>*</span>
               </label>
               <TextField
@@ -214,15 +220,17 @@ export default function Water() {
                 <path d='M11 3c7 0 7 3 7 3s0 3-7 3s-7-3-7-3s0-3 7-3m0 18c-7 0-7-3-7-3v-6' />
               </g>
             </svg>
-            <p className='mt-2'>No data available</p>
+            <p className='mt-2'>{t('no_data')}</p>
           </div>
         )}
         <Dialog open={openEditDialog} onClose={handleCloseEditDialog} disableEnforceFocus disableRestoreFocus>
-          <DialogTitle sx={{ color: '#1976d3', fontWeight: 'bold', fontSize: '22px' }}>Edit Water Fee</DialogTitle>
+          <DialogTitle sx={{ color: '#1976d3', fontWeight: 'bold', fontSize: '22px' }}>
+            {t('edit_water_fee')}
+          </DialogTitle>
           <DialogContent>
             <div className='flex flex-col gap-4 mt-4'>
               <TextField
-                label='Price Per m³'
+                label={t('price_per_m3')}
                 type='number'
                 value={editingItem?.pricePerM3 || ''}
                 onChange={(e) =>
@@ -234,9 +242,9 @@ export default function Water() {
             </div>
           </DialogContent>
           <DialogActions>
-            <Button onClick={handleCloseEditDialog}>Cancel</Button>
+            <Button onClick={handleCloseEditDialog}>{t('cancel')}</Button>
             <Button onClick={handleEditSubmit} variant='contained' color='primary'>
-              Save Changes
+              {t('save_changes')}
             </Button>
           </DialogActions>
         </Dialog>

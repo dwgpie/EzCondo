@@ -1,0 +1,17 @@
+{
+  "parking_create_success": "Tạo phí gửi xe thành công!",
+  "parking_update_success": "Cập nhật phí gửi xe thành công!",
+  "motorbike": "Xe máy",
+  "car": "Ô tô",
+  "price_per_motor": "Giá cho xe máy",
+  "price_per_car": "Giá cho ô tô",
+  "submit": "Thêm mới",
+  "parking_price": "Giá gửi xe",
+  "price_per_motorbike": "Giá cho xe máy",
+  "no_data": "Không có dữ liệu",
+  "edit_parking_fee": "Chỉnh sửa phí gửi xe",
+  "cancel": "Hủy",
+  "save_changes": "Lưu thay đổi",
+  "parking_create_error": "Giá xe chỉ được thiết lập một lần",
+  "something_went_wrong": "Lỗi gì đó đã xảy ra"
+}

@@ -8,8 +8,8 @@ import { useRef, useState } from 'react'
 import CloudUploadIcon from '@mui/icons-material/CloudUpload'
 import { toast } from 'react-toastify'
 import Checkbox from '@mui/material/Checkbox'
-import { useNavigate } from 'react-router-dom'
 import LoadingOverlay from '~/components/LoadingOverlay'
+import { useTranslation } from 'react-i18next'
 
 interface FormData {
   serviceName: string
@@ -34,7 +34,6 @@ export default function AddService() {
     resolver: yupResolver(addServiceSchema)
   })
 
-  const navigate = useNavigate()
   const [typeOfMonth, setTypeOfMonth] = useState(false)
   const [typeOfYear, setTypeOfYear] = useState(false)
   const [images, setImages] = useState<string[]>([]) // Lưu trữ URL của ảnh
@@ -42,6 +41,7 @@ export default function AddService() {
   const fileInputRef = useRef<HTMLInputElement | null>(null)
   const [loading, setLoading] = useState(false)
   const [progress, setProgress] = useState(0)
+  const { t } = useTranslation('service')
 
   const handleDeleteImage = (index: number) => {
     // Remove image URL and file at the specified index
@@ -103,7 +103,7 @@ export default function AddService() {
       })
 
       if (!response?.data) {
-        toast.error('Failed to create service')
+        toast.error(t('service_create_fail'))
       }
 
       const service_Id = response.data
@@ -113,7 +113,7 @@ export default function AddService() {
         serviceImages: formData.serviceImages
       })
 
-      toast.success('Service created successfully!', {
+      toast.success(t('service_create_success'), {
         style: { width: 'fit-content' }
       })
       setImages([])
@@ -142,7 +142,7 @@ export default function AddService() {
           <div>
             <div className=''>
               <label className='block text-sm font-semibold'>
-                Name
+                {t('name')}
                 <span className='text-red-600 ml-1'>*</span>
               </label>
               <Input
@@ -153,9 +153,9 @@ export default function AddService() {
                 errorMessage={errors.serviceName?.message}
               />
             </div>
-            <div className=''>
+            <div className='mt-2'>
               <label className='block text-sm font-semibold'>
-                Description
+                {t('description')}
                 <span className='text-red-600 ml-1'>*</span>
               </label>
               <Input
@@ -167,28 +167,40 @@ export default function AddService() {
                 rows={5}
               />
             </div>
-            <div className='flex'>
+            <div className='flex gap-13 mt-4'>
               <div>
-                <div className='flex items-center gap-11'>
-                  <label className='block text-sm font-semibold'>Timestamp</label>
-                  <label className='block text-sm font-semibold ml-3'>
-                    Price
-                    <span className='text-red-600 ml-1'>*</span>
-                  </label>
-                </div>
-                <div className='flex items-center justify-center mt-2'>
+                <label className='block text-sm font-semibold'>{t('timestamp')}</label>
+                <div className='flex items-center mt-2'>
                   <Checkbox
                     checked={typeOfMonth}
                     onChange={(e) => {
                       const isChecked = e.target.checked
                       setTypeOfMonth(isChecked)
                       setValue('typeOfMonth', isChecked)
-                      if (!isChecked) {
-                        setValue('priceOfMonth', null) // Reset nếu bỏ chọn
-                      }
+                      if (!isChecked) setValue('priceOfMonth', null)
                     }}
                   />
-                  <div className='mr-10'>Month</div>
+                  <div className=''>{t('month')}</div>
+                </div>
+                <div className='flex items-center mt-4'>
+                  <Checkbox
+                    checked={typeOfYear}
+                    onChange={(e) => {
+                      const isChecked = e.target.checked
+                      setTypeOfYear(isChecked)
+                      setValue('typeOfYear', isChecked)
+                      if (!isChecked) setValue('priceOfYear', null)
+                    }}
+                  />
+                  <div className=''>{t('year')}</div>
+                </div>
+              </div>
+              <div>
+                <label className='block text-sm font-semibold'>
+                  {t('price')}
+                  <span className='text-red-600 ml-1'>*</span>
+                </label>
+                <div className='flex items-center mt-2 mb-5'>
                   <TextField
                     type='number'
                     disabled={!typeOfMonth}
@@ -197,21 +209,9 @@ export default function AddService() {
                     sx={{ width: '150px', backgroundColor: 'white' }}
                     {...register('priceOfMonth')}
                   />
-                  <div className='mt-1 ml-3 text-xs text-red-500 min-h-4'>{errors.priceOfMonth?.message}</div>
+                  <div className='mt-1 ml-4 text-xs text-red-500 min-h-4'>{errors.priceOfMonth?.message}</div>
                 </div>
-                <div className='flex items-center mt-2'>
-                  <Checkbox
-                    checked={typeOfYear}
-                    onChange={(e) => {
-                      const isChecked = e.target.checked
-                      setTypeOfYear(isChecked)
-                      setValue('typeOfYear', isChecked)
-                      if (!isChecked) {
-                        setValue('priceOfYear', null) // Đặt lại giá trị
-                      }
-                    }}
-                  />
-                  <div className='mr-[56px]'>Year</div>
+                <div className='flex items-center'>
                   <TextField
                     type='number'
                     disabled={!typeOfYear}
@@ -220,7 +220,7 @@ export default function AddService() {
                     size='small'
                     sx={{ width: '150px', backgroundColor: 'white' }}
                   />
-                  <div className='mt-1 ml-3 text-xs text-red-500 min-h-4'>{errors.priceOfYear?.message}</div>
+                  <div className='mt-1 ml-4 text-xs text-red-500 min-h-4'>{errors.priceOfYear?.message}</div>
                 </div>
               </div>
             </div>
@@ -228,7 +228,7 @@ export default function AddService() {
           <div className=''>
             <div>
               <label className='block text-sm font-semibold'>
-                Images
+                {t('images')}
                 <span className='text-red-600 ml-1'>*</span>
               </label>
               <div
@@ -262,8 +262,8 @@ export default function AddService() {
                 ) : (
                   <>
                     <CloudUploadIcon className='text-gray-700 text-4xl' />
-                    <p className='text-gray-700 font-semibold'>Upload Files</p>
-                    <p className='text-gray-500 text-sm'>Drag and drop files here</p>
+                    <p className='text-gray-700 font-semibold'>{t('upload_files')}</p>
+                    <p className='text-gray-500 text-sm'>{t('drag_and_drop')}</p>
                   </>
                 )}
                 <input
@@ -282,18 +282,11 @@ export default function AddService() {
         </div>
         <div className='flex justify-end gap-4 mt-3'>
           <Button
-            variant='contained'
-            style={{ color: 'white', background: 'red', fontWeight: 'semi-bold' }}
-            onClick={() => navigate(-1)}
-          >
-            Cancel
-          </Button>
-          <Button
             type='submit'
             variant='contained'
             style={{ color: 'white', background: '#2976ce', fontWeight: 'semi-bold' }}
           >
-            Submit
+            {t('submit')}
           </Button>
         </div>
       </form>

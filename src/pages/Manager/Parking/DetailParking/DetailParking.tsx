@@ -16,6 +16,7 @@ import Swal from 'sweetalert2'
 import { toast } from 'react-toastify'
 import { Button, DialogContent, DialogTitle, Dialog } from '@mui/material'
 import { useForm } from 'react-hook-form'
+import { useTranslation } from 'react-i18next'
 
 interface Parking {
   parkingId: string
@@ -67,6 +68,7 @@ export default function DetailParking() {
   const totalPages = Math.ceil(listParkingDetail.length / pageSize)
   const [openEditDialog, setOpenEditDialog] = useState(false)
   const [editingItem, setEditingItem] = useState<EditParking | null>(null)
+  const { t } = useTranslation('parkingManager')
 
   const geParkingIdFromURL = () => {
     const params = new URLSearchParams(window.location.search)
@@ -196,19 +198,19 @@ export default function DetailParking() {
         </div>
       )}
       <div className='flex gap-4 mb-6 justify-between font-bold '>
-        <h2 className='text-2xl font-semibold text-gray-500'>List Parkings Detail</h2>
+        <h2 className='text-2xl font-semibold text-gray-500'>{t('parking_list') + ' ' + t('detail')}</h2>
       </div>
       <Paper elevation={4} sx={{ borderRadius: '12px', overflow: 'hidden' }}>
         <TableContainer>
           <Table sx={{ minWidth: 700 }} aria-label='customized table'>
             <TableHead>
               <TableRow>
-                <StyledTableCell width='5%'>ID</StyledTableCell>
-                <StyledTableCell width='15%'>Type</StyledTableCell>
-                <StyledTableCell width='15%'>Checking</StyledTableCell>
-                <StyledTableCell width='15%'>Status</StyledTableCell>
-                <StyledTableCell width='15%'>Price</StyledTableCell>
-                <StyledTableCell width='3%'>Edit</StyledTableCell>
+                <StyledTableCell width='5%'>{t('id')}</StyledTableCell>
+                <StyledTableCell width='15%'>{t('type')}</StyledTableCell>
+                <StyledTableCell width='15%'>{t('checking')}</StyledTableCell>
+                <StyledTableCell width='15%'>{t('status')}</StyledTableCell>
+                <StyledTableCell width='15%'>{t('price')}</StyledTableCell>
+                <StyledTableCell width='8%'>{t('edit')}</StyledTableCell>
                 <StyledTableCell width='1%'></StyledTableCell>
               </TableRow>
             </TableHead>
@@ -281,7 +283,7 @@ export default function DetailParking() {
               ) : (
                 <TableRow>
                   <TableCell colSpan={8} align='center'>
-                    No parkings found
+                    {t('no_parkings_found')}
                   </TableCell>
                 </TableRow>
               )}
@@ -294,12 +296,12 @@ export default function DetailParking() {
       </div>
 
       <Dialog open={openEditDialog} onClose={handleCloseEditDialog} disableEnforceFocus disableRestoreFocus>
-        <DialogTitle sx={{ color: '#1976d3', fontWeight: 'bold', fontSize: '22px' }}>Edit Ticket</DialogTitle>
+        <DialogTitle sx={{ color: '#1976d3', fontWeight: 'bold', fontSize: '22px' }}>{t('edit')}</DialogTitle>
         <DialogContent sx={{ width: '350px' }}>
           <form className='rounded' noValidate onSubmit={onSubmit}>
             <div>
               <label className='block text-sm font-semibold'>
-                Status
+                {t('status')}
                 <span className='text-red-600 ml-1'>*</span>
               </label>
               <select
@@ -313,7 +315,7 @@ export default function DetailParking() {
             </div>
             <div className='mt-5'>
               <label className='block text-sm font-semibold'>
-                Checking
+                {t('checking')}
                 <span className='text-red-600 ml-1'>*</span>
               </label>
               <select
@@ -331,7 +333,7 @@ export default function DetailParking() {
                 variant='contained'
                 style={{ color: 'white', background: '#2976ce', fontWeight: 'semi-bold' }}
               >
-                Submit
+                {t('submit_save')}
               </Button>
             </div>
           </form>

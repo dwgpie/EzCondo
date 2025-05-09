@@ -19,6 +19,7 @@ import { addOrUpdateMember, deleteMember, getHouseholdMember } from '~/apis/hous
 import Input from '~/components/Input'
 import LinearProgress from '@mui/material/LinearProgress'
 import useBufferProgress from '~/components/useBufferProgress'
+import { useTranslation } from 'react-i18next'
 
 interface User {
   id?: string
@@ -62,6 +63,7 @@ const StyledTableRow = styled(TableRow)(() => ({
 }))
 
 export default function AddMember() {
+  const { t } = useTranslation('resident')
   const {
     register,
     handleSubmit,
@@ -132,23 +134,22 @@ export default function AddMember() {
 
   const handleDelete = (id: string) => {
     Swal.fire({
-      title: 'Are you sure you want to delete?',
-      text: 'This action cannot be undone!',
+      title: t('delete_confirm_title'),
+      text: t('delete_confirm_text'),
       icon: 'warning',
       showCancelButton: true,
-      confirmButtonText: 'Delete',
-      cancelButtonText: 'Cancel',
+      confirmButtonText: t('delete'),
+      cancelButtonText: t('cancel'),
       confirmButtonColor: '#d33',
       cancelButtonColor: '#3085d6'
     }).then((result) => {
       if (result.isConfirmed) {
         try {
           deleteMember(id) // Gọi API xóa user
-          Swal.fire('Deleted!', 'The member has been successfully deleted.', 'success')
-          // Cập nhật danh sách user (nếu bạn lưu users trong state)
+          Swal.fire(t('delete_success'), '', 'success')
           setListMember(listMember.filter((user) => user.id !== id))
         } catch (error) {
-          Swal.fire('Error!', 'Unable to delete the member!', 'error')
+          Swal.fire(t('delete_error'), '', 'error')
           console.error('Error deleting user:', error)
         }
       }
@@ -166,7 +167,7 @@ export default function AddMember() {
         no: formData.no,
         relationship: formData.relationship
       })
-      toast.success('Member created successfully!', {
+      toast.success(t('success_add'), {
         style: { width: 'fit-content' }
       })
       getMember.mutate() // Refresh data after adding
@@ -191,8 +192,12 @@ export default function AddMember() {
       )}
       <div>
         <div className='flex gap-[100px] w-full h-[60px] rounded-t-xl bg-[#94cde7] items-center '>
-          <h2 className='text-[20px] text-[#344050] font-semibold ml-[24px]'>Name: {resident?.fullName}</h2>
-          <h2 className='text-[20px] text-[#344050] font-semibold ml-[24px]'>Apartment: {apartmentNumber}</h2>
+          <h2 className='text-[20px] text-[#344050] font-semibold ml-[24px]'>
+            {t('name')}: {resident?.fullName}
+          </h2>
+          <h2 className='text-[20px] text-[#344050] font-semibold ml-[24px]'>
+            {t('apartment')}: {apartmentNumber}
+          </h2>
         </div>
         <Paper
           elevation={4}
@@ -206,14 +211,14 @@ export default function AddMember() {
             <Table sx={{ minWidth: 700 }} aria-label='customized table'>
               <TableHead>
                 <TableRow>
-                  <StyledTableCell width='5%'>Id</StyledTableCell>
-                  <StyledTableCell width='15%'>Full Name</StyledTableCell>
-                  <StyledTableCell width='10%'>Gender</StyledTableCell>
-                  <StyledTableCell width='15%'>Date Of Birth</StyledTableCell>
-                  <StyledTableCell width='15%'>Phone Number</StyledTableCell>
-                  <StyledTableCell width='22%'>Citizen Identity Number</StyledTableCell>
-                  <StyledTableCell width='15%'>Relationship</StyledTableCell>
-                  <StyledTableCell width='5%'>Delete</StyledTableCell>
+                  <StyledTableCell width='5%'>{t('id')}</StyledTableCell>
+                  <StyledTableCell width='15%'>{t('full_name')}</StyledTableCell>
+                  <StyledTableCell width='10%'>{t('gender')}</StyledTableCell>
+                  <StyledTableCell width='15%'>{t('date_of_birth')}</StyledTableCell>
+                  <StyledTableCell width='15%'>{t('phone_number')}</StyledTableCell>
+                  <StyledTableCell width='22%'>{t('citizen_id')}</StyledTableCell>
+                  <StyledTableCell width='15%'>{t('relationship')}</StyledTableCell>
+                  <StyledTableCell width='5%'>{t('delete')}</StyledTableCell>
                 </TableRow>
               </TableHead>
               <TableBody>
@@ -261,7 +266,7 @@ export default function AddMember() {
                 ) : (
                   <TableRow>
                     <TableCell colSpan={8} align='center'>
-                      No users found
+                      {t('no_users_found')}
                     </TableCell>
                   </TableRow>
                 )}
@@ -276,7 +281,7 @@ export default function AddMember() {
           <div className='flex pt-4 justify-between'>
             <div className='ml-[20px]'>
               <label className='block text-sm font-semibold my-2'>
-                Name
+                {t('full_name')}
                 <span className='text-red-600 ml-1'>*</span>
               </label>
               <Input
@@ -290,7 +295,7 @@ export default function AddMember() {
 
             <div className=''>
               <label className='block text-sm font-semibold my-2'>
-                Gender
+                {t('gender')}
                 <span className='text-red-600 ml-1'>*</span>
               </label>
               <select
@@ -298,15 +303,15 @@ export default function AddMember() {
                 defaultValue='Male'
                 className='w-26 h-11 pl-2 cursor-pointer outline-none border border-gray-300 focus:border-gray-500 rounded-sm focus:shadow-sm'
               >
-                <option value='male'>Male</option>
-                <option value='female'>Female</option>
-                <option value='other'>Other</option>
+                <option value='male'>{t('male')}</option>
+                <option value='female'>{t('female')}</option>
+                <option value='other'>{t('other')}</option>
               </select>
             </div>
 
             <div className=''>
               <label className='block text-sm font-semibold my-2'>
-                Date of birth
+                {t('date_of_birth')}
                 <span className='text-red-600 ml-1'>*</span>
               </label>
               <Input
@@ -320,7 +325,7 @@ export default function AddMember() {
 
             <div className=''>
               <label className='block text-sm font-semibold my-2'>
-                Phone number
+                {t('phone_number')}
                 <span className='text-red-600 ml-1'>*</span>
               </label>
               <Input
@@ -334,7 +339,7 @@ export default function AddMember() {
 
             <div className=''>
               <label className='block text-sm font-semibold my-2'>
-                Citizen Identity Number
+                {t('citizen_id')}
                 <span className='text-red-600 ml-1'>*</span>
               </label>
               <Input name='no' type='number' register={register} className='mt-1' errorMessage={errors.no?.message} />
@@ -342,7 +347,7 @@ export default function AddMember() {
 
             <div className='mr-[20px]'>
               <label className='block text-sm font-semibold my-2'>
-                Relationship to household head
+                {t('relationship_to_head')}
                 <span className='text-red-600 ml-1'>*</span>
               </label>
               <select
@@ -350,14 +355,14 @@ export default function AddMember() {
                 defaultValue='father'
                 className=' w-full h-11 pl-2 cursor-pointer outline-none border border-gray-300 focus:border-gray-500 rounded-sm focus:shadow-sm'
               >
-                <option value='father'>Father</option>
-                <option value='mother'>Mother</option>
-                <option value='wife'>Wife</option>
-                <option value='son'>Son</option>
-                <option value='daughter'>Daughter</option>
-                <option value='relative'>Relative</option>
-                <option value='grandchild'>Grandchild</option>
-                <option value='tenant'>Tenant</option>
+                <option value='father'>{t('father')}</option>
+                <option value='mother'>{t('mother')}</option>
+                <option value='wife'>{t('wife')}</option>
+                <option value='son'>{t('son')}</option>
+                <option value='daughter'>{t('daughter')}</option>
+                <option value='relative'>{t('relative')}</option>
+                <option value='grandchild'>{t('grandchild')}</option>
+                <option value='tenant'>{t('tenant')}</option>
               </select>
             </div>
           </div>
@@ -365,16 +370,12 @@ export default function AddMember() {
             <Button
               variant='contained'
               onClick={() => (window.location.href = '/manager/list-resident')}
-              style={{ color: 'white', background: 'red', fontWeight: 'semi-bold' }} // Add this line
+              style={{ color: 'white', background: 'red', fontWeight: 'semi-bold' }}
             >
-              Cancel
+              {t('cancel')}
             </Button>
-            <Button
-              variant='contained'
-              type='submit'
-              style={{ color: 'white', fontWeight: 'semi-bold' }} // Add this line
-            >
-              Add
+            <Button variant='contained' type='submit' style={{ color: 'white', fontWeight: 'semi-bold' }}>
+              {t('add')}
             </Button>
           </div>
         </form>

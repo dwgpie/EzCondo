@@ -1,0 +1,22 @@
+{
+  "homepage": "TRANG CHỦ",
+  "features": "TÍNH NĂNG",
+  "dashboard": "Bảng điều khiển",
+  "user": "Người dùng",
+  "user_list": "Danh sách người dùng",
+  "add_user": "Thêm người dùng",
+  "service": "Dịch vụ",
+  "service_list": "Danh sách dịch vụ",
+  "add_service": "Thêm dịch vụ",
+  "fee": "Phí",
+  "electricity_fee": "Phí điện",
+  "water_fee": "Phí nước",
+  "parking_fee": "Phí gửi xe",
+  "apartment": "Căn hộ",
+  "apartment_list": "Danh sách căn hộ",
+  "add_apartment": "Thêm căn hộ",
+  "notification": "Thông báo",
+  "notification_history": "Lịch sử thông báo",
+  "add_notification": "Thêm thông báo",
+  "slogan": "Sống tiện nghi, quản lý thông minh"
+}

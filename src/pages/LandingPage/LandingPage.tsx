@@ -307,7 +307,13 @@ export default function LandingPage() {
       </section>
 
       {/* Image Animation Showcase */}
-      <section id='modules' className='py-16 overflow-hidden bg-gradient-to-r from-blue-50 to-blue-100 text-center'>
+      <section
+        id='modules'
+        className='py-16 overflow-hidden bg-gradient-to-r text-center'
+        style={{
+          background: 'linear-gradient(-45deg, rgba(200,240,255,0.6), rgb(90,140,200))'
+        }}
+      >
         <SlideLeftSection>
           <div className='grid grid-cols-1 md:grid-cols-2 gap-20 max-w-5xl mx-auto'>
             <motion.img
@@ -354,7 +360,12 @@ export default function LandingPage() {
           </div>
         </SlideRightSection>
       </section>
-      <section className='py-16 overflow-hidden bg-gradient-to-r from-blue-50 to-blue-100 text-center'>
+      <section
+        className='py-16 overflow-hidden bg-gradient-to-r text-center'
+        style={{
+          background: 'linear-gradient(-45deg, rgba(200,240,255,0.6), rgb(90,140,200))'
+        }}
+      >
         <SlideLeftSection>
           <div className='grid grid-cols-1 md:grid-cols-2 gap-20 max-w-5xl mx-auto'>
             <motion.img
@@ -401,7 +412,12 @@ export default function LandingPage() {
           </div>
         </SlideRightSection>
       </section>
-      <section className='py-16 overflow-hidden bg-gradient-to-r from-blue-50 to-blue-100 text-center'>
+      <section
+        className='py-16 overflow-hidden bg-gradient-to-r from-blue-50 to-blue-100 text-center'
+        style={{
+          background: 'linear-gradient(-45deg, rgba(200,240,255,0.6), rgb(90,140,200))'
+        }}
+      >
         <SlideLeftSection>
           <div className='grid grid-cols-1 md:grid-cols-2 gap-20 max-w-5xl mx-auto'>
             <motion.img
@@ -424,7 +440,13 @@ export default function LandingPage() {
       </section>
 
       {/* Section Skew Transition */}
-      <div id='mobile' className='-skew-y-3 bg-blue-600 my-16'>
+      <div
+        id='mobile'
+        className='-skew-y-3 my-16'
+        style={{
+          background: 'linear-gradient(-45deg, rgba(0, 160, 255, 0.86), rgb(0, 72, 162))'
+        }}
+      >
         <div className='skew-y-3 py-24 text-center text-white'>
           <FadeInSection>
             <h2 className='text-4xl font-bold mb-4'>Stay Connected on Mobile</h2>

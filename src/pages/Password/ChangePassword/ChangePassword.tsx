@@ -10,6 +10,7 @@ import Visibility from '@mui/icons-material/Visibility'
 import VisibilityOff from '@mui/icons-material/VisibilityOff'
 import { useState } from 'react'
 import { IconButton, InputAdornment } from '@mui/material'
+import { useTranslation } from 'react-i18next'
 
 interface FormData {
   oldPassword: string
@@ -18,6 +19,7 @@ interface FormData {
 }
 
 export default function ChangePassword() {
+  const { t } = useTranslation('profile')
   const {
     register,
     handleSubmit,
@@ -64,7 +66,7 @@ export default function ChangePassword() {
           <div className='flex gap-10'>
             <div>
               <label className='block text-sm font-semibold'>
-                Old Passowrd
+                {t('old_password')}
                 <span className='text-red-600 ml-1'>*</span>
               </label>
               <div className='relative'>
@@ -84,7 +86,7 @@ export default function ChangePassword() {
             </div>
             <div>
               <label className='block text-sm font-semibold'>
-                New Passowrd
+                {t('new_password')}
                 <span className='text-red-600 ml-1'>*</span>
               </label>
               <div className='relative'>
@@ -104,7 +106,7 @@ export default function ChangePassword() {
             </div>
             <div>
               <label className='block text-sm font-semibold'>
-                Confirm Passowrd
+                {t('confirm_password')}
                 <span className='text-red-600 ml-1'>*</span>
               </label>
               <div className='relative'>
@@ -129,7 +131,7 @@ export default function ChangePassword() {
               variant='contained'
               style={{ color: 'white', background: '#2976ce', fontWeight: 'semi-bold' }}
             >
-              Submit
+              {t('submit')}
             </Button>
           </div>
         </div>

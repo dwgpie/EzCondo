@@ -1,0 +1,23 @@
+{
+  "name": "Name",
+  "phone": "Phone number",
+  "email": "Email",
+  "dob": "Date of birth",
+  "gender": "Gender",
+  "male": "Male",
+  "female": "Female",
+  "other": "Other",
+  "upload": "Upload a File",
+  "drag": "Drag and drop files here",
+  "cancel": "Cancel",
+  "submit": "Submit",
+  "loading": "Loading data...",
+  "success": "Profile updated successfully!",
+  "fail": "Failed to update profile",
+  "old_password": "Old Password",
+  "new_password": "New Password",
+  "confirm_password": "Confirm Password",
+  "profile": "Profile",
+  "password": "Password",
+  "logout": "Logout"
+}
