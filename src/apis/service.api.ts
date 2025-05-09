@@ -1,6 +1,5 @@
 import http from '~/utils/http'
 import { AxiosError } from 'axios'
-import { toast } from 'react-toastify'
 
 export const searchService = (search: string) => {
   return http.get(`/api/Services/get-all-services?serviceName=${search}`)
@@ -61,16 +60,11 @@ export const addWater = async (body: { pricePerM3: number }) => {
   } catch (error: unknown) {
     if (error instanceof AxiosError && error.response) {
       if (error.response.status === 409) {
-        toast.error('Water price can only be set once', {
-          style: { width: 'fit-content' }
-        })
-        throw new Error('Parking price can only be set once')
+        throw new Error('water_create_error')
       }
-      toast.error('Something went wrong', {
-        style: { width: 'fit-content' }
-      })
-      throw new Error(error.response.data?.message || 'Something went wrong')
+      throw new Error('something_went_wrong')
     }
+    throw error
   }
 }
 
@@ -81,16 +75,11 @@ export const addParking = async (body: { pricePerMotor: number; pricePerOto: num
   } catch (error: unknown) {
     if (error instanceof AxiosError && error.response) {
       if (error.response.status === 409) {
-        toast.error('Parking price can only be set once', {
-          style: { width: 'fit-content' }
-        })
-        throw new Error('Parking price can only be set once')
+        throw new Error('parking_create_error')
       }
-      toast.error('Something went wrong', {
-        style: { width: 'fit-content' }
-      })
-      throw new Error(error.response.data?.message || 'Something went wrong')
+      throw new Error('something_went_wrong')
     }
+    throw error
   }
 }
 
@@ -135,26 +124,15 @@ export const addElectricityMeter = async (file: File) => {
   } catch (error: unknown) {
     if (error instanceof AxiosError && error.response) {
       const status = error.response.status
-
       if (status === 404) {
-        toast.error('Apartment is not found', {
-          style: { width: 'fit-content' }
-        })
-        throw new Error('Apartment is not found')
+        throw new Error('apartment_fail')
       }
-
       if (status === 409) {
-        toast.error('Invalid date format. Please use yyyy-MM-dd', {
-          style: { width: 'fit-content' }
-        })
-        throw new Error('Invalid date format. Please use yyyy-MM-dd')
+        throw new Error('invalid_date')
       }
-
-      toast.error('Something went wrong', {
-        style: { width: 'fit-content' }
-      })
-      throw new Error(error.response.data?.message || 'Something went wrong')
+      throw new Error('something_went_wrong')
     }
+    throw error
   }
 }
 
@@ -172,33 +150,18 @@ export const addElectricityReading = async (file: File) => {
   } catch (error: unknown) {
     if (error instanceof AxiosError && error.response) {
       const status = error.response.status
-
       if (status === 404) {
-        toast.error('Apartment is not found', {
-          style: { width: 'fit-content' }
-        })
-        throw new Error('Apartment is not found')
+        throw new Error('apartment_fail')
       }
-
       if (status === 409) {
-        toast.error('Apartment have no user', {
-          style: { width: 'fit-content' }
-        })
-        throw new Error('Apartment have no user')
+        throw new Error('apartment_not_user')
       }
-
       if (status === 500) {
-        toast.error('Electricity reading is lower than last month', {
-          style: { width: 'fit-content' }
-        })
-        throw new Error('Electricity reading is lower than last month')
+        throw new Error('electricity_reading_low')
       }
-
-      toast.error('Something went wrong', {
-        style: { width: 'fit-content' }
-      })
-      throw new Error(error.response.data?.message || 'Something went wrong')
+      throw new Error('something_went_wrong')
     }
+    throw error
   }
 }
 
@@ -235,26 +198,17 @@ export const addWaterMeter = async (file: File) => {
     return response
   } catch (error: unknown) {
     if (error instanceof AxiosError && error.response) {
-      const status = error.response.status
-
-      if (status === 404) {
-        toast.error('Apartment is not found', {
-          style: { width: 'fit-content' }
-        })
-        throw new Error('Apartment is not found')
+      if (error instanceof AxiosError && error.response) {
+        const status = error.response.status
+        if (status === 404) {
+          throw new Error('apartment_fail')
+        }
+        if (status === 409) {
+          throw new Error('invalid_date')
+        }
+        throw new Error('something_went_wrong')
       }
-
-      if (status === 409) {
-        toast.error('Invalid date format. Please use yyyy-MM-dd', {
-          style: { width: 'fit-content' }
-        })
-        throw new Error('Invalid date format. Please use yyyy-MM-dd')
-      }
-
-      toast.error('Something went wrong', {
-        style: { width: 'fit-content' }
-      })
-      throw new Error(error.response.data?.message || 'Something went wrong')
+      throw error
     }
   }
 }
@@ -273,33 +227,18 @@ export const addWaterReading = async (file: File) => {
   } catch (error: unknown) {
     if (error instanceof AxiosError && error.response) {
       const status = error.response.status
-
       if (status === 404) {
-        toast.error('Apartment is not found', {
-          style: { width: 'fit-content' }
-        })
-        throw new Error('Apartment is not found')
+        throw new Error('apartment_fail')
       }
-
       if (status === 409) {
-        toast.error('Apartment have no user', {
-          style: { width: 'fit-content' }
-        })
-        throw new Error('Apartment have no user')
+        throw new Error('apartment_not_user')
       }
-
       if (status === 500) {
-        toast.error('Water reading is lower than last month', {
-          style: { width: 'fit-content' }
-        })
-        throw new Error('Water reading is lower than last month')
+        throw new Error('water_reading_low')
       }
-
-      toast.error('Something went wrong', {
-        style: { width: 'fit-content' }
-      })
-      throw new Error(error.response.data?.message || 'Something went wrong')
+      throw new Error('something_went_wrong')
     }
+    throw error
   }
 }
 

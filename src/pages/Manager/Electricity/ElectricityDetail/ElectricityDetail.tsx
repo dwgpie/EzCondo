@@ -4,6 +4,7 @@ import { useEffect, useState, useRef } from 'react'
 import { useMutation } from '@tanstack/react-query'
 import LinearProgress from '@mui/material/LinearProgress'
 import useBufferProgress from '~/components/useBufferProgress'
+import { useTranslation } from 'react-i18next'
 
 interface FormData {
   id?: string
@@ -28,6 +29,8 @@ interface ElectricPrice {
 }
 
 export default function ElectricityDetail() {
+  const { t, i18n } = useTranslation('electricManager')
+  const currentLang = i18n.language
   const [loading, setLoading] = useState(false)
   const { progress, buffer } = useBufferProgress(loading)
   const [electric, setElectric] = useState<FormData | null>(null)
@@ -120,15 +123,17 @@ export default function ElectricityDetail() {
           >
             {/* Header */}
             <div className='flex justify-between items-center'>
-              <p className='font-semibold text-lg'>Apartment Management Board</p>
+              <p className='font-semibold text-lg'>{t('apartment_management_board')}</p>
               <img src='/imgs/logo/lo23-Photoroom.png' alt='Logo' className='w-16 h-16 object-cover' />
             </div>
 
             <div className='text-center mb-8'>
               <h2 className='text-2xl mt-2 font-bold text-[#2c3e50] uppercase tracking-wide leading-snug'>
-                Electricity Bill
+                {t('electricity_bill')}
               </h2>
-              <p className='font-semibold'>No: {id?.slice(-5).toUpperCase()}</p>
+              <p className='font-semibold'>
+                {t('no')}: {id?.slice(-5).toUpperCase()}
+              </p>
             </div>
 
             <div
@@ -140,25 +145,54 @@ export default function ElectricityDetail() {
             >
               <div className='text-sm font-medium text-black space-y-2'>
                 <div className='grid grid-cols-2 gap-y-1'>
-                  <p>Apartment number: {electric.apartmentNumber}</p>
-                  <p>Meter number: {electric.meterNumber}</p>
+                  <p className='mb-1'>
+                    {t('apartment_number')}: {electric.apartmentNumber}
+                  </p>
+                  <p>
+                    {t('meter_number')}: {electric.meterNumber}
+                  </p>
 
-                  <p>Owner: {electric.fullName}</p>
+                  <p className='mb-1'>
+                    {t('owner')}: {electric.fullName}
+                  </p>
                   <p>Email: {electric.email}</p>
 
-                  <p>From: {new Date(electric.readingPreDate).toLocaleDateString('en-US')}</p>
-                  <p>To: {new Date(electric.readingCurrentDate).toLocaleDateString('en-US')}</p>
+                  <p className='mb-1'>
+                    {t('from')}:{' '}
+                    {new Date(electric.readingPreDate).toLocaleDateString(currentLang === 'vi' ? 'vi-VN' : 'en-GB', {
+                      day: '2-digit',
+                      month: 'short',
+                      year: 'numeric',
+                      timeZone: 'Asia/Ho_Chi_Minh'
+                    })}
+                  </p>
+                  <p>
+                    {t('to')}:{' '}
+                    {new Date(electric.readingCurrentDate).toLocaleDateString(
+                      currentLang === 'vi' ? 'vi-VN' : 'en-GB',
+                      {
+                        day: '2-digit',
+                        month: 'short',
+                        year: 'numeric',
+                        timeZone: 'Asia/Ho_Chi_Minh'
+                      }
+                    )}
+                  </p>
 
-                  <p>Previous Meter: {electric.pre_electric_number}</p>
-                  <p>Current Meter: {electric.current_electric_number}</p>
+                  <p>
+                    {t('previous_meter')}: {electric.pre_electric_number}
+                  </p>
+                  <p>
+                    {t('current_meter')}: {electric.current_electric_number}
+                  </p>
                 </div>
               </div>
 
               <table className='text-sm w-full border border-gray-300 mt-5'>
                 <thead>
                   <tr>
-                    <th className='px-3 py-2 border border-gray-300 text-left'>Consumption</th>
-                    <th className='px-3 py-2 border border-gray-300 text-left'>Total Price</th>
+                    <th className='px-3 py-2 border border-gray-300 text-left w-[300px]'>{t('consumption')}</th>
+                    <th className='px-3 py-2 border border-gray-300 text-left'>{t('total_price')}</th>
                   </tr>
                 </thead>
                 <tbody>
@@ -173,8 +207,8 @@ export default function ElectricityDetail() {
                 <table className='text-sm w-auto border border-gray-300'>
                   <thead>
                     <tr>
-                      <th className='px-2 py-1 border border-gray-300 text-left'>Electric Price</th>
-                      <th className='px-2 py-1 border border-gray-300 text-left'>Unit Price</th>
+                      <th className='px-2 py-1 border border-gray-300 text-left'>{t('electric_price')}</th>
+                      <th className='px-2 py-1 border border-gray-300 text-left'>{t('unit_price')}</th>
                     </tr>
                   </thead>
                   <tbody>
@@ -192,9 +226,9 @@ export default function ElectricityDetail() {
                 </table>
                 <div className='flex flex-col items-end mt-10 mb-5 text-sm'>
                   <p>
-                    Day {day}, Month {month}, Year {year}
+                    {t('day')} {day}, {t('month')} {month}, {t('year')} {year}
                   </p>
-                  <p>Apartment Management Board</p>
+                  <p>{t('apartment_management_board')}</p>
                   <img src='/imgs/bg/ck-5.png' alt='Signature' className='w-30 mr-8 mt-2' />
                 </div>
               </div>
@@ -207,14 +241,14 @@ export default function ElectricityDetail() {
               onClick={() => (window.location.href = '/manager/add-electricity-reading')}
               style={{ color: 'white', background: 'red', fontWeight: 'semi-bold' }}
             >
-              Cancel
+              {t('cancel')}
             </Button>
             <Button
               variant='contained'
               onClick={handleExport}
               style={{ color: 'white', background: '#2976ce', fontWeight: 'semi-bold' }}
             >
-              export PDF
+              {t('export_pdf')}
             </Button>
           </div>
         </>
@@ -226,7 +260,7 @@ export default function ElectricityDetail() {
               <path d='M11 3c7 0 7 3 7 3s0 3-7 3s-7-3-7-3s0-3 7-3m0 18c-7 0-7-3-7-3v-6' />
             </g>
           </svg>
-          <p className='mt-2'>No data available</p>
+          <p className='mt-2'>{t('no_data_available')}</p>
         </div>
       )}
     </div>

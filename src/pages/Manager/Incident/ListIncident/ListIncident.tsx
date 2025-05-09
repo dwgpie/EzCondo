@@ -10,6 +10,7 @@ import TableRow from '@mui/material/TableRow'
 import Paper from '@mui/material/Paper'
 import { getAllIncident } from '~/apis/incident.api'
 import Pagination from '@mui/material/Pagination'
+import { useTranslation } from 'react-i18next'
 
 interface Incident {
   id: string
@@ -50,9 +51,8 @@ const StyledTableRow = styled(TableRow)(() => ({
 }))
 
 export default function ListIncident() {
-  // const { searchQuery } = useContext(SearchContext)!
+  const { t } = useTranslation('incidentManager')
   const [listIncident, setListIncident] = useState<Incident[]>([])
-  // const [filteredIncident, setFilteredIncident] = useState<User[]>([])
 
   const [page, setPage] = useState(1)
   const pageSize = 6
@@ -102,21 +102,21 @@ export default function ListIncident() {
   return (
     <div className='mx-5 mt-5 mb-5 p-6 bg-gradient-to-br from-white via-white to-blue-100 drop-shadow-md rounded-xl'>
       <div className='mb-[20px]'>
-        <h2 className='text-2xl font-semibold text-gray-500 ml-1'>List Incident</h2>
+        <h2 className='text-2xl font-semibold text-gray-500 ml-1'>{t('incident_list')}</h2>
       </div>
       <Paper elevation={4} sx={{ borderRadius: '12px', overflow: 'hidden' }}>
         <TableContainer>
           <Table sx={{ minWidth: 700 }} aria-label='customized table'>
             <TableHead>
               <TableRow>
-                <StyledTableCell width='5%'>ID</StyledTableCell>
-                <StyledTableCell width='15%'>Full Name</StyledTableCell>
-                <StyledTableCell width='12%'>Apartment</StyledTableCell>
-                <StyledTableCell width='10%'>Type</StyledTableCell>
-                <StyledTableCell width='15%'>Title</StyledTableCell>
-                <StyledTableCell width='15%'>Date of report</StyledTableCell>
-                <StyledTableCell width='13%'>Status</StyledTableCell>
-                <StyledTableCell width='8%'>Detail</StyledTableCell>
+                <StyledTableCell width='5%'>{t('id')}</StyledTableCell>
+                <StyledTableCell width='15%'>{t('full_name')}</StyledTableCell>
+                <StyledTableCell width='12%'>{t('apartment')}</StyledTableCell>
+                <StyledTableCell width='10%'>{t('type')}</StyledTableCell>
+                <StyledTableCell width='15%'>{t('title')}</StyledTableCell>
+                <StyledTableCell width='15%'>{t('date_of_report')}</StyledTableCell>
+                <StyledTableCell width='13%'>{t('status')}</StyledTableCell>
+                <StyledTableCell width='8%'>{t('detail')}</StyledTableCell>
               </TableRow>
             </TableHead>
             <TableBody>
@@ -163,7 +163,7 @@ export default function ListIncident() {
               ) : (
                 <TableRow>
                   <TableCell colSpan={8} align='center'>
-                    No incidents found
+                    {t('no_incidents_found')}
                   </TableCell>
                 </TableRow>
               )}

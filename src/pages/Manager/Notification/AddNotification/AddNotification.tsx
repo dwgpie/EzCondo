@@ -21,6 +21,7 @@ import CloudUploadIcon from '@mui/icons-material/CloudUpload'
 import { toast } from 'react-toastify'
 import { useNavigate, useLocation } from 'react-router-dom'
 import LoadingOverlay from '~/components/LoadingOverlay'
+import { useTranslation } from 'react-i18next'
 
 interface FormData {
   title: string
@@ -38,6 +39,7 @@ interface Apartment {
 }
 
 export default function AddNotificationManager() {
+  const { t } = useTranslation('notification')
   const location = useLocation()
   const preSelectedApartments = location.state?.selectedApartments || []
 
@@ -297,7 +299,7 @@ export default function AddNotificationManager() {
                   sx={{ color: '#000', fontWeight: '500', fontSize: '16px', marginBottom: '1px' }}
                   id='demo-radio-buttons-group-label'
                 >
-                  Receiver
+                  {t('receiver')}
                   <span className='text-red-600 ml-1'>*</span>
                 </FormLabel>
 
@@ -307,13 +309,13 @@ export default function AddNotificationManager() {
                   name='radio-buttons-group'
                   onChange={handleChangeRadio}
                 >
-                  <FormControlLabel value='resident' control={<Radio />} label='Resident' />
-                  <FormControlLabel value='apartment' control={<Radio />} label='Apartment' />
+                  <FormControlLabel value='resident' control={<Radio />} label={t('resident')} />
+                  <FormControlLabel value='apartment' control={<Radio />} label={t('apartment')} />
                 </RadioGroup>
               </FormControl>
               <div className='mr-18'>
                 <label className='block text-sm font-semibold mb-[6px]'>
-                  Type
+                  {t('type')}
                   <span className='text-red-600 ml-1'>*</span>
                 </label>
                 <Select
@@ -322,9 +324,9 @@ export default function AddNotificationManager() {
                   {...register('type')}
                   sx={{ width: '200px', height: '55px', backgroundColor: 'white' }}
                 >
-                  <MenuItem value='new'>New</MenuItem>
-                  <MenuItem value='notice'>Notice</MenuItem>
-                  <MenuItem value='fee'>Fee</MenuItem>
+                  <MenuItem value='new'>{t('new')}</MenuItem>
+                  <MenuItem value='notice'>{t('notice')}</MenuItem>
+                  <MenuItem value='fee'>{t('fee')}</MenuItem>
                 </Select>
               </div>
             </div>
@@ -332,7 +334,7 @@ export default function AddNotificationManager() {
               <div className=''>
                 <div className=''>
                   <label className='block text-sm font-semibold mt-4'>
-                    Title
+                    {t('title')}
                     <span className='text-red-600 ml-1'>*</span>
                   </label>
                   <Input
@@ -346,7 +348,7 @@ export default function AddNotificationManager() {
                 </div>
                 <div className=''>
                   <label className='block text-sm font-semibold mt-3'>
-                    Content
+                    {t('content')}
                     <span className='text-red-600 ml-1'>*</span>
                   </label>
                   <Input
@@ -363,7 +365,7 @@ export default function AddNotificationManager() {
           </div>
           <div className='col-span-1'>
             <label className='block text-sm font-semibold'>
-              Images
+              {t('images')}
               <span className='text-red-600 ml-1'>*</span>
             </label>
             <div
@@ -397,8 +399,8 @@ export default function AddNotificationManager() {
               ) : (
                 <>
                   <CloudUploadIcon className='text-gray-700 text-4xl' />
-                  <p className='text-gray-700 font-semibold'>Upload Files</p>
-                  <p className='text-gray-500 text-sm'>Drag and drop files here</p>
+                  <p className='text-gray-700 font-semibold'>{t('upload_files')}</p>
+                  <p className='text-gray-500 text-sm'>{t('drag_and_drop')}</p>
                 </>
               )}
               <input
@@ -417,7 +419,7 @@ export default function AddNotificationManager() {
                   ${radio === 'resident' ? 'opacity-0 pointer-events-none' : 'opacity-100'}`}
             >
               <label className='block text-sm font-semibold mb-[6px]'>
-                Apartment
+                {t('apartment')}
                 <span className='text-red-600 ml-1'>*</span>
               </label>
               <Autocomplete
@@ -432,7 +434,7 @@ export default function AddNotificationManager() {
                 renderInput={(params) => (
                   <TextField
                     {...params}
-                    placeholder='Search Apartment'
+                    placeholder={t('search_apartment')}
                     variant='outlined'
                     sx={{ backgroundColor: 'white' }}
                   />
@@ -450,14 +452,14 @@ export default function AddNotificationManager() {
             style={{ color: 'white', background: 'red', fontWeight: 'semi-bold' }}
             onClick={() => navigate(-1)}
           >
-            Cancel
+            {t('cancel')}
           </Button>
           <Button
             type='submit'
             variant='contained'
             style={{ color: 'white', background: '#2976ce', fontWeight: 'semi-bold' }}
           >
-            Submit
+            {t('submit')}
           </Button>
         </div>
       </form>

@@ -13,6 +13,7 @@ import { SearchContext } from '~/contexts/SearchContext'
 import Pagination from '@mui/material/Pagination'
 import LinearProgress from '@mui/material/LinearProgress'
 import useBufferProgress from '~/components/useBufferProgress'
+import { useTranslation } from 'react-i18next'
 
 interface User {
   id: string
@@ -51,6 +52,7 @@ const StyledTableRow = styled(TableRow)(() => ({
 }))
 
 export default function ListResident() {
+  const { t } = useTranslation('resident')
   const [loading, setLoading] = useState(false)
   const { progress, buffer } = useBufferProgress(loading)
   const { searchQuery } = useContext(SearchContext)!
@@ -89,11 +91,9 @@ export default function ListResident() {
   const getStatusColor = (status: string) => {
     switch (status.toLowerCase()) {
       case 'active':
-        return 'bg-green-500 text-white'
+        return 'bg-gradient-to-r from-green-200 to-green-300 text-green-700 font-semibold rounded-lg shadow-sm'
       case 'inactive':
-        return 'bg-red-500 text-white'
-      default:
-        return ''
+        return 'bg-gradient-to-r from-red-200 to-red-300 text-red-700 font-semibold rounded-lg shadow-sm'
     }
   }
 
@@ -129,22 +129,22 @@ export default function ListResident() {
         </div>
       )}
       <div className='mb-[20px]'>
-        <h2 className='text-2xl font-semibold text-gray-500'>List Resident</h2>
+        <h2 className='text-2xl font-semibold text-gray-500'>{t('resident_list')}</h2>
       </div>
       <Paper elevation={4} sx={{ borderRadius: '12px', overflow: 'hidden' }}>
         <TableContainer>
           <Table sx={{ minWidth: 700 }} aria-label='customized table'>
             <TableHead>
               <TableRow>
-                <StyledTableCell width='5%'>ID</StyledTableCell>
-                <StyledTableCell width='20%'>Full Name</StyledTableCell>
-                <StyledTableCell width='12%'>Date Of Birth</StyledTableCell>
-                <StyledTableCell width='10%'>Gender</StyledTableCell>
-                <StyledTableCell width='11%'>Apartment</StyledTableCell>
-                <StyledTableCell width='13%'>Phone Number</StyledTableCell>
-                <StyledTableCell width='8%'>Status</StyledTableCell>
-                <StyledTableCell width='1%'>Detail</StyledTableCell>
-                <StyledTableCell width='11%'>Add Member</StyledTableCell>
+                <StyledTableCell width='3%'>{t('id')}</StyledTableCell>
+                <StyledTableCell width='20%'>{t('full_name')}</StyledTableCell>
+                <StyledTableCell width='10%'>{t('date_of_birth')}</StyledTableCell>
+                <StyledTableCell width='10%'>{t('gender')}</StyledTableCell>
+                <StyledTableCell width='7%'>{t('apartment')}</StyledTableCell>
+                <StyledTableCell width='12%'>{t('phone_number')}</StyledTableCell>
+                <StyledTableCell width='8%'>{t('status')}</StyledTableCell>
+                <StyledTableCell width='7%'>{t('detail')}</StyledTableCell>
+                <StyledTableCell width='12%'>{t('add_member')}</StyledTableCell>
               </TableRow>
             </TableHead>
             <TableBody>
@@ -168,10 +168,10 @@ export default function ListResident() {
                         {user.status}
                       </span>
                     </StyledTableCell>
-                    <StyledTableCell colSpan={1} align='center'>
+                    <StyledTableCell>
                       <div className=''>
                         <button
-                          className='text-blue-500 cursor-pointer'
+                          className='text-blue-500 cursor-pointer ml-3'
                           onClick={() => {
                             handleDetail(user.id)
                           }}
@@ -186,9 +186,9 @@ export default function ListResident() {
                         </button>
                       </div>
                     </StyledTableCell>
-                    <StyledTableCell colSpan={1} align='center'>
+                    <StyledTableCell>
                       <button
-                        className='text-gray-500  cursor-pointer'
+                        className='text-gray-500 cursor-pointer ml-8'
                         onClick={() => {
                           handleAddMember(user.id)
                         }}
@@ -206,7 +206,7 @@ export default function ListResident() {
               ) : (
                 <TableRow>
                   <TableCell colSpan={9} align='center'>
-                    No users found
+                    {t('no_users_found')}
                   </TableCell>
                 </TableRow>
               )}

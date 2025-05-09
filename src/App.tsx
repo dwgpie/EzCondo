@@ -5,6 +5,7 @@ import { SearchProvider } from './contexts/SearchContext'
 import useRouteElements from './useRouteElements'
 import { getAccessTokenFromLocalStorage, getUserRoleFromLocalStorage } from './utils/auth'
 import { UserProvider } from './contexts/UserContext'
+import i18n from './i18n'
 
 function App() {
   const routeElements = useRouteElements()
@@ -12,6 +13,8 @@ function App() {
   const location = useLocation()
 
   useEffect(() => {
+    const lang = localStorage.getItem('lang') || 'en'
+    i18n.changeLanguage(lang)
     const token = getAccessTokenFromLocalStorage()
     const role = getUserRoleFromLocalStorage()
     const currentPath = location.pathname

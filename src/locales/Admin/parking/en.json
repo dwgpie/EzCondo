@@ -1,0 +1,17 @@
+{
+  "parking_create_success": "Set Parking created successfully!",
+  "parking_update_success": "Parking fee updated successfully!",
+  "motorbike": "Motorbike",
+  "car": "Car",
+  "price_per_motor": "Price Per Motor",
+  "price_per_car": "Price Per Car",
+  "submit": "Submit",
+  "parking_price": "Parking Price",
+  "price_per_motorbike": "Price Per Motorbike",
+  "no_data": "No data available",
+  "edit_parking_fee": "Edit Parking Fee",
+  "cancel": "Cancel",
+  "save_changes": "Save Changes",
+  "parking_create_error": "Parking price is set once only",
+  "something_went_wrong": "Something went wrong"
+}

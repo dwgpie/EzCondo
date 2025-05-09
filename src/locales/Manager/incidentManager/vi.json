@@ -1,0 +1,23 @@
+{
+  "incident_list": "Danh sách sự cố",
+  "id": "STT",
+  "full_name": "Họ và tên",
+  "apartment": "Căn hộ",
+  "type": "Loại sự cố",
+  "title": "Tiêu đề",
+  "date_of_report": "Ngày báo cáo",
+  "status": "Trạng thái",
+  "detail": "Chi tiết",
+  "no_incidents_found": "Không tìm thấy sự cố nào",
+  "pending": "Chờ xử lý",
+  "underway": "Đang xử lý",
+  "resolved": "Đã xử lý",
+  "detail_report": "Chi tiết báo cáo",
+  "image": "Hình ảnh",
+  "no_image_available": "Không có hình ảnh",
+  "email": "Email",
+  "phone_number": "Số điện thoại",
+  "cancel": "Hủy",
+  "update": "Cập nhật",
+  "data_loading": "Đang tải dữ liệu..."
+}

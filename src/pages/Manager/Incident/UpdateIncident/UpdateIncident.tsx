@@ -8,6 +8,7 @@ import { getUserById } from '~/apis/user.api'
 
 import LinearProgress from '@mui/material/LinearProgress'
 import useBufferProgress from '~/components/useBufferProgress'
+import { useTranslation } from 'react-i18next'
 
 interface IncidentForm {
   id?: string
@@ -35,6 +36,7 @@ interface IncidentImage {
 }
 
 export default function UpdateIncident() {
+  const { t } = useTranslation('incidentManager')
   const [loading, setLoading] = useState(false)
   const [images, setImage] = useState<IncidentImage[]>([])
   const { progress, buffer } = useBufferProgress(loading)
@@ -137,7 +139,7 @@ export default function UpdateIncident() {
                     d='M7.001 16.154q.328 0 .548-.222t.22-.549t-.221-.548t-.55-.22t-.547.222t-.22.549t.221.548t.55.22M7 13.23q.213 0 .356-.144t.143-.356V8.346q0-.212-.144-.356t-.357-.144t-.356.144t-.143.356v4.385q0 .212.144.356t.357.144m4 1.269h6q.213 0 .356-.144t.144-.357t-.144-.356T17 13.5h-6q-.213 0-.356.144t-.144.357t.144.356t.356.143m0-4h6q.213 0 .356-.144t.144-.357t-.144-.356T17 9.5h-6q-.213 0-.356.144t-.144.357t.144.356t.356.143M4.616 19q-.691 0-1.153-.462T3 17.384V6.616q0-.691.463-1.153T4.615 5h14.77q.69 0 1.152.463T21 6.616v10.769q0 .69-.463 1.153T19.385 19zm0-1h14.769q.23 0 .423-.192t.192-.424V6.616q0-.231-.192-.424T19.385 6H4.615q-.23 0-.423.192T4 6.616v10.769q0 .23.192.423t.423.192M4 18V6z'
                   />
                 </svg>
-                <span className='text-2xl text-[#4D5969] font-bold'>Detail report</span>
+                <span className='text-2xl text-[#4D5969] font-bold'>{t('detail_report')}</span>
               </div>
 
               <span
@@ -170,7 +172,7 @@ export default function UpdateIncident() {
                   d='M24.707 9.565L9.858 24.415a9 9 0 0 0 0 12.727v0a9 9 0 0 0 12.728 0l17.678-17.677a6 6 0 0 0 0-8.486v0a6 6 0 0 0-8.486 0L14.101 28.657a3 3 0 0 0 0 4.243v0a3 3 0 0 0 4.242 0l14.85-14.85'
                 />
               </svg>
-              <span className='text-2xl text-[#4D5969] font-bold'>Image</span>
+              <span className='text-2xl text-[#4D5969] font-bold'>{t('image')}</span>
             </div>
             <div className='flex gap-[15px] ml-[45px] flex-wrap'>
               {images.length > 0 ? (
@@ -195,7 +197,7 @@ export default function UpdateIncident() {
                       d='m72.837 72.837l362.667 362.667l-30.17 30.17L387.66 448H64V124.34l-21.333-21.332zm204.497 289.83L170.667 256l-64.001 101.12v48.213h238.327l-56.282-56.283zM448 64v323.661L313.796 253.457l27.538-27.537l63.999 64V106.666H167.005L124.339 64zM106.666 167.005v108.872l41.741-67.131zm202.668-17.671c17.673 0 32 14.327 32 32s-14.327 32-32 32s-32-14.327-32-32s14.327-32 32-32'
                     />
                   </svg>
-                  <p className='mt-2'>No image available</p>
+                  <p className='mt-2'>{t('no_image_available')}</p>
                 </div>
               )}
 
@@ -210,7 +212,7 @@ export default function UpdateIncident() {
 
           <div className='w-[27%] py-[20px] text-[14px]'>
             <div className='mb-[10px]'>
-              <p className='text-[#29313b] mb-[10px]'> Name</p>
+              <p className='text-[#29313b] mb-[10px]'>{t('full_name')}</p>
               <input
                 type='text'
                 value={user.fullName}
@@ -220,7 +222,7 @@ export default function UpdateIncident() {
             </div>
 
             <div className='mb-[20px]'>
-              <p className='text-[#29313b] mb-[10px]'> Email</p>
+              <p className='text-[#29313b] mb-[10px]'>{t('email')}</p>
               <input
                 type='text'
                 value={user.email}
@@ -230,7 +232,7 @@ export default function UpdateIncident() {
             </div>
 
             <div className='mb-[20px]'>
-              <p className='text-[#29313b] mb-[10px]'> Phone Number</p>
+              <p className='text-[#29313b] mb-[10px]'>{t('phone_number')}</p>
               <input
                 type='text'
                 value={user.phoneNumber}
@@ -240,7 +242,7 @@ export default function UpdateIncident() {
             </div>
 
             <div className='mb-[20px]'>
-              <p className='text-[#29313b] mb-[10px]'> Apartment</p>
+              <p className='text-[#29313b] mb-[10px]'>{t('apartment')}</p>
               <input
                 type='text'
                 value={user.apartmentNumber}
@@ -250,15 +252,15 @@ export default function UpdateIncident() {
             </div>
 
             <div className='mb-[20px]'>
-              <label className='block text-sm font-semibold my-2'>Status</label>
+              <label className='block text-sm font-semibold my-2'>{t('status')}</label>
               <select
                 value={statusIncident} // ưu tiên state đã chọn, nếu chưa thì lấy từ incident
                 onChange={(e) => setStatusIncident(e.target.value)}
                 className=' w-[85%]  h-10 pl-2 cursor-pointer outline-none border border-gray-300 focus:border-gray-500 rounded-sm focus:shadow-sm'
               >
-                <option value='pending'>Pending</option>
-                <option value='underway'>Underway</option>
-                <option value='resolved'>Resolved</option>
+                <option value='pending'>{t('pending')}</option>
+                <option value='underway'>{t('underway')}</option>
+                <option value='resolved'>{t('resolved')}</option>
               </select>
             </div>
 
@@ -267,24 +269,24 @@ export default function UpdateIncident() {
                 className='w-[120px]'
                 variant='contained'
                 onClick={() => (window.location.href = '/manager/list-incident')}
-                style={{ color: 'white', background: 'red', fontWeight: 'semi-bold' }} // Add this line
+                style={{ color: 'white', background: 'red', fontWeight: 'semi-bold' }}
               >
-                Cancel
+                {t('cancel')}
               </Button>
               <Button
                 className='w-[120px]'
                 variant='contained'
                 type='submit'
-                style={{ color: 'white', fontWeight: 'semi-bold' }} // Add this line
+                style={{ color: 'white', fontWeight: 'semi-bold' }}
                 onClick={handleUpdate}
               >
-                Update
+                {t('update')}
               </Button>
             </div>
           </div>
         </div>
       ) : (
-        <p>Data loading...</p>
+        <p>{t('data_loading')}</p>
       )}
     </div>
   )

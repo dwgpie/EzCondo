@@ -7,10 +7,12 @@ import Input from '~/components/Input'
 import LoadingOverlay from '~/components/LoadingOverlay'
 import { addApartment } from '~/apis/apartment.api'
 import { AddApartmentSchema, apartmentSchema } from '~/utils/rules'
+import { useTranslation } from 'react-i18next'
 
 type FormData = AddApartmentSchema
 
 export default function AddApartment() {
+  const { t } = useTranslation('apartment')
   const {
     register,
     handleSubmit,
@@ -60,11 +62,14 @@ export default function AddApartment() {
         description: formData.description
       })
 
-      toast.success('Add Apartment created successfully!', {
+      toast.success(t('add_apartment_success'), {
         style: { width: 'fit-content' }
       })
     } catch (error) {
-      console.error('API call failed:', error)
+      const err = error as Error
+      toast.error(t(err.message), {
+        style: { width: 'fit-content' }
+      })
     } finally {
       setProgress(100)
       setTimeout(() => {
@@ -85,7 +90,7 @@ export default function AddApartment() {
         <div className='grid grid-cols-4 gap-4'>
           <div>
             <label className='block text-sm font-semibold'>
-              Room Code
+              {t('room_code')}
               <span className='text-red-600 ml-1'>*</span>
             </label>
             <TextField
@@ -97,7 +102,7 @@ export default function AddApartment() {
           </div>
           <div>
             <label className='block text-sm font-semibold mb-[6px]'>
-              Floor
+              {t('floor')}
               <span className='text-red-600 ml-1'>*</span>
             </label>
             <Select
@@ -107,15 +112,15 @@ export default function AddApartment() {
               defaultValue='1'
               sx={{ width: '200px', backgroundColor: 'white' }}
             >
-              <MenuItem value='1'>Floor 1</MenuItem>
-              <MenuItem value='2'>Floor 2</MenuItem>
-              <MenuItem value='3'>Floor 3</MenuItem>
-              <MenuItem value='4'>Floor 4</MenuItem>
+              <MenuItem value='1'>{t('floor_1')}</MenuItem>
+              <MenuItem value='2'>{t('floor_2')}</MenuItem>
+              <MenuItem value='3'>{t('floor_3')}</MenuItem>
+              <MenuItem value='4'>{t('floor_4')}</MenuItem>
             </Select>
           </div>
           <div>
             <label className='block text-sm font-semibold'>
-              Apartment Number
+              {t('apartment_number')}
               <span className='text-red-600 ml-1'>*</span>
             </label>
             <TextField
@@ -129,7 +134,7 @@ export default function AddApartment() {
           </div>
           <div className=''>
             <label className='block text-sm font-semibold'>
-              Acreage
+              {t('acreage')}
               <span className='text-red-600 ml-1'>*</span>
             </label>
             <TextField
@@ -142,7 +147,7 @@ export default function AddApartment() {
         </div>
         <div className=''>
           <label className='block text-sm font-semibold'>
-            Description
+            {t('description')}
             <span className='text-red-600 ml-1'>*</span>
           </label>
           <Input
@@ -160,7 +165,7 @@ export default function AddApartment() {
             variant='contained'
             style={{ color: 'white', background: '#2976ce', fontWeight: 'semi-bold' }}
           >
-            Submit
+            {t('submit')}
           </Button>
         </div>
       </form>

@@ -9,6 +9,7 @@ import { addElectric, getElectric, editElectric, deleteElectric } from '~/apis/s
 import { electricitySchema } from '~/utils/rules'
 import LinearProgress from '@mui/material/LinearProgress'
 import useBufferProgress from '~/components/useBufferProgress'
+import { useTranslation } from 'react-i18next'
 
 interface FormData {
   id?: string
@@ -23,6 +24,7 @@ export default function Electricity() {
   const [openEditDialog, setOpenEditDialog] = useState(false)
   const [editingItem, setEditingItem] = useState<FormData | null>(null)
   const [electric, setElectric] = useState<FormData[]>([])
+  const { t } = useTranslation('electric')
 
   const {
     register,
@@ -82,7 +84,7 @@ export default function Electricity() {
         pricePerKWh: formData.pricePerKWh
       })
 
-      toast.success('Set Electricity created successfully!', {
+      toast.success(t('electricity_create_success'), {
         style: { width: 'fit-content' }
       })
       getElectricMutation.mutate() // Refresh the list after adding new item
@@ -115,7 +117,7 @@ export default function Electricity() {
           maxKWh: editingItem.maxKWh,
           pricePerKWh: editingItem.pricePerKWh
         })
-        toast.success('Electricity fee updated successfully!', {
+        toast.success(t('electricity_update_success'), {
           style: { width: 'fit-content' }
         })
         handleCloseEditDialog()
@@ -128,27 +130,27 @@ export default function Electricity() {
 
   const handleDelete = (id?: string) => {
     if (!id) {
-      toast.error('Invalid ID. Unable to delete.')
+      toast.error(t('invalid_id'))
       return
     }
 
     Swal.fire({
-      title: 'Are you sure you want to delete?',
-      text: 'This action cannot be undone!',
+      title: t('delete_confirm_title'),
+      text: t('delete_confirm_text'),
       icon: 'warning',
       showCancelButton: true,
-      confirmButtonText: 'Delete',
-      cancelButtonText: 'Cancel',
+      confirmButtonText: t('delete'),
+      cancelButtonText: t('cancel'),
       confirmButtonColor: '#d33',
       cancelButtonColor: '#3085d6'
     }).then(async (result) => {
       if (result.isConfirmed) {
         try {
           await deleteElectric(id) // Gọi API với ID hợp lệ
-          Swal.fire('Deleted!', 'The electricity has been successfully deleted.', 'success')
+          Swal.fire(t('deleted'), t('electricity_deleted_success'), 'success')
           getElectricMutation.mutate()
         } catch (error) {
-          Swal.fire('Error!', 'Unable to delete the electricity!', 'error')
+          Swal.fire('Error!', t('electricity_delete_fail'), 'error')
           console.error('Error deleting electricity:', error)
         }
       }
@@ -164,7 +166,7 @@ export default function Electricity() {
       )}
       <form className='rounded' noValidate onSubmit={onSubmit}>
         <div className=''>
-          <h2 className='text-2xl font-semibold text-gray-500'>Electricity</h2>
+          <h2 className='text-2xl font-semibold text-gray-500'>{t('electricity')}</h2>
           <div className='w-full mt-10 px-10'>
             <Slider
               value={[minKWh, maxKWh]}
@@ -189,7 +191,7 @@ export default function Electricity() {
             <div className='flex justify-between gap-2.5 mt-3'>
               <div>
                 <label className='block text-sm font-semibold mb-1'>
-                  Min KWh
+                  {t('min_kwh')}
                   <span className='text-red-600 ml-1'>*</span>
                 </label>
                 <TextField
@@ -201,7 +203,7 @@ export default function Electricity() {
               </div>
               <div className='flex flex-col items-start'>
                 <label className='block text-sm font-semibold mb-1'>
-                  Max KWh
+                  {t('max_kwh')}
                   <span className='text-red-600 ml-1'>*</span>
                 </label>
                 <TextField
@@ -213,7 +215,7 @@ export default function Electricity() {
               </div>
               <div>
                 <label className='block text-sm font-semibold mb-1'>
-                  Price Per KWh
+                  {t('price_per_kwh')}
                   <span className='text-red-600 ml-1'>*</span>
                 </label>
                 <TextField
@@ -233,30 +235,30 @@ export default function Electricity() {
             variant='contained'
             style={{ color: 'white', background: '#2976ce', fontWeight: 'semi-bold' }}
           >
-            Submit
+            {t('submit')}
           </Button>
         </div>
-        <h2 className='text-2xl font-semibold text-gray-500 pb-1'>Electricity Price</h2>
+        <h2 className='text-2xl font-semibold text-gray-500 pb-1'>{t('electricity_price')}</h2>
         {electric.length > 0 ? (
           electric.map((electric) => (
             <div key={electric.id} className='flex gap-9 mt-3 items-center'>
               <div className=''>
                 <label className='block text-sm font-semibold mb-1'>
-                  Min KWh
+                  {t('min_kwh')}
                   <span className='text-red-600 ml-1'>*</span>
                 </label>
                 <TextField name='electric' type='text' value={electric.minKWh} sx={{ backgroundColor: 'white' }} />
               </div>
               <div className=''>
                 <label className='block text-sm font-semibold mb-1'>
-                  Max KWh
+                  {t('max_kwh')}
                   <span className='text-red-600 ml-1'>*</span>
                 </label>
                 <TextField name='electric' type='text' value={electric.maxKWh} sx={{ backgroundColor: 'white' }} />
               </div>
               <div className=''>
                 <label className='block text-sm font-semibold mb-1'>
-                  Price Per KWh
+                  {t('price_per_kwh')}
                   <span className='text-red-600 ml-1'>*</span>
                 </label>
                 <TextField name='electric' type='text' value={electric.pricePerKWh} sx={{ backgroundColor: 'white' }} />
@@ -305,18 +307,18 @@ export default function Electricity() {
                 <path d='M11 3c7 0 7 3 7 3s0 3-7 3s-7-3-7-3s0-3 7-3m0 18c-7 0-7-3-7-3v-6' />
               </g>
             </svg>
-            <p className='mt-2'>No data available</p>
+            <p className='mt-2'>{t('no_data')}</p>
           </div>
         )}
 
         <Dialog open={openEditDialog} onClose={handleCloseEditDialog} disableEnforceFocus disableRestoreFocus>
           <DialogTitle sx={{ color: '#1976d3', fontWeight: 'bold', fontSize: '22px' }}>
-            Edit Electricity Fee
+            {t('edit_electricity_fee')}
           </DialogTitle>
           <DialogContent>
             <div className='flex flex-col gap-4 mt-4'>
               <TextField
-                label='Min KWh'
+                label={t('min_kwh')}
                 type='number'
                 value={editingItem?.minKWh || ''}
                 onChange={(e) => setEditingItem((prev) => (prev ? { ...prev, minKWh: Number(e.target.value) } : null))}
@@ -324,7 +326,7 @@ export default function Electricity() {
                 sx={{ backgroundColor: 'white' }}
               />
               <TextField
-                label='Max KWh'
+                label={t('max_kwh')}
                 type='number'
                 value={editingItem?.maxKWh || ''}
                 onChange={(e) => setEditingItem((prev) => (prev ? { ...prev, maxKWh: Number(e.target.value) } : null))}
@@ -332,7 +334,7 @@ export default function Electricity() {
                 sx={{ backgroundColor: 'white' }}
               />
               <TextField
-                label='Price Per KWh'
+                label={t('price_per_kwh')}
                 type='number'
                 value={editingItem?.pricePerKWh || ''}
                 onChange={(e) =>
@@ -346,9 +348,9 @@ export default function Electricity() {
             </div>
           </DialogContent>
           <DialogActions>
-            <Button onClick={handleCloseEditDialog}>Cancel</Button>
+            <Button onClick={handleCloseEditDialog}>{t('cancel')}</Button>
             <Button onClick={handleEditSubmit} variant='contained' color='primary'>
-              Save Changes
+              {t('save_changes')}
             </Button>
           </DialogActions>
         </Dialog>

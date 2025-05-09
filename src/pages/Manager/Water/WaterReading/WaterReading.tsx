@@ -19,6 +19,7 @@ import CloudUploadIcon from '@mui/icons-material/CloudUpload'
 import FileDownloadIcon from '@mui/icons-material/FileDownload'
 import LinearProgress from '@mui/material/LinearProgress'
 import useBufferProgress from '~/components/useBufferProgress'
+import { useTranslation } from 'react-i18next'
 
 interface UploadFormData {
   file: FileList
@@ -74,6 +75,7 @@ export default function WaterReading() {
   const totalPages = Math.ceil(filteredWaters.length / pageSize)
   const [excelFileName, setExcelFileName] = useState<string | null>(null)
   const fileInputExcelRef = useRef<HTMLInputElement | null>(null)
+  const { t } = useTranslation('electricManager')
 
   const handleExcelChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const file = event.target.files?.[0]
@@ -127,7 +129,10 @@ export default function WaterReading() {
         style: { width: 'fit-content' }
       })
     } catch (error) {
-      console.error('API call failed:', error)
+      const err = error as Error
+      toast.error(t(err.message), {
+        style: { width: 'fit-content' }
+      })
     }
   }
 
@@ -161,11 +166,11 @@ export default function WaterReading() {
   const getStatusColor = (status: string) => {
     switch (status.toLowerCase()) {
       case 'completed':
-        return 'bg-green-500 text-white'
+        return 'bg-gradient-to-r from-green-200 to-green-300 text-green-700 font-semibold rounded-lg shadow-sm'
       case 'pending':
-        return 'bg-orange-500 text-white'
+        return 'bg-gradient-to-r from-yellow-200 to-yellow-300 text-yellow-700 font-semibold rounded-lg shadow-sm'
       case 'overdue':
-        return 'bg-red-500 text-white'
+        return 'bg-gradient-to-r from-red-200 to-red-300 text-red-700 font-semibold rounded-lg shadow-sm'
     }
   }
 
@@ -199,7 +204,7 @@ export default function WaterReading() {
       )}
       <form onSubmit={onSubmit} className='mt-2'>
         <div className='flex justify-between items-center'>
-          <h2 className='text-xl font-semibold text-gray-500'>Water Reading Management</h2>
+          <h2 className='text-xl font-semibold text-gray-500'>{t('water_reading_management')}</h2>
           <div className='flex gap-3 mb-3'>
             <Button
               onClick={handleDownload}
@@ -218,7 +223,7 @@ export default function WaterReading() {
                 borderRadius: 2
               }}
             >
-              Export Template
+              {t('export_template')}
             </Button>
 
             <Button
@@ -238,7 +243,7 @@ export default function WaterReading() {
                 borderRadius: 2
               }}
             >
-              Import
+              {t('import')}
             </Button>
           </div>
         </div>
@@ -253,8 +258,8 @@ export default function WaterReading() {
           ) : (
             <>
               <img src='/imgs/logo/excel.png' alt='excel' className='w-11' />
-              <p className='text-blue-800 font-semibold text-[13px] mt-1'>Upload Excel File</p>
-              <p className='text-gray-500 text-[12px] text-center'>Drag & drop .xlsx or .xls files</p>
+              <p className='text-blue-800 font-semibold text-[13px] mt-1'>{t('upload_excel_file')}</p>
+              <p className='text-gray-500 text-[12px] text-center'>{t('drag_drop_excel')}</p>
             </>
           )}
           <input
@@ -273,15 +278,15 @@ export default function WaterReading() {
           <Table sx={{ minWidth: 700 }} aria-label='customized table'>
             <TableHead>
               <TableRow>
-                <StyledTableCell width='2%'>ID</StyledTableCell>
-                <StyledTableCell width='16%'>Name</StyledTableCell>
-                <StyledTableCell width='16%'>Apartment Number</StyledTableCell>
-                <StyledTableCell width='10%'>Phone</StyledTableCell>
-                <StyledTableCell width='17%'>Reading Pre Date</StyledTableCell>
-                <StyledTableCell width='17%'>Reading Current Date</StyledTableCell>
-                <StyledTableCell width='8%'>Consumption</StyledTableCell>
-                <StyledTableCell width='0%'>Status</StyledTableCell>
-                <StyledTableCell width='0%'>Detail</StyledTableCell>
+                <StyledTableCell width='2%'>{t('id')}</StyledTableCell>
+                <StyledTableCell width='16%'>{t('name')}</StyledTableCell>
+                <StyledTableCell width='16%'>{t('apartment_number')}</StyledTableCell>
+                <StyledTableCell width='12%'>{t('phone')}</StyledTableCell>
+                <StyledTableCell width='18%'>{t('reading_pre_date')}</StyledTableCell>
+                <StyledTableCell width='18%'>{t('reading_current_date')}</StyledTableCell>
+                <StyledTableCell width='8%'>{t('consumption')}</StyledTableCell>
+                <StyledTableCell width='0%'>{t('status')}</StyledTableCell>
+                <StyledTableCell width='7%'>{t('detail')}</StyledTableCell>
               </TableRow>
             </TableHead>
             <TableBody>
@@ -343,7 +348,7 @@ export default function WaterReading() {
               ) : (
                 <TableRow>
                   <TableCell colSpan={8} align='center'>
-                    No waters found.
+                    {t('no_waters_found')}
                   </TableCell>
                 </TableRow>
               )}

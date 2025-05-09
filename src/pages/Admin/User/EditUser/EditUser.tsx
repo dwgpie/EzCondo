@@ -12,6 +12,7 @@ import { Button } from '@mui/material'
 import InputEdit from '~/components/InputEdit'
 import { Link } from 'react-router-dom'
 import LoadingOverlay from '~/components/LoadingOverlay'
+import { useTranslation } from 'react-i18next'
 
 interface formData {
   id?: string
@@ -48,6 +49,7 @@ export default function EditUser() {
   const fileInputBackRef = useRef<HTMLInputElement | null>(null)
   const [loading, setLoading] = useState(false)
   const [progress, setProgress] = useState(0)
+  const { t } = useTranslation('user')
 
   const handleImageChange = (event: React.ChangeEvent<HTMLInputElement>, type: 'front' | 'back') => {
     const file = event.target.files?.[0]
@@ -151,7 +153,7 @@ export default function EditUser() {
         frontImage: formData.frontImage,
         backImage: formData.backImage
       })
-      toast.success('User updated successfully!', {
+      toast.success(t('user_update_success'), {
         style: { width: 'fit-content' }
       })
     } catch (error) {
@@ -174,13 +176,13 @@ export default function EditUser() {
   return (
     <div className='mx-5 mt-5 mb-5 py-3 px-6 bg-gradient-to-br from-white via-white to-blue-100 drop-shadow-md rounded-xl'>
       {loading && <LoadingOverlay value={progress} />}
-      <h2 className='text-xl mb-4 text-gray-500 font-semibold'>Account Information</h2>
+      <h2 className='text-xl mb-4 text-gray-500 font-semibold'>{t('account_information')}</h2>
       {user ? (
         <form className='rounded' noValidate onSubmit={onSubmit}>
           <div className='grid grid-cols-4 gap-4'>
             <div className=''>
               <label className='block text-sm font-semibold'>
-                Name
+                {t('name')}
                 <span className='text-red-600 ml-1'>*</span>
               </label>
               <InputEdit
@@ -194,7 +196,7 @@ export default function EditUser() {
             </div>
             <div className=''>
               <label className='block text-sm font-semibold'>
-                Phone number
+                {t('phone_number')}
                 <span className='text-red-600 ml-1'>*</span>
               </label>
               <InputEdit
@@ -208,7 +210,7 @@ export default function EditUser() {
             </div>
             <div className=''>
               <label className='block text-sm font-semibold'>
-                Email
+                {t('email')}
                 <span className='text-red-600 ml-1'>*</span>
               </label>
               <InputEdit
@@ -222,7 +224,7 @@ export default function EditUser() {
             </div>
             <div className=''>
               <label className='block text-sm font-semibold'>
-                Date of birth
+                {t('date_of_birth')}
                 <span className='text-red-600 ml-1'>*</span>
               </label>
               <InputEdit
@@ -238,7 +240,7 @@ export default function EditUser() {
           <div className='grid grid-cols-4 gap-4'>
             <div className='mt-3'>
               <label className='block text-sm font-semibold'>
-                Gender
+                {t('gender')}
                 <span className='text-red-600 ml-1'>*</span>
               </label>
               <select
@@ -246,14 +248,14 @@ export default function EditUser() {
                 defaultValue={user.gender}
                 className='mt-1 w-full py-[13px] pl-2 outline-none border border-gray-300 focus:border-gray-500 rounded-sm focus:shadow-sm'
               >
-                <option value='female'>Female</option>
-                <option value='male'>Male</option>
-                <option value='other'>Other</option>
+                <option value='female'>{t('female')}</option>
+                <option value='male'>{t('male')}</option>
+                <option value='other'>{t('other')}</option>
               </select>
             </div>
             <div className='mt-3'>
               <label className='block text-sm font-semibold'>
-                Status
+                {t('status')}
                 <span className='text-red-600 ml-1'>*</span>
               </label>
               <select
@@ -261,12 +263,12 @@ export default function EditUser() {
                 defaultValue={user.status}
                 className='mt-1 w-full py-[13px] pl-2 outline-none border border-gray-300 focus:border-gray-500 rounded-sm focus:shadow-sm'
               >
-                <option value='active'>Active</option>
-                <option value='inactive'>Inactive</option>
+                <option value='active'>{t('active')}</option>
+                <option value='inactive'>{t('inactive')}</option>
               </select>
             </div>
             <div className='mt-3'>
-              <label className='block text-sm font-semibold'>Role</label>
+              <label className='block text-sm font-semibold'>{t('role')}</label>
               <InputEdit
                 name='roleName'
                 type='text'
@@ -277,7 +279,7 @@ export default function EditUser() {
               />
             </div>
             <div className='mt-3'>
-              <label className='block text-sm font-semibold'>Apartment</label>
+              <label className='block text-sm font-semibold'>{t('apartment')}</label>
               <InputEdit
                 name='apartmentNumber'
                 type='text'
@@ -291,11 +293,11 @@ export default function EditUser() {
           </div>
 
           <div className='mt-3'>
-            <h3 className='text-lg mb-3 font-semibold text-gray-500'>Citizen Identity Number</h3>
+            <h3 className='text-lg mb-3 font-semibold text-gray-500'>{t('citizen_identity_number')}</h3>
             <div className='grid grid-cols-3 gap-4'>
               <div className=''>
                 <label className='block text-sm font-semibold'>
-                  No
+                  {t('no')}
                   <span className='text-red-600 ml-1'>*</span>
                 </label>
                 <InputEdit
@@ -309,7 +311,7 @@ export default function EditUser() {
               </div>
               <div className=''>
                 <label className='block text-sm font-semibold'>
-                  Date of issue
+                  {t('date_of_issue')}
                   <span className='text-red-600 ml-1'>*</span>
                 </label>
                 <InputEdit
@@ -323,7 +325,7 @@ export default function EditUser() {
               </div>
               <div className=''>
                 <label className='block text-sm font-semibold'>
-                  Date of expiry
+                  {t('date_of_expiry')}
                   <span className='text-red-600 ml-1'>*</span>
                 </label>
                 <InputEdit
@@ -339,7 +341,7 @@ export default function EditUser() {
             <div className='grid grid-cols-2 gap-4 mt-4'>
               <div>
                 <label className='block text-sm font-semibold'>
-                  Font Image
+                  {t('front_image')}
                   <span className='text-red-600 ml-1'>*</span>
                 </label>
                 <div
@@ -357,8 +359,8 @@ export default function EditUser() {
                   ) : (
                     <>
                       <CloudUploadIcon className='text-gray-700 text-4xl' />
-                      <p className='text-gray-700 font-semibold'>Upload a File</p>
-                      <p className='text-gray-500 text-sm'>Drag and drop files here</p>
+                      <p className='text-gray-700 font-semibold'>{t('upload_file')}</p>
+                      <p className='text-gray-500 text-sm'>{t('drag_and_drop')}</p>
                     </>
                   )}
                   <input
@@ -375,7 +377,7 @@ export default function EditUser() {
 
               <div>
                 <label className='block text-sm font-semibold'>
-                  Back Image
+                  {t('back_image')}
                   <span className='text-red-600 ml-1'>*</span>
                 </label>
                 <div
@@ -393,8 +395,8 @@ export default function EditUser() {
                   ) : (
                     <>
                       <CloudUploadIcon className='text-gray-700 text-4xl' />
-                      <p className='text-gray-700 font-semibold'>Upload a File</p>
-                      <p className='text-gray-500 text-sm'>Drag and drop files here</p>
+                      <p className='text-gray-700 font-semibold'>{t('upload_file')}</p>
+                      <p className='text-gray-500 text-sm'>{t('drag_and_drop')}</p>
                     </>
                   )}
                   <input
@@ -413,7 +415,7 @@ export default function EditUser() {
           <div className='flex justify-end gap-4 mt-3'>
             <Link to='/admin/list-user'>
               <Button variant='contained' style={{ color: 'white', background: 'red', fontWeight: 'semi-bold' }}>
-                Cancel
+                {t('cancel')}
               </Button>
             </Link>
             <Button
@@ -421,12 +423,12 @@ export default function EditUser() {
               variant='contained'
               style={{ color: 'white', background: '#2976ce', fontWeight: 'semi-bold' }}
             >
-              Submit
+              {t('save_changes')}
             </Button>
           </div>
         </form>
       ) : (
-        <p>Loading data...</p>
+        <p>{t('loading_data')}</p>
       )}
     </div>
   )

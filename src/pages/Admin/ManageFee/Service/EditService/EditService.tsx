@@ -11,6 +11,7 @@ import { Button, Checkbox, TextField } from '@mui/material'
 import { Link } from 'react-router-dom'
 import InputEdit from '~/components/InputEdit'
 import LoadingOverlay from '~/components/LoadingOverlay'
+import { useTranslation } from 'react-i18next'
 
 interface formData {
   id?: string
@@ -43,6 +44,7 @@ export default function EditService() {
   const [service, setService] = useState<formData | null>(null)
   const [loading, setLoading] = useState(false)
   const [progress, setProgress] = useState(0)
+  const { t } = useTranslation('service')
 
   const handleDeleteImage = (index: number) => {
     // Remove image URL and file at the specified index
@@ -164,7 +166,7 @@ export default function EditService() {
       })
       setImages([])
       setFiles([])
-      toast.success('Service updated successfully!', {
+      toast.success(t('service_update_success'), {
         style: { width: 'fit-content' }
       })
       setTimeout(() => {
@@ -189,7 +191,7 @@ export default function EditService() {
             <div>
               <div className=''>
                 <label className='block text-sm font-semibold'>
-                  Name
+                  {t('name')}
                   <span className='text-red-600 ml-1'>*</span>
                 </label>
                 <InputEdit
@@ -203,7 +205,7 @@ export default function EditService() {
               </div>
               <div className=''>
                 <label className='block text-sm font-semibold mb-1'>
-                  Description
+                  {t('description')}
                   <span className='text-red-600 ml-1'>*</span>
                 </label>
                 <InputEdit
@@ -218,7 +220,7 @@ export default function EditService() {
               </div>
               <div className=''>
                 <label className='block text-sm font-semibold'>
-                  Status
+                  {t('status')}
                   <span className='text-red-600 ml-1'>*</span>
                 </label>
                 <select
@@ -226,19 +228,13 @@ export default function EditService() {
                   defaultValue={service.status}
                   className='mt-1 w-full py-4 pl-2 cursor-pointer outline-none border border-gray-300 focus:border-gray-500 rounded-sm focus:shadow-sm'
                 >
-                  <option value='active'>Active</option>
-                  <option value='inactive'>Inactive</option>
+                  <option value='active'>{t('active')}</option>
+                  <option value='inactive'>{t('inactive')}</option>
                 </select>
               </div>
-              <div className='flex mt-5'>
+              <div className='flex gap-13 mt-4'>
                 <div>
-                  <div className='flex items-center gap-11'>
-                    <label className='block text-sm font-semibold'>Timestamp</label>
-                    <label className='block text-sm font-semibold ml-3'>
-                      Price
-                      <span className='text-red-600 ml-1'>*</span>
-                    </label>
-                  </div>
+                  <label className='block text-sm font-semibold'>{t('timestamp')}</label>
                   <div className='flex items-center mt-2'>
                     <Checkbox
                       {...register('typeOfMonth')}
@@ -250,19 +246,9 @@ export default function EditService() {
                         }
                       }}
                     />
-                    <div className='mr-10'>Month</div>
-                    <TextField
-                      type='number'
-                      disabled={!watch('typeOfMonth', service.typeOfMonth)}
-                      {...register('priceOfMonth', { valueAsNumber: true })}
-                      variant='outlined'
-                      size='small'
-                      sx={{ width: '150px' }}
-                      defaultValue={service.priceOfMonth}
-                    />
-                    <div className='mt-1 ml-3 text-xs text-red-500 min-h-4'>{errors.priceOfMonth?.message}</div>
+                    <div className=''>{t('month')}</div>
                   </div>
-                  <div className='flex items-center mt-2'>
+                  <div className='flex items-center mt-4'>
                     <Checkbox
                       {...register('typeOfYear')}
                       checked={watch('typeOfYear', service.typeOfYear)}
@@ -274,7 +260,27 @@ export default function EditService() {
                         }
                       }}
                     />
-                    <div className='mr-[54px]'>Year</div>
+                    <div className=''>{t('year')}</div>
+                  </div>
+                </div>
+                <div>
+                  <label className='block text-sm font-semibold'>
+                    {t('price')}
+                    <span className='text-red-600 ml-1'>*</span>
+                  </label>
+                  <div className='flex items-center mt-2 mb-5'>
+                    <TextField
+                      type='number'
+                      disabled={!watch('typeOfMonth', service.typeOfMonth)}
+                      {...register('priceOfMonth', { valueAsNumber: true })}
+                      variant='outlined'
+                      size='small'
+                      sx={{ width: '150px' }}
+                      defaultValue={service.priceOfMonth}
+                    />
+                    <div className='mt-1 ml-4 text-xs text-red-500 min-h-4'>{errors.priceOfMonth?.message}</div>
+                  </div>
+                  <div className='flex items-center'>
                     <TextField
                       type='number'
                       disabled={!watch('typeOfYear', service.typeOfYear)}
@@ -284,14 +290,14 @@ export default function EditService() {
                       sx={{ width: '150px' }}
                       defaultValue={service.priceOfYear}
                     />
-                    <div className='mt-1 ml-3 text-xs text-red-500 min-h-4'>{errors.priceOfYear?.message}</div>
+                    <div className='mt-1 ml-4 text-xs text-red-500 min-h-4'>{errors.priceOfYear?.message}</div>
                   </div>
                 </div>
               </div>
             </div>
             <div>
               <label className='block text-sm font-semibold'>
-                Images
+                {t('images')}
                 <span className='text-red-600 ml-1'>*</span>
               </label>
               <div
@@ -345,7 +351,7 @@ export default function EditService() {
           <div className='flex justify-end gap-4 mt-3'>
             <Link to='/admin/list-service'>
               <Button variant='contained' style={{ color: 'white', background: 'red', fontWeight: 'semi-bold' }}>
-                Cancel
+                {t('cancel')}
               </Button>
             </Link>
             <Button
@@ -353,12 +359,12 @@ export default function EditService() {
               variant='contained'
               style={{ color: 'white', background: '#2976ce', fontWeight: 'semi-bold' }}
             >
-              Submit
+              {t('submit_save')}
             </Button>
           </div>
         </form>
       ) : (
-        <p>Loading data...</p>
+        <p>{t('loading_data')}</p>
       )}
     </div>
   )

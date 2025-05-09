@@ -10,6 +10,8 @@ import PopupState, { bindTrigger, bindPopover } from 'material-ui-popup-state'
 import * as signalR from '@microsoft/signalr'
 import { format, formatDistanceToNow, isToday } from 'date-fns'
 import { useUser } from '../../contexts/UserContext'
+import LanguageSwitcher from '../LanguageSwitcher'
+import { useTranslation } from 'react-i18next'
 
 interface Notification {
   id: string
@@ -21,6 +23,7 @@ interface Notification {
 }
 
 export default function Header() {
+  const { t } = useTranslation('profile')
   const [listNotification, setListNotification] = useState<Notification[]>([])
   const [isReadAll, setIsReadAll] = useState<string[]>([])
   const [type, setType] = useState('')
@@ -227,6 +230,9 @@ export default function Header() {
             focus:outline-none focus:ring-1 focus:ring-blue-400 focus:border-blue-400 
             transition duration-200 ease-in-out hover:border-blue-400'
           />
+          <div className='ml-5'>
+            <LanguageSwitcher />
+          </div>
         </div>
 
         <div className='flex gap-[20px] items-center transition-all duration-300'>
@@ -479,7 +485,7 @@ export default function Header() {
                           }`}
                         />
                       </div>
-                      <span className='ml-3 my-2'>Profile</span>
+                      <span className='ml-3 my-2'>{t('profile')}</span>
                     </Link>
                     <hr className='border-t border-gray-300 w-full' />
                     <Link
@@ -498,7 +504,7 @@ export default function Header() {
                           d='M12 10v4m-1.732-3l3.464 2m0-2l-3.465 2m-3.535-3v4M5 11l3.464 2m0-2L5 13m12.268-3v4m-1.732-3L19 13m0-2l-3.465 2M22 12c0 3.771 0 5.657-1.172 6.828S17.771 20 14 20h-4c-3.771 0-5.657 0-6.828-1.172S2 15.771 2 12s0-5.657 1.172-6.828S6.229 4 10 4h4c3.771 0 5.657 0 6.828 1.172c.654.653.943 1.528 1.07 2.828'
                         />
                       </svg>
-                      <span className='ml-4 my-2'>Password</span>
+                      <span className='ml-4 my-2'>{t('password')}</span>
                     </Link>
                     <hr className='border-t border-gray-300 w-full' />
                     <div
@@ -518,7 +524,7 @@ export default function Header() {
                           d='M20 12h-9.5m7.5 3l3-3l-3-3m-5-2V6a2 2 0 0 0-2-2H6a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h5a2 2 0 0 0 2-2v-1'
                         />
                       </svg>
-                      <span className='ml-4 my-2'>Logout</span>
+                      <span className='ml-4 my-2'>{t('logout')}</span>
                     </div>
                   </div>
                 </Popover>

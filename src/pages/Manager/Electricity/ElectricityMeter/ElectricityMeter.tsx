@@ -18,6 +18,7 @@ import CloudUploadIcon from '@mui/icons-material/CloudUpload'
 import FileDownloadIcon from '@mui/icons-material/FileDownload'
 import LinearProgress from '@mui/material/LinearProgress'
 import useBufferProgress from '~/components/useBufferProgress'
+import { useTranslation } from 'react-i18next'
 
 interface UploadFormData {
   file: FileList
@@ -69,6 +70,7 @@ export default function ElectricityMeter() {
   const totalPages = Math.ceil(filteredElectrics.length / pageSize)
   const [excelFileName, setExcelFileName] = useState<string | null>(null)
   const fileInputExcelRef = useRef<HTMLInputElement | null>(null)
+  const { t } = useTranslation('electricManager')
 
   const handleExcelChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const file = event.target.files?.[0]
@@ -119,7 +121,10 @@ export default function ElectricityMeter() {
         style: { width: 'fit-content' }
       })
     } catch (error) {
-      console.error('API call failed:', error)
+      const err = error as Error
+      toast.error(t(err.message), {
+        style: { width: 'fit-content' }
+      })
     }
   }
 
@@ -176,7 +181,7 @@ export default function ElectricityMeter() {
       )}
       <form onSubmit={onSubmit} className='mt-2'>
         <div className='flex justify-between items-center'>
-          <h2 className='text-xl font-semibold text-gray-500'>Electricity Meter Management</h2>
+          <h2 className='text-xl font-semibold text-gray-500'>{t('electricity_meter_management')}</h2>
           <div className='flex gap-3 mb-3'>
             <Button
               onClick={handleDownload}
@@ -195,7 +200,7 @@ export default function ElectricityMeter() {
                 borderRadius: 2
               }}
             >
-              Export Template
+              {t('export_template')}
             </Button>
 
             <Button
@@ -215,7 +220,7 @@ export default function ElectricityMeter() {
                 borderRadius: 2
               }}
             >
-              Import
+              {t('import')}
             </Button>
           </div>
         </div>
@@ -231,8 +236,8 @@ export default function ElectricityMeter() {
           ) : (
             <>
               <img src='/imgs/logo/excel.png' alt='excel' className='w-11' />
-              <p className='text-blue-800 font-semibold text-[13px] mt-1'>Upload Excel File</p>
-              <p className='text-gray-500 text-[12px] text-center'>Drag & drop .xlsx or .xls files</p>
+              <p className='text-blue-800 font-semibold text-[13px] mt-1'>{t('upload_excel_file')}</p>
+              <p className='text-gray-500 text-[12px] text-center'>{t('drag_drop_excel')}</p>
             </>
           )}
           <input
@@ -250,10 +255,10 @@ export default function ElectricityMeter() {
           <Table sx={{ minWidth: 700 }} aria-label='customized table'>
             <TableHead>
               <TableRow>
-                <StyledTableCell width='5%'>ID</StyledTableCell>
-                <StyledTableCell width='13%'>Aparment Number</StyledTableCell>
-                <StyledTableCell width='13%'>Metter Number</StyledTableCell>
-                <StyledTableCell width='8%'>Installation Date</StyledTableCell>
+                <StyledTableCell width='5%'>{t('id')}</StyledTableCell>
+                <StyledTableCell width='13%'>{t('apartment_number')}</StyledTableCell>
+                <StyledTableCell width='13%'>{t('meter_number')}</StyledTableCell>
+                <StyledTableCell width='8%'>{t('installation_date')}</StyledTableCell>
               </TableRow>
             </TableHead>
             <TableBody>
@@ -280,7 +285,7 @@ export default function ElectricityMeter() {
               ) : (
                 <TableRow>
                   <TableCell colSpan={9} align='center'>
-                    No electrics found
+                    {t('no_electrics_found')}
                   </TableCell>
                 </TableRow>
               )}

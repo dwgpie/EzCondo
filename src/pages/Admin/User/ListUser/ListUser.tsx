@@ -15,6 +15,7 @@ import { SearchContext } from '~/contexts/SearchContext'
 import Pagination from '@mui/material/Pagination'
 import LinearProgress from '@mui/material/LinearProgress'
 import useBufferProgress from '~/components/useBufferProgress'
+import { useTranslation } from 'react-i18next'
 
 interface User {
   id: string
@@ -62,6 +63,7 @@ export default function ListUser() {
   const [page, setPage] = useState(1)
   const pageSize = 6
   const totalPages = Math.ceil(filteredUsers.length / pageSize)
+  const { t } = useTranslation('user')
 
   const handleButtonClick = (buttonName: string | string[]) => {
     setActiveButton(Array.isArray(buttonName) ? 'all' : buttonName)
@@ -107,23 +109,22 @@ export default function ListUser() {
 
   const handleDelete = (id: string) => {
     Swal.fire({
-      title: 'Are you sure you want to delete?',
-      text: 'This action cannot be undone!',
+      title: t('delete_confirm_title'),
+      text: t('delete_confirm_text'),
       icon: 'warning',
       showCancelButton: true,
-      confirmButtonText: 'Delete',
-      cancelButtonText: 'Cancel',
+      confirmButtonText: t('delete'),
+      cancelButtonText: t('cancel'),
       confirmButtonColor: '#d33',
       cancelButtonColor: '#3085d6'
     }).then((result) => {
       if (result.isConfirmed) {
         try {
           deleteUser(id) // Gọi API xóa user
-          Swal.fire('Deleted!', 'The user has been successfully deleted.', 'success')
-          // Cập nhật danh sách user (nếu bạn lưu users trong state)
+          Swal.fire(t('deleted'), t('user_deleted_success'), 'success')
           setListUser(listUser.filter((user) => user.id !== id))
         } catch (error) {
-          Swal.fire('Error!', 'Unable to delete the user!', 'error')
+          Swal.fire('Error!', t('user_delete_fail'), 'error')
           console.error('Error deleting user:', error)
         }
       }
@@ -137,9 +138,9 @@ export default function ListUser() {
   const getStatusColor = (status: string) => {
     switch (status.toLowerCase()) {
       case 'active':
-        return 'bg-green-500 text-white'
+        return 'bg-gradient-to-r from-green-200 to-green-300 text-green-700 font-semibold rounded-lg shadow-sm'
       case 'inactive':
-        return 'bg-red-500 text-white'
+        return 'bg-gradient-to-r from-red-200 to-red-300 text-red-700 font-semibold rounded-lg shadow-sm'
     }
   }
 
@@ -175,7 +176,7 @@ export default function ListUser() {
         </div>
       )}
       <div className='flex gap-4 mb-6 justify-between font-bold '>
-        <h2 className='text-2xl font-semibold text-gray-500'>List Users</h2>
+        <h2 className='text-2xl font-semibold text-gray-500'>{t('user_list')}</h2>
         <div className='flex gap-4 justify-end'>
           <Button
             sx={{
@@ -188,7 +189,7 @@ export default function ListUser() {
             }}
             onClick={() => handleButtonClick(['resident', 'manager'])}
           >
-            All
+            {t('all')}
           </Button>
           <Button
             sx={{
@@ -201,7 +202,7 @@ export default function ListUser() {
             }}
             onClick={() => handleButtonClick('resident')}
           >
-            Resident
+            {t('resident')}
           </Button>
           <Button
             sx={{
@@ -214,7 +215,7 @@ export default function ListUser() {
             }}
             onClick={() => handleButtonClick('manager')}
           >
-            Manager
+            {t('manager')}
           </Button>
         </div>
       </div>
@@ -223,14 +224,14 @@ export default function ListUser() {
           <Table sx={{ minWidth: 700 }} aria-label='customized table'>
             <TableHead>
               <TableRow>
-                <StyledTableCell width='5%'>ID</StyledTableCell>
-                <StyledTableCell width='20%'>Full Name</StyledTableCell>
-                <StyledTableCell width='12%'>Date Of Birth</StyledTableCell>
-                <StyledTableCell width='12%'>Gender</StyledTableCell>
-                <StyledTableCell width='12%'>Apartment</StyledTableCell>
-                <StyledTableCell width='15%'>Phone Number</StyledTableCell>
-                <StyledTableCell width='8%'>Status</StyledTableCell>
-                <StyledTableCell width='8%'>Edit</StyledTableCell>
+                <StyledTableCell width='5%'>{t('id')}</StyledTableCell>
+                <StyledTableCell width='20%'>{t('full_name')}</StyledTableCell>
+                <StyledTableCell width='12%'>{t('date_of_birth')}</StyledTableCell>
+                <StyledTableCell width='12%'>{t('gender')}</StyledTableCell>
+                <StyledTableCell width='12%'>{t('apartment')}</StyledTableCell>
+                <StyledTableCell width='15%'>{t('phone_number')}</StyledTableCell>
+                <StyledTableCell width='8%'>{t('status')}</StyledTableCell>
+                <StyledTableCell width='8%'>{t('edit')}</StyledTableCell>
               </TableRow>
             </TableHead>
             <TableBody>
@@ -303,7 +304,7 @@ export default function ListUser() {
               ) : (
                 <TableRow>
                   <TableCell colSpan={8} align='center'>
-                    No users found
+                    {t('no_users_found')}
                   </TableCell>
                 </TableRow>
               )}

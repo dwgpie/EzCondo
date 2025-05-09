@@ -20,6 +20,7 @@ import { getUserById } from '~/apis/user.api'
 import { Link } from 'react-router-dom'
 import LinearProgress from '@mui/material/LinearProgress'
 import useBufferProgress from '~/components/useBufferProgress'
+import { useTranslation } from 'react-i18next'
 
 interface FormData {
   id?: string
@@ -43,6 +44,7 @@ export default function ListApartment() {
   const [selectedFloor, setSelectedFloor] = useState<string>('All')
   const [openEditDialog, setOpenEditDialog] = useState(false)
   const [editingItem, setEditingItem] = useState<FormData | null>(null)
+  const { t } = useTranslation('apartment')
 
   const getAllApartmentMutation = useMutation({
     mutationFn: async () => {
@@ -118,14 +120,14 @@ export default function ListApartment() {
           acreage: editingItem.acreage,
           description: editingItem.description
         })
-        toast.success('Apartment updated successfully!', {
+        toast.success(t('apartment_update_success'), {
           style: { width: 'fit-content' }
         })
         handleCloseEditDialog()
         getAllApartmentMutation.mutate()
       } catch (error) {
         console.error('Update failed:', error)
-        toast.error('Failed to update apartment')
+        toast.error(t('apartment_update_fail'))
       }
     }
   }
@@ -138,23 +140,23 @@ export default function ListApartment() {
         </div>
       )}
       <div className='flex justify-between items-center mb-5'>
-        <h2 className='text-2xl font-semibold text-gray-500'>List Apartments</h2>
+        <h2 className='text-2xl font-semibold text-gray-500'>{t('apartment_list')}</h2>
         <div className='flex justify-between items-center'>
           <Select
             value={selectedFloor}
-            onChange={handleFloorChange} // Cập nhật kiểu sự kiện là SelectChangeEvent<string>
+            onChange={handleFloorChange}
             variant='outlined'
             size='small'
             sx={{ width: 150, height: 40, marginRight: '10px' }}
           >
-            <MenuItem value='All'>All</MenuItem>
-            <MenuItem value='Floor 1'>Floor 1</MenuItem>
-            <MenuItem value='Floor 2'>Floor 2</MenuItem>
-            <MenuItem value='Floor 3'>Floor 3</MenuItem>
-            <MenuItem value='Floor 4'>Floor 4</MenuItem>
+            <MenuItem value='All'>{t('all')}</MenuItem>
+            <MenuItem value='Floor 1'>{t('floor_1')}</MenuItem>
+            <MenuItem value='Floor 2'>{t('floor_2')}</MenuItem>
+            <MenuItem value='Floor 3'>{t('floor_3')}</MenuItem>
+            <MenuItem value='Floor 4'>{t('floor_4')}</MenuItem>
           </Select>
           <Link to='/admin/add-apartment'>
-            <Tooltip title='Add Appartment'>
+            <Tooltip title={t('add_apartment')}>
               <Button
                 variant='contained'
                 sx={{
@@ -199,25 +201,25 @@ export default function ListApartment() {
                 <path d='M11 3c7 0 7 3 7 3s0 3-7 3s-7-3-7-3s0-3 7-3m0 18c-7 0-7-3-7-3v-6' />
               </g>
             </svg>
-            <p className='mt-2'>No data available</p>
+            <p className='mt-2'>{t('no_data')}</p>
           </div>
         )}
       </Box>
       <Dialog open={openEditDialog} onClose={handleCloseEditDialog} disableEnforceFocus disableRestoreFocus>
-        <DialogTitle sx={{ color: '#1976d3', fontWeight: 'bold', fontSize: '22px' }}>Edit Apartment</DialogTitle>
+        <DialogTitle sx={{ color: '#1976d3', fontWeight: 'bold', fontSize: '22px' }}>{t('edit_apartment')}</DialogTitle>
         <DialogContent>
           <div className='grid grid-cols-2 gap-4'>
             <div>
               <div className='flex flex-col gap-4'>
-                <label className='block text-sm font-semibold'>Name</label>
+                <label className='block text-sm font-semibold'>{t('name')}</label>
                 <TextField type='text' sx={{ marginTop: '-13px' }} value={user?.fullName} disabled fullWidth />
               </div>
               <div className='flex flex-col gap-4 mt-3'>
-                <label className='block text-sm font-semibold'>Phone number</label>
+                <label className='block text-sm font-semibold'>{t('phone_number')}</label>
                 <TextField type='text' sx={{ marginTop: '-13px' }} value={user?.phoneNumber} disabled fullWidth />
               </div>
               <div className='flex flex-col gap-4 mt-3'>
-                <label className='block text-sm font-semibold'>Email</label>
+                <label className='block text-sm font-semibold'>{t('email')}</label>
                 <TextField
                   type='text'
                   sx={{ marginTop: '-13px', width: '240px' }}
@@ -229,15 +231,15 @@ export default function ListApartment() {
             </div>
             <div>
               <div className='flex flex-col gap-4'>
-                <label className='block text-sm font-semibold'>Gender</label>
+                <label className='block text-sm font-semibold'>{t('gender')}</label>
                 <TextField type='text' sx={{ marginTop: '-13px' }} value={user?.gender} disabled fullWidth />
               </div>
               <div className='flex flex-col gap-4 mt-3'>
-                <label className='block text-sm font-semibold'>Citizen ID</label>
+                <label className='block text-sm font-semibold'>{t('citizen_id')}</label>
                 <TextField type='text' sx={{ marginTop: '-13px' }} value={user?.no} disabled fullWidth />
               </div>
               <div className='flex flex-col gap-4 mt-3'>
-                <label className='block text-sm font-semibold'>Resident Number</label>
+                <label className='block text-sm font-semibold'>{t('resident_number')}</label>
                 <TextField
                   type='text'
                   sx={{ marginTop: '-13px' }}
@@ -250,7 +252,7 @@ export default function ListApartment() {
           </div>
           <div className='flex flex-col gap-4 mt-3'>
             <label className='block text-sm font-semibold'>
-              Acreage
+              {t('acreage')}
               <span className='text-red-600 ml-1'>*</span>
             </label>
             <TextField
@@ -263,7 +265,7 @@ export default function ListApartment() {
           </div>
           <div className='flex flex-col gap-4 mt-3'>
             <label className='block text-sm font-semibold'>
-              Description
+              {t('description')}
               <span className='text-red-600 ml-1'>*</span>
             </label>
             <TextField
@@ -280,9 +282,9 @@ export default function ListApartment() {
           </div>
         </DialogContent>
         <DialogActions>
-          <Button onClick={handleCloseEditDialog}>Cancel</Button>
+          <Button onClick={handleCloseEditDialog}>{t('cancel')}</Button>
           <Button onClick={handleEditSubmit} variant='contained' color='primary'>
-            Save Changes
+            {t('save_changes')}
           </Button>
         </DialogActions>
       </Dialog>
