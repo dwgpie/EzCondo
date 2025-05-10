@@ -1,7 +1,7 @@
 {
   "service_create_fail": "Tạo dịch vụ thất bại",
-  "service_create_success": "Tạo dịch vụ thành công!",
-  "service_update_success": "Cập nhật dịch vụ thành công!",
+  "service_create_success": "Tạo dịch vụ thành công",
+  "service_update_success": "Cập nhật dịch vụ thành công",
   "name": "Tên dịch vụ",
   "description": "Mô tả",
   "timestamp": "Mốc thời gian",

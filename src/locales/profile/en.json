@@ -12,12 +12,9 @@
   "cancel": "Cancel",
   "submit": "Submit",
   "loading": "Loading data...",
-  "success": "Profile updated successfully!",
+  "success": "Profile updated successfully",
   "fail": "Failed to update profile",
   "old_password": "Old Password",
   "new_password": "New Password",
-  "confirm_password": "Confirm Password",
-  "profile": "Profile",
-  "password": "Password",
-  "logout": "Logout"
+  "confirm_password": "Confirm Password"
 }

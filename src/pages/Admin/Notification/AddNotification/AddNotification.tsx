@@ -16,7 +16,7 @@ interface FormData {
   receiver: string
   type: string
   NotificationId?: string
-  Image: File[]
+  Image?: (File | undefined)[]
 }
 
 export default function AddNotification() {
@@ -84,7 +84,7 @@ export default function AddNotification() {
             clearInterval(Progress)
             return prev
           }
-          return prev + 5
+          return prev + 4
         })
       }, 150)
 
@@ -96,16 +96,22 @@ export default function AddNotification() {
       })
 
       if (!response?.data) {
-        toast.error(t('create_service_failed'))
+        toast.error(t('create_service_failed'), {
+          style: { width: 'fit-content' }
+        })
       }
 
       const NotificationId = response.data
       console.log('ID:', NotificationId)
 
-      await addNotificationImages({
-        NotificationId,
-        Image: formData.Image
-      })
+      const validImages = (formData.Image ?? []).filter((f): f is File => !!f)
+
+      if (validImages.length > 0) {
+        await addNotificationImages({
+          NotificationId,
+          Image: validImages
+        })
+      }
 
       toast.success(t('notification_create_success'), {
         style: { width: 'fit-content' }
@@ -189,10 +195,7 @@ export default function AddNotification() {
           </div>
           <div className=''>
             <div>
-              <label className='block text-sm font-semibold'>
-                {t('images')}
-                <span className='text-red-600 ml-1'>*</span>
-              </label>
+              <label className='block text-sm font-semibold'>{t('images')}</label>
               <div
                 className='mt-1 w-full h-auto p-4 border-2 border-dashed border-gray-400 rounded-md flex flex-col items-center justify-center cursor-pointer bg-gray-100'
                 onClick={() => fileInputRef.current?.click()}
@@ -238,7 +241,6 @@ export default function AddNotification() {
                   onChange={handleImageChange}
                 />
               </div>
-              <div className='mt-1 text-xs text-red-500 min-h-4'>{errors.Image?.message}</div>
             </div>
           </div>
         </div>

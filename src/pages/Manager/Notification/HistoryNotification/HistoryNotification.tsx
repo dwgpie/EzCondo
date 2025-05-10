@@ -159,8 +159,8 @@ export default function HistoryNotificationManager() {
               <TableRow>
                 <StyledTableCell width='2%'>{t('id')}</StyledTableCell>
                 <StyledTableCell width='20%'>{t('title')}</StyledTableCell>
-                <StyledTableCell width='28%'>{t('content')}</StyledTableCell>
-                <StyledTableCell width='16%'>{t('date_created')}</StyledTableCell>
+                <StyledTableCell width='26%'>{t('content')}</StyledTableCell>
+                <StyledTableCell width='18%'>{t('date_created')}</StyledTableCell>
                 <StyledTableCell width='15%'>{t('type_of_notification')}</StyledTableCell>
                 <StyledTableCell width='10%'>{t('receiver')}</StyledTableCell>
                 <StyledTableCell width='13%'>{t('detail')}</StyledTableCell>

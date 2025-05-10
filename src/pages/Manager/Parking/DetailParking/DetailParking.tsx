@@ -112,11 +112,11 @@ export default function DetailParking() {
   const getStatusColor = (status: string) => {
     switch (status.toLowerCase()) {
       case 'active':
-        return 'bg-green-500 text-white'
+        return 'bg-gradient-to-r from-green-200 to-green-300 text-green-700 font-semibold rounded-lg shadow-sm'
       case 'pending':
-        return 'bg-orange-500 text-white'
+        return 'bg-gradient-to-r from-yellow-200 to-yellow-300 text-yellow-700 font-semibold rounded-lg shadow-sm'
       case 'inactive':
-        return 'bg-red-500 text-white'
+        return 'bg-gradient-to-r from-red-200 to-red-300 text-red-700 font-semibold rounded-lg shadow-sm'
     }
   }
 

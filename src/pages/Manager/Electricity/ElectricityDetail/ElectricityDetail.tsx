@@ -69,24 +69,37 @@ export default function ElectricityDetail() {
     }
   }, [id])
 
-  const handleExport = async () => {
+  const handleExportImage = async () => {
+    if (!ref.current) return
+    try {
+      const canvas = await html2canvas(ref.current, {
+        useCORS: true,
+        scale: 2
+      })
+      const imgData = canvas.toDataURL('image/png')
+      const link = document.createElement('a')
+      link.href = imgData
+      link.download = 'hoa-don-dien.png'
+      document.body.appendChild(link)
+      link.click()
+      document.body.removeChild(link)
+    } catch (error) {
+      console.error('Lỗi khi xuất ảnh:', error)
+    }
+  }
+
+  const handleExportPDF = () => {
     if (!ref.current) return
 
-    // Chụp DOM thành canvas
-    const canvas = await html2canvas(ref.current, {
-      useCORS: true,
-      backgroundColor: null,
-      scale: 2
-    })
+    const options = {
+      margin: 0.3,
+      filename: 'hoa-don-dien.pdf',
+      image: { type: 'jpeg', quality: 0.98 },
+      html2canvas: { scale: 2, useCORS: true, scrollY: 0 },
+      jsPDF: { unit: 'in', format: 'a4', orientation: 'portrait' }
+    }
 
-    // Chuyển canvas thành base64
-    const imgData = canvas.toDataURL('image/png')
-
-    // Lưu vào localStorage
-    localStorage.setItem('electricity_bill_image', imgData)
-
-    // Thông báo thành công
-    alert('Đã lưu ảnh hóa đơn vào localStorage!')
+    window.html2pdf().set(options).from(ref.current).save()
   }
 
   const electricPriceMutation = useMutation({
@@ -115,96 +128,114 @@ export default function ElectricityDetail() {
         <>
           <div
             ref={ref}
-            className="px-8 py-3 pb-0 max-w-[700px] mx-auto border-2 bg-white border-gray-300 font-['Plus_Jakarta_Sans'] transition-all duration-300"
+            style={{
+              width: 'fit-content',
+              background: '#fff',
+              padding: '12px 24px 24px 24px',
+              fontFamily: 'Plus Jakarta Sans',
+              border: '2px solid #e5e7eb',
+              margin: '0 auto',
+              position: 'relative'
+            }}
           >
-            {/* Header */}
-            <div className='flex justify-between items-center'>
-              <p className='font-semibold text-lg'>{t('apartment_management_board')}</p>
-              <img src='/imgs/logo/lo23-Photoroom.png' alt='Logo' className='w-16 h-16 object-cover' />
+            <img
+              src='/imgs/logo/lo23-Photoroom.png'
+              alt='Watermark'
+              style={{
+                position: 'absolute',
+                top: '50%',
+                left: '50%',
+                transform: 'translate(-50%, -50%)',
+                width: 350,
+                opacity: 0.08,
+                zIndex: 0,
+                pointerEvents: 'none',
+                userSelect: 'none'
+              }}
+            />
+            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+              <img
+                src='/imgs/logo/lo23-Photoroom.png'
+                alt='Logo'
+                style={{ width: 64, height: 64, objectFit: 'cover' }}
+              />
+              <p style={{ fontWeight: 600, fontSize: 18 }}>{t('apartment_management_board')}</p>
             </div>
-
-            <div className='text-center mb-8'>
-              <h2 className='text-2xl mt-2 font-bold text-[#2c3e50] uppercase tracking-wide leading-snug'>
+            <div style={{ textAlign: 'center', marginBottom: 24 }}>
+              <h2 style={{ fontSize: 22, fontWeight: 900, color: '#1d4ed8', textTransform: 'uppercase' }}>
                 {t('electricity_bill')}
               </h2>
-              <p className='font-semibold'>
-                {t('no')}: {id?.slice(-5).toUpperCase()}
+              <p style={{ fontWeight: 600 }}>
+                <span style={{ color: '#2563eb' }}>{t('no')}</span>: {id?.slice(-5).toUpperCase()}
               </p>
             </div>
 
-            <div
-              style={{
-                color: '#000',
-                fontSize: '16px',
-                fontWeight: '500'
-              }}
-            >
-              <div className='text-sm font-medium text-black space-y-2'>
-                <div className='grid grid-cols-2 gap-y-1'>
-                  <p className='mb-1'>
-                    {t('apartment_number')}: {electric.apartmentNumber}
-                  </p>
-                  <p>
-                    {t('meter_number')}: {electric.meterNumber}
-                  </p>
-
-                  <p className='mb-1'>
-                    {t('owner')}: {electric.fullName}
-                  </p>
-                  <p>Email: {electric.email}</p>
-
-                  <p className='mb-1'>
-                    {t('from')}:{' '}
-                    {new Date(electric.readingPreDate).toLocaleDateString(currentLang === 'vi' ? 'vi-VN' : 'en-GB', {
-                      day: '2-digit',
-                      month: 'short',
-                      year: 'numeric',
-                      timeZone: 'Asia/Ho_Chi_Minh'
-                    })}
-                  </p>
-                  <p>
-                    {t('to')}:{' '}
-                    {new Date(electric.readingCurrentDate).toLocaleDateString(
-                      currentLang === 'vi' ? 'vi-VN' : 'en-GB',
-                      {
-                        day: '2-digit',
-                        month: 'short',
-                        year: 'numeric',
-                        timeZone: 'Asia/Ho_Chi_Minh'
-                      }
-                    )}
-                  </p>
-
-                  <p>
-                    {t('previous_meter')}: {electric.pre_electric_number}
-                  </p>
-                  <p>
-                    {t('current_meter')}: {electric.current_electric_number}
-                  </p>
-                </div>
+            <div style={{ color: '#000', fontSize: 16, fontWeight: 500 }}>
+              <div style={{ display: 'grid', gridTemplateColumns: 'auto auto', columnGap: 24 }}>
+                <p>
+                  <span style={{ color: '#2563eb' }}>{t('apartment_number')}</span>: {electric.apartmentNumber}
+                </p>
+                <p>
+                  <span style={{ color: '#2563eb' }}>{t('meter_number')}</span>: {electric.meterNumber}
+                </p>
+                <p style={{ marginTop: 5 }}>
+                  <span style={{ color: '#2563eb' }}>{t('owner')}</span>: {electric.fullName}
+                </p>
+                <p style={{ marginTop: 5 }}>
+                  <span style={{ color: '#2563eb' }}>Email</span>: {electric.email}
+                </p>
+                <p style={{ marginTop: 20 }}>
+                  <span style={{ color: '#2563eb' }}>{t('from')}</span>:{' '}
+                  {new Date(electric.readingPreDate).toLocaleDateString(currentLang === 'vi' ? 'vi-VN' : 'en-GB', {
+                    day: '2-digit',
+                    month: 'short',
+                    year: 'numeric',
+                    timeZone: 'Asia/Ho_Chi_Minh'
+                  })}
+                </p>
+                <p style={{ marginTop: 20 }}>
+                  <span style={{ color: '#2563eb' }}>{t('to')}</span>:{' '}
+                  {new Date(electric.readingCurrentDate).toLocaleDateString(currentLang === 'vi' ? 'vi-VN' : 'en-GB', {
+                    day: '2-digit',
+                    month: 'short',
+                    year: 'numeric',
+                    timeZone: 'Asia/Ho_Chi_Minh'
+                  })}
+                </p>
+                <p style={{ marginTop: 5 }}>
+                  <span style={{ color: '#2563eb' }}>{t('previous_meter')}</span>: {electric.pre_electric_number}
+                </p>
+                <p style={{ marginTop: 5 }}>
+                  <span style={{ color: '#2563eb' }}>{t('current_meter')}</span>: {electric.current_electric_number}
+                </p>
               </div>
-
-              <table className='text-sm w-full border border-gray-300 mt-5'>
+              <table style={{ width: '100%', border: '1px solid #ccc', marginTop: 16 }}>
                 <thead>
                   <tr>
-                    <th className='px-3 py-2 border border-gray-300 text-left w-[300px]'>{t('consumption')}</th>
-                    <th className='px-3 py-2 border border-gray-300 text-left'>{t('total_price')}</th>
+                    <th style={{ padding: 8, border: '1px solid #ccc', width: '50%', color: '#2563eb' }}>
+                      {t('consumption')}
+                    </th>
+                    <th style={{ padding: 8, border: '1px solid #ccc', width: '50%', color: '#2563eb' }}>
+                      {t('total_price')}
+                    </th>
                   </tr>
                 </thead>
                 <tbody>
                   <tr>
-                    <td className='px-3 py-2 border border-gray-300'>{electric.consumption} kWh</td>
-                    <td className='px-3 py-2 border border-gray-300'>{electric.price.toLocaleString('en-US')} VND</td>
+                    <td style={{ padding: 8, border: '1px solid #ccc', width: '50%' }}>{electric.consumption} kWh</td>
+                    <td style={{ padding: 8, border: '1px solid #ccc', width: '50%' }}>
+                      {Number(electric.price).toLocaleString('en-US')} VND
+                    </td>
                   </tr>
                 </tbody>
               </table>
 
-              <div className='flex items-center justify-between'>
-                <table className='text-sm w-auto border border-gray-300'>
+              <div style={{ justifyContent: 'space-between', marginTop: 16 }}>
+                <table style={{ border: '1px solid #ccc', fontSize: 14 }}>
                   <thead>
                     <tr>
-                      <th className='px-2 py-1 border border-gray-300 text-left'>{t('electric_price')}</th>
-                      <th className='px-2 py-1 border border-gray-300 text-left'>{t('unit_price')}</th>
+                      <th style={{ padding: 6, border: '1px solid #ccc', color: '#2563eb' }}>{t('electric_price')}</th>
+                      <th style={{ padding: 6, border: '1px solid #ccc', color: '#2563eb' }}>{t('unit_price')}</th>
                     </tr>
                   </thead>
                   <tbody>
@@ -220,18 +251,27 @@ export default function ElectricityDetail() {
                     ))}
                   </tbody>
                 </table>
-                <div className='flex flex-col items-end mt-10 mb-5 text-sm'>
+                <div
+                  style={{
+                    display: 'flex',
+                    flexDirection: 'column',
+                    alignItems: 'flex-end',
+                    marginTop: -155,
+                    marginBottom: 20,
+                    fontSize: 14
+                  }}
+                >
                   <p>
                     {t('day')} {day}, {t('month')} {month}, {t('year')} {year}
                   </p>
                   <p>{t('apartment_management_board')}</p>
-                  <img src='/imgs/bg/ck-5.png' alt='Signature' className='w-30 mr-8 mt-2' />
+                  <img src='/imgs/bg/ck-5.png' alt='Signature' style={{ width: 120, marginRight: 32, marginTop: 8 }} />
                 </div>
               </div>
             </div>
           </div>
 
-          <div className='flex justify-end gap-4 mt-3'>
+          <div className='flex justify-end gap-4 mt-5'>
             <Button
               variant='contained'
               onClick={() => (window.location.href = '/manager/add-electricity-reading')}
@@ -241,8 +281,15 @@ export default function ElectricityDetail() {
             </Button>
             <Button
               variant='contained'
-              onClick={handleExport}
-              style={{ color: 'white', background: '#2976ce', fontWeight: 'semi-bold' }}
+              onClick={handleExportImage}
+              style={{ color: 'white', background: '#1eade5', fontWeight: 'semi-bold' }}
+            >
+              {t('export_image')}
+            </Button>
+            <Button
+              variant='contained'
+              onClick={handleExportPDF}
+              style={{ color: 'white', background: '#4ace29', fontWeight: 'semi-bold' }}
             >
               {t('export_pdf')}
             </Button>

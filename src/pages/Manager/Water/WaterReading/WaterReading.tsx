@@ -125,7 +125,7 @@ export default function WaterReading() {
     try {
       await addWaterReading(formData.file[0])
       getAllWaterReadings.mutate()
-      toast.success('Import successful', {
+      toast.success(t('import_success'), {
         style: { width: 'fit-content' }
       })
     } catch (error) {
@@ -148,7 +148,6 @@ export default function WaterReading() {
       setExcelFileName(null)
     },
     (errors) => {
-      // Show error message when validation fails
       if (errors.file) {
         toast.error(errors.file.message, {
           style: { width: 'fit-content' }
@@ -280,9 +279,9 @@ export default function WaterReading() {
               <TableRow>
                 <StyledTableCell width='2%'>{t('id')}</StyledTableCell>
                 <StyledTableCell width='16%'>{t('name')}</StyledTableCell>
-                <StyledTableCell width='16%'>{t('apartment_number')}</StyledTableCell>
+                <StyledTableCell width='17%'>{t('apartment_number')}</StyledTableCell>
                 <StyledTableCell width='12%'>{t('phone')}</StyledTableCell>
-                <StyledTableCell width='18%'>{t('reading_pre_date')}</StyledTableCell>
+                <StyledTableCell width='19%'>{t('reading_pre_date')}</StyledTableCell>
                 <StyledTableCell width='18%'>{t('reading_current_date')}</StyledTableCell>
                 <StyledTableCell width='8%'>{t('consumption')}</StyledTableCell>
                 <StyledTableCell width='0%'>{t('status')}</StyledTableCell>

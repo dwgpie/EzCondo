@@ -23,14 +23,14 @@ interface Notification {
 }
 
 export default function Header() {
-  const { t } = useTranslation('profile')
+  const { t } = useTranslation('header')
   const [listNotification, setListNotification] = useState<Notification[]>([])
   const [isReadAll, setIsReadAll] = useState<string[]>([])
   const [type, setType] = useState('')
   const [page, setPage] = useState(1)
   const pageSize = 20
   const [isOpen, setIsOpen] = useState(false)
-  const tabs = ['all', 'notice', 'incident', 'parking']
+  const tabs = ['all', 'notice', 'incident']
   const tabIndex = tabs.indexOf(type || 'all')
   const notificationRef = React.useRef<HTMLDivElement>(null)
   const bellRef = useRef<HTMLButtonElement>(null)
@@ -59,7 +59,7 @@ export default function Header() {
   useEffect(() => {
     // Tạo kết nối đến hub backend với đường dẫn tương ứng
     const newConnection = new signalR.HubConnectionBuilder()
-      .withUrl('https://32bf-1-53-17-22.ngrok-free.app/notificationHub', {
+      .withUrl('http://localhost:7254/notificationHub', {
         accessTokenFactory: () => localStorage.getItem('token') || ''
       }) // Đảm bảo rằng url trùng với app.MapHub<NotificationHub>("/notificationHub")
       .withAutomaticReconnect()
@@ -199,18 +199,16 @@ export default function Header() {
     }
   }
 
-  const getTypeColor = (type: string) => {
-    switch (type.toLowerCase()) {
-      case 'incident':
-        return 'bg-red-200 text-red-800'
-      case 'fee':
-        return 'bg-orange-200 text-orange-800'
-      case 'new':
-        return 'bg-green-200 text-green-800'
+  const getTypeColor = (status: string) => {
+    switch (status.toLowerCase()) {
       case 'notice':
-        return 'bg-green-200 text-green-800'
-      default:
-        return ''
+        return 'bg-gradient-to-r from-green-200 to-green-300 text-green-700 font-semibold rounded-lg shadow-sm'
+      case 'fee':
+        return 'bg-gradient-to-r from-green-200 to-green-300 text-green-700 font-semibold rounded-lg shadow-sm'
+      case 'new':
+        return 'bg-gradient-to-r from-green-200 to-green-300 text-green-700 font-semibold rounded-lg shadow-sm'
+      case 'incident':
+        return 'bg-gradient-to-r from-red-200 to-red-300 text-red-700 font-semibold rounded-lg shadow-sm'
     }
   }
 
@@ -225,17 +223,17 @@ export default function Header() {
             type='text'
             value={searchQuery}
             onChange={handleChange}
-            placeholder='Search'
+            placeholder={t('search')}
             className='border border-gray-300 rounded-full pl-10 pr-4 py-2 w-[300px] bg-[#fff] shadow-sm 
             focus:outline-none focus:ring-1 focus:ring-blue-400 focus:border-blue-400 
             transition duration-200 ease-in-out hover:border-blue-400'
           />
-          <div className='ml-5'>
-            <LanguageSwitcher />
-          </div>
         </div>
 
         <div className='flex gap-[20px] items-center transition-all duration-300'>
+          <div className='ml-5'>
+            <LanguageSwitcher />
+          </div>
           {localStorage.getItem('role') === 'manager' && (
             <button ref={bellRef} onClick={handleNotification} className='relative cursor-pointer'>
               <Badge badgeContent={countNotification} color='primary'>
@@ -276,7 +274,7 @@ export default function Header() {
                       } `}
                       onClick={() => handelType(tab)}
                     >
-                      {tab.charAt(0).toUpperCase() + tab.slice(1)}
+                      {t(`tabs.${tab}`)}
                     </button>
                   ))}
                 </div>
@@ -286,7 +284,7 @@ export default function Header() {
               <div
                 className='absolute bottom-0 left-0 h-[3px] bg-[#0854a0] transition-all duration-300'
                 style={{
-                  width: '25%',
+                  width: '33.33%',
                   transform: `translateX(${tabIndex * 100}%)`
                 }}
               />
@@ -296,7 +294,7 @@ export default function Header() {
               {todayNotifications.length > 0 && (
                 <>
                   <div className='bg-[linear-gradient(to_right,_#f2fcfe_0%,_#d0f4ff_70%,_#9cdcff_100%)]'>
-                    <p className='text-[14px] font-semibold text-[#1B2124] p-[5px] pl-[10px] '>Today</p>
+                    <p className='text-[14px] font-semibold text-[#1B2124] p-[5px] pl-[10px] '>{t('today')}</p>
                   </div>
                   {todayNotifications.map((notify) => (
                     <Link
@@ -315,7 +313,7 @@ export default function Header() {
                     >
                       <div key={notify.id} className='relative hover:bg-[#f1f3f5]'>
                         <div className='p-[10px] '>
-                          <div className='flex justify-between ml-[20px]'>
+                          <div className='flex justify-between ml-[15px]'>
                             <p
                               className='font-bold text-[#1B2124] overflow-hidden text-ellipsis'
                               style={{
@@ -334,7 +332,7 @@ export default function Header() {
                             </div>
                           </div>
                           <p
-                            className='text-[#4D595E] overflow-hidden text-ellipsis ml-[20px]'
+                            className='text-[#4D595E] overflow-hidden text-ellipsis ml-[15px]'
                             style={{
                               display: '-webkit-box',
                               WebkitLineClamp: 4,
@@ -360,7 +358,7 @@ export default function Header() {
               {oldNotifications.length > 0 && (
                 <>
                   <div className='bg-[linear-gradient(to_right,_#f2fcfe_0%,_#d0f4ff_70%,_#9cdcff_100%)]'>
-                    <p className='text-[14px] font-semibold text-[#1B2124] p-[5px] pl-[10px] '>Older</p>
+                    <p className='text-[14px] font-semibold text-[#1B2124] p-[5px] pl-[10px] '>{t('older')}</p>
                   </div>
                   {oldNotifications.map((notify) => (
                     <Link
@@ -418,14 +416,14 @@ export default function Header() {
               )}
 
               {/* Trường hợp không có gì */}
-              {listNotification.length === 0 && <p className='p-[10px] flex justify-center'>No notifications</p>}
+              {listNotification.length === 0 && <p className='p-[10px] flex justify-center'>{t('no_notifications')}</p>}
             </div>
             <div className='flex flex-col align-center items-center pt-[5px] pb-[5px]'>
               <button
                 className='block text-[#3385F0] font-medium text-center pt-[5px] pb-[5px] w-[200px] hover:bg-[#3385f01f] rounded-[10px]'
                 onClick={() => fetchIsReadAllNotification()}
               >
-                Read all
+                {t('read_all')}
               </button>
             </div>
             {/* {listNotification.length < total && (

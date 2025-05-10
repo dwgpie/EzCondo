@@ -31,7 +31,7 @@ export const getNotificationImageById = (body: { notificationId: string }) =>
 
 export const filterNotification = (body: { type: string; receiver: string; day: number }) => {
   return http.get(
-    `/api/Notification/admin-or-manager-get-notifications?type=${body.type}&receiver=${body.receiver}&day=${body.day}&pageSize=100`
+    `/api/Notification/admin-or-manager-get-notifications?type=${body.type}&receiver=${body.receiver}&day=${body.day}&pageSize=1000`
   )
 }
 

@@ -4,6 +4,7 @@ import { LineChart, Line, BarChart, Bar, XAxis, YAxis, Tooltip, ResponsiveContai
 import { PeopleAlt, MedicalServices, LocalHospital, DirectionsCar } from '@mui/icons-material'
 import { ArrowUpward } from '@mui/icons-material'
 import { Box, Chip } from '@mui/material'
+import BillComponent from '../../components/ElectricityBillComponent'
 
 export default function Demo() {
   const patientTrend = [
@@ -60,8 +61,34 @@ export default function Demo() {
   const data = [{ value: 10 }, { value: 12 }, { value: 100 }, { value: 90 }, { value: 18 }, { value: 22 }]
   const chartData = [10, 20, 30, 40, 50, 60, 70, 80, 90, 100, 80, 60, 40, 20, 10]
 
+  const mockData = {
+    electricReadingId: 'ER123456',
+    apartmentNumber: 'A101',
+    meterNumber: 'M12345',
+    fullName: 'Nguyen Van A',
+    email: 'nguyenvana@example.com',
+    readingPreDate: '2024-05-01',
+    readingCurrentDate: '2024-06-01',
+    pre_electric_number: 1000,
+    current_electric_number: 1200,
+    consumption: 200,
+    price: 500000
+  }
+
+  const mockPriceList = [
+    { id: 1, minKWh: 0, maxKWh: 50, pricePerKWh: 1500 },
+    { id: 2, minKWh: 51, maxKWh: 100, pricePerKWh: 2000 },
+    { id: 3, minKWh: 101, maxKWh: 200, pricePerKWh: 2500 }
+  ]
+
+  const t = (key: string) => key
+  const i18n = { language: 'vi' }
+
   return (
     <div className='p-6 bg-gray-50 min-h-screen'>
+      <div style={{ marginBottom: 32 }}>
+        <BillComponent data={mockData} priceList={mockPriceList} t={t} i18n={i18n} />
+      </div>
       <Card className='rounded-2xl shadow-md px-2 py-3 w-100 mb-4'>
         <CardContent className='flex justify-between items-center p-0'>
           {/* Left side */}

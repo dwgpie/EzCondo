@@ -173,7 +173,7 @@ export default function UnpaidElectricity() {
             clearInterval(Progress)
             return prev
           }
-          return prev + 5
+          return prev + 4
         })
       }, 150)
       const imgData = await generateElectricityBillImage(electric.electricReadingId || '', t, i18n)
@@ -269,8 +269,8 @@ export default function UnpaidElectricity() {
                 <StyledTableCell width='16%'>{t('name')}</StyledTableCell>
                 <StyledTableCell width='16%'>{t('apartment_number')}</StyledTableCell>
                 <StyledTableCell width='11%'>{t('phone')}</StyledTableCell>
-                <StyledTableCell width='17%'>{t('reading_pre_date')}</StyledTableCell>
-                <StyledTableCell width='17%'>{t('reading_current_date')}</StyledTableCell>
+                <StyledTableCell width='19%'>{t('reading_pre_date')}</StyledTableCell>
+                <StyledTableCell width='18%'>{t('reading_current_date')}</StyledTableCell>
                 <StyledTableCell width='8%'>{t('consumption')}</StyledTableCell>
                 <StyledTableCell width='8%'>{t('status')}</StyledTableCell>
               </TableRow>

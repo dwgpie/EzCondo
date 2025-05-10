@@ -1,13 +1,13 @@
-import { getElectricDetail, getElectric } from '~/apis/service.api'
+import { getWaterDetail, getWater } from '~/apis/service.api'
 import html2canvas from 'html2canvas-pro'
 import { createRoot } from 'react-dom/client'
-import ElectricityBillComponent from '~/components/ElectricityBillComponent'
+import WaterBillComponent from '~/components/WaterBillComponent'
 
-export async function generateElectricityBillImage(electricReadingId: string, t: any, i18n: any): Promise<string> {
-  // 1. Fetch dữ liệu hóa đơn
-  const electric = (await getElectricDetail(electricReadingId)).data
-  electric.electricReadingId = electricReadingId
-  const priceList = (await getElectric()).data.sort((a: any, b: any) => a.minKWh - b.minKWh)
+export async function generateWaterBillImage(waterReadingId: string, t: any, i18n: any): Promise<string> {
+  // 1. Fetch dữ liệu hóa đơn nước
+  const water = (await getWaterDetail(waterReadingId)).data
+  water.waterReadingId = waterReadingId
+  const price = (await getWater()).data
 
   // 2. Tạo một DOM ẩn để render bill
   const container = document.createElement('div')
@@ -17,7 +17,7 @@ export async function generateElectricityBillImage(electricReadingId: string, t:
 
   // 3. Render bill vào container bằng createRoot
   const root = createRoot(container)
-  root.render(<ElectricityBillComponent data={electric} priceList={priceList} t={t} i18n={i18n} />)
+  root.render(<WaterBillComponent data={water} price={price} t={t} i18n={i18n} />)
 
   // Đợi một tick để đảm bảo render xong
   await new Promise((resolve) => setTimeout(resolve, 50))
