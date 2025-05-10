@@ -59,7 +59,7 @@ export default function Header() {
   useEffect(() => {
     // Tạo kết nối đến hub backend với đường dẫn tương ứng
     const newConnection = new signalR.HubConnectionBuilder()
-      .withUrl('http://localhost:7254/notificationHub', {
+      .withUrl('https://32bf-1-53-17-22.ngrok-free.app/notificationHub', {
         accessTokenFactory: () => localStorage.getItem('token') || ''
       }) // Đảm bảo rằng url trùng với app.MapHub<NotificationHub>("/notificationHub")
       .withAutomaticReconnect()
