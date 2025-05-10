@@ -14,8 +14,10 @@ import { Button, MenuItem, Select, Checkbox } from '@mui/material'
 import { toast } from 'react-toastify'
 import LinearProgress from '@mui/material/LinearProgress'
 import useBufferProgress from '~/components/useBufferProgress'
-import { useNavigate } from 'react-router-dom'
 import { useTranslation } from 'react-i18next'
+import { addNotificationToResident, addNotificationImages } from '~/apis/notification.api'
+import { generateElectricityBillImage } from '~/helpers/generateElectricityBillImage'
+import LoadingOverlay from '~/components/LoadingOverlay'
 
 interface ElectricityForm {
   electricReadingId?: string
@@ -27,6 +29,10 @@ interface ElectricityForm {
   readingCurrentDate: string
   consumption: string
   status: string
+  meterNumber: string
+  pre_electric_number: string
+  current_electric_number: string
+  price: string
 }
 
 const StyledTableCell = styled(TableCell)(({ theme }) => ({
@@ -57,10 +63,10 @@ const StyledTableRow = styled(TableRow)(() => ({
 }))
 
 export default function UnpaidElectricity() {
-  const navigate = useNavigate()
-  const { t } = useTranslation('electricManager')
+  const { t, i18n } = useTranslation('electricManager')
   const [loading, setLoading] = useState(false)
   const { progress, buffer } = useBufferProgress(loading)
+  const [progress2, setProgress2] = useState(0)
   const [filteredElectrics, setFilteredElectrics] = useState<ElectricityForm[]>([])
   const [page, setPage] = useState(1)
   const pageSize = 7
@@ -138,31 +144,83 @@ export default function UnpaidElectricity() {
     })
   }
 
-  const handleSendNotification = () => {
-    if (selectedApartments.length === 0) {
-      toast.warning(t('please_select_apartment'), {
+  const handleSendNotification = async () => {
+    if (selectedApartments.length !== 1) {
+      if (selectedApartments.length > 1) {
+        toast.error(t('only_one_apartment'), {
+          style: { width: 'fit-content' }
+        })
+      }
+      return
+    }
+
+    const apartmentNumber = selectedApartments[0]
+    const electric = filteredElectrics.find((e) => e.apartmentNumber === apartmentNumber)
+    if (!electric) {
+      toast.error(t('apartment_not_found'), {
         style: { width: 'fit-content' }
       })
       return
     }
 
-    const currentDate = new Date().toLocaleDateString('vi-VN')
-    const notificationData = {
-      selectedApartments,
-      title: t('notification_title'),
-      content: t('notification_content', { date: currentDate })
-    }
+    try {
+      setLoading(true)
+      setProgress2(0)
 
-    navigate('/manager/add-notification', { state: notificationData })
+      const Progress = setInterval(() => {
+        setProgress2((prev) => {
+          if (prev >= 90) {
+            clearInterval(Progress)
+            return prev
+          }
+          return prev + 5
+        })
+      }, 150)
+      const imgData = await generateElectricityBillImage(electric.electricReadingId || '', t, i18n)
+      const res = await addNotificationToResident([
+        {
+          title: t('notification_title'),
+          content: t('notification_content', { date: new Date().toLocaleDateString('vi-VN') }),
+          type: 'fee',
+          apartmentNumber
+        }
+      ])
+      const notificationId = res.data?.[0]
+      if (notificationId) {
+        const [meta, base64] = imgData.split(',')
+        const mime = meta.match(/:(.*?);/)?.[1] || 'image/png'
+        const bstr = atob(base64)
+        const u8arr = Uint8Array.from(bstr, (c) => c.charCodeAt(0))
+        const file = new File([u8arr], `hoa-don-dien-${apartmentNumber}.png`, { type: mime })
+        await addNotificationImages({ NotificationId: notificationId, Image: [file] })
+      }
+      toast.success(t('success'), {
+        style: { width: 'fit-content' }
+      })
+    } catch {
+      toast.error(t('error'), {
+        style: { width: 'fit-content' }
+      })
+    } finally {
+      setProgress2(100)
+      setTimeout(() => {
+        setLoading(false)
+      }, 500)
+    }
   }
 
   return (
     <div className='mx-5 mt-5 mb-5 px-6 pb-3 pt-3 bg-gradient-to-br from-white via-white to-blue-100 drop-shadow-md rounded-xl'>
-      {loading && (
-        <div className='w-full px-6 fixed top-2 left-0 z-50'>
-          <LinearProgress variant='buffer' value={progress} valueBuffer={buffer} />
-        </div>
-      )}
+      {loading &&
+        (progress2 === 0 ? (
+          <div className='w-full px-6 fixed top-2 left-0 z-50'>
+            <LinearProgress variant='buffer' value={progress} valueBuffer={buffer} />
+          </div>
+        ) : (
+          <div className='absolute inset-0 z-50 bg-white bg-opacity-50 flex justify-center items-center'>
+            <LoadingOverlay value={progress2} />
+          </div>
+        ))}
       <div className='flex justify-between items-center'>
         <h2 className='text-2xl font-semibold text-gray-500'>{t('electricity_bill_paid_or_unpaid')}</h2>
         <div className='mt-2 mb-4 flex gap-4 justify-end items-center'>

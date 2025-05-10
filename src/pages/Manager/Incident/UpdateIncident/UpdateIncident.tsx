@@ -91,6 +91,7 @@ export default function UpdateIncident() {
       getImageIncidentMutation.mutate(id)
     }
   }, [id])
+
   const getImageSrc = (image: string | File | null | undefined) => {
     if (image instanceof File) {
       return URL.createObjectURL(image)
@@ -103,14 +104,12 @@ export default function UpdateIncident() {
 
   const getStatusColor = (status: string) => {
     switch (status.toLowerCase()) {
-      case 'pending':
-        return 'bg-red-500 text-white'
-      case 'underway':
-        return 'bg-orange-500 text-white'
       case 'resolved':
-        return 'bg-green-500 text-white'
-      default:
-        return ''
+        return 'bg-gradient-to-r from-green-200 to-green-300 text-green-700 font-semibold rounded-lg shadow-sm'
+      case 'underway':
+        return 'bg-gradient-to-r from-yellow-200 to-yellow-300 text-yellow-700 font-semibold rounded-lg shadow-sm'
+      case 'pending':
+        return 'bg-gradient-to-r from-orange-200 to-orange-300 text-orange-700 font-semibold rounded-lg shadow-sm'
     }
   }
 

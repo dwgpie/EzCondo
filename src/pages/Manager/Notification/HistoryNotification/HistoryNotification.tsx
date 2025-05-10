@@ -6,7 +6,7 @@ import TableContainer from '@mui/material/TableContainer'
 import TableHead from '@mui/material/TableHead'
 import TableRow from '@mui/material/TableRow'
 import Paper from '@mui/material/Paper'
-import { filterNotificationManager } from '~/apis/notification.api'
+import { filterNotificationManager, getNotificationImageById } from '~/apis/notification.api'
 import { useEffect, useState } from 'react'
 import {
   Button,
@@ -30,6 +30,7 @@ interface FormData {
   type: string
   receiver: string
   createdAt: string
+  image: string
 }
 
 const StyledTableCell = styled(TableCell)(({ theme }) => ({
@@ -62,11 +63,13 @@ export default function HistoryNotificationManager() {
   const [loading, setLoading] = useState(false)
   const { progress, buffer } = useBufferProgress(loading)
   const [listNotification, setListNotification] = useState<FormData[]>([])
-  const [type, setType] = useState('new')
+  const [type, setType] = useState('')
   const [day, setDay] = useState(3)
   const [page, setPage] = useState(1)
   const pageSize = 6
   const [openEditDialog, setOpenEditDialog] = useState(false)
+  const [imageUrls, setImageUrls] = useState<string[]>([])
+  const [selectedImage, setSelectedImage] = useState<string | null>(null)
 
   useEffect(() => {
     const fetchData = async () => {
@@ -102,6 +105,15 @@ export default function HistoryNotificationManager() {
   const handleEditClick = async (item: FormData) => {
     setNotify(item)
     setOpenEditDialog(true)
+    setImageUrls([])
+    if (item.id) {
+      try {
+        const response = await getNotificationImageById({ notificationId: item.id })
+        setImageUrls(response.data?.map((img: any) => img.image) || [])
+      } catch {
+        setImageUrls([])
+      }
+    }
   }
 
   return (
@@ -145,13 +157,13 @@ export default function HistoryNotificationManager() {
           <Table aria-label='customized table'>
             <TableHead>
               <TableRow>
-                <StyledTableCell width='5%'>{t('id')}</StyledTableCell>
-                <StyledTableCell width='22%'>{t('title')}</StyledTableCell>
-                <StyledTableCell width='30%'>{t('content')}</StyledTableCell>
-                <StyledTableCell width='12%'>{t('date_created')}</StyledTableCell>
-                <StyledTableCell width='13%'>{t('type_of_notification')}</StyledTableCell>
+                <StyledTableCell width='2%'>{t('id')}</StyledTableCell>
+                <StyledTableCell width='20%'>{t('title')}</StyledTableCell>
+                <StyledTableCell width='28%'>{t('content')}</StyledTableCell>
+                <StyledTableCell width='16%'>{t('date_created')}</StyledTableCell>
+                <StyledTableCell width='15%'>{t('type_of_notification')}</StyledTableCell>
                 <StyledTableCell width='10%'>{t('receiver')}</StyledTableCell>
-                <StyledTableCell width='10%'>{t('detail')}</StyledTableCell>
+                <StyledTableCell width='13%'>{t('detail')}</StyledTableCell>
               </TableRow>
             </TableHead>
             <TableBody>
@@ -186,10 +198,21 @@ export default function HistoryNotificationManager() {
                       {notify.content}
                     </StyledTableCell>
                     <StyledTableCell>
-                      {new Intl.DateTimeFormat('vi-VN').format(new Date(notify.createdAt))}
+                      {new Intl.DateTimeFormat('vi-VN', {
+                        hour: '2-digit',
+                        minute: '2-digit',
+                        second: '2-digit',
+                        year: 'numeric',
+                        month: '2-digit',
+                        day: '2-digit'
+                      }).format(new Date(notify.createdAt))}
                     </StyledTableCell>
-                    <StyledTableCell>{notify.type}</StyledTableCell>
-                    <StyledTableCell>{notify.receiver}</StyledTableCell>
+                    <StyledTableCell>
+                      <span className='capitalize'>{t(notify.type)}</span>
+                    </StyledTableCell>
+                    <StyledTableCell>
+                      <span className='capitalize'>{t(notify.receiver)}</span>
+                    </StyledTableCell>
                     <StyledTableCell>
                       <div className='ml-2'>
                         <button
@@ -224,51 +247,85 @@ export default function HistoryNotificationManager() {
       <div className='mt-10 flex justify-center'>
         <Pagination count={totalPages} page={page} onChange={handlePageChange} />
       </div>
-      <Dialog open={openEditDialog} onClose={handleCloseEditDialog} disableEnforceFocus disableRestoreFocus>
+      <Dialog
+        open={openEditDialog}
+        onClose={handleCloseEditDialog}
+        disableEnforceFocus
+        disableRestoreFocus
+        maxWidth='md'
+        fullWidth
+      >
         <DialogTitle sx={{ color: '#1976d3', fontWeight: 'bold', fontSize: '22px' }}>
           {t('detail_notification')}
         </DialogTitle>
         <DialogContent>
           <div className='grid grid-cols-2 gap-4'>
-            <div className='flex flex-col gap-4'>
-              <label className='block text-sm font-semibold'>{t('type_of_notification')}</label>
-              <TextField type='text' sx={{ marginTop: '-13px' }} value={notify?.type} disabled fullWidth />
+            <div className='flex flex-col'>
+              <label className='block text-sm font-semibold mb-1'>{t('type_of_notification')}</label>
+              <TextField type='text' value={notify?.type} disabled fullWidth />
             </div>
-            <div className='flex flex-col gap-4'>
-              <label className='block text-sm font-semibold'>{t('receiver')}</label>
-              <TextField type='text' sx={{ marginTop: '-13px' }} value={notify?.receiver} disabled fullWidth />
+            <div className='flex flex-col'>
+              <label className='block text-sm font-semibold mb-1'>{t('receiver')}</label>
+              <TextField type='text' value={notify?.receiver} disabled fullWidth />
             </div>
           </div>
-          <div className='flex flex-col gap-4 mt-3'>
-            <label className='block text-sm font-semibold'>{t('title')}</label>
-            <TextField
-              type='text'
-              sx={{ marginTop: '-13px' }}
-              value={notify?.title}
-              disabled
-              fullWidth
-              multiline
-              minRows={2}
-              maxRows={8}
-            />
+          <div className='flex flex-col mt-3'>
+            <label className='block text-sm font-semibold mb-1'>{t('title')}</label>
+            <TextField type='text' value={notify?.title} disabled fullWidth multiline minRows={2} maxRows={8} />
           </div>
-          <div className='flex flex-col gap-4 mt-3'>
-            <label className='block text-sm font-semibold'>{t('content')}</label>
-            <TextField
-              type='text'
-              sx={{ marginTop: '-13px' }}
-              value={notify?.content}
-              disabled
-              fullWidth
-              multiline
-              minRows={3}
-              maxRows={8}
-            />
+          <div className='flex flex-col mt-3'>
+            <label className='block text-sm font-semibold mb-1'>{t('content')}</label>
+            <TextField type='text' value={notify?.content} disabled fullWidth multiline minRows={3} maxRows={8} />
           </div>
+          {imageUrls.length > 0 && (
+            <div className='flex flex-col mt-3'>
+              <label className='block text-sm font-semibold mb-1'>{t('image')}</label>
+              <div className='flex gap-2 flex-wrap'>
+                {imageUrls.map((url, idx) => (
+                  <img
+                    key={idx}
+                    src={url}
+                    alt={`notification-${idx}`}
+                    className='w-50 h-50 rounded-md cursor-pointer object-cover shadow-sm border-1 border-gray-300'
+                    onClick={() => setSelectedImage(url)}
+                  />
+                ))}
+              </div>
+            </div>
+          )}
         </DialogContent>
         <DialogActions>
           <Button onClick={handleCloseEditDialog}>{t('cancel')}</Button>
         </DialogActions>
+      </Dialog>
+      <Dialog open={!!selectedImage} onClose={() => setSelectedImage(null)} maxWidth={false}>
+        <DialogContent
+          sx={{
+            display: 'flex',
+            justifyContent: 'center',
+            alignItems: 'center',
+            p: 0,
+            m: 0,
+            minWidth: 0,
+            minHeight: 0
+          }}
+        >
+          {selectedImage && (
+            <img
+              src={selectedImage}
+              alt='selected-notification'
+              style={{
+                display: 'block',
+                width: 'auto',
+                height: 'auto',
+                maxWidth: '90vw',
+                maxHeight: '90vh',
+                margin: 0,
+                padding: 0
+              }}
+            />
+          )}
+        </DialogContent>
       </Dialog>
     </div>
   )
