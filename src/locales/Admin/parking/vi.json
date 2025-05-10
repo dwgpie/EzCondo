@@ -1,6 +1,6 @@
 {
-  "parking_create_success": "Tạo phí gửi xe thành công!",
-  "parking_update_success": "Cập nhật phí gửi xe thành công!",
+  "parking_create_success": "Tạo phí gửi xe thành công",
+  "parking_update_success": "Cập nhật phí gửi xe thành công",
   "motorbike": "Xe máy",
   "car": "Ô tô",
   "price_per_motor": "Giá cho xe máy",

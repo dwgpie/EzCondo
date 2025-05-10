@@ -19,7 +19,7 @@ import { getApartmentByStatusTrue } from '~/apis/apartment.api'
 import { useEffect, useRef, useState } from 'react'
 import CloudUploadIcon from '@mui/icons-material/CloudUpload'
 import { toast } from 'react-toastify'
-import { useNavigate, useLocation } from 'react-router-dom'
+import { useLocation } from 'react-router-dom'
 import LoadingOverlay from '~/components/LoadingOverlay'
 import { useTranslation } from 'react-i18next'
 
@@ -30,7 +30,7 @@ interface FormData {
   receiver?: string
   apartmentNumber?: string
   NotificationId?: string
-  Image: File[]
+  Image?: (File | undefined)[]
 }
 
 interface Apartment {
@@ -54,7 +54,6 @@ export default function AddNotificationManager() {
     resolver: yupResolver(notificationSchemaManager)
   })
 
-  const navigate = useNavigate()
   const [images, setImages] = useState<string[]>([]) // Lưu trữ URL của ảnh
   const [files, setFiles] = useState<File[]>([]) // Lưu trữ danh sách file ảnh
   const fileInputRef = useRef<HTMLInputElement | null>(null)
@@ -153,12 +152,6 @@ export default function AddNotificationManager() {
     const value = event.target.value
     setRadio(value)
     setValue('receiver', value)
-
-    // if (value === 'resident') {
-    //   setValue('apartmentNumber', '')
-    // } else {
-    //   setValue('receiver', '')
-    // }
   }
 
   const handleCallAPI1 = async (formData: FormData) => {
@@ -172,7 +165,7 @@ export default function AddNotificationManager() {
             clearInterval(Progress)
             return prev
           }
-          return prev + 5
+          return prev + 4
         })
       }, 150)
 
@@ -184,18 +177,26 @@ export default function AddNotificationManager() {
       })
 
       if (!response?.data) {
-        toast.error('Failed to create service')
+        toast.error(t('create_service_failed'), {
+          style: { width: 'fit-content' }
+        })
       }
 
       const NotificationId = response.data
       console.log('ID:', NotificationId)
 
-      await addNotificationImages({
-        NotificationId,
-        Image: formData.Image
-      })
+      const validImages = (formData.Image ?? []).filter((f: File | undefined): f is File => !!f)
 
-      toast.success('Notification created successfully!')
+      if (validImages.length > 0) {
+        await addNotificationImages({
+          NotificationId,
+          Image: validImages
+        })
+      }
+
+      toast.success(t('notification_create_success'), {
+        style: { width: 'fit-content' }
+      })
       setImages([])
       setFiles([])
     } catch (error) {
@@ -234,21 +235,26 @@ export default function AddNotificationManager() {
       const response = await addNotificationToResident(notificationData)
 
       if (!response?.data) {
-        toast.error('Failed to create notification')
+        toast.error(t('create_service_failed'), {
+          style: { width: 'fit-content' }
+        })
         return
       }
 
       const NotificationId = response.data
 
-      // Gửi ảnh nếu có
-      for (const id of NotificationId) {
-        await addNotificationImages({
-          NotificationId: id,
-          Image: formData.Image
-        })
+      const validImages = (formData.Image ?? []).filter((f: File | undefined): f is File => !!f)
+
+      if (validImages.length > 0) {
+        for (const id of NotificationId) {
+          await addNotificationImages({
+            NotificationId: id,
+            Image: formData.Image
+          })
+        }
       }
 
-      toast.success('Notification created successfully!', {
+      toast.success(t('notification_create_success'), {
         style: { width: 'fit-content' }
       })
 
@@ -380,10 +386,7 @@ export default function AddNotificationManager() {
             </div>
           </div>
           <div className='col-span-1'>
-            <label className='block text-sm font-semibold'>
-              {t('images')}
-              <span className='text-red-600 ml-1'>*</span>
-            </label>
+            <label className='block text-sm font-semibold'>{t('images')}</label>
             <div
               className='mt-1 w-full h-auto p-4 border-2 border-dashed border-gray-400 rounded-md flex flex-col items-center justify-center cursor-pointer bg-gray-100'
               onClick={() => fileInputRef.current?.click()}
@@ -429,12 +432,11 @@ export default function AddNotificationManager() {
                 onChange={handleImageChange}
               />
             </div>
-            <div className='mt-1 text-xs text-red-500 min-h-4'>{errors.Image?.message}</div>
             <div
               className={` transition-all duration-300
                   ${radio === 'resident' ? 'opacity-0 pointer-events-none' : 'opacity-100'}`}
             >
-              <label className='block text-sm font-semibold mb-[6px]'>
+              <label className='block text-sm font-semibold mb-[6px] mt-5'>
                 {t('apartment')}
                 <span className='text-red-600 ml-1'>*</span>
               </label>
@@ -456,20 +458,12 @@ export default function AddNotificationManager() {
                   />
                 )}
               />
-
               <div className='mt-1 text-xs text-red-500 min-h-4'>{errors.apartmentNumber?.message}</div>
             </div>
           </div>
         </div>
 
         <div className='flex justify-end gap-4 mt-3'>
-          <Button
-            variant='contained'
-            style={{ color: 'white', background: 'red', fontWeight: 'semi-bold' }}
-            onClick={() => navigate(-1)}
-          >
-            {t('cancel')}
-          </Button>
           <Button
             type='submit'
             variant='contained'

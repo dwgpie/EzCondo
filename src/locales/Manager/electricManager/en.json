@@ -42,6 +42,7 @@
   "month": "Month",
   "year": "Year",
   "export_pdf": "Export PDF",
+  "export_image": "Export Image",
   "no_data_available": "No data available",
   "water_meter_management": "Water Meter Management",
   "no_waters_found": "No waters found",
@@ -58,7 +59,7 @@
   "water_reading_low": "Water reading is lower than the previous reading",
   "only_one_apartment": "Only send notification to 1 resident at a time",
   "apartment_not_found": "Apartment not found",
-  "success": "Notification sent successfully!",
+  "success": "Notification sent successfully",
   "error": "Notification sending failed",
-  "import_success": "Import successful!"
+  "import_success": "Import successfully"
 }

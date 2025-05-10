@@ -1,0 +1,15 @@
+{
+  "search": "Tìm kiếm",
+  "tabs": {
+    "all": "Tất cả",
+    "notice": "Thông báo",
+    "incident": "Sự cố"
+  },
+  "today": "Hôm nay",
+  "older": "Trước đó",
+  "no_notifications": "Không có thông báo",
+  "read_all": "Đánh dấu đã đọc tất cả",
+  "profile": "Hồ sơ",
+  "password": "Mật khẩu",
+  "logout": "Đăng xuất"
+}

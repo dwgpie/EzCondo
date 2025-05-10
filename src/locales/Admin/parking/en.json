@@ -1,6 +1,6 @@
 {
-  "parking_create_success": "Set Parking created successfully!",
-  "parking_update_success": "Parking fee updated successfully!",
+  "parking_create_success": "Set Parking created successfully",
+  "parking_update_success": "Parking fee updated successfully",
   "motorbike": "Motorbike",
   "car": "Car",
   "price_per_motor": "Price Per Motor",

@@ -1,5 +1,5 @@
 {
-  "notification_create_success": "Notification created successfully!",
+  "notification_create_success": "Notification created successfully",
   "create_service_failed": "Failed to create service",
   "receiver": "Receiver",
   "manager": "Manager",

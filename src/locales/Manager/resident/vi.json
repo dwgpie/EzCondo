@@ -29,7 +29,7 @@
   "delete_confirm_title": "Bạn có chắc chắn muốn xóa?",
   "delete_confirm_text": "Hành động này không thể hoàn tác!",
   "delete_success": "Thành viên đã được xóa thành công.",
-  "delete_error": "Không thể xóa thành viên!",
+  "delete_error": "Không thể xóa thành viên",
   "status": "Trạng thái",
   "detail": "Chi tiết",
   "add_member": "Thêm thành viên",

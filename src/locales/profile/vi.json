@@ -12,12 +12,9 @@
   "cancel": "Hủy",
   "submit": "Lưu",
   "loading": "Đang tải dữ liệu...",
-  "success": "Cập nhật hồ sơ thành công!",
+  "success": "Cập nhật hồ sơ thành công",
   "fail": "Cập nhật hồ sơ thất bại",
   "old_password": "Mật khẩu cũ",
   "new_password": "Mật khẩu mới",
-  "confirm_password": "Xác nhận mật khẩu",
-  "profile": "Hồ sơ",
-  "password": "Mật khẩu",
-  "logout": "Đăng xuất"
+  "confirm_password": "Xác nhận mật khẩu"
 }

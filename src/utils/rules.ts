@@ -288,11 +288,7 @@ export const notificationSchema = yup.object({
   receiver: yup.string().required('Receiver is required'),
   type: yup.string().required('Type is required'),
   NotificationId: yup.string(),
-  Image: yup
-    .array()
-    .of(yup.mixed<File>().required('Each image is required'))
-    .min(1, 'At least one image is required')
-    .required('Image is required')
+  Image: yup.array().of(yup.mixed<File>())
 })
 
 export const notificationSchemaManager = yup.object({
@@ -306,11 +302,7 @@ export const notificationSchemaManager = yup.object({
     otherwise: (schema) => schema.notRequired()
   }),
   NotificationId: yup.string(),
-  Image: yup
-    .array()
-    .of(yup.mixed<File>().required('Each image is required'))
-    .min(1, 'At least one image is required')
-    .required('Image is required')
+  Image: yup.array().of(yup.mixed<File>())
 })
 
 //Add member

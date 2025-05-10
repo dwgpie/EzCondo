@@ -14,8 +14,10 @@ import { Button, MenuItem, Select, Checkbox } from '@mui/material'
 import { toast } from 'react-toastify'
 import LinearProgress from '@mui/material/LinearProgress'
 import useBufferProgress from '~/components/useBufferProgress'
-import { useNavigate } from 'react-router-dom'
 import { useTranslation } from 'react-i18next'
+import { addNotificationToResident, addNotificationImages } from '~/apis/notification.api'
+import { generateWaterBillImage } from '~/helpers/generateWaterBillImage'
+import LoadingOverlay from '~/components/LoadingOverlay'
 
 interface WaterForm {
   id?: string
@@ -27,6 +29,10 @@ interface WaterForm {
   readingCurrentDate: string
   consumption: string
   status: string
+  meterNumber: string
+  pre_water_number: number
+  current_water_number: number
+  price: string
 }
 
 const StyledTableCell = styled(TableCell)(({ theme }) => ({
@@ -57,10 +63,10 @@ const StyledTableRow = styled(TableRow)(() => ({
 }))
 
 export default function UnpaidWater() {
-  const navigate = useNavigate()
-  const { t } = useTranslation('electricManager')
+  const { t, i18n } = useTranslation('electricManager')
   const [loading, setLoading] = useState(false)
   const { progress, buffer } = useBufferProgress(loading)
+  const [progress2, setProgress2] = useState(0)
   const [filteredWaters, setFilteredWaters] = useState<WaterForm[]>([])
   const [page, setPage] = useState(1)
   const pageSize = 7
@@ -128,7 +134,6 @@ export default function UnpaidWater() {
     }
   }
 
-  // Modify handleCheckboxChange to also track selected apartments
   const handleCheckboxChange = (apartmentNumber: string) => {
     setSelectedApartments((prev) => {
       if (prev.includes(apartmentNumber)) {
@@ -139,30 +144,83 @@ export default function UnpaidWater() {
     })
   }
 
-  const handleSendNotification = () => {
-    if (selectedApartments.length === 0) {
-      toast.warning('Please select at least one apartment', {
+  const handleSendNotification = async () => {
+    if (selectedApartments.length !== 1) {
+      if (selectedApartments.length > 1) {
+        toast.error(t('only_one_apartment'), {
+          style: { width: 'fit-content' }
+        })
+      }
+      return
+    }
+
+    const apartmentNumber = selectedApartments[0]
+    const water = filteredWaters.find((e) => e.apartmentNumber === apartmentNumber)
+    if (!water) {
+      toast.error(t('apartment_not_found'), {
         style: { width: 'fit-content' }
       })
       return
     }
-    const currentDate = new Date().toLocaleDateString('vi-VN')
-    const notificationData = {
-      selectedApartments,
-      title: t('notification_title_water'),
-      content: t('notification_content_water', { date: currentDate })
-    }
 
-    navigate('/manager/add-notification', { state: notificationData })
+    try {
+      setLoading(true)
+      setProgress2(0)
+
+      const Progress = setInterval(() => {
+        setProgress2((prev) => {
+          if (prev >= 90) {
+            clearInterval(Progress)
+            return prev
+          }
+          return prev + 4
+        })
+      }, 150)
+      const imgData = await generateWaterBillImage(water.id || '', t, i18n)
+      const res = await addNotificationToResident([
+        {
+          title: t('notification_title_water'),
+          content: t('notification_content_water', { date: new Date().toLocaleDateString('vi-VN') }),
+          type: 'fee',
+          apartmentNumber
+        }
+      ])
+      const notificationId = res.data?.[0]
+      if (notificationId) {
+        const [meta, base64] = imgData.split(',')
+        const mime = meta.match(/:(.*?);/)?.[1] || 'image/png'
+        const bstr = atob(base64)
+        const u8arr = Uint8Array.from(bstr, (c) => c.charCodeAt(0))
+        const file = new File([u8arr], `hoa-don-dien-${apartmentNumber}.png`, { type: mime })
+        await addNotificationImages({ NotificationId: notificationId, Image: [file] })
+      }
+      toast.success(t('success'), {
+        style: { width: 'fit-content' }
+      })
+    } catch {
+      toast.error(t('error'), {
+        style: { width: 'fit-content' }
+      })
+    } finally {
+      setProgress2(100)
+      setTimeout(() => {
+        setLoading(false)
+      }, 500)
+    }
   }
 
   return (
     <div className='mx-5 mt-5 mb-5 px-6 pb-3 pt-3 bg-gradient-to-br from-white via-white to-blue-100 drop-shadow-md rounded-xl'>
-      {loading && (
-        <div className='w-full px-6 fixed top-2 left-0 z-50'>
-          <LinearProgress variant='buffer' value={progress} valueBuffer={buffer} />
-        </div>
-      )}
+      {loading &&
+        (progress2 === 0 ? (
+          <div className='w-full px-6 fixed top-2 left-0 z-50'>
+            <LinearProgress variant='buffer' value={progress} valueBuffer={buffer} />
+          </div>
+        ) : (
+          <div className='absolute inset-0 z-50 bg-white bg-opacity-50 flex justify-center items-center'>
+            <LoadingOverlay value={progress2} />
+          </div>
+        ))}
       <div className='flex justify-between items-center'>
         <h2 className='text-2xl font-semibold text-gray-500'>{t('water_bill_paid_or_unpaid')}</h2>
         <div className='mt-2 mb-4 flex gap-4 justify-end items-center'>
@@ -211,8 +269,8 @@ export default function UnpaidWater() {
                 <StyledTableCell width='16%'>{t('name')}</StyledTableCell>
                 <StyledTableCell width='16%'>{t('apartment_number')}</StyledTableCell>
                 <StyledTableCell width='11%'>{t('phone')}</StyledTableCell>
-                <StyledTableCell width='17%'>{t('reading_pre_date')}</StyledTableCell>
-                <StyledTableCell width='17%'>{t('reading_current_date')}</StyledTableCell>
+                <StyledTableCell width='19%'>{t('reading_pre_date')}</StyledTableCell>
+                <StyledTableCell width='18%'>{t('reading_current_date')}</StyledTableCell>
                 <StyledTableCell width='8%'>{t('consumption')}</StyledTableCell>
                 <StyledTableCell width='8%'>{t('status')}</StyledTableCell>
               </TableRow>

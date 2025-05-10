@@ -1,7 +1,7 @@
 {
   "service_create_fail": "Failed to create service",
-  "service_create_success": "Service created successfully!",
-  "service_update_success": "Service updated successfully!",
+  "service_create_success": "Service created successfully",
+  "service_update_success": "Service updated successfully",
   "name": "Name",
   "description": "Description",
   "timestamp": "Timestamp",

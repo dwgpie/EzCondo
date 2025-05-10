@@ -174,13 +174,13 @@ export const getElectricDetail = (electricId: string) => {
 }
 
 export const dowloadTemplateElectricMeter = () => {
-  return http.get('http://localhost:7254/api/Electric/Download-Template-Electric-Metter', {
+  return http.get('https://32bf-1-53-17-22.ngrok-free.app/api/Electric/Download-Template-Electric-Metter', {
     responseType: 'blob'
   })
 }
 
 export const dowloadTemplateElectricReading = () => {
-  return http.get('http://localhost:7254/api/Electric/Download-Template-Electric-Reading', {
+  return http.get('https://32bf-1-53-17-22.ngrok-free.app/api/Electric/Download-Template-Electric-Reading', {
     responseType: 'blob'
   })
 }
@@ -251,13 +251,13 @@ export const getWaterDetail = (waterReadingId: string) => {
 }
 
 export const dowloadTemplateWaterMeter = () => {
-  return http.get('http://localhost:7254/api/Water/Download-Template-Water-Metter', {
+  return http.get('https://32bf-1-53-17-22.ngrok-free.app/api/Water/Download-Template-Water-Metter', {
     responseType: 'blob'
   })
 }
 
 export const dowloadTemplateWaterReading = () => {
-  return http.get('http://localhost:7254/api/Water/Download-Template-Water-Reading', {
+  return http.get('https://32bf-1-53-17-22.ngrok-free.app/api/Water/Download-Template-Water-Reading', {
     responseType: 'blob'
   })
 }

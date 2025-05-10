@@ -29,7 +29,7 @@
   "delete_confirm_title": "Are you sure you want to delete?",
   "delete_confirm_text": "This action cannot be undone!",
   "delete_success": "The member has been successfully deleted.",
-  "delete_error": "Unable to delete the member!",
+  "delete_error": "Unable to delete the member",
   "status": "Status",
   "detail": "Detail",
   "add_member": "Add Member",

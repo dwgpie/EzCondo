@@ -28,6 +28,8 @@ import sidebarmanagerEn from './locales/Manager/sidebarmanager/en.json'
 import sidebarmanagerVi from './locales/Manager/sidebarmanager/vi.json'
 import profileEn from './locales/profile/en.json'
 import profileVi from './locales/profile/vi.json'
+import headerEn from './locales/header/en.json'
+import headerVi from './locales/header/vi.json'
 
 i18n.use(initReactI18next).init({
   resources: {
@@ -45,7 +47,8 @@ i18n.use(initReactI18next).init({
       parkingManager: parkingManagerEn,
       incidentManager: incidentManagerEn,
       sidebarmanager: sidebarmanagerEn,
-      profile: profileEn
+      profile: profileEn,
+      header: headerEn
     },
     vi: {
       service: serviceVi,
@@ -61,7 +64,8 @@ i18n.use(initReactI18next).init({
       parkingManager: parkingManagerVi,
       incidentManager: incidentManagerVi,
       sidebarmanager: sidebarmanagerVi,
-      profile: profileVi
+      profile: profileVi,
+      header: headerVi
     }
   },
   lng: 'en',

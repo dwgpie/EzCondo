@@ -1,0 +1,15 @@
+{
+  "search": "Search",
+  "tabs": {
+    "all": "All",
+    "notice": "Notice",
+    "incident": "Incident"
+  },
+  "today": "Today",
+  "older": "Older",
+  "no_notifications": "No notifications",
+  "read_all": "Read all",
+  "profile": "Profile",
+  "password": "Password",
+  "logout": "Logout"
+}
