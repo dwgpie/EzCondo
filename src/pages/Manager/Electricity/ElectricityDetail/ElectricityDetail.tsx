@@ -5,6 +5,7 @@ import { useMutation } from '@tanstack/react-query'
 import LinearProgress from '@mui/material/LinearProgress'
 import useBufferProgress from '~/components/useBufferProgress'
 import { useTranslation } from 'react-i18next'
+import html2canvas from 'html2canvas-pro'
 
 interface FormData {
   id?: string
@@ -68,29 +69,24 @@ export default function ElectricityDetail() {
     }
   }, [id])
 
-  const handleExport = () => {
+  const handleExport = async () => {
     if (!ref.current) return
 
-    const options = {
-      margin: 0.3,
-      filename: 'hoa-don-dien.pdf',
-      image: { type: 'jpeg', quality: 0.98 },
-      html2canvas: {
-        scale: 2,
-        useCORS: true,
-        scrollY: 0,
-        backgroundColor: null,
-        onclone: (document: Document) => {
-          const elements = document.getElementsByClassName('border-gray-300')
-          for (let i = 0; i < elements.length; i++) {
-            ;(elements[i] as HTMLElement).style.borderColor = '#d1d5db'
-          }
-        }
-      },
-      jsPDF: { unit: 'in', format: 'a4', orientation: 'portrait' }
-    }
+    // Chụp DOM thành canvas
+    const canvas = await html2canvas(ref.current, {
+      useCORS: true,
+      backgroundColor: null,
+      scale: 2
+    })
 
-    window.html2pdf().set(options).from(ref.current).save()
+    // Chuyển canvas thành base64
+    const imgData = canvas.toDataURL('image/png')
+
+    // Lưu vào localStorage
+    localStorage.setItem('electricity_bill_image', imgData)
+
+    // Thông báo thành công
+    alert('Đã lưu ảnh hóa đơn vào localStorage!')
   }
 
   const electricPriceMutation = useMutation({
@@ -214,10 +210,10 @@ export default function ElectricityDetail() {
                   <tbody>
                     {price.map((price) => (
                       <tr key={price.id}>
-                        <td className='px-2 py-1 border border-gray-300'>
+                        <td style={{ padding: 6, border: '1px solid #ccc' }}>
                           {price.minKWh} - {price.maxKWh} kWh
                         </td>
-                        <td className='px-2 py-1 border border-gray-300'>
+                        <td style={{ padding: 6, border: '1px solid #ccc' }}>
                           {price.pricePerKWh.toLocaleString('en-US')} VND
                         </td>
                       </tr>

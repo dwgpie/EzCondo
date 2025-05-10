@@ -26,5 +26,7 @@
   "detail": "Detail",
   "no_notifications_found": "No notifications found",
   "search_apartment": "Search apartment",
-  "apartment": "Apartment"
+  "apartment": "Apartment",
+  "detail_notification": "Notification details",
+  "image": "Image"
 }

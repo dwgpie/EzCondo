@@ -117,7 +117,7 @@ export default function ElectricityMeter() {
     try {
       await addElectricityMeter(formData.file[0])
       getAllElectricityMeters.mutate()
-      toast.success('Import successful', {
+      toast.success(t('import_success'), {
         style: { width: 'fit-content' }
       })
     } catch (error) {

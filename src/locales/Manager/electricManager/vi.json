@@ -55,5 +55,10 @@
   "invalid_date": "Định dạng ngày không hợp lệ. Vui lòng sử dụng yyyy-MM-dd",
   "apartment_not_user": "Căn hộ không có người dùng",
   "electricity_reading_low": "Chỉ số điện thấp hơn chỉ số trước đó",
-  "water_reading_low": "Chỉ số nước thấp hơn chỉ số trước đó"
+  "water_reading_low": "Chỉ số nước thấp hơn chỉ số trước đó",
+  "only_one_apartment": "Chỉ gửi thông báo cho 1 resident mỗi lần",
+  "apartment_not_found": "Căn hộ không tồn tại",
+  "success": "Gửi thông báo thành công!",
+  "error": "Gửi thông báo thất bại",
+  "import_success": "Nhập thành công!"
 }

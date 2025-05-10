@@ -79,7 +79,7 @@ export default function AddNotificationManager() {
 
   useEffect(() => {
     if (location.state) {
-      const { selectedApartments, title, content } = location.state
+      const { selectedApartments, title, content, imageBase64 } = location.state
       if (selectedApartments?.length > 0) {
         setValue('receiver', 'apartment')
         setApartmentChoosed(selectedApartments)
@@ -93,6 +93,22 @@ export default function AddNotificationManager() {
       }
       if (content) {
         setValue('content', content)
+      }
+      if (imageBase64) {
+        // Tạo file từ base64
+        const arr = imageBase64.split(',')
+        const mime = arr[0].match(/:(.*?);/)[1]
+        const bstr = atob(arr[1])
+        let n = bstr.length
+        const u8arr = new Uint8Array(n)
+        while (n--) {
+          u8arr[n] = bstr.charCodeAt(n)
+        }
+        const file = new File([u8arr], 'hoa-don-dien.png', { type: mime })
+        setImages([imageBase64])
+        setFiles([file])
+        setValue('Image', [file])
+        clearErrors('Image')
       }
     }
     fetchApartments()

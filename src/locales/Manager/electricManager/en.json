@@ -55,5 +55,10 @@
   "invalid_date": "Invalid date format. Please use yyyy-MM-dd",
   "apartment_not_user": "Apartment have no user",
   "electricity_reading_low": "Electricity reading is lower than the previous reading",
-  "water_reading_low": "Water reading is lower than the previous reading"
+  "water_reading_low": "Water reading is lower than the previous reading",
+  "only_one_apartment": "Only send notification to 1 resident at a time",
+  "apartment_not_found": "Apartment not found",
+  "success": "Notification sent successfully!",
+  "error": "Notification sending failed",
+  "import_success": "Import successful!"
 }
