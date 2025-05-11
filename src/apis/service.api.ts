@@ -5,6 +5,8 @@ export const searchService = (search: string) => {
   return http.get(`/api/Services/get-all-services?serviceName=${search}`)
 }
 
+const API_BASE_URL = import.meta.env.VITE_API_URL
+
 //Service
 export const addService = (body: {
   serviceName: string
@@ -174,13 +176,13 @@ export const getElectricDetail = (electricId: string) => {
 }
 
 export const dowloadTemplateElectricMeter = () => {
-  return http.get('https://32bf-1-53-17-22.ngrok-free.app/api/Electric/Download-Template-Electric-Metter', {
+  return http.get(`${API_BASE_URL}/api/Electric/Download-Template-Electric-Metter`, {
     responseType: 'blob'
   })
 }
 
 export const dowloadTemplateElectricReading = () => {
-  return http.get('https://32bf-1-53-17-22.ngrok-free.app/api/Electric/Download-Template-Electric-Reading', {
+  return http.get(`${API_BASE_URL}/api/Electric/Download-Template-Electric-Reading`, {
     responseType: 'blob'
   })
 }
@@ -251,27 +253,27 @@ export const getWaterDetail = (waterReadingId: string) => {
 }
 
 export const dowloadTemplateWaterMeter = () => {
-  return http.get('https://32bf-1-53-17-22.ngrok-free.app/api/Water/Download-Template-Water-Metter', {
+  return http.get(`${API_BASE_URL}/api/Water/Download-Template-Water-Metter`, {
     responseType: 'blob'
   })
 }
 
 export const dowloadTemplateWaterReading = () => {
-  return http.get('https://32bf-1-53-17-22.ngrok-free.app/api/Water/Download-Template-Water-Reading', {
+  return http.get(`${API_BASE_URL}/api/Water/Download-Template-Water-Reading`, {
     responseType: 'blob'
   })
 }
 
-export const filterElectric = (body: { status: string; day: string }) => {
-  return http.get(`/api/Electric/Get-All-Electric?status=${body.status}&day=${body.day}`)
+export const filterElectric = (body: { status: string; day: string; month: string }) => {
+  return http.get(`/api/Electric/Get-All-Electric?status=${body.status}&day=${body.day}&month=${body.month}`)
 }
 
 export const updateBillElectric = (body: { electricBillId: string }[]) => {
   return http.patch('/api/Electric/Update-Electric-Bill', body)
 }
 
-export const filterWater = (body: { status: string; day: string }) => {
-  return http.get(`/api/Water/Get-All-Water?status=${body.status}&day=${body.day}`)
+export const filterWater = (body: { status: string; day: string; month: string }) => {
+  return http.get(`/api/Water/Get-All-Water?status=${body.status}&day=${body.day}&month=${body.month}`)
 }
 
 export const updateBillWater = (body: { waterBillId: string }[]) => {
@@ -297,4 +299,20 @@ export const updateParkingLot = (body: { parkingLotDetailId: string; status: boo
 
 export const deleteParkingLot = (parkingLotDetailId: string) => {
   return http.delete(`/api/ParkingLot/Delete-Parking-Lot-Detail?parkingLotDetailId=${parkingLotDetailId}`)
+}
+
+export const getAllBooking = (search: string, month: string) => {
+  return http.get(`/api/Booking/Get-All-Booking?search=${search}&month=${month}`)
+}
+
+export const getAllBookingSearch = (search: string) => {
+  return http.get(`/api/Booking/Get-All-Booking?search=${search}`)
+}
+
+export const getAllPayment = (month: string) => {
+  return http.get(`/api/Payment/History-Payment?month=${month}`)
+}
+
+export const getAllPaymentSearch = (search: string) => {
+  return http.get(`/api/Payment/History-Payment?search=${search}`)
 }

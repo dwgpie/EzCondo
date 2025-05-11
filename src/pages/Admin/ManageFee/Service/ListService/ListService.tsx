@@ -116,12 +116,20 @@ export default function ListService() {
 
   // Xử lý tìm kiếm
   useEffect(() => {
+    let isCurrent = true
     if (searchQuery.trim() === '') {
-      setListService(originalList) // Trả về danh sách ban đầu khi xoá tìm kiếm
+      setListService(originalList)
     } else {
       searchService(searchQuery)
-        .then((response) => setListService(response.data))
-        .catch((error) => console.error('Error search:', error))
+        .then((response) => {
+          if (isCurrent) setListService(response.data)
+        })
+        .catch((error) => {
+          if (isCurrent) console.error('Error search:', error)
+        })
+    }
+    return () => {
+      isCurrent = false
     }
   }, [searchQuery, originalList])
 

@@ -27,12 +27,16 @@ export default function SideBarManagerActive() {
   const RequestParkingPath = '/manager/request-parking'
   const ListParkingPath = '/manager/list-parking'
 
+  const PaymentHistoryPath = '/manager/payment-history'
+  const BookingHistoryPath = '/manager/booking-history'
+
   const [isOpenUser, setIsOpenUser] = useState(false)
   const [isOpenElectric, setIsOpenElectric] = useState(false)
   const [isOpenWater, setIsOpenWater] = useState(false)
   const [isOpenNotification, setIsOpenNotification] = useState(false)
   const [isOpenIncident, setIsOpenIncident] = useState(false)
   const [isOpenParking, setIsOpenParking] = useState(false)
+  const [isTransactionHistory, setIsTransactionHistory] = useState(false)
 
   const handleClickUser = () => {
     setIsOpenUser(!isOpenUser)
@@ -51,6 +55,10 @@ export default function SideBarManagerActive() {
   }
   const handleClickParking = () => {
     setIsOpenParking(!isOpenParking)
+  }
+
+  const handleClickTransactionHistory = () => {
+    setIsTransactionHistory(!isTransactionHistory)
   }
 
   return (
@@ -438,7 +446,7 @@ export default function SideBarManagerActive() {
             </Link>
             <Link to='/manager/add-notification'>
               <div
-                className={`flex justify-between px-4 mr-2 ml-15 h-[45px] mt-1 mb-10 rounded-xl cursor-pointer hover:bg-blue-100 ripple ${path === AddNotificationPath ? 'bg-blue-100 text-blue-600' : 'hover:bg-blue-100 text-blue-900'}`}
+                className={`flex justify-between px-4 mr-2 ml-15 h-[45px] mt-1 rounded-xl cursor-pointer hover:bg-blue-100 ripple ${path === AddNotificationPath ? 'bg-blue-100 text-blue-600' : 'hover:bg-blue-100 text-blue-900'}`}
               >
                 <div className='flex items-center gap-[15px]'>
                   <svg xmlns='http://www.w3.org/2000/svg' width='26' height='26' viewBox='0 0 24 24'>
@@ -448,6 +456,60 @@ export default function SideBarManagerActive() {
                     />
                   </svg>
                   <p className='text-[15px]'>{t('add_notification')}</p>
+                </div>
+              </div>
+            </Link>
+          </div>
+
+          {/* Transaction History */}
+          <div
+            className={`flex justify-between mt-1 px-2 ml-7 mr-2 h-[45px] rounded-xl cursor-pointer hover:bg-blue-100 ripple ${path === PaymentHistoryPath || path === BookingHistoryPath ? 'bg-blue-100 text-blue-600' : 'hover:bg-blue-100 text-blue-900'}`}
+            onClick={handleClickTransactionHistory}
+          >
+            <div className='flex justify-center items-center gap-x-[13px]'>
+              <svg xmlns='http://www.w3.org/2000/svg' width='28' height='28' viewBox='0 0 48 48'>
+                <g fill='none' stroke='currentColor' strokeLinejoin='round' strokeWidth='4'>
+                  <rect width='30' height='36' x='9' y='8' rx='2' />
+                  <path strokeLinecap='round' d='M18 4v6m12-6v6m-14 9h16m-16 8h12m-12 8h8' />
+                </g>
+              </svg>
+              <p className='text-[15px]'>{t('transaction_history')}</p>
+            </div>
+            <div className='flex items-center justify-center'>
+              {isTransactionHistory ? <ExpandLess /> : <ExpandMore />}
+            </div>
+          </div>
+
+          <div
+            className={`overflow-hidden transition-all duration-300 ${isTransactionHistory ? 'max-h-[150px]' : 'max-h-0'}`}
+          >
+            <Link to='/manager/payment-history'>
+              <div
+                className={`flex justify-between px-4 mr-2 ml-15 h-[45px] mb-1 mt-1 rounded-xl cursor-pointer hover:bg-blue-100 ripple ${path === PaymentHistoryPath ? 'bg-blue-100 text-blue-600' : 'hover:bg-blue-100 text-blue-900'}`}
+              >
+                <div className='flex items-center gap-[15px]'>
+                  <svg xmlns='http://www.w3.org/2000/svg' width='30' height='30' viewBox='0 0 24 24'>
+                    <path
+                      fill='currentColor'
+                      d='M15.75 14.5a.75.75 0 0 0 0 1.5h2.5a.75.75 0 0 0 0-1.5zM2 8.25A3.25 3.25 0 0 1 5.25 5h13.5A3.25 3.25 0 0 1 22 8.25v7.5A3.25 3.25 0 0 1 18.75 19H5.25A3.25 3.25 0 0 1 2 15.75zM20.5 9.5V8.25a1.75 1.75 0 0 0-1.75-1.75H5.25A1.75 1.75 0 0 0 3.5 8.25V9.5zM3.5 11v4.75c0 .966.784 1.75 1.75 1.75h13.5a1.75 1.75 0 0 0 1.75-1.75V11z'
+                    />
+                  </svg>
+                  <p className='text-[15px]'>{t('payment_history')}</p>
+                </div>
+              </div>
+            </Link>
+            <Link to='/manager/booking-history'>
+              <div
+                className={`flex justify-between px-4 mr-2 ml-16 h-[45px] mt-1 mb-10 rounded-xl cursor-pointer hover:bg-blue-100 ripple ${path === BookingHistoryPath ? 'bg-blue-100 text-blue-600' : 'hover:bg-blue-100 text-blue-900'}`}
+              >
+                <div className='flex items-center gap-[17px]'>
+                  <svg xmlns='http://www.w3.org/2000/svg' width='24' height='24' viewBox='0 0 2048 2048'>
+                    <path
+                      fill='currentColor'
+                      d='M896 512v128H512V512zM512 896V768h384v128zm0 256v-128h256v128zM384 512v128H256V512zm0 256v128H256V768zm-128 384v-128h128v128zM128 128v1792h640v128H0V0h1115l549 549v219h-128V640h-512V128zm1024 91v293h293zm640 805h256v1024H896V1024h256V896h128v128h384V896h128zm128 896v-512h-896v512zm0-640v-128h-896v128z'
+                    />
+                  </svg>
+                  <p className='text-[15px]'>{t('booking_history')}</p>
                 </div>
               </div>
             </Link>

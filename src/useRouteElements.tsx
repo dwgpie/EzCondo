@@ -46,6 +46,8 @@ import Demo from './pages/Demo'
 import RequestParking from './pages/Manager/Parking/RequestParking'
 import ListParking from './pages/Manager/Parking/ListParking'
 import DetailParking from './pages/Manager/Parking/DetailParking'
+import BookingHistory from './pages/Manager/BookingHistory'
+import PaymentHistory from './pages/Manager/PaymentHistory'
 
 export default function useRouteElements() {
   const { userRole } = useContext(AppContext)
@@ -355,6 +357,22 @@ export default function useRouteElements() {
                 element: (
                   <DashboardManagerLayout>
                     <DetailParking />
+                  </DashboardManagerLayout>
+                )
+              },
+              {
+                path: '/manager/booking-history',
+                element: (
+                  <DashboardManagerLayout>
+                    <BookingHistory />
+                  </DashboardManagerLayout>
+                )
+              },
+              {
+                path: '/manager/payment-history',
+                element: (
+                  <DashboardManagerLayout>
+                    <PaymentHistory />
                   </DashboardManagerLayout>
                 )
               },
