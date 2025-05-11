@@ -156,14 +156,15 @@ export default function WaterDetail() {
                 alt='Logo'
                 style={{ width: 64, height: 64, objectFit: 'cover' }}
               />
-              <p style={{ fontWeight: 600, fontSize: 18 }}>{t('apartment_management_board')}</p>
+              <p style={{ fontWeight: 600, fontSize: 15, color: '#000' }}>{t('apartment_management_board')}</p>
             </div>
             <div style={{ textAlign: 'center', marginBottom: 24 }}>
               <h2 style={{ fontSize: 22, fontWeight: 900, color: '#1d4ed8', textTransform: 'uppercase' }}>
                 {t('water_bill')}
               </h2>
               <p style={{ fontWeight: 600 }}>
-                <span style={{ color: '#2563eb' }}>{t('no')}</span>: {id?.slice(-5).toUpperCase()}
+                <span style={{ color: '#2563eb' }}>{t('no')}</span>:{' '}
+                <span style={{ color: 'black' }}> {id?.slice(-5).toUpperCase()}</span>
               </p>
             </div>
 
@@ -227,25 +228,29 @@ export default function WaterDetail() {
                 </tbody>
               </table>
 
-              <div style={{ justifyContent: 'space-between', marginTop: 16 }}>
+              <div
+                style={{
+                  display: 'flex',
+                  justifyContent: 'space-between',
+                  alignItems: 'flex-start',
+                  marginTop: 16,
+                  columnGap: 30
+                }}
+              >
                 <table style={{ border: '1px solid #ccc', fontSize: 14 }}>
                   <thead>
                     <tr>
                       <th style={{ padding: 6, border: '1px solid #ccc', color: '#2563eb' }}>{t('water_price')}</th>
+                      <th style={{ padding: 6, border: '1px solid #ccc', color: '#2563eb' }}>{t('unit_price')}</th>
                     </tr>
                   </thead>
                   <tbody>
-                    {price ? (
-                      <tr key={price.id}>
-                        <td style={{ padding: 6, border: '1px solid #ccc' }}>
-                          {price.pricePerM3.toLocaleString('en-US')} VND
-                        </td>
-                      </tr>
-                    ) : (
-                      <div>
-                        <p className='px-2 py-1 border border-gray-300'>No data available</p>
-                      </div>
-                    )}
+                    <tr>
+                      <td style={{ padding: 6, border: '1px solid #ccc' }}>1 m³</td>
+                      <td style={{ padding: 6, border: '1px solid #ccc' }}>
+                        {price?.pricePerM3?.toLocaleString('en-US')} VND
+                      </td>
+                    </tr>
                   </tbody>
                 </table>
                 <div
@@ -253,7 +258,6 @@ export default function WaterDetail() {
                     display: 'flex',
                     flexDirection: 'column',
                     alignItems: 'flex-end',
-                    marginTop: -65,
                     marginBottom: 20,
                     fontSize: 14
                   }}

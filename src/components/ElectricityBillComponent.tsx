@@ -43,14 +43,15 @@ const ElectricityBillComponent = React.forwardRef<HTMLDivElement, BillProps>(({ 
       />
       <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
         <img src='/imgs/logo/lo23-Photoroom.png' alt='Logo' style={{ width: 64, height: 64, objectFit: 'cover' }} />
-        <p style={{ fontWeight: 600, fontSize: 15 }}>{t('apartment_management_board')}</p>
+        <p style={{ fontWeight: 600, fontSize: 15, color: '#000' }}>{t('apartment_management_board')}</p>
       </div>
       <div style={{ textAlign: 'center', marginBottom: 24 }}>
         <h2 style={{ fontSize: 22, fontWeight: 900, color: '#1d4ed8', textTransform: 'uppercase' }}>
           {t('electricity_bill')}
         </h2>
         <p style={{ fontWeight: 600 }}>
-          <span style={{ color: '#2563eb' }}>{t('no')}</span>: {data.electricReadingId?.slice(-5).toUpperCase()}
+          <span style={{ color: '#2563eb' }}>{t('no')}</span>:{' '}
+          <span style={{ color: 'black' }}> {data.electricReadingId?.slice(-5).toUpperCase()}</span>
         </p>
       </div>
       <div style={{ color: '#000', fontSize: 16, fontWeight: 500 }}>
@@ -113,7 +114,15 @@ const ElectricityBillComponent = React.forwardRef<HTMLDivElement, BillProps>(({ 
           </tbody>
         </table>
 
-        <div style={{ justifyContent: 'space-between', marginTop: 16 }}>
+        <div
+          style={{
+            display: 'flex',
+            justifyContent: 'space-between',
+            alignItems: 'flex-start',
+            marginTop: 16,
+            columnGap: 30
+          }}
+        >
           <table style={{ border: '1px solid #ccc', fontSize: 14 }}>
             <thead>
               <tr>
@@ -137,7 +146,6 @@ const ElectricityBillComponent = React.forwardRef<HTMLDivElement, BillProps>(({ 
               display: 'flex',
               flexDirection: 'column',
               alignItems: 'flex-end',
-              marginTop: -155,
               marginBottom: 20,
               fontSize: 14
             }}

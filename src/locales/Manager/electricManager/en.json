@@ -7,6 +7,7 @@
   "paid": "Paid",
   "all": "All",
   "more_than_days": "More than {{days}} days",
+  "more_than_day": "More than 1 day",
   "select": "Select",
   "please_select_apartment": "Please select at least one apartment",
   "notification_title": "Late Payment Notification for Electricity Bill",
@@ -61,5 +62,17 @@
   "apartment_not_found": "Apartment not found",
   "success": "Notification sent successfully",
   "error": "Notification sending failed",
-  "import_success": "Import successfully"
+  "import_success": "Import successfully",
+  "month1": "January",
+  "month2": "February",
+  "month3": "March",
+  "month4": "April",
+  "month5": "May",
+  "month6": "June",
+  "month7": "July",
+  "month8": "August",
+  "month9": "September",
+  "month10": "October",
+  "month11": "November",
+  "month12": "December"
 }

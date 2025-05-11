@@ -71,8 +71,9 @@ export default function UnpaidElectricity() {
   const [page, setPage] = useState(1)
   const pageSize = 7
   const totalPages = Math.ceil(filteredElectrics.length / pageSize)
-  const [status, setStatus] = useState<string>('false')
+  const [status, setStatus] = useState<string>('')
   const [day, setDay] = useState<string>('')
+  const [month, setMonth] = useState<string>('')
   const [selectedApartments, setSelectedApartments] = useState<string[]>([])
 
   const getAllElectricityRecords = useMutation({
@@ -101,7 +102,8 @@ export default function UnpaidElectricity() {
       setLoading(true)
       const res = await filterElectric({
         status,
-        day
+        day,
+        month
       })
       // Sort filtered data by readingCurrentDate in descending order
       const sortedData = [...res.data].sort(
@@ -115,7 +117,7 @@ export default function UnpaidElectricity() {
     }
 
     fetchData()
-  }, [status, day])
+  }, [status, day, month])
 
   const paginatedElectric = filteredElectrics.slice((page - 1) * pageSize, page * pageSize)
 
@@ -229,12 +231,18 @@ export default function UnpaidElectricity() {
             color='primary'
             onClick={handleSendNotification}
             disabled={selectedApartments.length === 0}
-            sx={{ width: '200px' }}
+            sx={{ width: '195px' }}
           >
             {t('send_notification')} ({selectedApartments.length})
           </Button>
           <div>
-            <Select value={status} onChange={(e) => setStatus(e.target.value)} sx={{ width: '150px', height: '40px' }}>
+            <Select
+              value={status}
+              onChange={(e) => setStatus(e.target.value)}
+              sx={{ width: '170px', height: '40px' }}
+              displayEmpty
+            >
+              <MenuItem value=''>{t('all')}</MenuItem>
               <MenuItem value='false'>{t('unpaid')}</MenuItem>
               <MenuItem value='true'>{t('paid')}</MenuItem>
             </Select>
@@ -242,19 +250,37 @@ export default function UnpaidElectricity() {
           <div>
             <Select
               value={day}
-              onChange={(e) => setDay(e.target.value === 'All' ? '' : e.target.value)}
-              sx={{ width: '200px', height: '40px' }}
+              onChange={(e) => setDay(e.target.value)}
+              sx={{ width: '180px', height: '40px' }}
               displayEmpty
-              renderValue={(selected) => {
-                if (selected === '' || selected === 'All') return t('all')
-                return t('more_than_days', { days: selected })
-              }}
             >
-              <MenuItem value='All'>{t('all')}</MenuItem>
-              <MenuItem value='1'>{t('more_than_days', { days: 1 })}</MenuItem>
+              <MenuItem value=''>{t('all')}</MenuItem>
+              <MenuItem value='1'>{t('more_than_day', { days: 1 })}</MenuItem>
               <MenuItem value='2'>{t('more_than_days', { days: 2 })}</MenuItem>
               <MenuItem value='10'>{t('more_than_days', { days: 10 })}</MenuItem>
               <MenuItem value='15'>{t('more_than_days', { days: 15 })}</MenuItem>
+            </Select>
+          </div>
+          <div>
+            <Select
+              value={month}
+              onChange={(e) => setMonth(e.target.value)}
+              sx={{ width: '140px', height: '40px' }}
+              displayEmpty
+            >
+              <MenuItem value=''>{t('all')}</MenuItem>
+              <MenuItem value='1'>{t('month1')}</MenuItem>
+              <MenuItem value='2'>{t('month2')}</MenuItem>
+              <MenuItem value='3'>{t('month3')}</MenuItem>
+              <MenuItem value='4'>{t('month4')}</MenuItem>
+              <MenuItem value='5'>{t('month5')}</MenuItem>
+              <MenuItem value='6'>{t('month6')}</MenuItem>
+              <MenuItem value='7'>{t('month7')}</MenuItem>
+              <MenuItem value='8'>{t('month8')}</MenuItem>
+              <MenuItem value='9'>{t('month9')}</MenuItem>
+              <MenuItem value='10'>{t('month10')}</MenuItem>
+              <MenuItem value='11'>{t('month11')}</MenuItem>
+              <MenuItem value='12'>{t('month12')}</MenuItem>
             </Select>
           </div>
         </div>
@@ -272,7 +298,7 @@ export default function UnpaidElectricity() {
                 <StyledTableCell width='19%'>{t('reading_pre_date')}</StyledTableCell>
                 <StyledTableCell width='18%'>{t('reading_current_date')}</StyledTableCell>
                 <StyledTableCell width='8%'>{t('consumption')}</StyledTableCell>
-                <StyledTableCell width='8%'>{t('status')}</StyledTableCell>
+                <StyledTableCell width='10%'>{t('status')}</StyledTableCell>
               </TableRow>
             </TableHead>
             <TableBody>

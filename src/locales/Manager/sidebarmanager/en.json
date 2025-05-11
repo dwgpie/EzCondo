@@ -20,5 +20,8 @@
   "notification": "Notification",
   "notification_history": "Notification History",
   "add_notification": "Add Notification",
-  "slogan": "Live Comfortably, Manage Smartly"
+  "slogan": "Live Comfortably, Manage Smartly",
+  "transaction_history": "Transaction History",
+  "payment_history": "Payment History",
+  "booking_history": "Booking History"
 }

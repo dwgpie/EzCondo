@@ -141,12 +141,11 @@ export default function HistoryNotification() {
           <div>
             <Select
               value={type}
-              onChange={(e) => setType(e.target.value === 'all' ? '' : e.target.value)}
+              onChange={(e) => setType(e.target.value)}
               sx={{ width: '200px', height: '40px' }}
               displayEmpty
-              renderValue={(selected) => (selected === '' ? t('all') : t(selected))}
             >
-              <MenuItem value='all'>{t('all')}</MenuItem>
+              <MenuItem value=''>{t('all')}</MenuItem>
               <MenuItem value='new'>{t('new')}</MenuItem>
               <MenuItem value='notice'>{t('notice')}</MenuItem>
               <MenuItem value='fee'>{t('fee')}</MenuItem>

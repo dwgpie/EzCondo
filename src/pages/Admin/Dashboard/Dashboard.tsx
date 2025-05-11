@@ -29,47 +29,24 @@ import {
 } from '@mui/icons-material'
 import Weather from '../../../components/Weather'
 import { styles } from '~/pages/Manager/Dashboard/DashboardStyles'
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
+import { getStatsTemplate, StatItem } from '~/shared/statsTemplate'
+import type { JSX } from 'react'
 
 export default function Dashboard() {
-  const stats = [
-    {
-      title: 'Tỷ lệ lấp đầy',
-      value: '85%',
-      icon: <Apartment className='text-blue-600' fontSize='large' />,
-      bg: 'bg-blue-100',
-      trend: 'up',
-      percent: 2.5,
-      compareText: 'Tăng so với tuần trước'
-    },
-    {
-      title: 'Cư dân hiện tại',
-      value: '350',
-      icon: <Group className='text-green-600' fontSize='large' />,
-      bg: 'bg-green-100',
-      trend: 'up',
-      percent: 1.2,
-      compareText: 'Tăng so với tuần trước'
-    },
-    {
-      title: 'Sự cố đang xử lý',
-      value: '5',
-      icon: <ReportProblem className='text-red-600' fontSize='large' />,
-      bg: 'bg-red-100',
-      trend: 'down',
-      percent: 0.8,
-      compareText: 'Giảm so với tuần trước'
-    },
-    {
-      title: 'Số xe đang gửi',
-      value: '180',
-      icon: <LocalParking className='text-purple-600' fontSize='large' />,
-      bg: 'bg-purple-100',
-      trend: 'up',
-      percent: 1.2,
-      compareText: 'Tăng so với tuần trước'
-    }
-  ]
+  const [stats, setStats] = useState<StatItem[]>([])
+
+  useEffect(() => {
+    getStatsTemplate().then(setStats)
+  }, [])
+
+  // Map tên icon sang component
+  const iconMap: Record<string, JSX.Element> = {
+    Apartment: <Apartment className='text-blue-600' fontSize='large' />,
+    Group: <Group className='text-green-600' fontSize='large' />,
+    ReportProblem: <ReportProblem className='text-red-600' fontSize='large' />,
+    LocalParking: <LocalParking className='text-purple-600' fontSize='large' />
+  }
 
   const monthlyData = [
     { name: 'Jan', value: 85 },
@@ -207,10 +184,10 @@ export default function Dashboard() {
       <Grid container spacing={3}>
         {stats.map((item, index) => {
           let glowColor = '#4F46E5'
-          if (item.icon.props.className?.includes('text-blue-600')) glowColor = '#2563eb'
-          if (item.icon.props.className?.includes('text-green-600')) glowColor = '#22c55e'
-          if (item.icon.props.className?.includes('text-red-600')) glowColor = '#ef4444'
-          if (item.icon.props.className?.includes('text-purple-600')) glowColor = '#a21caf'
+          if (item.icon === 'Apartment') glowColor = '#2563eb'
+          if (item.icon === 'Group') glowColor = '#22c55e'
+          if (item.icon === 'ReportProblem') glowColor = '#ef4444'
+          if (item.icon === 'LocalParking') glowColor = '#a21caf'
           return (
             <Grid item xs={12} sm={6} md={3} key={index}>
               <Card
@@ -232,7 +209,7 @@ export default function Dashboard() {
                           hoveredIndex === index ? `brightness(1.15) drop-shadow(0 0 8px ${glowColor}aa)` : undefined
                       }}
                     >
-                      {item.icon}
+                      {iconMap[item.icon]}
                     </div>
                     <div>
                       <Typography variant='body2' style={styles.title}>
