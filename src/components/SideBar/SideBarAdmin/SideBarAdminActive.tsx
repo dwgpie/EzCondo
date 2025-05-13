@@ -85,8 +85,8 @@ export default function SideBarAdminActive() {
           <div
             className={`flex justify-between px-4 ml-5 mr-2 h-[45px] rounded-xl cursor-pointer hover:bg-blue-100 ripple ${path === DashboardPath ? 'bg-blue-100 text-blue-600' : 'hover:bg-blue-100 text-blue-900'}`}
           >
-            <div className='flex justify-center items-center gap-x-[17px]'>
-              <svg xmlns='http://www.w3.org/2000/svg' width='24' height='24' viewBox='0 0 24 24'>
+            <div className='flex justify-center items-center gap-x-[11px]'>
+              <svg xmlns='http://www.w3.org/2000/svg' width='28' height='28' viewBox='0 0 24 24'>
                 <g fill='none' stroke='currentColor' strokeLinecap='round' strokeLinejoin='round' strokeWidth='1.5'>
                   <path d='M6.133 21C4.955 21 4 20.02 4 18.81v-8.802c0-.665.295-1.295.8-1.71l5.867-4.818a2.09 2.09 0 0 1 2.666 0l5.866 4.818c.506.415.801 1.045.801 1.71v8.802c0 1.21-.955 2.19-2.133 2.19z' />
                   <path d='M9.5 21v-5.5a2 2 0 0 1 2-2h1a2 2 0 0 1 2 2V21' />
@@ -105,11 +105,11 @@ export default function SideBarAdminActive() {
         <div className='w-full'>
           {/* User */}
           <div
-            className={`flex justify-between px-2 ml-5 mr-2 h-[45px] rounded-xl cursor-pointer hover:bg-blue-100 ripple ${path === ListUserPath || path === AddUserPath ? 'bg-blue-100 text-blue-600' : 'hover:bg-blue-100 text-blue-900'}`}
+            className={`flex justify-between px-2 pl-2.5 ml-5 mr-2 h-[45px] rounded-xl cursor-pointer hover:bg-blue-100 ripple ${path === ListUserPath || path === AddUserPath ? 'bg-blue-100 text-blue-600' : 'hover:bg-blue-100 text-blue-900'}`}
             onClick={handleClickUser}
           >
-            <div className='flex justify-center items-center gap-x-[10px]'>
-              <svg xmlns='http://www.w3.org/2000/svg' width='30' height='30' viewBox='0 0 30 30' className='ml-2'>
+            <div className='flex justify-center items-center gap-x-[2px]'>
+              <svg xmlns='http://www.w3.org/2000/svg' width='32' height='32' viewBox='0 0 30 30' className='ml-2'>
                 <g fill='none' stroke='currentColor' strokeWidth='1.5'>
                   <circle cx='12' cy='6' r='4' />
                   <path d='M20 17.5c0 2.485 0 4.5-8 4.5s-8-2.015-8-4.5S7.582 13 12 13s8 2.015 8 4.5Z' />
@@ -124,8 +124,8 @@ export default function SideBarAdminActive() {
               <div
                 className={`flex justify-between pl-4 pr-2 mr-2 ml-15 h-[45px] mb-1 mt-1 rounded-xl cursor-pointer hover:bg-blue-100 ripple ${path === ListUserPath ? 'bg-blue-100 text-blue-600' : 'hover:bg-blue-100 text-blue-900'}`}
               >
-                <div className='flex items-center gap-[15px]'>
-                  <svg xmlns='http://www.w3.org/2000/svg' width='25' height='25' viewBox='0 0 250 250'>
+                <div className='flex items-center gap-[14px]'>
+                  <svg xmlns='http://www.w3.org/2000/svg' width='28' height='28' viewBox='0 0 250 250'>
                     <path
                       fill='currentColor'
                       d='M152 80a8 8 0 0 1 8-8h88a8 8 0 0 1 0 16h-88a8 8 0 0 1-8-8m96 40h-88a8 8 0 0 0 0 16h88a8 8 0 0 0 0-16m0 48h-64a8 8 0 0 0 0 16h64a8 8 0 0 0 0-16m-96.25 22a8 8 0 0 1-5.76 9.74a7.6 7.6 0 0 1-2 .26a8 8 0 0 1-7.75-6c-6.16-23.94-30.34-42-56.25-42s-50.09 18.05-56.25 42a8 8 0 0 1-15.5-4c5.59-21.71 21.84-39.29 42.46-48a48 48 0 1 1 58.58 0c20.63 8.71 36.88 26.29 42.47 48M80 136a32 32 0 1 0-32-32a32 32 0 0 0 32 32'
@@ -139,8 +139,8 @@ export default function SideBarAdminActive() {
               <div
                 className={`flex justify-between px-4 mr-2 ml-15 h-[45px] mt-1 rounded-xl cursor-pointer hover:bg-blue-100 ripple ${path === AddUserPath ? 'bg-blue-100 text-blue-600' : 'hover:bg-blue-100 text-blue-900'}`}
               >
-                <div className='flex items-center gap-[15px]'>
-                  <svg xmlns='http://www.w3.org/2000/svg' width='24' height='24' viewBox='0 0 24 24'>
+                <div className='flex items-center gap-[14px]'>
+                  <svg xmlns='http://www.w3.org/2000/svg' width='26' height='26' viewBox='0 0 24 24'>
                     <g fill='none' fillRule='evenodd'>
                       <path d='m12.593 23.258l-.011.002l-.071.035l-.02.004l-.014-.004l-.071-.035q-.016-.005-.024.005l-.004.01l-.017.428l.005.02l.01.013l.104.074l.015.004l.012-.004l.104-.074l.012-.016l.004-.017l-.017-.427q-.004-.016-.017-.018m.265-.113l-.013.002l-.185.093l-.01.01l-.003.011l.018.43l.005.012l.008.007l.201.093q.019.005.029-.008l.004-.014l-.034-.614q-.005-.018-.02-.022m-.715.002a.02.02 0 0 0-.027.006l-.006.014l-.034.614q.001.018.017.024l.015-.002l.201-.093l.01-.008l.004-.011l.017-.43l-.003-.012l-.01-.01z' />
                       <path
@@ -160,8 +160,8 @@ export default function SideBarAdminActive() {
             className={`flex justify-between mt-1 px-2 ml-5 mr-2 h-[45px] rounded-xl cursor-pointer hover:bg-blue-100 ripple ${path === ListServicePath || path === AddServicePath ? 'bg-blue-100 text-blue-600' : 'hover:bg-blue-100 text-blue-900'}`}
             onClick={handleClickService}
           >
-            <div className='flex justify-center items-center gap-x-[16px]'>
-              <svg xmlns='http://www.w3.org/2000/svg' width='28' height='28' viewBox='0 0 2048 2048' className='ml-1'>
+            <div className='flex justify-center items-center gap-x-[11px]'>
+              <svg xmlns='http://www.w3.org/2000/svg' width='29' height='29' viewBox='0 0 2048 2048' className='ml-1'>
                 <path
                   fill='currentColor'
                   d='M320 640q66 0 124 25t101 69t69 102t26 124t-25 124t-69 102t-102 69t-124 25t-124-25t-102-68t-69-102T0 960t25-124t68-101t102-69t125-26m0 512q40 0 75-15t61-41t41-61t15-75t-15-75t-41-61t-61-41t-75-15t-75 15t-61 41t-41 61t-15 75t15 75t41 61t61 41t75 15m1532 78q46 30 82 71t62 89t38 101t14 109q0 93-35 174t-96 143t-142 96t-175 35q-93 0-174-35t-143-96t-96-142t-35-175q0-50 10-94q-88-29-160-83t-125-126t-80-158t-29-179q0-119 45-224t124-183t183-123t224-46q18 0 36 1t36 3q-8-35-8-68q0-66 25-124t68-101t102-69t125-26t124 25t101 69t69 102t26 124q0 53-17 102t-48 90t-74 71t-94 45q52 73 78 157t27 175q0 71-17 139t-51 131m-316-910q0 62 37 111q35 15 68 35t63 44q6 1 12 1t12 1q40 0 75-15t61-41t41-61t15-75t-15-75t-41-61t-61-41t-75-15t-75 15t-61 41t-41 61t-15 75M896 960q0 72 22 139t64 124t98 99t126 64q62-109 165-171t229-63q71 0 137 21q27-49 41-103t14-110q0-95-38-181t-108-150l-4-1q-35-29-69-50t-77-39l-1-1q-73-26-151-26q-93 0-174 35t-142 96t-96 142t-36 175m704 960q66 0 124-25t101-68t69-102t26-125q0-70-26-128t-71-101t-105-67t-128-24q-64 0-120 26t-99 71t-66 102t-25 121q0 66 25 124t68 102t102 69t125 25'
@@ -178,7 +178,7 @@ export default function SideBarAdminActive() {
                 className={`flex justify-between px-4 mr-2 ml-15 h-[45px] mb-1 mt-1 rounded-xl cursor-pointer hover:bg-blue-100 ripple ${path === ListServicePath ? 'bg-blue-100 text-blue-600' : 'hover:bg-blue-100 text-blue-900'}`}
               >
                 <div className='flex items-center gap-[15px]'>
-                  <svg xmlns='http://www.w3.org/2000/svg' width='24' height='24' viewBox='0 0 24 24'>
+                  <svg xmlns='http://www.w3.org/2000/svg' width='26' height='26' viewBox='0 0 24 24'>
                     <path
                       fill='currentColor'
                       fillRule='evenodd'
@@ -194,8 +194,8 @@ export default function SideBarAdminActive() {
               <div
                 className={`flex justify-between px-4 mr-2 ml-15 h-[45px] mt-1 rounded-xl cursor-pointer hover:bg-blue-100 ripple ${path === AddServicePath ? 'bg-blue-100 text-blue-600' : 'hover:bg-blue-100 text-blue-900'}`}
               >
-                <div className='flex items-center gap-[15px]'>
-                  <svg xmlns='http://www.w3.org/2000/svg' width='24' height='24' viewBox='0 0 24 24'>
+                <div className='flex items-center gap-[11px]'>
+                  <svg xmlns='http://www.w3.org/2000/svg' width='30' height='30' viewBox='0 0 24 24'>
                     <path
                       fill='currentColor'
                       d='M11 9h4v2h-4v4H9v-4H5V9h4V5h2zm-1 11a10 10 0 1 1 0-20a10 10 0 0 1 0 20m0-2a8 8 0 1 0 0-16a8 8 0 0 0 0 16'
@@ -212,7 +212,7 @@ export default function SideBarAdminActive() {
             className={`flex justify-between mt-1 px-2 ml-5 mr-2 h-[45px] rounded-xl cursor-pointer hover:bg-blue-100 ripple ${path === ElectricityPath || path === WaterPath || path === ParkingPath ? 'bg-blue-100 text-blue-600' : 'hover:bg-blue-100 text-blue-900'}`}
             onClick={handleClickFee}
           >
-            <div className='flex justify-center items-center gap-[11px]'>
+            <div className='flex justify-center items-center gap-[7px]'>
               <svg xmlns='http://www.w3.org/2000/svg' width='35' height='35' viewBox='0 0 24 24' className='ml-1'>
                 <path
                   fill='currentColor'
@@ -229,8 +229,8 @@ export default function SideBarAdminActive() {
               <div
                 className={`flex justify-between px-4 mr-2 ml-15 h-[45px] mb-1 mt-1 rounded-xl cursor-pointer hover:bg-blue-100 ripple ${path === ElectricityPath ? 'bg-blue-100 text-blue-600' : 'hover:bg-blue-100 text-blue-900'}`}
               >
-                <div className='flex items-center gap-[6px]'>
-                  <svg xmlns='http://www.w3.org/2000/svg' width='34' height='32' viewBox='0 0 24 20'>
+                <div className='flex items-center gap-[3px]'>
+                  <svg xmlns='http://www.w3.org/2000/svg' width='37' height='34' viewBox='0 0 24 20'>
                     <path
                       fill='currentColor'
                       fillRule='evenodd'
@@ -246,8 +246,8 @@ export default function SideBarAdminActive() {
               <div
                 className={`flex justify-between px-4 mr-2 ml-15 h-[45px] mb-1 mt-1 rounded-xl cursor-pointer hover:bg-blue-100 ripple ${path === WaterPath ? 'bg-blue-100 text-blue-600' : 'hover:bg-blue-100 text-blue-900'}`}
               >
-                <div className='flex items-center gap-[15px]'>
-                  <svg xmlns='http://www.w3.org/2000/svg' width='24' height='24' viewBox='0 0 512 512'>
+                <div className='flex items-center gap-[11px]'>
+                  <svg xmlns='http://www.w3.org/2000/svg' width='30' height='30' viewBox='0 0 512 512'>
                     <path
                       fill='none'
                       stroke='currentColor'
@@ -272,8 +272,8 @@ export default function SideBarAdminActive() {
               <div
                 className={`flex justify-between px-4 mr-2 ml-15 h-[45px] mt-1 rounded-xl cursor-pointer hover:bg-blue-100 ripple ${path === ParkingPath ? 'bg-blue-100 text-blue-600' : 'hover:bg-blue-100 text-blue-900'}`}
               >
-                <div className='flex items-center gap-[13px]'>
-                  <svg xmlns='http://www.w3.org/2000/svg' width='27' height='27' viewBox='0 0 24 24'>
+                <div className='flex items-center gap-[11px]'>
+                  <svg xmlns='http://www.w3.org/2000/svg' width='30' height='30' viewBox='0 0 24 24'>
                     <g fill='none' stroke='currentColor' strokeLinecap='round' strokeLinejoin='round' strokeWidth='1.5'>
                       <path d='M10.5 15v-2.4m0 0h2.276c2.299 0 2.299-3.6 0-3.6H10.5z' />
                       <path d='M21 12a9 9 0 1 1-18 0a9 9 0 0 1 18 0' />
@@ -290,7 +290,7 @@ export default function SideBarAdminActive() {
             className={`flex justify-between mt-1 px-2 ml-5 mr-2 h-[45px] rounded-xl cursor-pointer hover:bg-blue-100 ripple ${path === ListApartmentPath || path === AddApartmentPath ? 'bg-blue-100 text-blue-600' : 'hover:bg-blue-100 text-blue-900'}`}
             onClick={handleClickApartment}
           >
-            <div className='flex justify-center items-center gap-[11px]'>
+            <div className='flex justify-center items-center gap-[8px]'>
               <svg xmlns='http://www.w3.org/2000/svg' width='35' height='35' viewBox='0 0 24 24' className='ml-1'>
                 <path
                   fill='currentColor'
@@ -309,7 +309,7 @@ export default function SideBarAdminActive() {
                 className={`flex justify-between px-4 mr-2 ml-15 h-[45px] mb-1 mt-1 rounded-xl cursor-pointer hover:bg-blue-100 ripple ${path === ListApartmentPath ? 'bg-blue-100 text-blue-600' : 'hover:bg-blue-100 text-blue-900'}`}
               >
                 <div className='flex items-center gap-[11px]'>
-                  <svg xmlns='http://www.w3.org/2000/svg' width='27' height='27' viewBox='0 0 1024 1024'>
+                  <svg xmlns='http://www.w3.org/2000/svg' width='28' height='28' viewBox='0 0 1024 1024'>
                     <path
                       fill='currentColor'
                       d='M908 640H804V488c0-4.4-3.6-8-8-8H548v-96h108c8.8 0 16-7.2 16-16V80c0-8.8-7.2-16-16-16H368c-8.8 0-16 7.2-16 16v288c0 8.8 7.2 16 16 16h108v96H228c-4.4 0-8 3.6-8 8v152H116c-8.8 0-16 7.2-16 16v288c0 8.8 7.2 16 16 16h288c8.8 0 16-7.2 16-16V656c0-8.8-7.2-16-16-16H292v-88h440v88H620c-8.8 0-16 7.2-16 16v288c0 8.8 7.2 16 16 16h288c8.8 0 16-7.2 16-16V656c0-8.8-7.2-16-16-16zm-564 76v168H176V716zm84-408V140h168v168zm420 576H680V716h168z'
@@ -324,7 +324,7 @@ export default function SideBarAdminActive() {
                 className={`flex justify-between px-4 mr-2 ml-15 h-[45px] mt-1 rounded-xl cursor-pointer hover:bg-blue-100 ripple ${path === AddApartmentPath ? 'bg-blue-100 text-blue-600' : 'hover:bg-blue-100 text-blue-900'}`}
               >
                 <div className='flex items-center gap-[15px]'>
-                  <svg xmlns='http://www.w3.org/2000/svg' width='22' height='22' viewBox='0 0 2048 2048'>
+                  <svg xmlns='http://www.w3.org/2000/svg' width='24' height='24' viewBox='0 0 2048 2048'>
                     <path
                       fill='currentColor'
                       d='M1024 128v896h896v1024H0V128zM896 1920v-768H128v768zm0-896V256H128v768zm896 128h-768v768h768zm-128-768h384v128h-384v384h-128V512h-384V384h384V0h128z'
@@ -341,7 +341,7 @@ export default function SideBarAdminActive() {
             className={`flex justify-between mt-1 px-2 ml-5 mr-2 h-[45px] rounded-xl cursor-pointer hover:bg-blue-100 ripple ${path === HistoryNotificationPath || path === AddNotificationPath ? 'bg-blue-100 text-blue-600' : 'hover:bg-blue-100 text-blue-900'}`}
             onClick={handleClickNotification}
           >
-            <div className='flex justify-center items-center gap-[15px]'>
+            <div className='flex justify-center items-center gap-[13px]'>
               <svg xmlns='http://www.w3.org/2000/svg' width='28' height='28' viewBox='0 0 24 24' className='ml-2'>
                 <path
                   fill='currentColor'
@@ -373,7 +373,7 @@ export default function SideBarAdminActive() {
                 className={`flex justify-between px-4 mr-2 ml-15 h-[45px] mb-1 mt-1 rounded-xl cursor-pointer hover:bg-blue-100 ripple ${path === HistoryNotificationPath ? 'bg-blue-100 text-blue-600' : 'hover:bg-blue-100 text-blue-900'}`}
               >
                 <div className='flex items-center gap-[15px]'>
-                  <svg xmlns='http://www.w3.org/2000/svg' width='26' height='26' viewBox='0 0 24 24'>
+                  <svg xmlns='http://www.w3.org/2000/svg' width='30' height='30' viewBox='0 0 24 24'>
                     <g
                       fill='none'
                       stroke='currentColor'
@@ -394,8 +394,8 @@ export default function SideBarAdminActive() {
               <div
                 className={`flex justify-between px-4 mr-2 ml-15 h-[45px] mt-1 mb-10 rounded-xl cursor-pointer hover:bg-blue-100 ripple ${path === AddNotificationPath ? 'bg-blue-100 text-blue-600' : 'hover:bg-blue-100 text-blue-900'}`}
               >
-                <div className='flex items-center gap-[15px]'>
-                  <svg xmlns='http://www.w3.org/2000/svg' width='26' height='26' viewBox='0 0 24 24'>
+                <div className='flex items-center gap-[13px]'>
+                  <svg xmlns='http://www.w3.org/2000/svg' width='30' height='30' viewBox='0 0 24 24'>
                     <path
                       fill='currentColor'
                       d='M12 22q-.825 0-1.412-.587T10 20h4q0 .825-.587 1.413T12 22m6-9v-3h-3V8h3V5h2v3h3v2h-3v3zM4 19v-2h2v-7q0-2.075 1.25-3.687T10.5 4.2V2h3v2.2q.35.1.688.213t.637.287q-.375.35-.675.763t-.525.887q-.375-.175-.788-.262T12 6q-1.65 0-2.825 1.175T8 10v7h8v-2.8q.45.275.95.45t1.05.275V17h2v2z'
