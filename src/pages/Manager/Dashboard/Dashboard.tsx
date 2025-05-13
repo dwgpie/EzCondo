@@ -21,55 +21,70 @@ import {
   Group,
   ArrowUpward,
   ArrowDownward,
+  LocalParking,
+  Spa,
+  LocalLaundryService,
   Pool,
   FitnessCenter,
-  LocalParking,
-  Security,
-  CleaningServices
+  ChildCare
 } from '@mui/icons-material'
-import { styles } from './DashboardStyles'
 import Weather from '../../../components/Weather'
-import { useState } from 'react'
+import { styles } from '~/pages/Manager/Dashboard/DashboardStyles'
+import { useState, useEffect } from 'react'
+import { getStatsTemplate, StatItem } from '~/shared/Manager/startsTemplate'
+import type { JSX } from 'react'
+import { getServiceData } from '~/shared/Manager/serviceData'
+import { getPaymentData, PaymentItem } from '~/shared/Manager/paymentData'
 
 export default function DashboardManager() {
-  const stats = [
-    {
-      title: 'Tỷ lệ lấp đầy',
-      value: '85%',
-      icon: <Apartment className='text-blue-600' fontSize='large' />,
-      bg: 'bg-blue-100',
-      trend: 'up',
-      percent: 2.5,
-      compareText: 'Tăng so với tuần trước'
-    },
-    {
-      title: 'Cư dân hiện tại',
-      value: '350',
-      icon: <Group className='text-green-600' fontSize='large' />,
-      bg: 'bg-green-100',
-      trend: 'up',
-      percent: 1.2,
-      compareText: 'Tăng so với tuần trước'
-    },
-    {
-      title: 'Sự cố đang xử lý',
-      value: '5',
-      icon: <ReportProblem className='text-red-600' fontSize='large' />,
-      bg: 'bg-red-100',
-      trend: 'down',
-      percent: 0.8,
-      compareText: 'Giảm so với tuần trước'
-    },
-    {
-      title: 'Số xe đang gửi',
-      value: '180',
-      icon: <LocalParking className='text-purple-600' fontSize='large' />,
-      bg: 'bg-purple-100',
-      trend: 'up',
-      percent: 1.2,
-      compareText: 'Tăng so với tuần trước'
-    }
-  ]
+  const [stats, setStats] = useState<StatItem[]>([])
+  const [serviceData, setServiceData] = useState<any[]>([])
+  const [paymentData, setPaymentData] = useState<PaymentItem[]>([])
+  const [monthGroup, setMonthGroup] = useState<'firstHalf' | 'secondHalf'>('firstHalf')
+
+  useEffect(() => {
+    getStatsTemplate().then(setStats)
+  }, [])
+
+  useEffect(() => {
+    getServiceData().then((data) => {
+      setServiceData(
+        data.map((item) => ({
+          ...item,
+          icon: iconMap[item.icon] || null
+        }))
+      )
+    })
+  }, [])
+
+  useEffect(() => {
+    const months =
+      monthGroup === 'firstHalf' ? ['01', '02', '03', '04', '05', '06'] : ['07', '08', '09', '10', '11', '12']
+    const monthNames =
+      monthGroup === 'firstHalf'
+        ? ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun']
+        : ['Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec']
+    Promise.all(months.map((month) => getPaymentData(month))).then((results) => {
+      const dataWithMonthNames = results.flat().map((item, idx) => ({
+        ...item,
+        month: monthNames[idx] || item.month
+      }))
+      setPaymentData(dataWithMonthNames)
+    })
+  }, [monthGroup])
+
+  // Map tên icon sang component
+  const iconMap: Record<string, JSX.Element> = {
+    Apartment: <Apartment className='text-blue-600' fontSize='large' />,
+    Group: <Group className='text-green-600' fontSize='large' />,
+    ReportProblem: <ReportProblem className='text-red-600' fontSize='large' />,
+    LocalParking: <LocalParking className='text-purple-600' fontSize='large' />,
+    Spa: <Spa style={{ color: '#4F46E5' }} fontSize='large' />,
+    LocalLaundryService: <LocalLaundryService style={{ color: '#10b910' }} fontSize='large' />,
+    Pool: <Pool style={{ color: '#3bd1f6' }} fontSize='large' />,
+    FitnessCenter: <FitnessCenter style={{ color: '#F59E0B' }} fontSize='large' />,
+    ChildCare: <ChildCare style={{ color: '#EC4899' }} fontSize='large' />
+  }
 
   const monthlyData = [
     { name: 'Jan', value: 85 },
@@ -84,52 +99,6 @@ export default function DashboardManager() {
     { name: 'Oct', value: 93 },
     { name: 'Nov', value: 96 },
     { name: 'Dec', value: 10 }
-  ]
-
-  const serviceData = [
-    { name: 'Bảo vệ', value: 38, icon: <Security style={{ color: '#4F46E5' }} />, color: '#4F46E5' },
-    { name: 'Vệ sinh', value: 25, icon: <CleaningServices style={{ color: '#10b910' }} />, color: '#10b910' },
-    { name: 'Bể bơi', value: 60, icon: <Pool style={{ color: '#3bd1f6' }} />, color: '#3bd1f6' },
-    { name: 'Gym', value: 12, icon: <FitnessCenter style={{ color: '#F59E0B' }} />, color: '#F59E0B' },
-    { name: 'Bãi xe', value: 10, icon: <LocalParking style={{ color: '#EC4899' }} />, color: '#EC4899' }
-  ]
-
-  const paymentData = [
-    {
-      month: 'Jan',
-      paid: 18,
-      unpaid: -12
-    },
-    {
-      month: 'Feb',
-      paid: 5,
-      unpaid: -18
-    },
-    {
-      month: 'Mar',
-      paid: 14,
-      unpaid: -8
-    },
-    {
-      month: 'Apr',
-      paid: 28,
-      unpaid: -12
-    },
-    {
-      month: 'May',
-      paid: 16,
-      unpaid: -3
-    },
-    {
-      month: 'Jun',
-      paid: 10,
-      unpaid: -15
-    },
-    {
-      month: 'Jul',
-      paid: 8,
-      unpaid: -12
-    }
   ]
 
   const CustomTooltip = ({ active, payload }: any) => {
@@ -207,10 +176,10 @@ export default function DashboardManager() {
       <Grid container spacing={3}>
         {stats.map((item, index) => {
           let glowColor = '#4F46E5'
-          if (item.icon.props.className?.includes('text-blue-600')) glowColor = '#2563eb'
-          if (item.icon.props.className?.includes('text-green-600')) glowColor = '#22c55e'
-          if (item.icon.props.className?.includes('text-red-600')) glowColor = '#ef4444'
-          if (item.icon.props.className?.includes('text-purple-600')) glowColor = '#a21caf'
+          if (item.icon === 'Apartment') glowColor = '#2563eb'
+          if (item.icon === 'Group') glowColor = '#22c55e'
+          if (item.icon === 'ReportProblem') glowColor = '#ef4444'
+          if (item.icon === 'LocalParking') glowColor = '#a21caf'
           return (
             <Grid item xs={12} sm={6} md={3} key={index}>
               <Card
@@ -232,7 +201,7 @@ export default function DashboardManager() {
                           hoveredIndex === index ? `brightness(1.15) drop-shadow(0 0 8px ${glowColor}aa)` : undefined
                       }}
                     >
-                      {item.icon}
+                      {iconMap[item.icon]}
                     </div>
                     <div>
                       <Typography variant='body2' style={styles.title}>
@@ -273,13 +242,13 @@ export default function DashboardManager() {
               <div style={{ display: 'flex', alignItems: 'flex-start', justifyContent: 'space-between' }}>
                 <div>
                   <Typography variant='h6' style={{ color: '#111827', marginBottom: '0.5rem' }}>
-                    Thống kê dịch vụ
+                    Số lượng booking
                   </Typography>
                   <Typography variant='h3' style={{ fontWeight: 600, color: '#111827' }}>
                     100%
                   </Typography>
                   <Typography variant='body2' style={{ color: '#6B7280' }}>
-                    Tổng tỷ lệ sử dụng
+                    Tổng số lượt đặt dịch vụ
                   </Typography>
                 </div>
 
@@ -362,11 +331,75 @@ export default function DashboardManager() {
               >
                 <div>
                   <Typography variant='h6' style={{ color: '#111827', marginBottom: '0.5rem' }}>
-                    Thanh toán phí dịch vụ
+                    Thanh toán phí điện nước
                   </Typography>
                   <Typography variant='body2' style={{ color: '#6B7280' }}>
-                    6 tháng gần nhất
+                    {monthGroup === 'firstHalf' ? '6 tháng đầu năm' : '6 tháng cuối năm'}
                   </Typography>
+                </div>
+                <div style={{ display: 'flex', gap: 6 }}>
+                  <button
+                    onClick={() => setMonthGroup('firstHalf')}
+                    style={{
+                      background: monthGroup === 'firstHalf' ? 'rgba(99,102,241,0.08)' : '#fff',
+                      color: monthGroup === 'firstHalf' ? '#4F46E5' : '#374151',
+                      border: monthGroup === 'firstHalf' ? '1.5px solid #6366F1' : '1px solid #D1D5DB',
+                      borderRadius: 999,
+                      padding: '4px 14px',
+                      cursor: 'pointer',
+                      fontWeight: 500,
+                      fontSize: 14,
+                      boxShadow: monthGroup === 'firstHalf' ? '0 1px 4px #6366F111' : 'none',
+                      transition: 'all 0.18s cubic-bezier(.4,0,.2,1)',
+                      outline: 'none',
+                      marginRight: 2
+                    }}
+                    onMouseOver={(e) => {
+                      if (monthGroup !== 'firstHalf') e.currentTarget.style.background = '#F3F4F6'
+                    }}
+                    onMouseOut={(e) => {
+                      if (monthGroup !== 'firstHalf') e.currentTarget.style.background = '#fff'
+                    }}
+                    onFocus={(e) => {
+                      e.currentTarget.style.boxShadow = '0 0 0 2px #6366F155'
+                    }}
+                    onBlur={(e) => {
+                      e.currentTarget.style.boxShadow = monthGroup === 'firstHalf' ? '0 1px 4px #6366F111' : 'none'
+                    }}
+                  >
+                    Tháng 1-6
+                  </button>
+                  <button
+                    onClick={() => setMonthGroup('secondHalf')}
+                    style={{
+                      background: monthGroup === 'secondHalf' ? 'rgba(99,102,241,0.08)' : '#fff',
+                      color: monthGroup === 'secondHalf' ? '#4F46E5' : '#374151',
+                      border: monthGroup === 'secondHalf' ? '1.5px solid #6366F1' : '1px solid #D1D5DB',
+                      borderRadius: 999,
+                      padding: '4px 14px',
+                      cursor: 'pointer',
+                      fontWeight: 500,
+                      fontSize: 14,
+                      boxShadow: monthGroup === 'secondHalf' ? '0 1px 4px #6366F111' : 'none',
+                      transition: 'all 0.18s cubic-bezier(.4,0,.2,1)',
+                      outline: 'none',
+                      marginLeft: 2
+                    }}
+                    onMouseOver={(e) => {
+                      if (monthGroup !== 'secondHalf') e.currentTarget.style.background = '#F3F4F6'
+                    }}
+                    onMouseOut={(e) => {
+                      if (monthGroup !== 'secondHalf') e.currentTarget.style.background = '#fff'
+                    }}
+                    onFocus={(e) => {
+                      e.currentTarget.style.boxShadow = '0 0 0 2px #6366F155'
+                    }}
+                    onBlur={(e) => {
+                      e.currentTarget.style.boxShadow = monthGroup === 'secondHalf' ? '0 1px 4px #6366F111' : 'none'
+                    }}
+                  >
+                    Tháng 7-12
+                  </button>
                 </div>
               </div>
               <div style={{ height: '300px', width: '100%' }}>

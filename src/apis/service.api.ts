@@ -268,12 +268,20 @@ export const filterElectric = (body: { status: string; day: string; month: strin
   return http.get(`/api/Electric/Get-All-Electric?status=${body.status}&day=${body.day}&month=${body.month}`)
 }
 
+export const filterElectricDashboard = (body: { status: string; month: string }) => {
+  return http.get(`/api/Electric/Get-All-Electric?status=${body.status}&month=${body.month}`)
+}
+
 export const updateBillElectric = (body: { electricBillId: string }[]) => {
   return http.patch('/api/Electric/Update-Electric-Bill', body)
 }
 
 export const filterWater = (body: { status: string; day: string; month: string }) => {
   return http.get(`/api/Water/Get-All-Water?status=${body.status}&day=${body.day}&month=${body.month}`)
+}
+
+export const filterWaterDashboard = (body: { status: string; month: string }) => {
+  return http.get(`/api/Water/Get-All-Water?status=${body.status}&month=${body.month}`)
 }
 
 export const updateBillWater = (body: { waterBillId: string }[]) => {
@@ -307,6 +315,10 @@ export const getAllBooking = (search: string, month: string) => {
 
 export const getAllBookingSearch = (search: string) => {
   return http.get(`/api/Booking/Get-All-Booking?search=${search}`)
+}
+
+export const getAllBookingDashboard = (month: string) => {
+  return http.get(`/api/Booking/Get-All-Booking?month=${month}`)
 }
 
 export const getAllPayment = (month: string) => {
