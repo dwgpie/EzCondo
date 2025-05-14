@@ -255,10 +255,10 @@ export default function UnpaidElectricity() {
               displayEmpty
             >
               <MenuItem value=''>{t('all')}</MenuItem>
-              <MenuItem value='1'>{t('more_than_day', { days: 1 })}</MenuItem>
-              <MenuItem value='2'>{t('more_than_days', { days: 2 })}</MenuItem>
-              <MenuItem value='10'>{t('more_than_days', { days: 10 })}</MenuItem>
-              <MenuItem value='15'>{t('more_than_days', { days: 15 })}</MenuItem>
+              <MenuItem value='10'>{t('days_left_to_pay', { days: 5 })}</MenuItem>
+              <MenuItem value='12'>{t('days_left_to_pay', { days: 3 })}</MenuItem>
+              <MenuItem value='14'>{t('days_left_to_pay', { days: 1 })}</MenuItem>
+              <MenuItem value='15'>{t('overdue_payment', { days: 0 })}</MenuItem>
             </Select>
           </div>
           <div>

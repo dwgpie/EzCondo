@@ -26,6 +26,7 @@ export default function SideBarManagerActive() {
 
   const RequestParkingPath = '/manager/request-parking'
   const ListParkingPath = '/manager/list-parking'
+  const ParkingUnpaidPath = '/manager/unpaid-parking'
 
   const PaymentHistoryPath = '/manager/payment-history'
   const BookingHistoryPath = '/manager/booking-history'
@@ -304,7 +305,7 @@ export default function SideBarManagerActive() {
 
           {/* Parking */}
           <div
-            className={`flex justify-between px-2 ml-7 mr-2 h-[45px] rounded-xl cursor-pointer hover:bg-blue-100 ripple ${path === ListParkingPath || path === RequestParkingPath ? 'bg-blue-100 text-blue-600' : 'hover:bg-blue-100 text-blue-900'}`}
+            className={`flex justify-between px-2 ml-7 mr-2 h-[45px] rounded-xl cursor-pointer hover:bg-blue-100 ripple ${path === ListParkingPath || path === RequestParkingPath || path === ParkingUnpaidPath ? 'bg-blue-100 text-blue-600' : 'hover:bg-blue-100 text-blue-900'}`}
             onClick={handleClickParking}
           >
             <div className='flex justify-center items-center gap-x-[13px]'>
@@ -316,7 +317,7 @@ export default function SideBarManagerActive() {
             <div className='flex items-center justify-center'>{isOpenParking ? <ExpandLess /> : <ExpandMore />}</div>
           </div>
 
-          <div className={`overflow-hidden transition-all duration-300 ${isOpenParking ? 'max-h-[100px]' : 'max-h-0'}`}>
+          <div className={`overflow-hidden transition-all duration-300 ${isOpenParking ? 'max-h-[150px]' : 'max-h-0'}`}>
             <Link to='/manager/list-parking'>
               <div
                 className={`flex justify-between px-4 mr-2 ml-15 h-[45px] mb-1 mt-1 rounded-xl cursor-pointer hover:bg-blue-100 ripple ${path === ListParkingPath ? 'bg-blue-100 text-blue-600' : 'hover:bg-blue-100 text-blue-900'}`}
@@ -344,6 +345,23 @@ export default function SideBarManagerActive() {
                     />
                   </svg>
                   <p className='text-[15px]'>{t('parking_request')}</p>
+                </div>
+              </div>
+            </Link>
+            <Link to='/manager/unpaid-parking'>
+              <div
+                className={`flex justify-between px-4 mr-2 ml-15 h-[45px] mb-1 mt-1 rounded-xl cursor-pointer hover:bg-blue-100 ripple ${path === ParkingUnpaidPath ? 'bg-blue-100 text-blue-600' : 'hover:bg-blue-100 text-blue-900'}`}
+              >
+                <div className='flex items-center gap-[17px]'>
+                  <svg xmlns='http://www.w3.org/2000/svg' width='25' height='25' viewBox='0 0 16 16'>
+                    <path
+                      fill='currentColor'
+                      fillRule='evenodd'
+                      d='M5 1a.75.75 0 0 1 .75.75V3h5V1.75a.75.75 0 0 1 1.5 0V3H14a1 1 0 0 1 1 1v4.25a.75.75 0 0 1-1.5 0V7.5h-11v6h5.75a.75.75 0 0 1 0 1.5H2a1 1 0 0 1-1-1V4a1 1 0 0 1 1-1h2.25V1.75A.75.75 0 0 1 5 1M2.5 6h11V4.5h-11zm8.78 4.22a.75.75 0 1 0-1.06 1.06L11.94 13l-1.72 1.72a.75.75 0 1 0 1.06 1.06L13 14.06l1.72 1.72a.75.75 0 1 0 1.06-1.06L14.06 13l1.72-1.72a.75.75 0 1 0-1.06-1.06L13 11.94z'
+                      clipRule='evenodd'
+                    />
+                  </svg>
+                  <p className='text-[15px]'>{t('unpaid_parking')}</p>
                 </div>
               </div>
             </Link>
