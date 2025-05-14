@@ -8,16 +8,14 @@ import { resetPassword } from '~/apis/auth.api'
 import Button from '@mui/material/Button'
 import Visibility from '@mui/icons-material/Visibility'
 import VisibilityOff from '@mui/icons-material/VisibilityOff'
-import { useContext, useState } from 'react'
+import { useState } from 'react'
 import InputAdornment from '@mui/material/InputAdornment'
 import IconButton from '@mui/material/IconButton'
-import { AppContext } from '~/contexts/app.context'
 import { toast } from 'react-toastify'
 
 type FormData = ResetPasswordSchema
 
 export default function ResetPassword() {
-  const { setIsAuthenticated } = useContext(AppContext)
   const navigate = useNavigate()
   const location = useLocation()
   const tokenMemory = location.state?.tokenMemory
@@ -37,7 +35,6 @@ export default function ResetPassword() {
   const onSubmit = handleSubmit((data) => {
     loginMutation.mutate(data, {
       onSuccess: () => {
-        setIsAuthenticated(true)
         toast.success('Reset password successfully', {
           style: { width: 'fit-content' }
         })

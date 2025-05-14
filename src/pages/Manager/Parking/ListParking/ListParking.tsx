@@ -85,9 +85,8 @@ export default function ListParking() {
   }
 
   // Hàm lấy user theo trang hiện tại
-  const filteredParking = listParking.filter((parking) => parking.accept === true)
-  const totalPages = Math.ceil(filteredParking.length / pageSize)
-  const paginatedUsers = filteredParking.slice((page - 1) * pageSize, page * pageSize)
+  const totalPages = Math.ceil(listParking.length / pageSize)
+  const paginatedUsers = listParking.slice((page - 1) * pageSize, page * pageSize)
 
   const handlePageChange = (_event: React.ChangeEvent<unknown>, newPage: number) => {
     setPage(newPage)

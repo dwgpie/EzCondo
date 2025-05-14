@@ -393,7 +393,7 @@ export default function SideBarManagerActive() {
           >
             <Link to='/manager/list-incident'>
               <div
-                className={`flex justify-between px-4 mr-2 ml-15 h-[45px] mb-1 mt-1 rounded-xl cursor-pointer hover:bg-blue-100 ripple ${path === ListIncidentPath ? 'bg-blue-100 text-blue-600' : 'hover:bg-blue-100 text-blue-900'}`}
+                className={`flex justify-between px-4 mr-2 ml-15 h-[45px] mt-1 rounded-xl cursor-pointer hover:bg-blue-100 ripple ${path === ListIncidentPath ? 'bg-blue-100 text-blue-600' : 'hover:bg-blue-100 text-blue-900'}`}
               >
                 <div className='flex items-center gap-[15px]'>
                   <svg xmlns='http://www.w3.org/2000/svg' width='30' height='30' viewBox='0 0 24 24'>

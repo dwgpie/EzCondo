@@ -6,14 +6,11 @@ import { verifySchema, VerifyOtpSchema } from '~/utils/rules'
 import { useMutation } from '@tanstack/react-query'
 import { verifyOTP } from '~/apis/auth.api'
 import Button from '@mui/material/Button'
-import { useContext } from 'react'
-import { AppContext } from '~/contexts/app.context'
 import { toast } from 'react-toastify'
 
 type FormData = VerifyOtpSchema
 
 export default function VerifyOTP() {
-  const { setIsAuthenticated } = useContext(AppContext)
   const navigate = useNavigate()
   const location = useLocation()
   const emailFromState = location.state?.email
@@ -36,7 +33,6 @@ export default function VerifyOTP() {
   const onSubmit = handleSubmit((data) => {
     loginMutation.mutate(data, {
       onSuccess: (response) => {
-        setIsAuthenticated(true)
         toast.success('Verify OTP successfully', {
           style: { width: 'fit-content' }
         })

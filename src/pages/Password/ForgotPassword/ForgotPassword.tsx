@@ -6,13 +6,10 @@ import { forgotSchema, ForgotSchema } from '~/utils/rules'
 import { useMutation } from '@tanstack/react-query'
 import { forgotPassword } from '~/apis/auth.api'
 import Button from '@mui/material/Button'
-import { useContext } from 'react'
-import { AppContext } from '~/contexts/app.context'
 
 type FormData = ForgotSchema
 
 export default function ForgotPassword() {
-  const { setIsAuthenticated } = useContext(AppContext)
   const navigate = useNavigate()
   const {
     register,
@@ -29,7 +26,6 @@ export default function ForgotPassword() {
   const onSubmit = handleSubmit((data) => {
     loginMutation.mutate(data, {
       onSuccess: () => {
-        setIsAuthenticated(true)
         navigate('/verify-otp', { state: { email: data.email } })
       },
       onError: (error) => {
