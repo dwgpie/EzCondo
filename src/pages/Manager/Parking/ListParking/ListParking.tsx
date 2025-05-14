@@ -11,7 +11,7 @@ import Paper from '@mui/material/Paper'
 import Pagination from '@mui/material/Pagination'
 import LinearProgress from '@mui/material/LinearProgress'
 import useBufferProgress from '~/components/useBufferProgress'
-import { getAllParking } from '~/apis/service.api'
+import { getAllParkingLot } from '~/apis/service.api'
 import { useTranslation } from 'react-i18next'
 
 interface Parking {
@@ -60,7 +60,7 @@ export default function ListParking() {
   const getAllParkingMutation = useMutation({
     mutationFn: async () => {
       setLoading(true)
-      const response = await getAllParking()
+      const response = await getAllParkingLot()
       return response.data
     },
     onSuccess: (data) => {

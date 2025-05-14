@@ -1,13 +1,13 @@
 import React from 'react'
 
-interface BillProps {
+interface ParkingBillProps {
   data: any
-  priceList: any[]
+  price: any
   t: any
   i18n: any
 }
 
-const ElectricityBillComponent = React.forwardRef<HTMLDivElement, BillProps>(({ data, priceList, t, i18n }, ref) => {
+const ParkingBillComponent = React.forwardRef<HTMLDivElement, ParkingBillProps>(({ data, price, t, i18n }, ref) => {
   const currentLang = i18n.language
   const today = new Date()
   const day = today.getDate()
@@ -28,7 +28,7 @@ const ElectricityBillComponent = React.forwardRef<HTMLDivElement, BillProps>(({ 
     >
       <img
         src='/imgs/logo/lo23-Photoroom.png'
-        alt='Electricitymark'
+        alt='Parkingmark'
         style={{
           position: 'absolute',
           top: '50%',
@@ -47,11 +47,11 @@ const ElectricityBillComponent = React.forwardRef<HTMLDivElement, BillProps>(({ 
       </div>
       <div style={{ textAlign: 'center', marginBottom: 24 }}>
         <h2 style={{ fontSize: 22, fontWeight: 900, color: '#1d4ed8', textTransform: 'uppercase' }}>
-          {t('electricity_bill')}
+          {t('parking_bill')}
         </h2>
         <p style={{ fontWeight: 600 }}>
           <span style={{ color: '#2563eb' }}>{t('no')}</span>:{' '}
-          <span style={{ color: 'black' }}> {data.electricReadingId?.slice(-5).toUpperCase()}</span>
+          <span style={{ color: 'black' }}> {data.parkingId?.slice(-5).toUpperCase()}</span>
         </p>
       </div>
       <div style={{ color: '#000', fontSize: 16, fontWeight: 500 }}>
@@ -60,7 +60,7 @@ const ElectricityBillComponent = React.forwardRef<HTMLDivElement, BillProps>(({ 
             <span style={{ color: '#2563eb' }}>{t('apartment_number')}</span>: {data.apartmentNumber}
           </p>
           <p>
-            <span style={{ color: '#2563eb' }}>{t('meter_number')}</span>: {data.meterNumber}
+            <span style={{ color: '#2563eb' }}>{t('phone')}</span>: {data.phoneNumber}
           </p>
           <p style={{ marginTop: 5 }}>
             <span style={{ color: '#2563eb' }}>{t('owner')}</span>: {data.fullName}
@@ -70,7 +70,7 @@ const ElectricityBillComponent = React.forwardRef<HTMLDivElement, BillProps>(({ 
           </p>
           <p style={{ marginTop: 20 }}>
             <span style={{ color: '#2563eb' }}>{t('from')}</span>:{' '}
-            {new Date(data.readingPreDate).toLocaleDateString(currentLang === 'vi' ? 'vi-VN' : 'en-GB', {
+            {new Date(data.createDate).toLocaleDateString(currentLang === 'vi' ? 'vi-VN' : 'en-GB', {
               day: '2-digit',
               month: 'short',
               year: 'numeric',
@@ -79,25 +79,28 @@ const ElectricityBillComponent = React.forwardRef<HTMLDivElement, BillProps>(({ 
           </p>
           <p style={{ marginTop: 20 }}>
             <span style={{ color: '#2563eb' }}>{t('to')}</span>:{' '}
-            {new Date(data.readingCurrentDate).toLocaleDateString(currentLang === 'vi' ? 'vi-VN' : 'en-GB', {
-              day: '2-digit',
-              month: 'short',
-              year: 'numeric',
-              timeZone: 'Asia/Ho_Chi_Minh'
-            })}
+            {new Date(new Date(data.createDate).setMonth(new Date(data.createDate).getMonth() + 1)).toLocaleDateString(
+              currentLang === 'vi' ? 'vi-VN' : 'en-GB',
+              {
+                day: '2-digit',
+                month: 'short',
+                year: 'numeric',
+                timeZone: 'Asia/Ho_Chi_Minh'
+              }
+            )}
           </p>
           <p style={{ marginTop: 5 }}>
-            <span style={{ color: '#2563eb' }}>{t('previous_meter')}</span>: {data.pre_electric_number}
+            <span style={{ color: '#2563eb' }}>{t('number_of_motobike')}</span>: {data.numberOfMotorbike}
           </p>
           <p style={{ marginTop: 5 }}>
-            <span style={{ color: '#2563eb' }}>{t('current_meter')}</span>: {data.current_electric_number}
+            <span style={{ color: '#2563eb' }}>{t('number_of_car')}</span>: {data.numberOfCar}
           </p>
         </div>
         <table style={{ width: '100%', border: '1px solid #ccc', marginTop: 16 }}>
           <thead>
             <tr>
               <th style={{ padding: 8, border: '1px solid #ccc', width: '50%', color: '#2563eb' }}>
-                {t('consumption')}
+                {t('total_vehicle')}
               </th>
               <th style={{ padding: 8, border: '1px solid #ccc', width: '50%', color: '#2563eb' }}>
                 {t('total_price')}
@@ -106,9 +109,9 @@ const ElectricityBillComponent = React.forwardRef<HTMLDivElement, BillProps>(({ 
           </thead>
           <tbody>
             <tr>
-              <td style={{ padding: 8, border: '1px solid #ccc', width: '50%' }}>{data.consumption} kWh</td>
+              <td style={{ padding: 8, border: '1px solid #ccc', width: '50%' }}>{data.total}</td>
               <td style={{ padding: 8, border: '1px solid #ccc', width: '50%' }}>
-                {Number(data.price).toLocaleString('en-US')} VND
+                {Number(data.amount).toLocaleString('en-US')} VND
               </td>
             </tr>
           </tbody>
@@ -126,19 +129,23 @@ const ElectricityBillComponent = React.forwardRef<HTMLDivElement, BillProps>(({ 
           <table style={{ border: '1px solid #ccc', fontSize: 14 }}>
             <thead>
               <tr>
-                <th style={{ padding: 6, border: '1px solid #ccc', color: '#2563eb' }}>{t('electric_price')}</th>
+                <th style={{ padding: 6, border: '1px solid #ccc', color: '#2563eb' }}>{t('type_vehicle')}</th>
                 <th style={{ padding: 6, border: '1px solid #ccc', color: '#2563eb' }}>{t('unit_price')}</th>
               </tr>
             </thead>
             <tbody>
-              {priceList.map((p) => (
-                <tr key={p.id}>
-                  <td style={{ padding: 6, border: '1px solid #ccc' }}>
-                    {p.minKWh} - {p.maxKWh} kWh
-                  </td>
-                  <td style={{ padding: 6, border: '1px solid #ccc' }}>{p.pricePerKWh.toLocaleString('en-US')} VND</td>
-                </tr>
-              ))}
+              <tr>
+                <td style={{ padding: 6, border: '1px solid #ccc' }}>{t('motorbike')}</td>
+                <td style={{ padding: 6, border: '1px solid #ccc' }}>
+                  {price?.pricePerMotor?.toLocaleString('en-US')} VND
+                </td>
+              </tr>
+              <tr>
+                <td style={{ padding: 6, border: '1px solid #ccc' }}>{t('car')}</td>
+                <td style={{ padding: 6, border: '1px solid #ccc' }}>
+                  {price?.pricePerOto?.toLocaleString('en-US')} VND
+                </td>
+              </tr>
             </tbody>
           </table>
           <div
@@ -162,4 +169,4 @@ const ElectricityBillComponent = React.forwardRef<HTMLDivElement, BillProps>(({ 
   )
 })
 
-export default ElectricityBillComponent
+export default ParkingBillComponent

@@ -9,30 +9,25 @@ import TableHead from '@mui/material/TableHead'
 import TableRow from '@mui/material/TableRow'
 import Paper from '@mui/material/Paper'
 import Pagination from '@mui/material/Pagination'
-import { getAllWater, filterWater } from '~/apis/service.api'
+import { getAllParking, getAllParkingUnpaid } from '~/apis/service.api'
 import { Button, MenuItem, Select, Checkbox } from '@mui/material'
 import { toast } from 'react-toastify'
 import LinearProgress from '@mui/material/LinearProgress'
 import useBufferProgress from '~/components/useBufferProgress'
 import { useTranslation } from 'react-i18next'
 import { addNotificationToResident, addNotificationImages } from '~/apis/notification.api'
-import { generateWaterBillImage } from '~/helpers/generateWaterBillImage'
+import { generateParkingBillImage } from '~/helpers/generateParkingBillImage'
 import LoadingOverlay from '~/components/LoadingOverlay'
 
-interface WaterForm {
-  id?: string
+interface ParkingForm {
+  parkingId?: string
   email: string
   fullName: string
   apartmentNumber: string
   phoneNumber: string
-  readingPreDate: string
-  readingCurrentDate: string
-  consumption: string
+  createDate: string
   status: string
-  meterNumber: string
-  pre_water_number: number
-  current_water_number: number
-  price: string
+  amount: string
 }
 
 const StyledTableCell = styled(TableCell)(({ theme }) => ({
@@ -62,24 +57,24 @@ const StyledTableRow = styled(TableRow)(() => ({
   }
 }))
 
-export default function UnpaidWater() {
+export default function UnpaidParking() {
   const { t, i18n } = useTranslation('electricManager')
   const [loading, setLoading] = useState(false)
   const { progress, buffer } = useBufferProgress(loading)
   const [progress2, setProgress2] = useState(0)
-  const [filteredWaters, setFilteredWaters] = useState<WaterForm[]>([])
+  const [filteredParkings, setFilteredParkings] = useState<ParkingForm[]>([])
   const [page, setPage] = useState(1)
   const pageSize = 7
-  const totalPages = Math.ceil(filteredWaters.length / pageSize)
+  const totalPages = Math.ceil(filteredParkings.length / pageSize)
   const [status, setStatus] = useState<string>('')
   const [day, setDay] = useState<string>('')
   const [month, setMonth] = useState<string>('')
   const [selectedApartments, setSelectedApartments] = useState<string[]>([])
 
-  const getAllWaterRecords = useMutation({
+  const getAllParkingRecords = useMutation({
     mutationFn: async () => {
       setLoading(true)
-      const response = await getAllWater()
+      const response = await getAllParking()
       return response.data
     },
     onSuccess: (data) => {
@@ -87,20 +82,20 @@ export default function UnpaidWater() {
       const sortedData = [...data].sort(
         (a, b) => new Date(b.readingCurrentDate).getTime() - new Date(a.readingCurrentDate).getTime()
       )
-      setFilteredWaters(sortedData)
+      setFilteredParkings(sortedData)
       setTimeout(() => {
         setLoading(false)
       }, 1000)
     }
   })
   useEffect(() => {
-    getAllWaterRecords.mutate()
+    getAllParkingRecords.mutate()
   }, [])
 
   useEffect(() => {
     const fetchData = async () => {
       setLoading(true)
-      const res = await filterWater({
+      const res = await getAllParkingUnpaid({
         status,
         day,
         month
@@ -109,7 +104,7 @@ export default function UnpaidWater() {
       const sortedData = [...res.data].sort(
         (a, b) => new Date(b.readingCurrentDate).getTime() - new Date(a.readingCurrentDate).getTime()
       )
-      setFilteredWaters(sortedData)
+      setFilteredParkings(sortedData)
       setPage(1)
       setTimeout(() => {
         setLoading(false)
@@ -119,7 +114,7 @@ export default function UnpaidWater() {
     fetchData()
   }, [status, day, month])
 
-  const paginatedWater = filteredWaters.slice((page - 1) * pageSize, page * pageSize)
+  const paginatedParking = filteredParkings.slice((page - 1) * pageSize, page * pageSize)
 
   const handlePageChange = (_event: React.ChangeEvent<unknown>, newPage: number) => {
     setPage(newPage)
@@ -157,8 +152,8 @@ export default function UnpaidWater() {
     }
 
     const apartmentNumber = selectedApartments[0]
-    const water = filteredWaters.find((e) => e.apartmentNumber === apartmentNumber)
-    if (!water) {
+    const parking = filteredParkings.find((e) => e.apartmentNumber === apartmentNumber)
+    if (!parking) {
       toast.error(t('apartment_not_found'), {
         style: { width: 'fit-content' }
       })
@@ -178,11 +173,11 @@ export default function UnpaidWater() {
           return prev + 4
         })
       }, 150)
-      const imgData = await generateWaterBillImage(water.id || '', t, i18n)
+      const imgData = await generateParkingBillImage(parking.parkingId || '', t, i18n)
       const res = await addNotificationToResident([
         {
-          title: t('notification_title_water'),
-          content: t('notification_content_water', { date: new Date().toLocaleDateString('vi-VN') }),
+          title: t('notification_title_parking'),
+          content: t('notification_content_parking', { date: new Date().toLocaleDateString('vi-VN') }),
           type: 'fee',
           apartmentNumber
         }
@@ -193,7 +188,7 @@ export default function UnpaidWater() {
         const mime = meta.match(/:(.*?);/)?.[1] || 'image/png'
         const bstr = atob(base64)
         const u8arr = Uint8Array.from(bstr, (c) => c.charCodeAt(0))
-        const file = new File([u8arr], `hoa-don-dien-${apartmentNumber}.png`, { type: mime })
+        const file = new File([u8arr], `hoa-don-giu-xe${apartmentNumber}.png`, { type: mime })
         await addNotificationImages({ NotificationId: notificationId, Image: [file] })
       }
       toast.success(t('success'), {
@@ -224,7 +219,7 @@ export default function UnpaidWater() {
           </div>
         ))}
       <div className='flex justify-between items-center'>
-        <h2 className='text-2xl font-semibold text-gray-500'>{t('water_bill_paid_or_unpaid')}</h2>
+        <h2 className='text-2xl font-semibold text-gray-500'>{t('parking_bill_paid_or_unpaid')}</h2>
         <div className='mt-2 mb-4 flex gap-4 justify-end items-center'>
           <Button
             variant='contained'
@@ -295,26 +290,26 @@ export default function UnpaidWater() {
                 <StyledTableCell width='16%'>{t('name')}</StyledTableCell>
                 <StyledTableCell width='16%'>{t('apartment_number')}</StyledTableCell>
                 <StyledTableCell width='11%'>{t('phone')}</StyledTableCell>
-                <StyledTableCell width='19%'>{t('reading_pre_date')}</StyledTableCell>
-                <StyledTableCell width='19%'>{t('reading_current_date')}</StyledTableCell>
-                <StyledTableCell width='8%'>{t('consumption')}</StyledTableCell>
+                <StyledTableCell width='19%'>{t('create_date')}</StyledTableCell>
+                <StyledTableCell width='19%'>{t('end_date')}</StyledTableCell>
+                <StyledTableCell width='8%'>{t('amount')}</StyledTableCell>
                 <StyledTableCell width='10%'>{t('status')}</StyledTableCell>
               </TableRow>
             </TableHead>
             <TableBody>
-              {paginatedWater.length > 0 ? (
-                paginatedWater.map((water, index) => (
-                  <StyledTableRow key={`${water.fullName}-${index}`}>
+              {paginatedParking.length > 0 ? (
+                paginatedParking.map((parking, index) => (
+                  <StyledTableRow key={`${parking.fullName}-${index}`}>
                     <StyledTableCell>
                       <Checkbox
-                        checked={selectedApartments.includes(water.apartmentNumber)}
-                        onChange={() => handleCheckboxChange(water.apartmentNumber)}
+                        checked={selectedApartments.includes(parking.apartmentNumber)}
+                        onChange={() => handleCheckboxChange(parking.apartmentNumber)}
                       />
                     </StyledTableCell>
                     <StyledTableCell sx={{ fontWeight: 600 }}>{(page - 1) * pageSize + index + 1}</StyledTableCell>
-                    <StyledTableCell>{water.fullName}</StyledTableCell>
-                    <StyledTableCell>{water.apartmentNumber}</StyledTableCell>
-                    <StyledTableCell>{water.phoneNumber}</StyledTableCell>
+                    <StyledTableCell>{parking.fullName}</StyledTableCell>
+                    <StyledTableCell>{parking.apartmentNumber}</StyledTableCell>
+                    <StyledTableCell>{parking.phoneNumber}</StyledTableCell>
                     <StyledTableCell>
                       {new Intl.DateTimeFormat('vi-VN', {
                         hour: '2-digit',
@@ -323,7 +318,7 @@ export default function UnpaidWater() {
                         year: 'numeric',
                         month: '2-digit',
                         day: '2-digit'
-                      }).format(new Date(water.readingPreDate))}
+                      }).format(new Date(parking.createDate))}
                     </StyledTableCell>
                     <StyledTableCell>
                       {new Intl.DateTimeFormat('vi-VN', {
@@ -333,16 +328,22 @@ export default function UnpaidWater() {
                         year: 'numeric',
                         month: '2-digit',
                         day: '2-digit'
-                      }).format(new Date(water.readingCurrentDate))}
+                      }).format(
+                        (() => {
+                          const date = new Date(parking.createDate)
+                          date.setMonth(date.getMonth() + 1)
+                          return date
+                        })()
+                      )}
                     </StyledTableCell>
-                    <StyledTableCell>{water.consumption}</StyledTableCell>
+                    <StyledTableCell>{parking.amount}</StyledTableCell>
                     <StyledTableCell>
                       <span
                         className={`${getStatusColor(
-                          water.status
+                          parking.status
                         )} px-3 py-1.5 rounded-full text-sm font-semibold capitalize`}
                       >
-                        {water.status}
+                        {parking.status}
                       </span>
                     </StyledTableCell>
                   </StyledTableRow>
@@ -350,7 +351,7 @@ export default function UnpaidWater() {
               ) : (
                 <TableRow>
                   <TableCell colSpan={10} align='center'>
-                    {t('no_waters_found')}
+                    {t('no_parkings_found')}
                   </TableCell>
                 </TableRow>
               )}

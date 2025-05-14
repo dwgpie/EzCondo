@@ -48,6 +48,7 @@ import ListParking from './pages/Manager/Parking/ListParking'
 import DetailParking from './pages/Manager/Parking/DetailParking'
 import BookingHistory from './pages/Manager/BookingHistory'
 import PaymentHistory from './pages/Manager/PaymentHistory'
+import UnpaidParking from './pages/Manager/Parking/UnpaidParking'
 
 export default function useRouteElements() {
   const { userRole } = useContext(AppContext)
@@ -357,6 +358,14 @@ export default function useRouteElements() {
                 element: (
                   <DashboardManagerLayout>
                     <DetailParking />
+                  </DashboardManagerLayout>
+                )
+              },
+              {
+                path: '/manager/unpaid-parking',
+                element: (
+                  <DashboardManagerLayout>
+                    <UnpaidParking />
                   </DashboardManagerLayout>
                 )
               },

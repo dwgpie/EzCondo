@@ -289,8 +289,16 @@ export const updateBillWater = (body: { waterBillId: string }[]) => {
 }
 
 //Parking
-export const getAllParking = () => {
+export const getAllParkingLot = () => {
   return http.get('/api/ParkingLot/Get-All-Parking-Lot')
+}
+
+export const getAllParking = () => {
+  return http.get('/api/ParkingLot/Get-All-Parking')
+}
+
+export const getAllParkingUnpaid = (body: { status: string; day: string; month: string }) => {
+  return http.get(`/api/ParkingLot/Get-All-Parking?status=${body.status}&day=${body.day}&month=${body.month}`)
 }
 
 export const getParkingById = (parkingLotId: string) => {
@@ -309,6 +317,7 @@ export const deleteParkingLot = (parkingLotDetailId: string) => {
   return http.delete(`/api/ParkingLot/Delete-Parking-Lot-Detail?parkingLotDetailId=${parkingLotDetailId}`)
 }
 
+//Booking
 export const getAllBooking = (search: string, month: string) => {
   return http.get(`/api/Booking/Get-All-Booking?search=${search}&month=${month}`)
 }
@@ -321,6 +330,7 @@ export const getAllBookingDashboard = (month: string) => {
   return http.get(`/api/Booking/Get-All-Booking?month=${month}`)
 }
 
+//Payment
 export const getAllPayment = (month: string) => {
   return http.get(`/api/Payment/History-Payment?month=${month}`)
 }
