@@ -182,11 +182,19 @@ export default function RequestParking() {
                             handleAcceptParking(parking.parkingId)
                           }}
                         >
-                          <svg xmlns='http://www.w3.org/2000/svg' width='24' height='24' viewBox='0 0 24 24'>
-                            <path
-                              fill='currentColor'
-                              d='m23 12l-2.44-2.78l.34-3.68l-3.61-.82l-1.89-3.18L12 3L8.6 1.54L6.71 4.72l-3.61.81l.34 3.68L1 12l2.44 2.78l-.34 3.69l3.61.82l1.89 3.18L12 21l3.4 1.46l1.89-3.18l3.61-.82l-.34-3.68zm-13 5l-4-4l1.41-1.41L10 14.17l6.59-6.59L18 9z'
-                            />
+                          <svg xmlns='http://www.w3.org/2000/svg' width='25' height='25' viewBox='0 0 48 48'>
+                            <defs>
+                              <mask id='ipTCheckOne0'>
+                                <g fill='none' stroke='#fff' strokeLinejoin='round' strokeWidth='4'>
+                                  <path
+                                    fill='#555555'
+                                    d='M24 44a19.94 19.94 0 0 0 14.142-5.858A19.94 19.94 0 0 0 44 24a19.94 19.94 0 0 0-5.858-14.142A19.94 19.94 0 0 0 24 4A19.94 19.94 0 0 0 9.858 9.858A19.94 19.94 0 0 0 4 24a19.94 19.94 0 0 0 5.858 14.142A19.94 19.94 0 0 0 24 44Z'
+                                  />
+                                  <path strokeLinecap='round' d='m16 24l6 6l12-12' />
+                                </g>
+                              </mask>
+                            </defs>
+                            <path fill='currentColor' d='M0 0h48v48H0z' mask='url(#ipTCheckOne0)' />
                           </svg>
                         </button>
                       </div>
