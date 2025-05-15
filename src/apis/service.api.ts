@@ -293,6 +293,9 @@ export const getAllParkingLot = () => {
   return http.get('/api/ParkingLot/Get-All-Parking-Lot')
 }
 
+export const getAllParkingRequest = () => {
+  return http.get('api/ParkingLot/Get-All-Parking-Lot-Request')
+}
 export const getAllParking = () => {
   return http.get('/api/ParkingLot/Get-All-Parking')
 }
