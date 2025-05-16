@@ -66,7 +66,7 @@ export default function HistoryNotificationManager() {
   const [type, setType] = useState('')
   const [day, setDay] = useState(3)
   const [page, setPage] = useState(1)
-  const pageSize = 6
+  const pageSize = 5
   const [openEditDialog, setOpenEditDialog] = useState(false)
   const [imageUrls, setImageUrls] = useState<string[]>([])
   const [selectedImage, setSelectedImage] = useState<string | null>(null)
@@ -203,8 +203,9 @@ export default function HistoryNotificationManager() {
                         second: '2-digit',
                         year: 'numeric',
                         month: '2-digit',
-                        day: '2-digit'
-                      }).format(new Date(notify.createdAt))}
+                        day: '2-digit',
+                        timeZone: 'Asia/Ho_Chi_Minh'
+                      }).format(new Date(notify.createdAt + 'Z'))}
                     </StyledTableCell>
                     <StyledTableCell>
                       <span className='capitalize'>{t(notify.type)}</span>
@@ -213,9 +214,9 @@ export default function HistoryNotificationManager() {
                       <span className='capitalize'>{t(notify.receiver)}</span>
                     </StyledTableCell>
                     <StyledTableCell>
-                      <div className='ml-2'>
+                      <div className='ml-1'>
                         <button
-                          className='text-blue-500 cursor-pointer'
+                          className='text-blue-500 cursor-pointer bg-blue-100 p-2 rounded-full'
                           onClick={() => {
                             handleEditClick(notify)
                           }}

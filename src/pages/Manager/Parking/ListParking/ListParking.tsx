@@ -55,7 +55,7 @@ export default function ListParking() {
   const { progress, buffer } = useBufferProgress(loading)
   const [listParking, setListParking] = useState<Parking[]>([])
   const [page, setPage] = useState(1)
-  const pageSize = 6
+  const pageSize = 5
 
   const getAllParkingMutation = useMutation({
     mutationFn: async () => {
@@ -129,9 +129,9 @@ export default function ListParking() {
                     <StyledTableCell>{parking.numberOfCar}</StyledTableCell>
                     <StyledTableCell>{parking.total}</StyledTableCell>
                     <StyledTableCell colSpan={1}>
-                      <div className='ml-2'>
+                      <div className=''>
                         <button
-                          className='text-blue-500 cursor-pointer'
+                          className='text-blue-500 cursor-pointer bg-blue-100 p-1.5 rounded-full'
                           onClick={() => {
                             handleGetParking(parking.parkingId)
                           }}

@@ -189,8 +189,9 @@ export default function PaymentHistory() {
                         second: '2-digit',
                         year: 'numeric',
                         month: '2-digit',
-                        day: '2-digit'
-                      }).format(new Date(payment.createDate))}
+                        day: '2-digit',
+                        timeZone: 'Asia/Ho_Chi_Minh'
+                      }).format(new Date(payment.createDate + 'Z'))}
                     </StyledTableCell>
                   </StyledTableRow>
                 ))

@@ -279,7 +279,7 @@ export default function ElectricityReading() {
               <TableRow>
                 <StyledTableCell width='2%'>{t('id')}</StyledTableCell>
                 <StyledTableCell width='16%'>{t('name')}</StyledTableCell>
-                <StyledTableCell width='17%'>{t('apartment_number')}</StyledTableCell>
+                <StyledTableCell width='9%'>{t('APT_number')}</StyledTableCell>
                 <StyledTableCell width='12%'>{t('phone')}</StyledTableCell>
                 <StyledTableCell width='19%'>{t('reading_pre_date')}</StyledTableCell>
                 <StyledTableCell width='19%'>{t('reading_current_date')}</StyledTableCell>
@@ -303,8 +303,9 @@ export default function ElectricityReading() {
                         second: '2-digit',
                         year: 'numeric',
                         month: '2-digit',
-                        day: '2-digit'
-                      }).format(new Date(electric.readingPreDate))}
+                        day: '2-digit',
+                        timeZone: 'Asia/Ho_Chi_Minh'
+                      }).format(new Date(electric.readingPreDate + 'Z'))}
                     </StyledTableCell>
                     <StyledTableCell>
                       {new Intl.DateTimeFormat('vi-VN', {
@@ -313,8 +314,9 @@ export default function ElectricityReading() {
                         second: '2-digit',
                         year: 'numeric',
                         month: '2-digit',
-                        day: '2-digit'
-                      }).format(new Date(electric.readingCurrentDate))}
+                        day: '2-digit',
+                        timeZone: 'Asia/Ho_Chi_Minh'
+                      }).format(new Date(electric.readingCurrentDate + 'Z'))}
                     </StyledTableCell>
                     <StyledTableCell>{electric.consumption}</StyledTableCell>
                     <StyledTableCell>
@@ -327,9 +329,10 @@ export default function ElectricityReading() {
                       </span>
                     </StyledTableCell>
                     <StyledTableCell>
-                      <div className='ml-2'>
+                      <div className=''>
                         <button
-                          className='text-blue-500 cursor-pointer'
+                          type='button'
+                          className='text-blue-500 cursor-pointer bg-blue-100 p-1.5 rounded-full ml-2'
                           onClick={() => handleDetailClick(electric.electricReadingId || '')}
                         >
                           <svg xmlns='http://www.w3.org/2000/svg' width='24' height='24' viewBox='0 0 48 48'>

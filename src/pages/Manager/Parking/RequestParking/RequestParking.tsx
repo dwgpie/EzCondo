@@ -175,9 +175,9 @@ export default function RequestParking() {
                     <StyledTableCell>{parking.numberOfCar}</StyledTableCell>
                     <StyledTableCell>{parking.total}</StyledTableCell>
                     <StyledTableCell>
-                      <div className='flex ml-3'>
+                      <div className='flex ml-1'>
                         <button
-                          className='text-green-500 cursor-pointer'
+                          className='text-green-500 cursor-pointer bg-green-100 p-1.5 rounded-full'
                           onClick={() => {
                             handleAcceptParking(parking.parkingId)
                           }}
@@ -200,9 +200,9 @@ export default function RequestParking() {
                       </div>
                     </StyledTableCell>
                     <StyledTableCell>
-                      <div className='flex ml-3'>
+                      <div className='flex ml-1'>
                         <button
-                          className='text-red-500 cursor-pointer'
+                          className='text-red-500 cursor-pointer bg-red-100 p-1.5 rounded-full'
                           onClick={() => {
                             handleRejectParking(parking.parkingId)
                           }}

@@ -322,8 +322,9 @@ export default function UnpaidWater() {
                         second: '2-digit',
                         year: 'numeric',
                         month: '2-digit',
-                        day: '2-digit'
-                      }).format(new Date(water.readingPreDate))}
+                        day: '2-digit',
+                        timeZone: 'Asia/Ho_Chi_Minh'
+                      }).format(new Date(water.readingPreDate + 'Z'))}
                     </StyledTableCell>
                     <StyledTableCell>
                       {new Intl.DateTimeFormat('vi-VN', {
@@ -332,8 +333,9 @@ export default function UnpaidWater() {
                         second: '2-digit',
                         year: 'numeric',
                         month: '2-digit',
-                        day: '2-digit'
-                      }).format(new Date(water.readingCurrentDate))}
+                        day: '2-digit',
+                        timeZone: 'Asia/Ho_Chi_Minh'
+                      }).format(new Date(water.readingCurrentDate + 'Z'))}
                     </StyledTableCell>
                     <StyledTableCell>{water.consumption}</StyledTableCell>
                     <StyledTableCell>

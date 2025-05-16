@@ -341,3 +341,20 @@ export const getAllPayment = (month: string) => {
 export const getAllPaymentSearch = (search: string) => {
   return http.get(`/api/Payment/History-Payment?search=${search}`)
 }
+
+//Other Service
+export const addOtherService = (body: { name: string; price: number; description: string }) => {
+  return http.post('/api/OtherService/add-or-update-other-service', body)
+}
+
+export const updateOtherService = (body: { id: string; name: string; price: number; description: string }) => {
+  return http.post('/api/OtherService/add-or-update-other-service', body)
+}
+
+export const getAllOtherService = () => {
+  return http.get('/api/OtherService/get-all-other-service')
+}
+
+export const deleteOtherService = (id: string) => {
+  return http.delete(`/api/OtherService/delete-other-service?otherServiceId=${id}`)
+}

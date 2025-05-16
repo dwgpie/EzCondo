@@ -204,8 +204,9 @@ export default function BookingHistory() {
                         second: '2-digit',
                         year: 'numeric',
                         month: '2-digit',
-                        day: '2-digit'
-                      }).format(new Date(booking.startDate))}
+                        day: '2-digit',
+                        timeZone: 'Asia/Ho_Chi_Minh'
+                      }).format(new Date(booking.startDate + 'Z'))}
                     </StyledTableCell>
                     <StyledTableCell>
                       {new Intl.DateTimeFormat('vi-VN', {
@@ -214,8 +215,9 @@ export default function BookingHistory() {
                         second: '2-digit',
                         year: 'numeric',
                         month: '2-digit',
-                        day: '2-digit'
-                      }).format(new Date(booking.endDate))}
+                        day: '2-digit',
+                        timeZone: 'Asia/Ho_Chi_Minh'
+                      }).format(new Date(booking.endDate + 'Z'))}
                     </StyledTableCell>
                     <StyledTableCell>{Number(booking.price).toLocaleString('en-US')}</StyledTableCell>
                     <StyledTableCell>

@@ -16,5 +16,6 @@
   "fail": "Cập nhật hồ sơ thất bại",
   "old_password": "Mật khẩu cũ",
   "new_password": "Mật khẩu mới",
-  "confirm_password": "Xác nhận mật khẩu"
+  "confirm_password": "Xác nhận mật khẩu",
+  "success_password": "Cập nhật mật khẩu thành công"
 }

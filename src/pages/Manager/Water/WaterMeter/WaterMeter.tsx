@@ -278,8 +278,9 @@ export default function WaterMeter() {
                         second: '2-digit',
                         year: 'numeric',
                         month: '2-digit',
-                        day: '2-digit'
-                      }).format(new Date(water.installationDate))}
+                        day: '2-digit',
+                        timeZone: 'Asia/Ho_Chi_Minh'
+                      }).format(new Date(water.installationDate + 'Z'))}
                     </StyledTableCell>
                   </StyledTableRow>
                 ))

@@ -156,16 +156,8 @@ export const RSPassWord = yup.object({
 export const serviceSchema = yup.object({
   id: yup.string(),
   status: yup.string().required('Status is required'),
-  serviceName: yup
-    .string()
-    .trim()
-    .required('Service name is required')
-    .max(100, 'Service name cannot exceed 100 characters'),
-  description: yup
-    .string()
-    .trim()
-    .required('Description is required')
-    .max(500, 'Description cannot exceed 500 characters'),
+  serviceName: yup.string().trim().required('Service name is required'),
+  description: yup.string().trim().required('Description is required'),
   typeOfMonth: yup.boolean().default(false),
   typeOfYear: yup.boolean().default(false),
   priceOfMonth: yup
@@ -190,6 +182,14 @@ export const serviceSchema = yup.object({
     .of(yup.mixed<File>().required('Each image is required'))
     .min(1, 'At least one image is required')
     .required('Image is required')
+})
+
+//Other Service
+export const otherServiceSchema = yup.object({
+  id: yup.string(),
+  name: yup.string().trim().required('Service name is required'),
+  price: yup.number().required('Price is required'),
+  description: yup.string().trim().required('Description is required')
 })
 
 //Profile

@@ -59,7 +59,7 @@ export default function ListService() {
   const [listService, setListService] = useState<FormData[]>([])
   const [originalList, setOriginalList] = useState<FormData[]>([]) // Lưu danh sách gốc
   const [page, setPage] = useState(1)
-  const pageSize = 6
+  const pageSize = 5
   const totalPages = Math.ceil(listService.length / pageSize)
   const { t } = useTranslation('service')
 
@@ -205,12 +205,11 @@ export default function ListService() {
                     <StyledTableCell>
                       <div className=''>
                         <button
-                          className='text-blue-500 cursor-pointer'
-                          onClick={() => {
-                            handleGetService(service.id)
-                          }}
+                          type='button'
+                          className='text-blue-500 cursor-pointer bg-blue-100 p-2 rounded-full'
+                          onClick={() => handleGetService(service.id)}
                         >
-                          <svg xmlns='http://www.w3.org/2000/svg' width='24' height='24' viewBox='0 0 24 24'>
+                          <svg xmlns='http://www.w3.org/2000/svg' width='23' height='23' viewBox='0 0 24 24'>
                             <g
                               fill='none'
                               stroke='currentColor'

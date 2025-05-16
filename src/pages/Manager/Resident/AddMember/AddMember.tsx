@@ -238,16 +238,17 @@ export default function AddMember() {
                       <StyledTableCell>
                         <span className='capitalize'>{user.relationship} </span>
                       </StyledTableCell>
-                      <StyledTableCell colSpan={1} align='center'>
+                      <StyledTableCell>
                         <button
-                          className='text-red-500 cursor-pointer'
+                          type='button'
+                          className='text-red-500 cursor-pointer bg-red-100 p-2 rounded-full'
                           onClick={() => {
                             if (user.id) {
                               handleDelete(user.id)
                             }
                           }}
                         >
-                          <svg xmlns='http://www.w3.org/2000/svg' width='25' height='25' viewBox='0 0 48 48'>
+                          <svg xmlns='http://www.w3.org/2000/svg' width='23' height='23' viewBox='0 0 48 48'>
                             <defs>
                               <mask id='ipTDelete0'>
                                 <g fill='none' stroke='#fff' strokeLinejoin='round' strokeWidth='4'>
@@ -258,7 +259,7 @@ export default function AddMember() {
                               </mask>
                             </defs>
                             <path fill='currentColor' d='M0 0h48v48H0z' mask='url(#ipTDelete0)' />
-                          </svg>{' '}
+                          </svg>
                         </button>
                       </StyledTableCell>
                     </StyledTableRow>
