@@ -49,6 +49,8 @@ import DetailParking from './pages/Manager/Parking/DetailParking'
 import BookingHistory from './pages/Manager/BookingHistory'
 import PaymentHistory from './pages/Manager/PaymentHistory'
 import UnpaidParking from './pages/Manager/Parking/UnpaidParking'
+import AddGeneralService from './pages/Admin/GeneralService/AddGeneralService'
+import ListGeneralService from './pages/Admin/GeneralService/ListGeneralService'
 
 export default function useRouteElements() {
   const { userRole } = useContext(AppContext)
@@ -186,6 +188,22 @@ export default function useRouteElements() {
                 element: (
                   <DashboardLayout>
                     <ListApartment />
+                  </DashboardLayout>
+                )
+              },
+              {
+                path: '/admin/add-general-service',
+                element: (
+                  <DashboardLayout>
+                    <AddGeneralService />
+                  </DashboardLayout>
+                )
+              },
+              {
+                path: '/admin/list-general-service',
+                element: (
+                  <DashboardLayout>
+                    <ListGeneralService />
                   </DashboardLayout>
                 )
               },

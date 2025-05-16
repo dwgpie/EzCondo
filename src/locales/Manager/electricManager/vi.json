@@ -46,7 +46,7 @@
   "export_image": "Xuất ảnh",
   "no_data_available": "Không có dữ liệu",
   "water_meter_management": "Quản lý đồng hồ nước",
-  "no_waters_found": "Không tìm thấy đồng hồ nước nào",
+  "no_waters_found": "Không tìm thấy dữ liệu nước nào",
   "water_reading_management": "Quản lý chỉ số nước",
   "water_bill": "Hóa đơn tiền nước",
   "water_price": "Đơn giá nước",
@@ -88,5 +88,6 @@
   "create_date": "Ngày bắt đầu",
   "end_date": "Ngày kết thúc",
   "amount": "Số tiền",
-  "no_parkings_found": "Không tìm thấy dữ liệu gửi xe nào"
+  "no_parkings_found": "Không tìm thấy dữ liệu gửi xe nào",
+  "APT_number": "Số căn hộ"
 }

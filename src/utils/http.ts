@@ -56,7 +56,6 @@ class Http {
         if (error.response?.status === 401) {
           localStorage.removeItem('token')
           localStorage.removeItem('role')
-          window.location.href = '/login'
         } else if (error.response?.status !== HttpStatusCode.UnprocessableEntity) {
           const data: any | undefined = error.response?.data
           const message = data.message || error.message

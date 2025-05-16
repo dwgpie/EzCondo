@@ -17,5 +17,6 @@
   "deleted": "Deleted!",
   "cancel": "Cancel",
   "save_changes": "Save Changes",
-  "submit": "Submit"
+  "submit": "Submit",
+  "duplicate_entry": "Electricity fee already exists for this range"
 }

@@ -23,5 +23,14 @@
   "loading_data": "Đang tải dữ liệu...",
   "active": "Đang hoạt động",
   "inactive": "Ngưng hoạt động",
-  "submit_save": "Lưu"
+  "submit_save": "Lưu",
+  "general_service_list": "Danh sách dịch vụ chung",
+  "edit_service": "Chỉnh sửa dịch vụ",
+  "save_changes": "Lưu thay đổi",
+  "delete_confirm_title": "Bạn có chắc chắn muốn xóa?",
+  "delete_confirm_text": "Hành động này không thể hoàn tác!",
+  "delete": "Xóa",
+  "deleted": "Đã xóa!",
+  "service_deleted_success": "Dịch vụ đã được xóa thành công.",
+  "service_delete_fail": "Không thể xóa dịch vụ"
 }

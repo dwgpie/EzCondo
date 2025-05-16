@@ -154,6 +154,8 @@ export default function ListApartment() {
             <MenuItem value='Floor 2'>{t('floor_2')}</MenuItem>
             <MenuItem value='Floor 3'>{t('floor_3')}</MenuItem>
             <MenuItem value='Floor 4'>{t('floor_4')}</MenuItem>
+            <MenuItem value='Floor 5'>{t('floor_5')}</MenuItem>
+            <MenuItem value='Floor 6'>{t('floor_6')}</MenuItem>
           </Select>
           <Link to='/admin/add-apartment'>
             <Tooltip title={t('add_apartment')}>

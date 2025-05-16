@@ -64,7 +64,7 @@ export default function DetailParking() {
   const { progress, buffer } = useBufferProgress(loading)
   const [listParkingDetail, setListParkingDetail] = useState<Parking[]>([])
   const [page, setPage] = useState(1)
-  const pageSize = 6
+  const pageSize = 5
   const totalPages = Math.ceil(listParkingDetail.length / pageSize)
   const [openEditDialog, setOpenEditDialog] = useState(false)
   const [editingItem, setEditingItem] = useState<EditParking | null>(null)
@@ -239,7 +239,10 @@ export default function DetailParking() {
                     <StyledTableCell>{parking.price}</StyledTableCell>
                     <StyledTableCell>
                       <div className='flex gap-4'>
-                        <button className='text-blue-500 cursor-pointer' onClick={() => handleEditClick(parking.id)}>
+                        <button
+                          className='text-blue-500 cursor-pointer bg-blue-100 p-1.5 rounded-full'
+                          onClick={() => handleEditClick(parking.id)}
+                        >
                           <svg xmlns='http://www.w3.org/2000/svg' width='24' height='24' viewBox='0 0 24 24'>
                             <g
                               fill='none'
@@ -258,7 +261,7 @@ export default function DetailParking() {
                     <StyledTableCell>
                       <div className='flex gap-4'>
                         <button
-                          className='text-red-500 cursor-pointer'
+                          className='text-red-500 cursor-pointer bg-red-100 p-1.5 rounded-full'
                           onClick={() => {
                             handleDelete(parking.id)
                           }}

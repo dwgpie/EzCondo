@@ -2,7 +2,7 @@
   "service_create_fail": "Failed to create service",
   "service_create_success": "Service created successfully",
   "service_update_success": "Service updated successfully",
-  "name": "Name",
+  "name": "Name Service",
   "description": "Description",
   "timestamp": "Timestamp",
   "price": "Price",
@@ -23,5 +23,14 @@
   "loading_data": "Loading data...",
   "active": "Active",
   "inactive": "Inactive",
-  "submit_save": "Save"
+  "submit_save": "Save",
+  "general_service_list": "General Service List",
+  "edit_service": "Edit Service",
+  "save_changes": "Save Changes",
+  "delete_confirm_title": "Are you sure you want to delete?",
+  "delete_confirm_text": "This action cannot be undone!",
+  "delete": "Delete",
+  "deleted": "Deleted!",
+  "service_deleted_success": "The service has been successfully deleted.",
+  "service_delete_fail": "Unable to delete the service"
 }

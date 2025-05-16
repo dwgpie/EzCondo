@@ -55,7 +55,7 @@ export default function ListIncident() {
   const [listIncident, setListIncident] = useState<Incident[]>([])
 
   const [page, setPage] = useState(1)
-  const pageSize = 6
+  const pageSize = 5
   const totalPages = Math.ceil(listIncident.length / pageSize)
 
   const getAllIncidentMutation = useMutation({
@@ -129,7 +129,9 @@ export default function ListIncident() {
                     <StyledTableCell>{incident.type}</StyledTableCell>
                     <StyledTableCell>{incident.title}</StyledTableCell>
                     <StyledTableCell>
-                      {new Intl.DateTimeFormat('vi-VN').format(new Date(incident.reportedAt))}
+                      {new Intl.DateTimeFormat('vi-VN', {
+                        timeZone: 'Asia/Ho_Chi_Minh'
+                      }).format(new Date(incident.reportedAt + 'Z'))}
                     </StyledTableCell>
                     <StyledTableCell>
                       <span
@@ -139,9 +141,9 @@ export default function ListIncident() {
                       </span>
                     </StyledTableCell>
                     <StyledTableCell colSpan={1}>
-                      <div className='ml-2'>
+                      <div className='ml-1'>
                         <button
-                          className='text-blue-500 cursor-pointer'
+                          className='text-blue-500 cursor-pointer bg-blue-100 p-2 rounded-full'
                           onClick={() => {
                             handleDetailButton(incident.id)
                           }}

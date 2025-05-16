@@ -76,27 +76,27 @@ export default function Electricity() {
     mutateRef.current() // Gọi mutate từ ref để tránh dependency issue
   }, [])
 
-  const handleCallAPI = async (formData: FormData) => {
-    try {
-      await addElectric({
-        minKWh: formData.minKWh,
-        maxKWh: formData.maxKWh,
-        pricePerKWh: formData.pricePerKWh
-      })
+  // const handleCallAPI = async (formData: FormData) => {
+  //   try {
+  //     await addElectric({
+  //       minKWh: formData.minKWh,
+  //       maxKWh: formData.maxKWh,
+  //       pricePerKWh: formData.pricePerKWh
+  //     })
 
-      toast.success(t('electricity_create_success'), {
-        style: { width: 'fit-content' }
-      })
-      getElectricMutation.mutate() // Refresh the list after adding new item
-    } catch (error) {
-      console.error('API call failed:', error)
-    }
-  }
+  //     toast.success(t('electricity_create_success'), {
+  //       style: { width: 'fit-content' }
+  //     })
+  //     getElectricMutation.mutate() // Refresh the list after adding new item
+  //   } catch (error) {
+  //     console.error('API call failed:', error)
+  //   }
+  // }
 
-  // Xử lý submit form
-  const onSubmit = handleSubmit((formData) => {
-    handleCallAPI(formData)
-  })
+  // // Xử lý submit form
+  // const onSubmit = handleSubmit((formData) => {
+  //   handleCallAPI(formData)
+  // })
 
   const handleEditClick = (item: FormData) => {
     setEditingItem(item)
@@ -121,12 +121,52 @@ export default function Electricity() {
           style: { width: 'fit-content' }
         })
         handleCloseEditDialog()
-        getElectricMutation.mutate() // Refresh the list
+        getElectricMutation.mutate()
       } catch (error) {
         console.error('Update failed:', error)
       }
     }
   }
+
+  const [isSubmitting, setIsSubmitting] = useState(false)
+
+  const handleCallAPI = async (formData: FormData) => {
+    try {
+      // Kiểm tra dữ liệu có tồn tại rồi không (dựa trên minKWh, maxKWh, pricePerKWh)
+      const exists = electric.some(
+        (item) =>
+          item.minKWh === formData.minKWh &&
+          item.maxKWh === formData.maxKWh &&
+          item.pricePerKWh === formData.pricePerKWh
+      )
+      if (exists) {
+        toast.error(t('duplicate_entry'), {
+          style: { width: 'fit-content' }
+        })
+        return
+      }
+
+      setIsSubmitting(true)
+      await addElectric({
+        minKWh: formData.minKWh,
+        maxKWh: formData.maxKWh,
+        pricePerKWh: formData.pricePerKWh
+      })
+      toast.success(t('electricity_create_success'), {
+        style: { width: 'fit-content' }
+      })
+      getElectricMutation.mutate()
+    } catch (error) {
+      console.error('API call failed:', error)
+    } finally {
+      setIsSubmitting(false)
+    }
+  }
+
+  const onSubmit = handleSubmit((formData) => {
+    if (isSubmitting) return // Chặn submit khi đang gửi
+    handleCallAPI(formData)
+  })
 
   const handleDelete = (id?: string) => {
     if (!id) {
@@ -234,8 +274,9 @@ export default function Electricity() {
             type='submit'
             variant='contained'
             style={{ color: 'white', background: '#2976ce', fontWeight: 'semi-bold' }}
+            disabled={isSubmitting}
           >
-            {t('submit')}
+            {isSubmitting ? t('submitting') : t('submit')}
           </Button>
         </div>
         <h2 className='text-2xl font-semibold text-gray-500 pb-1'>{t('electricity_price')}</h2>

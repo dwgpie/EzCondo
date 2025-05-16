@@ -3,6 +3,7 @@ import { ExpandLess, ExpandMore } from '@mui/icons-material'
 import { Link, useLocation } from 'react-router-dom'
 import '../SideBar.css'
 import { useTranslation } from 'react-i18next'
+import { Icon } from '@iconify/react'
 
 export default function SideBarAdminActive() {
   const location = useLocation()
@@ -21,6 +22,8 @@ export default function SideBarAdminActive() {
   const AddNotificationPath = '/admin/add-notification'
   const AddApartmentPath = '/admin/add-apartment'
   const ListApartmentPath = '/admin/list-apartment'
+  const AddGeneralServicePath = '/admin/add-general-service'
+  const ListGeneralServicePath = '/admin/list-general-service'
 
   // const [isOpenDashboard, SetIsOpenDashboard] = useState(true)
 
@@ -29,10 +32,8 @@ export default function SideBarAdminActive() {
   const [isOpenFee, setIsOpenFee] = useState(false)
   const [isOpenNotification, setIsOpenNotification] = useState(false)
   const [isOpenApartment, setIsOpenApartment] = useState(false)
+  const [isOpenGeneralService, setIsOpenGeneralService] = useState(false)
 
-  // const handleClickDashboard = () => {
-  //   SetIsOpenDashboard(!isOpenDashboard)
-  // }
   const handleClickUser = () => {
     setIsOpenUser(!isOpenUser)
   }
@@ -47,6 +48,10 @@ export default function SideBarAdminActive() {
   }
   const handleClickApartment = () => {
     setIsOpenApartment(!isOpenApartment)
+  }
+
+  const handleClickGeneralService = () => {
+    setIsOpenGeneralService(!isOpenGeneralService)
   }
 
   return (
@@ -108,7 +113,7 @@ export default function SideBarAdminActive() {
             className={`flex justify-between px-2 pl-2.5 ml-5 mr-2 h-[45px] rounded-xl cursor-pointer hover:bg-blue-100 ripple ${path === ListUserPath || path === AddUserPath ? 'bg-blue-100 text-blue-600' : 'hover:bg-blue-100 text-blue-900'}`}
             onClick={handleClickUser}
           >
-            <div className='flex justify-center items-center gap-x-[2px]'>
+            <div className='flex justify-center items-center gap-x-[5px]'>
               <svg xmlns='http://www.w3.org/2000/svg' width='32' height='32' viewBox='0 0 30 30' className='ml-2'>
                 <g fill='none' stroke='currentColor' strokeWidth='1.5'>
                   <circle cx='12' cy='6' r='4' />
@@ -160,7 +165,7 @@ export default function SideBarAdminActive() {
             className={`flex justify-between mt-1 px-2 ml-5 mr-2 h-[45px] rounded-xl cursor-pointer hover:bg-blue-100 ripple ${path === ListServicePath || path === AddServicePath ? 'bg-blue-100 text-blue-600' : 'hover:bg-blue-100 text-blue-900'}`}
             onClick={handleClickService}
           >
-            <div className='flex justify-center items-center gap-x-[11px]'>
+            <div className='flex justify-center items-center gap-x-[14px]'>
               <svg xmlns='http://www.w3.org/2000/svg' width='29' height='29' viewBox='0 0 2048 2048' className='ml-1'>
                 <path
                   fill='currentColor'
@@ -212,7 +217,7 @@ export default function SideBarAdminActive() {
             className={`flex justify-between mt-1 px-2 ml-5 mr-2 h-[45px] rounded-xl cursor-pointer hover:bg-blue-100 ripple ${path === ElectricityPath || path === WaterPath || path === ParkingPath ? 'bg-blue-100 text-blue-600' : 'hover:bg-blue-100 text-blue-900'}`}
             onClick={handleClickFee}
           >
-            <div className='flex justify-center items-center gap-[7px]'>
+            <div className='flex justify-center items-center gap-[8px]'>
               <svg xmlns='http://www.w3.org/2000/svg' width='35' height='35' viewBox='0 0 24 24' className='ml-1'>
                 <path
                   fill='currentColor'
@@ -280,6 +285,59 @@ export default function SideBarAdminActive() {
                     </g>
                   </svg>
                   <p className='text-[15px]'>{t('parking_fee')}</p>
+                </div>
+              </div>
+            </Link>
+          </div>
+
+          {/* General Service */}
+          <div
+            className={`flex justify-between mt-1 px-2 pl-3 ml-5 mr-2 h-[45px] rounded-xl cursor-pointer hover:bg-blue-100 ripple ${path === ListGeneralServicePath || path === AddGeneralServicePath ? 'bg-blue-100 text-blue-600' : 'hover:bg-blue-100 text-blue-900'}`}
+            onClick={handleClickGeneralService}
+          >
+            <div className='flex justify-center items-center gap-x-[10px]'>
+              <Icon icon='material-symbols:hub-outline' width='29' height='29' className='ml-1' />
+              <p className='text-[15px]'>{t('general_service')}</p>
+            </div>
+            <div className='flex items-center justify-center'>
+              {isOpenGeneralService ? <ExpandLess /> : <ExpandMore />}
+            </div>
+          </div>
+
+          <div
+            className={`overflow-hidden transition-all duration-300 ${isOpenGeneralService ? 'max-h-[100px]' : 'max-h-0'}`}
+          >
+            <Link to='/admin/list-general-service'>
+              <div
+                className={`flex justify-between px-4 mr-2 ml-15 h-[45px] mb-1 mt-1 rounded-xl cursor-pointer hover:bg-blue-100 ripple ${path === ListGeneralServicePath ? 'bg-blue-100 text-blue-600' : 'hover:bg-blue-100 text-blue-900'}`}
+              >
+                <div className='flex items-center gap-[15px]'>
+                  <svg xmlns='http://www.w3.org/2000/svg' width='26' height='26' viewBox='0 0 24 24'>
+                    <path
+                      fill='currentColor'
+                      fillRule='evenodd'
+                      d='M20 4H4a1 1 0 0 0-1 1v14a1 1 0 0 0 1 1h16a1 1 0 0 0 1-1V5a1 1 0 0 0-1-1M4 2a3 3 0 0 0-3 3v14a3 3 0 0 0 3 3h16a3 3 0 0 0 3-3V5a3 3 0 0 0-3-3zm2 5h2v2H6zm5 0a1 1 0 1 0 0 2h6a1 1 0 1 0 0-2zm-3 4H6v2h2zm2 1a1 1 0 0 1 1-1h6a1 1 0 1 1 0 2h-6a1 1 0 0 1-1-1m-2 3H6v2h2zm2 1a1 1 0 0 1 1-1h6a1 1 0 1 1 0 2h-6a1 1 0 0 1-1-1'
+                      clipRule='evenodd'
+                    />
+                  </svg>
+                  <p className='text-[15px]'>{t('service_list')}</p>
+                </div>
+              </div>
+            </Link>
+            <Link to='/admin/add-general-service'>
+              <div
+                className={`flex justify-between px-4 mr-2 ml-15 h-[45px] mt-1 rounded-xl cursor-pointer hover:bg-blue-100 ripple ${path === AddGeneralServicePath ? 'bg-blue-100 text-blue-600' : 'hover:bg-blue-100 text-blue-900'}`}
+              >
+                <div className='flex items-center gap-[16px]'>
+                  <svg xmlns='http://www.w3.org/2000/svg' width='26' height='26' viewBox='0 0 16 16'>
+                    <path
+                      fill='currentColor'
+                      fillRule='evenodd'
+                      d='M13 6a.75.75 0 0 1-.75-.75v-1.5h-1.5a.75.75 0 0 1 0-1.5h1.5V.75a.75.75 0 0 1 1.5 0v1.5h1.5a.75.75 0 0 1 0 1.5h-1.5v1.5A.75.75 0 0 1 13 6M3 13.5a.5.5 0 0 1-.5-.5V3a.5.5 0 0 1 .5-.5h4.25a.75.75 0 0 0 0-1.5H3a2 2 0 0 0-2 2v10a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V8.75a.75.75 0 0 0-1.5 0V13a.5.5 0 0 1-.5.5z'
+                      clipRule='evenodd'
+                    />
+                  </svg>
+                  <p className='text-[15px]'>{t('add_service')}</p>
                 </div>
               </div>
             </Link>

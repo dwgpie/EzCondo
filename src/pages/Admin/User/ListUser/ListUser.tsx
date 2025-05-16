@@ -61,7 +61,7 @@ export default function ListUser() {
   const [listUser, setListUser] = useState<User[]>([])
   const [filteredUsers, setFilteredUsers] = useState<User[]>([])
   const [page, setPage] = useState(1)
-  const pageSize = 6
+  const pageSize = 5
   const totalPages = Math.ceil(filteredUsers.length / pageSize)
   const { t } = useTranslation('user')
 
@@ -230,8 +230,8 @@ export default function ListUser() {
                 <StyledTableCell width='12%'>{t('gender')}</StyledTableCell>
                 <StyledTableCell width='12%'>{t('apartment')}</StyledTableCell>
                 <StyledTableCell width='15%'>{t('phone_number')}</StyledTableCell>
-                <StyledTableCell width='8%'>{t('status')}</StyledTableCell>
-                <StyledTableCell width='8%'>{t('edit')}</StyledTableCell>
+                <StyledTableCell width='10%'>{t('status')}</StyledTableCell>
+                <StyledTableCell width='10%'>{t('edit')}</StyledTableCell>
               </TableRow>
             </TableHead>
             <TableBody>
@@ -258,14 +258,13 @@ export default function ListUser() {
                       </span>
                     </StyledTableCell>
                     <StyledTableCell>
-                      <div className='flex gap-4'>
+                      <div className='flex gap-1'>
                         <button
-                          className='text-blue-500 cursor-pointer'
-                          onClick={() => {
-                            handleGetUser(user.id)
-                          }}
+                          type='button'
+                          className='text-blue-500 cursor-pointer bg-blue-100 p-2 rounded-full'
+                          onClick={() => handleGetUser(user.id)}
                         >
-                          <svg xmlns='http://www.w3.org/2000/svg' width='24' height='24' viewBox='0 0 24 24'>
+                          <svg xmlns='http://www.w3.org/2000/svg' width='23' height='23' viewBox='0 0 24 24'>
                             <g
                               fill='none'
                               stroke='currentColor'
@@ -279,12 +278,13 @@ export default function ListUser() {
                           </svg>
                         </button>
                         <button
-                          className='text-red-500 cursor-pointer'
+                          type='button'
+                          className='text-red-500 cursor-pointer bg-red-100 p-2 rounded-full ml-2'
                           onClick={() => {
                             handleDelete(user.id)
                           }}
                         >
-                          <svg xmlns='http://www.w3.org/2000/svg' width='25' height='25' viewBox='0 0 48 48'>
+                          <svg xmlns='http://www.w3.org/2000/svg' width='23' height='23' viewBox='0 0 48 48'>
                             <defs>
                               <mask id='ipTDelete0'>
                                 <g fill='none' stroke='#fff' strokeLinejoin='round' strokeWidth='4'>
@@ -295,7 +295,7 @@ export default function ListUser() {
                               </mask>
                             </defs>
                             <path fill='currentColor' d='M0 0h48v48H0z' mask='url(#ipTDelete0)' />
-                          </svg>{' '}
+                          </svg>
                         </button>
                       </div>
                     </StyledTableCell>

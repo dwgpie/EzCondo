@@ -317,8 +317,9 @@ export default function UnpaidParking() {
                         second: '2-digit',
                         year: 'numeric',
                         month: '2-digit',
-                        day: '2-digit'
-                      }).format(new Date(parking.createDate))}
+                        day: '2-digit',
+                        timeZone: 'Asia/Ho_Chi_Minh'
+                      }).format(new Date(parking.createDate + 'Z'))}
                     </StyledTableCell>
                     <StyledTableCell>
                       {new Intl.DateTimeFormat('vi-VN', {
@@ -327,10 +328,11 @@ export default function UnpaidParking() {
                         second: '2-digit',
                         year: 'numeric',
                         month: '2-digit',
-                        day: '2-digit'
+                        day: '2-digit',
+                        timeZone: 'Asia/Ho_Chi_Minh'
                       }).format(
                         (() => {
-                          const date = new Date(parking.createDate)
+                          const date = new Date(parking.createDate + 'Z')
                           date.setMonth(date.getMonth() + 1)
                           return date
                         })()

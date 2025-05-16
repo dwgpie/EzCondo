@@ -66,7 +66,7 @@ export default function HistoryNotification() {
   const [type, setType] = useState('')
   const [day, setDay] = useState(3)
   const [page, setPage] = useState(1)
-  const pageSize = 6
+  const pageSize = 5
   const [openEditDialog, setOpenEditDialog] = useState(false)
   const [imageUrls, setImageUrls] = useState<string[]>([])
   const [selectedImage, setSelectedImage] = useState<string | null>(null)
@@ -215,8 +215,9 @@ export default function HistoryNotification() {
                         second: '2-digit',
                         year: 'numeric',
                         month: '2-digit',
-                        day: '2-digit'
-                      }).format(new Date(notify.createdAt))}
+                        day: '2-digit',
+                        timeZone: 'Asia/Ho_Chi_Minh'
+                      }).format(new Date(notify.createdAt + 'Z'))}
                     </StyledTableCell>
                     <StyledTableCell>
                       <span className='capitalize'>{t(notify.type)}</span>
@@ -226,7 +227,10 @@ export default function HistoryNotification() {
                     </StyledTableCell>
                     <StyledTableCell>
                       <div className='ml-2'>
-                        <button className='text-blue-500 cursor-pointer' onClick={() => handleEditClick(notify)}>
+                        <button
+                          className='text-blue-500 cursor-pointer bg-blue-100 p-2 rounded-full'
+                          onClick={() => handleEditClick(notify)}
+                        >
                           <svg xmlns='http://www.w3.org/2000/svg' width='24' height='24' viewBox='0 0 48 48'>
                             <g fill='none' stroke='currentColor' strokeLinejoin='round' strokeWidth='4'>
                               <rect width='36' height='36' x='6' y='6' rx='3' />

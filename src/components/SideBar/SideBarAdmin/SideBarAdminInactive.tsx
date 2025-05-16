@@ -1,6 +1,7 @@
 import { Link, useLocation } from 'react-router-dom'
 import '../SideBar.css'
 import { useTranslation } from 'react-i18next'
+import { Icon } from '@iconify/react'
 
 export default function SideBarAdminInactive() {
   const location = useLocation()
@@ -19,6 +20,8 @@ export default function SideBarAdminInactive() {
   const AddNotificationPath = '/admin/add-notification'
   const AddApartmentPath = '/admin/add-apartment'
   const ListApartmentPath = '/admin/list-apartment'
+  const AddGeneralServicePath = '/admin/add-general-service'
+  const ListGeneralServicePath = '/admin/list-general-service'
 
   return (
     <div className='flex flex-col items-center bg-blue-50 mb-10 w-full h-screen border-r-2 border-[#eaeaea] text-blue-900'>
@@ -323,6 +326,74 @@ export default function SideBarAdminInactive() {
                         </g>
                       </svg>
                       <li className='flex items-center h-[30px] pl-[10px]'>{t('parking_fee')}</li>
+                    </div>
+                  </div>
+                </Link>
+              </ul>
+            </div>
+          </div>
+
+          {/* General Service */}
+          <div className='relative group'>
+            {/* Nút bấm */}
+            <div
+              className={`flex justify-between px-[20px] py-2 mt-1 h-[80px] rounded-xl cursor-pointer hover:bg-blue-100 ripple ${path === ListGeneralServicePath || path === AddGeneralServicePath ? 'bg-blue-100 text-blue-600' : 'hover:bg-blue-100'}`}
+              style={
+                i18n.language === 'vi'
+                  ? {
+                      padding: '0 23.5px'
+                    }
+                  : undefined
+              }
+            >
+              <div className='flex flex-col justify-center items-center gap-[2px]'>
+                <Icon icon='material-symbols:hub-outline' width='29' height='29' className='ml-1' />
+                <p className='text-[13px] mt-1'>{t('general')}</p>
+              </div>
+            </div>
+            {/* Hover Menu */}
+            <div
+              className='hover-menu'
+              style={
+                i18n.language === 'vi'
+                  ? {
+                      width: '210px'
+                    }
+                  : undefined
+              }
+            >
+              <ul>
+                <Link to='/admin/list-general-service'>
+                  <div
+                    className={`flex justify-between h-[40px] pl-[20px] pr-[20px] mb-1 text-[13px] rounded-2xl hover:bg-blue-100 ripple ${path === ListGeneralServicePath ? 'bg-blue-100 text-blue-600' : 'hover:bg-blue-100'}`}
+                  >
+                    <div className='flex items-center gap-[10px]'>
+                      <svg xmlns='http://www.w3.org/2000/svg' width='24' height='24' viewBox='0 0 24 24'>
+                        <path
+                          fill='currentColor'
+                          fillRule='evenodd'
+                          d='M20 4H4a1 1 0 0 0-1 1v14a1 1 0 0 0 1 1h16a1 1 0 0 0 1-1V5a1 1 0 0 0-1-1M4 2a3 3 0 0 0-3 3v14a3 3 0 0 0 3 3h16a3 3 0 0 0 3-3V5a3 3 0 0 0-3-3zm2 5h2v2H6zm5 0a1 1 0 1 0 0 2h6a1 1 0 1 0 0-2zm-3 4H6v2h2zm2 1a1 1 0 0 1 1-1h6a1 1 0 1 1 0 2h-6a1 1 0 0 1-1-1m-2 3H6v2h2zm2 1a1 1 0 0 1 1-1h6a1 1 0 1 1 0 2h-6a1 1 0 0 1-1-1'
+                          clipRule='evenodd'
+                        />
+                      </svg>
+                      <li className='flex items-center h-[30px] pl-[10px]'>{t('service_list')}</li>
+                    </div>
+                  </div>
+                </Link>
+                <Link to='/admin/add-general-service'>
+                  <div
+                    className={`flex justify-between h-[40px] pl-[20px] pr-[20px] text-[13px] rounded-2xl hover:bg-blue-100 ripple ${path === AddGeneralServicePath ? 'bg-blue-100 text-blue-600' : 'hover:bg-blue-100'}`}
+                  >
+                    <div className='flex items-center gap-[10px]'>
+                      <svg xmlns='http://www.w3.org/2000/svg' width='24' height='24' viewBox='0 0 16 16'>
+                        <path
+                          fill='currentColor'
+                          fillRule='evenodd'
+                          d='M13 6a.75.75 0 0 1-.75-.75v-1.5h-1.5a.75.75 0 0 1 0-1.5h1.5V.75a.75.75 0 0 1 1.5 0v1.5h1.5a.75.75 0 0 1 0 1.5h-1.5v1.5A.75.75 0 0 1 13 6M3 13.5a.5.5 0 0 1-.5-.5V3a.5.5 0 0 1 .5-.5h4.25a.75.75 0 0 0 0-1.5H3a2 2 0 0 0-2 2v10a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V8.75a.75.75 0 0 0-1.5 0V13a.5.5 0 0 1-.5.5z'
+                          clipRule='evenodd'
+                        />
+                      </svg>
+                      <li className='flex items-center h-[30px] pl-[10px]'>{t('add_service')}</li>
                     </div>
                   </div>
                 </Link>

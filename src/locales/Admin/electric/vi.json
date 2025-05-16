@@ -17,5 +17,6 @@
   "deleted": "Đã xóa!",
   "cancel": "Hủy",
   "save_changes": "Lưu thay đổi",
-  "submit": "Thêm mới"
+  "submit": "Thêm mới",
+  "duplicate_entry": "Đã tồn tại giá điện cho khoảng này"
 }

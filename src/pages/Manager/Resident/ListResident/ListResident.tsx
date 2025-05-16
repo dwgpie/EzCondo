@@ -60,7 +60,7 @@ export default function ListResident() {
   const [filteredUsers, setFilteredUsers] = useState<User[]>([])
 
   const [page, setPage] = useState(1)
-  const pageSize = 6
+  const pageSize = 5
   const totalPages = Math.ceil(filteredUsers.length / pageSize)
 
   const getAllUserMutation = useMutation({
@@ -151,7 +151,7 @@ export default function ListResident() {
               {paginatedUsers.length > 0 ? (
                 paginatedUsers.map((user, index) => (
                   <StyledTableRow key={user.id}>
-                    <StyledTableCell sx={{ color: 'black', fontWeight: '600' }}>{index + 1}</StyledTableCell>
+                    <StyledTableCell sx={{ fontWeight: 600 }}>{(page - 1) * pageSize + index + 1}</StyledTableCell>
                     <StyledTableCell>{user.fullName}</StyledTableCell>
                     <StyledTableCell>
                       {new Intl.DateTimeFormat('vi-VN').format(new Date(user.dateOfBirth))}
@@ -171,7 +171,8 @@ export default function ListResident() {
                     <StyledTableCell>
                       <div className=''>
                         <button
-                          className='text-blue-500 cursor-pointer ml-3'
+                          type='button'
+                          className='text-blue-500 cursor-pointer bg-blue-100 p-2 rounded-full ml-2'
                           onClick={() => {
                             handleDetail(user.id)
                           }}
@@ -188,7 +189,8 @@ export default function ListResident() {
                     </StyledTableCell>
                     <StyledTableCell>
                       <button
-                        className='text-gray-500 cursor-pointer ml-8'
+                        type='button'
+                        className='text-gray-500 cursor-pointer bg-gray-100 p-2 rounded-full ml-7'
                         onClick={() => {
                           handleAddMember(user.id)
                         }}

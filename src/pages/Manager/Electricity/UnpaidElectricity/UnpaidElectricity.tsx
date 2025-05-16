@@ -322,8 +322,9 @@ export default function UnpaidElectricity() {
                         second: '2-digit',
                         year: 'numeric',
                         month: '2-digit',
-                        day: '2-digit'
-                      }).format(new Date(electric.readingPreDate))}
+                        day: '2-digit',
+                        timeZone: 'Asia/Ho_Chi_Minh'
+                      }).format(new Date(electric.readingPreDate + 'Z'))}
                     </StyledTableCell>
                     <StyledTableCell>
                       {new Intl.DateTimeFormat('vi-VN', {
@@ -332,8 +333,9 @@ export default function UnpaidElectricity() {
                         second: '2-digit',
                         year: 'numeric',
                         month: '2-digit',
-                        day: '2-digit'
-                      }).format(new Date(electric.readingCurrentDate))}
+                        day: '2-digit',
+                        timeZone: 'Asia/Ho_Chi_Minh'
+                      }).format(new Date(electric.readingCurrentDate + 'Z'))}
                     </StyledTableCell>
                     <StyledTableCell>{electric.consumption}</StyledTableCell>
                     <StyledTableCell>

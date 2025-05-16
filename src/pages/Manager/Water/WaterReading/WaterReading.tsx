@@ -279,12 +279,12 @@ export default function WaterReading() {
               <TableRow>
                 <StyledTableCell width='2%'>{t('id')}</StyledTableCell>
                 <StyledTableCell width='16%'>{t('name')}</StyledTableCell>
-                <StyledTableCell width='17%'>{t('apartment_number')}</StyledTableCell>
+                <StyledTableCell width='9%'>{t('APT_number')}</StyledTableCell>
                 <StyledTableCell width='12%'>{t('phone')}</StyledTableCell>
                 <StyledTableCell width='19%'>{t('reading_pre_date')}</StyledTableCell>
-                <StyledTableCell width='18%'>{t('reading_current_date')}</StyledTableCell>
+                <StyledTableCell width='19%'>{t('reading_current_date')}</StyledTableCell>
                 <StyledTableCell width='8%'>{t('consumption')}</StyledTableCell>
-                <StyledTableCell width='0%'>{t('status')}</StyledTableCell>
+                <StyledTableCell width='8%'>{t('status')}</StyledTableCell>
                 <StyledTableCell width='7%'>{t('detail')}</StyledTableCell>
               </TableRow>
             </TableHead>
@@ -303,8 +303,9 @@ export default function WaterReading() {
                         second: '2-digit',
                         year: 'numeric',
                         month: '2-digit',
-                        day: '2-digit'
-                      }).format(new Date(water.readingPreDate))}
+                        day: '2-digit',
+                        timeZone: 'Asia/Ho_Chi_Minh'
+                      }).format(new Date(water.readingPreDate + 'Z'))}
                     </StyledTableCell>
                     <StyledTableCell>
                       {new Intl.DateTimeFormat('vi-VN', {
@@ -313,8 +314,9 @@ export default function WaterReading() {
                         second: '2-digit',
                         year: 'numeric',
                         month: '2-digit',
-                        day: '2-digit'
-                      }).format(new Date(water.readingCurrentDate))}
+                        day: '2-digit',
+                        timeZone: 'Asia/Ho_Chi_Minh'
+                      }).format(new Date(water.readingCurrentDate + 'Z'))}
                     </StyledTableCell>
                     <StyledTableCell>{water.consumption}</StyledTableCell>
                     <StyledTableCell>
@@ -327,9 +329,9 @@ export default function WaterReading() {
                       </span>
                     </StyledTableCell>
                     <StyledTableCell>
-                      <div className='ml-2'>
+                      <div className=''>
                         <button
-                          className='text-blue-500 cursor-pointer'
+                          className='text-blue-500 cursor-pointer bg-blue-100 p-1.5 rounded-full ml-2'
                           onClick={() => handleDetailClick(water.id || '')}
                         >
                           <svg xmlns='http://www.w3.org/2000/svg' width='24' height='24' viewBox='0 0 48 48'>
