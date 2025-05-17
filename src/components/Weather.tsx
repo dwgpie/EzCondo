@@ -1,17 +1,25 @@
-import { useState, useEffect } from 'react'
-import { Card, CardContent, Typography, CircularProgress } from '@mui/material'
-import { WbSunny, Cloud, WaterDrop, Air } from '@mui/icons-material'
+import { useEffect, useState } from 'react'
+import { Droplet, Thermometer, Wind, Cloud, MapPin } from 'lucide-react'
 
 interface WeatherData {
-  temperature: number
-  weather_descriptions: string[]
-  humidity: number
-  wind_speed: number
-  timestamp: number
+  name: string
+  weather: {
+    description: string
+    icon: string
+  }[]
+  main: {
+    temp: number
+    feels_like: number
+    humidity: number
+    pressure: number
+  }
+  wind: {
+    speed: number
+  }
+  clouds: {
+    all: number
+  }
 }
-
-const CACHE_DURATION = 30 * 60 * 1000 // 30 minutes in milliseconds
-const CACHE_KEY = 'weatherData'
 
 export default function Weather() {
   const [weather, setWeather] = useState<WeatherData | null>(null)
@@ -21,53 +29,16 @@ export default function Weather() {
   useEffect(() => {
     const fetchWeather = async () => {
       try {
-        // Check cache first
-        const cachedData = localStorage.getItem(CACHE_KEY)
-        if (cachedData) {
-          const parsedData = JSON.parse(cachedData)
-          const now = Date.now()
-
-          // If cache is still valid, use it
-          if (now - parsedData.timestamp < CACHE_DURATION) {
-            setWeather(parsedData)
-            setLoading(false)
-            setError(null) // Clear any previous errors when using valid cache
-            return
-          }
-        }
-
-        // If no cache or cache expired, fetch new data
-        const apiKey = import.meta.env.VITE_WEATHERSTACK_API_KEY
-        const response = await fetch(`https://api.weatherstack.com/current?access_key=${apiKey}&query=Da Nang`)
-        const data = await response.json()
-
-        if (data.error) {
-          throw new Error(data.error.info)
-        }
-
-        const weatherData = {
-          temperature: data.current.temperature,
-          weather_descriptions: data.current.weather_descriptions,
-          humidity: data.current.humidity,
-          wind_speed: data.current.wind_speed,
-          timestamp: Date.now()
-        }
-
-        // Save to cache
-        localStorage.setItem(CACHE_KEY, JSON.stringify(weatherData))
-        setWeather(weatherData)
-        setLoading(false)
-        setError(null) // Clear any previous errors
+        setLoading(true)
+        const res = await fetch(
+          'https://api.openweathermap.org/data/2.5/weather?q=Da Nang&appid=4826c4e083ab858ef406d375b38621e7&units=metric&lang=vi'
+        )
+        if (!res.ok) throw new Error('Lỗi khi lấy dữ liệu thời tiết')
+        const data = await res.json()
+        setWeather(data)
       } catch (err) {
-        console.error('Error fetching weather:', err)
-        // If there's an error but we have cached data, use it silently
-        const cachedData = localStorage.getItem(CACHE_KEY)
-        if (cachedData) {
-          setWeather(JSON.parse(cachedData))
-          // Don't set error message when using cache as fallback
-        } else {
-          setError('Unable to fetch weather data')
-        }
+        setError((err as Error).message)
+      } finally {
         setLoading(false)
       }
     }
@@ -75,89 +46,60 @@ export default function Weather() {
     fetchWeather()
   }, [])
 
-  if (loading) {
-    return (
-      <Card
-        sx={{
-          borderRadius: 4,
-          boxShadow: ' rgba(0, 0, 0, 0.1) 0px 4px 6px -1px, rgba(0, 0, 0, 0.06) 0px 2px 4px -1px',
-          border: '1px solid #d9dbdd'
-        }}
-      >
-        <CardContent className='flex justify-center items-center h-[200px]'>
-          <CircularProgress />
-        </CardContent>
-      </Card>
-    )
-  }
+  if (loading)
+    return <div className='flex justify-center items-center h-48 text-gray-600'>Đang tải dữ liệu thời tiết...</div>
+
+  if (error) return <div className='text-red-500 text-center p-4'>Có lỗi xảy ra: {error}</div>
+
+  if (!weather) return <div className='text-center p-4 text-gray-500'>Không có dữ liệu thời tiết</div>
+
   return (
-    <Card
-      sx={{
-        borderRadius: 4,
-        boxShadow: ' rgba(0, 0, 0, 0.1) 0px 4px 6px -1px, rgba(0, 0, 0, 0.06) 0px 2px 4px -1px',
-        border: '1px solid #d9dbdd'
-      }}
-    >
-      <CardContent>
-        <div className='flex justify-between items-center mb-4'>
-          <Typography variant='h6'>Weather in Da Nang City</Typography>
-          {weather && (
-            <Typography variant='caption' color='textSecondary' className='text-xs'>
-              Updated: {new Date(weather.timestamp).toLocaleTimeString()}
-            </Typography>
-          )}
+    <div className='w-[580px] h-[50px] px-2 bg-white rounded-full shadow-sm	text-sm flex items-center justify-between border-1.5 border-blue-200'>
+      {/* Icon thời tiết */}
+      <div className='flex flex-col items-center min-w-[40px] mr-3'>
+        <img
+          src={`https://openweathermap.org/img/wn/${weather.weather[0].icon}@2x.png`}
+          alt={weather.weather[0].description}
+          className='w-10 h-10 shadow-sm rounded-full'
+        />
+      </div>
+
+      {/* Tên thành phố */}
+      <div className='flex items-center min-w-[80px] space-x-1'>
+        <MapPin size={18} className='text-blue-500' />
+        <span className='font-medium text-gray-700'>{weather.name}</span>
+      </div>
+
+      {/* Nhiệt độ */}
+      <div className='flex flex-col items-center min-w-[80px]'>
+        <div className='flex items-center space-x-1'>
+          <Thermometer size={19} className='text-red-500' />
+          <span className='font-medium text-gray-700'>{weather.main.temp.toFixed(1)}°C</span>
         </div>
+      </div>
 
-        {error ? (
-          <Typography color='error' className='mb-4 text-sm'>
-            {error}
-          </Typography>
-        ) : (
-          <div className='grid grid-cols-2 gap-4'>
-            <div className='flex items-center gap-5'>
-              <WbSunny className='text-yellow-500' />
-              <div>
-                <Typography variant='body2' color='textSecondary'>
-                  Temperature
-                </Typography>
-                <Typography variant='h6'>{weather?.temperature}°C</Typography>
-              </div>
-            </div>
+      {/* Mô tả thời tiết */}
+      <div className='min-w-[130px] text-center capitalize text-gray-700 text-sm mx-3 border-l-2 border-r-2 border-gray-300 font-medium'>
+        {weather.weather[0].description}
+      </div>
 
-            <div className='flex items-center gap-5'>
-              <Cloud className='text-gray-500' />
-              <div>
-                <Typography variant='body2' color='textSecondary'>
-                  Condition
-                </Typography>
-                <Typography variant='h6' style={{ fontSize: '1.2rem' }}>
-                  {weather?.weather_descriptions[0]}
-                </Typography>
-              </div>
-            </div>
+      {/* Độ ẩm + Gió */}
+      <div className='flex flex-col items-start min-w-[110px] text-xs text-gray-600 space-y-1'>
+        <div className='flex items-center space-x-1'>
+          <Droplet size={15} className='text-cyan-500' />
+          <span className='font-medium'>Độ ẩm: {weather.main.humidity}%</span>
+        </div>
+        <div className='flex items-center space-x-1'>
+          <Wind size={15} className='text-sky-500' />
+          <span className='font-medium'>Gió: {weather.wind.speed} m/s</span>
+        </div>
+      </div>
 
-            <div className='flex items-center gap-5'>
-              <WaterDrop className='text-blue-500' />
-              <div>
-                <Typography variant='body2' color='textSecondary'>
-                  Humidity
-                </Typography>
-                <Typography variant='h6'>{weather?.humidity}%</Typography>
-              </div>
-            </div>
-
-            <div className='flex items-center gap-5'>
-              <Air className='text-green-500' />
-              <div>
-                <Typography variant='body2' color='textSecondary'>
-                  Wind Speed
-                </Typography>
-                <Typography variant='h6'>{weather?.wind_speed} km/h</Typography>
-              </div>
-            </div>
-          </div>
-        )}
-      </CardContent>
-    </Card>
+      {/* Độ che phủ mây */}
+      <div className='flex items-center min-w-[55px] text-xs text-gray-600 space-x-1'>
+        <Cloud size={19} className='text-gray-400' />
+        <div className='font-medium'>{weather.clouds.all}%</div>
+      </div>
+    </div>
   )
 }

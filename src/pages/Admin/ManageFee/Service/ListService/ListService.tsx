@@ -156,12 +156,12 @@ export default function ListService() {
             <TableHead>
               <TableRow>
                 <StyledTableCell width='5%'>{t('id')}</StyledTableCell>
-                <StyledTableCell width='15%'>{t('name')}</StyledTableCell>
+                <StyledTableCell width='17%'>{t('name')}</StyledTableCell>
                 <StyledTableCell width='30%'>{t('description')}</StyledTableCell>
-                <StyledTableCell width='14%'>{t('type_of_month')}</StyledTableCell>
-                <StyledTableCell width='14%'>{t('type_of_year')}</StyledTableCell>
-                <StyledTableCell width='13%'>{t('status')}</StyledTableCell>
-                <StyledTableCell width='16%'>{t('edit')}</StyledTableCell>
+                <StyledTableCell width='13%'>{t('type_of_month')}</StyledTableCell>
+                <StyledTableCell width='13%'>{t('type_of_year')}</StyledTableCell>
+                <StyledTableCell width='9%'>{t('status')}</StyledTableCell>
+                <StyledTableCell width='10%'>{t('edit')}</StyledTableCell>
               </TableRow>
             </TableHead>
             <TableBody>
@@ -209,7 +209,7 @@ export default function ListService() {
                           className='text-blue-500 cursor-pointer bg-blue-100 p-2 rounded-full'
                           onClick={() => handleGetService(service.id)}
                         >
-                          <svg xmlns='http://www.w3.org/2000/svg' width='23' height='23' viewBox='0 0 24 24'>
+                          <svg xmlns='http://www.w3.org/2000/svg' width='22' height='22' viewBox='0 0 24 24'>
                             <g
                               fill='none'
                               stroke='currentColor'

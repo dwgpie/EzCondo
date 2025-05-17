@@ -38,11 +38,13 @@ const StyledTableCell = styled(TableCell)(({ theme }) => ({
     backgroundColor: '#f4f4f5',
     color: theme.palette.common.black,
     fontWeight: 'bold',
-    fontFamily: '"Plus Jakarta Sans", sans-serif'
+    fontFamily: '"Plus Jakarta Sans", sans-serif',
+    padding: '10px 12px'
   },
   [`&.${tableCellClasses.body}`]: {
     fontSize: 14,
-    fontFamily: '"Plus Jakarta Sans", sans-serif'
+    fontFamily: '"Plus Jakarta Sans", sans-serif',
+    padding: '8px 12px'
   }
 }))
 
@@ -64,7 +66,7 @@ export default function DetailParking() {
   const { progress, buffer } = useBufferProgress(loading)
   const [listParkingDetail, setListParkingDetail] = useState<Parking[]>([])
   const [page, setPage] = useState(1)
-  const pageSize = 5
+  const pageSize = 6
   const totalPages = Math.ceil(listParkingDetail.length / pageSize)
   const [openEditDialog, setOpenEditDialog] = useState(false)
   const [editingItem, setEditingItem] = useState<EditParking | null>(null)
@@ -210,8 +212,7 @@ export default function DetailParking() {
                 <StyledTableCell width='15%'>{t('checking')}</StyledTableCell>
                 <StyledTableCell width='15%'>{t('status')}</StyledTableCell>
                 <StyledTableCell width='15%'>{t('price')}</StyledTableCell>
-                <StyledTableCell width='8%'>{t('edit')}</StyledTableCell>
-                <StyledTableCell width='1%'></StyledTableCell>
+                <StyledTableCell width='6%'>{t('edit')}</StyledTableCell>
               </TableRow>
             </TableHead>
             <TableBody>
@@ -243,7 +244,7 @@ export default function DetailParking() {
                           className='text-blue-500 cursor-pointer bg-blue-100 p-1.5 rounded-full'
                           onClick={() => handleEditClick(parking.id)}
                         >
-                          <svg xmlns='http://www.w3.org/2000/svg' width='24' height='24' viewBox='0 0 24 24'>
+                          <svg xmlns='http://www.w3.org/2000/svg' width='22' height='22' viewBox='0 0 24 24'>
                             <g
                               fill='none'
                               stroke='currentColor'
@@ -256,17 +257,13 @@ export default function DetailParking() {
                             </g>
                           </svg>
                         </button>
-                      </div>
-                    </StyledTableCell>
-                    <StyledTableCell>
-                      <div className='flex gap-4'>
                         <button
-                          className='text-red-500 cursor-pointer bg-red-100 p-1.5 rounded-full'
+                          className='text-red-500 cursor-pointer bg-red-100 p-1.5 rounded-full ml-2'
                           onClick={() => {
                             handleDelete(parking.id)
                           }}
                         >
-                          <svg xmlns='http://www.w3.org/2000/svg' width='25' height='25' viewBox='0 0 48 48'>
+                          <svg xmlns='http://www.w3.org/2000/svg' width='22' height='22' viewBox='0 0 48 48'>
                             <defs>
                               <mask id='ipTDelete0'>
                                 <g fill='none' stroke='#fff' strokeLinejoin='round' strokeWidth='4'>

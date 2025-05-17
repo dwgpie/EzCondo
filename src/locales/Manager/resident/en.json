@@ -33,5 +33,6 @@
   "status": "Status",
   "detail": "Detail",
   "add_member": "Add Member",
-  "resident_list": "Resident List"
+  "resident_list": "Resident List",
+  "members": "Members"
 }

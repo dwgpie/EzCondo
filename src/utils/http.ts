@@ -56,6 +56,12 @@ class Http {
         if (error.response?.status === 401) {
           localStorage.removeItem('token')
           localStorage.removeItem('role')
+          const publicPaths = ['/login', '/forgot-password', '/reset-password', '/verify-otp']
+          const currentPath = window.location.pathname
+
+          if (!publicPaths.includes(currentPath)) {
+            window.location.href = '/login'
+          }
         } else if (error.response?.status !== HttpStatusCode.UnprocessableEntity) {
           const data: any | undefined = error.response?.data
           const message = data.message || error.message

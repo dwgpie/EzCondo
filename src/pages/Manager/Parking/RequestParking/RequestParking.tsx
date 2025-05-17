@@ -30,11 +30,13 @@ const StyledTableCell = styled(TableCell)(({ theme }) => ({
     backgroundColor: '#f4f4f5',
     color: theme.palette.common.black,
     fontWeight: 'bold',
-    fontFamily: '"Plus Jakarta Sans", sans-serif'
+    fontFamily: '"Plus Jakarta Sans", sans-serif',
+    padding: '10px 12px'
   },
   [`&.${tableCellClasses.body}`]: {
     fontSize: 14,
-    fontFamily: '"Plus Jakarta Sans", sans-serif'
+    fontFamily: '"Plus Jakarta Sans", sans-serif',
+    padding: '8px 12px'
   }
 }))
 
@@ -207,7 +209,7 @@ export default function RequestParking() {
                             handleRejectParking(parking.parkingId)
                           }}
                         >
-                          <svg xmlns='http://www.w3.org/2000/svg' width='27' height='27' viewBox='0 0 48 48'>
+                          <svg xmlns='http://www.w3.org/2000/svg' width='25' height='25' viewBox='0 0 48 48'>
                             <defs>
                               <mask id='ipTDeleteFive0'>
                                 <g fill='none' stroke='#fff' strokeLinejoin='round' strokeWidth='4'>

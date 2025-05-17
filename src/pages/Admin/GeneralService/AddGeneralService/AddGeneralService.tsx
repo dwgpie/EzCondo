@@ -123,19 +123,17 @@ export default function AddGeneralService() {
                 valueLabelDisplay='on'
                 valueLabelFormat={(value) => `${value} VND`}
                 min={0}
-                max={100000}
+                max={200000}
                 marks={[
                   { value: 0, label: '0' },
-                  { value: 10000, label: '10K' },
-                  { value: 20000, label: '20K' },
-                  { value: 30000, label: '30K' },
-                  { value: 40000, label: '40K' },
+                  { value: 25000, label: '25K' },
                   { value: 50000, label: '50K' },
-                  { value: 60000, label: '60K' },
-                  { value: 70000, label: '70K' },
-                  { value: 80000, label: '80K' },
-                  { value: 90000, label: '90K' },
-                  { value: 100000, label: '100K' }
+                  { value: 75000, label: '75K' },
+                  { value: 100000, label: '100K' },
+                  { value: 125000, label: '125K' },
+                  { value: 150000, label: '150K' },
+                  { value: 175000, label: '175K' },
+                  { value: 200000, label: '200K' }
                 ]}
                 sx={{
                   '& .MuiSlider-valueLabel': {

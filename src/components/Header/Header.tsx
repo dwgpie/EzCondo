@@ -12,6 +12,7 @@ import { format, formatDistanceToNow, isToday } from 'date-fns'
 import { useUser } from '../../contexts/UserContext'
 import LanguageSwitcher from '../LanguageSwitcher'
 import { useTranslation } from 'react-i18next'
+import Weather from '../Weather'
 
 interface Notification {
   id: string
@@ -232,18 +233,25 @@ export default function Header() {
         </div>
 
         <div className='flex gap-[20px] items-center transition-all duration-300'>
+          <Weather />
           <div className='ml-5'>
             <LanguageSwitcher />
           </div>
           {localStorage.getItem('role') === 'manager' && (
             <button ref={bellRef} onClick={handleNotification} className='relative cursor-pointer'>
-              <Badge badgeContent={countNotification} color='primary'>
+              <Badge badgeContent={countNotification} color='primary' overlap='circular'>
                 <div
-                  className={`p-2 rounded-full border-1 transition-all duration-300 ripple ${
-                    isOpen ? 'bg-[#cbe1fa] text-blue-600 border-[#3385f0]' : 'bg-[#ebebeb] border-[#d1d1d1]'
-                  }`}
+                  className={`relative p-2 rounded-full border cursor-pointer transition-all duration-300 ease-in-out hover:scale-110 hover:shadow-lg active:scale-95
+                ${isOpen ? 'bg-blue-100 border-blue-400 text-blue-600 animate-[wiggle_0.6s]' : 'bg-white border-gray-300 text-gray-700 shadow-sm'}`}
+                  style={{
+                    animationTimingFunction: 'ease-in-out'
+                  }}
                 >
-                  <svg xmlns='http://www.w3.org/2000/svg' width='19' height='19' viewBox='0 0 24 24'>
+                  {countNotification > 0 && (
+                    <span className='absolute -top-1.5 -right-1.5 w-4 h-4 rounded-full bg-blue-400 opacity-70 animate-ping'></span>
+                  )}
+
+                  <svg xmlns='http://www.w3.org/2000/svg' width='22' height='22' viewBox='0 0 24 24'>
                     <path
                       fill='currentColor'
                       fillRule='evenodd'
