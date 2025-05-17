@@ -37,11 +37,13 @@ const StyledTableCell = styled(TableCell)(({ theme }) => ({
     backgroundColor: '#f4f4f5',
     color: theme.palette.common.black,
     fontWeight: 'bold',
-    fontFamily: '"Plus Jakarta Sans", sans-serif'
+    fontFamily: '"Plus Jakarta Sans", sans-serif',
+    padding: '10px 12px'
   },
   [`&.${tableCellClasses.body}`]: {
     fontSize: 14,
-    fontFamily: '"Plus Jakarta Sans", sans-serif'
+    fontFamily: '"Plus Jakarta Sans", sans-serif',
+    padding: '8px 12px'
   }
 }))
 
@@ -66,7 +68,7 @@ export default function HistoryNotification() {
   const [type, setType] = useState('')
   const [day, setDay] = useState(3)
   const [page, setPage] = useState(1)
-  const pageSize = 5
+  const pageSize = 6
   const [openEditDialog, setOpenEditDialog] = useState(false)
   const [imageUrls, setImageUrls] = useState<string[]>([])
   const [selectedImage, setSelectedImage] = useState<string | null>(null)
@@ -228,10 +230,10 @@ export default function HistoryNotification() {
                     <StyledTableCell>
                       <div className='ml-2'>
                         <button
-                          className='text-blue-500 cursor-pointer bg-blue-100 p-2 rounded-full'
+                          className='text-blue-500 cursor-pointer bg-blue-100 p-1.5 rounded-full'
                           onClick={() => handleEditClick(notify)}
                         >
-                          <svg xmlns='http://www.w3.org/2000/svg' width='24' height='24' viewBox='0 0 48 48'>
+                          <svg xmlns='http://www.w3.org/2000/svg' width='22' height='22' viewBox='0 0 48 48'>
                             <g fill='none' stroke='currentColor' strokeLinejoin='round' strokeWidth='4'>
                               <rect width='36' height='36' x='6' y='6' rx='3' />
                               <path d='M13 13h8v8h-8z' />

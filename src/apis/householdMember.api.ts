@@ -34,3 +34,7 @@ export const getAllResident = () => {
 export const searchResident = (search: string) => {
   return http.get(`/api/User/get-all-users?roleName=resident&search=${search}`)
 }
+
+export const getAllHouseHoldMember = () => {
+  return http.get('/api/HouseHoldMember/dash-board-members')
+}

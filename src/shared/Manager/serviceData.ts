@@ -24,7 +24,6 @@ export const getServiceData = async (): Promise<ServiceItem[]> => {
     const bookings = res.data || []
 
     const serviceCount: Record<string, number> = {}
-
     let totalBookings = 0
 
     for (const booking of bookings) {
@@ -33,23 +32,22 @@ export const getServiceData = async (): Promise<ServiceItem[]> => {
       totalBookings++
     }
 
-    const result: ServiceItem[] = Object.entries(serviceCount)
-      .map(([serviceName, count]) => {
-        const serviceInfo = SERVICE_MAP[serviceName]
-        if (!serviceInfo) return null
+    const result: ServiceItem[] = Object.entries(SERVICE_MAP).map(([serviceKey, serviceInfo]) => {
+      const count = serviceCount[serviceKey] || 0
+      const percentage = totalBookings > 0 ? (count / totalBookings) * 100 : 0
 
-        const percentage = ((count / totalBookings) * 100).toFixed(2)
-
-        return {
-          ...serviceInfo,
-          value: Number(percentage)
-        }
-      })
-      .filter(Boolean) as ServiceItem[]
+      return {
+        ...serviceInfo,
+        value: Number(percentage.toFixed(2))
+      }
+    })
 
     return result
   } catch (err) {
     console.error('Error fetching booking data:', err)
-    return []
+    return Object.values(SERVICE_MAP).map((service) => ({
+      ...service,
+      value: 0
+    }))
   }
 }

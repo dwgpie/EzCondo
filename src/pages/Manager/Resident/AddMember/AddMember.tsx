@@ -42,11 +42,13 @@ const StyledTableCell = styled(TableCell)(({ theme }) => ({
     backgroundColor: '#f4f4f5',
     color: theme.palette.common.black,
     fontWeight: 'bold',
-    fontFamily: '"Plus Jakarta Sans", sans-serif'
+    fontFamily: '"Plus Jakarta Sans", sans-serif',
+    padding: '10px 12px'
   },
   [`&.${tableCellClasses.body}`]: {
     fontSize: 14,
-    fontFamily: '"Plus Jakarta Sans", sans-serif'
+    fontFamily: '"Plus Jakarta Sans", sans-serif',
+    padding: '8px 12px'
   }
 }))
 
@@ -218,7 +220,7 @@ export default function AddMember() {
                   <StyledTableCell width='15%'>{t('phone_number')}</StyledTableCell>
                   <StyledTableCell width='22%'>{t('citizen_id')}</StyledTableCell>
                   <StyledTableCell width='15%'>{t('relationship')}</StyledTableCell>
-                  <StyledTableCell width='5%'>{t('delete')}</StyledTableCell>
+                  <StyledTableCell width='5%'></StyledTableCell>
                 </TableRow>
               </TableHead>
               <TableBody>
@@ -241,14 +243,14 @@ export default function AddMember() {
                       <StyledTableCell>
                         <button
                           type='button'
-                          className='text-red-500 cursor-pointer bg-red-100 p-2 rounded-full'
+                          className='text-red-500 cursor-pointer bg-red-100 p-1.5 rounded-full'
                           onClick={() => {
                             if (user.id) {
                               handleDelete(user.id)
                             }
                           }}
                         >
-                          <svg xmlns='http://www.w3.org/2000/svg' width='23' height='23' viewBox='0 0 48 48'>
+                          <svg xmlns='http://www.w3.org/2000/svg' width='22' height='22' viewBox='0 0 48 48'>
                             <defs>
                               <mask id='ipTDelete0'>
                                 <g fill='none' stroke='#fff' strokeLinejoin='round' strokeWidth='4'>

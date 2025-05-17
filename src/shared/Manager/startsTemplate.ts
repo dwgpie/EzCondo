@@ -1,16 +1,17 @@
 import { getAllUser } from '~/apis/user.api'
 import { getAllApartment } from '~/apis/apartment.api'
 import { getAllIncident } from '~/apis/incident.api'
-import { getAllParking } from '~/apis/service.api'
+import { getAllParkingLot } from '~/apis/service.api'
+import { getAllHouseHoldMember } from '~/apis/householdMember.api'
 
 export type StatItem = {
   title: string
-  value: string
+  value: string | number
   icon: 'Apartment' | 'Group' | 'ReportProblem' | 'LocalParking'
   bg: string
-  trend: 'up' | 'down'
-  percent: number
-  compareText: string
+  trend?: 'up' | 'down'
+  percent?: number
+  compareText?: string
 }
 
 export const getStatsTemplate = async (): Promise<StatItem[]> => {
@@ -18,26 +19,37 @@ export const getStatsTemplate = async (): Promise<StatItem[]> => {
   let apartmentCount = 0
   let incidentCount = 0
   let parkingCount = 0
+  let totalResidents = 0
+  let growthRatePercent = 0
+  // let trendDescription = ''
+
   try {
-    const [userRes, apartmentRes, incidentRes, parkingRes] = await Promise.all([
+    const [userRes, apartmentRes, incidentRes, parkingRes, householdMemberRes] = await Promise.all([
       getAllUser(),
       getAllApartment(),
       getAllIncident(),
-      getAllParking()
+      getAllParkingLot(),
+      getAllHouseHoldMember()
     ])
+
     const users = Array.isArray(userRes.data) ? userRes.data : userRes.data?.data || []
     userCount = users.filter((u: any) => u.roleName === 'resident').length
+
     const apartments = Array.isArray(apartmentRes.data) ? apartmentRes.data : apartmentRes.data?.data || []
     apartmentCount = apartments.length
+    console.log('apartmentCount', apartmentCount)
+
     const incidents = Array.isArray(incidentRes.data) ? incidentRes.data : incidentRes.data?.data || []
     incidentCount = incidents.length
+
     const parkings = Array.isArray(parkingRes.data) ? parkingRes.data : parkingRes.data?.data || []
     parkingCount = parkings.reduce((sum: number, p: any) => sum + (p.total || 0), 0)
-  } catch {
-    userCount = 0
-    apartmentCount = 0
-    incidentCount = 0
-    parkingCount = 0
+
+    totalResidents = householdMemberRes.data?.totalResidents || 0
+    growthRatePercent = householdMemberRes.data?.growthRatePercent || 0
+    // trendDescription = householdMemberRes.data?.trendDescription || ''
+  } catch (error) {
+    console.error('Error fetching dashboard stats:', error)
   }
 
   const occupancy = apartmentCount > 0 ? ((userCount / apartmentCount) * 100).toFixed(1) + '%' : '0%'
@@ -54,11 +66,11 @@ export const getStatsTemplate = async (): Promise<StatItem[]> => {
     },
     {
       title: 'Tổng số cư dân',
-      value: userCount.toString(),
+      value: totalResidents,
       icon: 'Group',
       bg: 'bg-green-100',
       trend: 'up',
-      percent: 1.2,
+      percent: growthRatePercent,
       compareText: 'Tăng so với tuần trước'
     },
     {

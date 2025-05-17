@@ -28,7 +28,6 @@ import {
   FitnessCenter,
   ChildCare
 } from '@mui/icons-material'
-import Weather from '../../../components/Weather'
 import { styles } from '~/pages/Manager/Dashboard/DashboardStyles'
 import { useState, useEffect } from 'react'
 import { getStatsTemplate, StatItem } from '~/shared/Manager/startsTemplate'
@@ -274,7 +273,7 @@ export default function DashboardManager() {
                 </div>
               </div>
 
-              <div style={{ marginTop: '2rem' }}>
+              <div style={{ marginTop: '5px' }}>
                 {serviceData.map((service, index) => (
                   <div
                     key={index}
@@ -438,9 +437,6 @@ export default function DashboardManager() {
               </div>
             </CardContent>
           </Card>
-          <Grid item xs={12} md={12} style={{ marginTop: '22px' }}>
-            <Weather />
-          </Grid>
         </Grid>
       </Grid>
 

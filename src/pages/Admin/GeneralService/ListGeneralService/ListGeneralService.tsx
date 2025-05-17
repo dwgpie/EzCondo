@@ -29,11 +29,13 @@ const StyledTableCell = styled(TableCell)(({ theme }) => ({
     backgroundColor: '#f4f4f5',
     color: theme.palette.common.black,
     fontWeight: 'bold',
-    fontFamily: '"Plus Jakarta Sans", sans-serif'
+    fontFamily: '"Plus Jakarta Sans", sans-serif',
+    padding: '10px 12px'
   },
   [`&.${tableCellClasses.body}`]: {
     fontSize: 14,
-    fontFamily: '"Plus Jakarta Sans", sans-serif'
+    fontFamily: '"Plus Jakarta Sans", sans-serif',
+    padding: '8px 12px'
   }
 }))
 
@@ -54,7 +56,7 @@ export default function ListGeneralService() {
   const { progress, buffer } = useBufferProgress(loading)
   const [listService, setListService] = useState<FormData[]>([])
   const [page, setPage] = useState(1)
-  const pageSize = 5
+  const pageSize = 6
   const totalPages = Math.ceil(listService.length / pageSize)
   const { t } = useTranslation('service')
 
@@ -166,8 +168,8 @@ export default function ListGeneralService() {
             <TableHead>
               <TableRow>
                 <StyledTableCell width='5%'>{t('id')}</StyledTableCell>
-                <StyledTableCell width='15%'>{t('name')}</StyledTableCell>
-                <StyledTableCell width='35%'>{t('description')}</StyledTableCell>
+                <StyledTableCell width='18%'>{t('name')}</StyledTableCell>
+                <StyledTableCell width='40%'>{t('description')}</StyledTableCell>
                 <StyledTableCell width='13%'>{t('price')}</StyledTableCell>
                 <StyledTableCell width='10%'>{t('edit')}</StyledTableCell>
               </TableRow>
@@ -206,10 +208,10 @@ export default function ListGeneralService() {
                       <div className='flex gap-1'>
                         <button
                           type='button'
-                          className='text-blue-500 cursor-pointer bg-blue-100 p-2 rounded-full'
+                          className='text-blue-500 cursor-pointer bg-blue-100 p-1.5 rounded-full'
                           onClick={() => handleEditClick(service)}
                         >
-                          <svg xmlns='http://www.w3.org/2000/svg' width='23' height='23' viewBox='0 0 24 24'>
+                          <svg xmlns='http://www.w3.org/2000/svg' width='22' height='22' viewBox='0 0 24 24'>
                             <g
                               fill='none'
                               stroke='currentColor'
@@ -224,12 +226,12 @@ export default function ListGeneralService() {
                         </button>
                         <button
                           type='button'
-                          className='text-red-500 cursor-pointer bg-red-100 p-2 rounded-full ml-2'
+                          className='text-red-500 cursor-pointer bg-red-100 p-1.5 rounded-full ml-2'
                           onClick={() => {
                             handleDelete(service.id)
                           }}
                         >
-                          <svg xmlns='http://www.w3.org/2000/svg' width='23' height='23' viewBox='0 0 48 48'>
+                          <svg xmlns='http://www.w3.org/2000/svg' width='22' height='22' viewBox='0 0 48 48'>
                             <defs>
                               <mask id='ipTDelete0'>
                                 <g fill='none' stroke='#fff' strokeLinejoin='round' strokeWidth='4'>

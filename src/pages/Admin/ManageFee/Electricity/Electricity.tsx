@@ -25,6 +25,7 @@ export default function Electricity() {
   const [editingItem, setEditingItem] = useState<FormData | null>(null)
   const [electric, setElectric] = useState<FormData[]>([])
   const { t } = useTranslation('electric')
+  const [isSubmitting, setIsSubmitting] = useState(false)
 
   const {
     register,
@@ -59,7 +60,8 @@ export default function Electricity() {
       return response.data
     },
     onSuccess: (data) => {
-      setElectric(data)
+      const sortedData = [...data].sort((a, b) => a.minKWh - b.minKWh)
+      setElectric(sortedData)
       setTimeout(() => {
         setLoading(false)
       }, 1000)
@@ -75,28 +77,6 @@ export default function Electricity() {
   useEffect(() => {
     mutateRef.current() // Gọi mutate từ ref để tránh dependency issue
   }, [])
-
-  // const handleCallAPI = async (formData: FormData) => {
-  //   try {
-  //     await addElectric({
-  //       minKWh: formData.minKWh,
-  //       maxKWh: formData.maxKWh,
-  //       pricePerKWh: formData.pricePerKWh
-  //     })
-
-  //     toast.success(t('electricity_create_success'), {
-  //       style: { width: 'fit-content' }
-  //     })
-  //     getElectricMutation.mutate() // Refresh the list after adding new item
-  //   } catch (error) {
-  //     console.error('API call failed:', error)
-  //   }
-  // }
-
-  // // Xử lý submit form
-  // const onSubmit = handleSubmit((formData) => {
-  //   handleCallAPI(formData)
-  // })
 
   const handleEditClick = (item: FormData) => {
     setEditingItem(item)
@@ -127,8 +107,6 @@ export default function Electricity() {
       }
     }
   }
-
-  const [isSubmitting, setIsSubmitting] = useState(false)
 
   const handleCallAPI = async (formData: FormData) => {
     try {
@@ -307,10 +285,10 @@ export default function Electricity() {
               <div className='mt-7'>
                 <button
                   type='button'
-                  className='text-blue-500 cursor-pointer bg-blue-100 p-2 rounded-full'
+                  className='text-blue-500 cursor-pointer bg-blue-100 p-1.5 rounded-full'
                   onClick={() => handleEditClick(electric)}
                 >
-                  <svg xmlns='http://www.w3.org/2000/svg' width='23' height='23' viewBox='0 0 24 24'>
+                  <svg xmlns='http://www.w3.org/2000/svg' width='22' height='22' viewBox='0 0 24 24'>
                     <g fill='none' stroke='currentColor' strokeLinecap='round' strokeLinejoin='round' strokeWidth='2'>
                       <path d='M12 3H5a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7' />
                       <path d='M18.375 2.625a1 1 0 0 1 3 3l-9.013 9.014a2 2 0 0 1-.853.505l-2.873.84a.5.5 0 0 1-.62-.62l.84-2.873a2 2 0 0 1 .506-.852z' />
@@ -319,12 +297,12 @@ export default function Electricity() {
                 </button>
                 <button
                   type='button'
-                  className='text-red-500 cursor-pointer bg-red-100 p-2 rounded-full ml-2'
+                  className='text-red-500 cursor-pointer bg-red-100 p-1.5 rounded-full ml-2'
                   onClick={() => {
                     handleDelete(electric.id)
                   }}
                 >
-                  <svg xmlns='http://www.w3.org/2000/svg' width='23' height='23' viewBox='0 0 48 48'>
+                  <svg xmlns='http://www.w3.org/2000/svg' width='22' height='22' viewBox='0 0 48 48'>
                     <defs>
                       <mask id='ipTDelete0'>
                         <g fill='none' stroke='#fff' strokeLinejoin='round' strokeWidth='4'>

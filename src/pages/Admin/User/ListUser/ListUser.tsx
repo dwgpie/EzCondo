@@ -33,11 +33,13 @@ const StyledTableCell = styled(TableCell)(({ theme }) => ({
     backgroundColor: '#f4f4f5',
     color: theme.palette.common.black,
     fontWeight: 'bold',
-    fontFamily: '"Plus Jakarta Sans", sans-serif'
+    fontFamily: '"Plus Jakarta Sans", sans-serif',
+    padding: '10px 12px'
   },
   [`&.${tableCellClasses.body}`]: {
     fontSize: 14,
-    fontFamily: '"Plus Jakarta Sans", sans-serif'
+    fontFamily: '"Plus Jakarta Sans", sans-serif',
+    padding: '8px 12px'
   }
 }))
 
@@ -61,7 +63,7 @@ export default function ListUser() {
   const [listUser, setListUser] = useState<User[]>([])
   const [filteredUsers, setFilteredUsers] = useState<User[]>([])
   const [page, setPage] = useState(1)
-  const pageSize = 5
+  const pageSize = 6
   const totalPages = Math.ceil(filteredUsers.length / pageSize)
   const { t } = useTranslation('user')
 
@@ -231,7 +233,7 @@ export default function ListUser() {
                 <StyledTableCell width='12%'>{t('apartment')}</StyledTableCell>
                 <StyledTableCell width='15%'>{t('phone_number')}</StyledTableCell>
                 <StyledTableCell width='10%'>{t('status')}</StyledTableCell>
-                <StyledTableCell width='10%'>{t('edit')}</StyledTableCell>
+                <StyledTableCell width='12%'>{t('edit')}</StyledTableCell>
               </TableRow>
             </TableHead>
             <TableBody>
@@ -258,13 +260,13 @@ export default function ListUser() {
                       </span>
                     </StyledTableCell>
                     <StyledTableCell>
-                      <div className='flex gap-1'>
+                      <div className='flex'>
                         <button
                           type='button'
                           className='text-blue-500 cursor-pointer bg-blue-100 p-2 rounded-full'
                           onClick={() => handleGetUser(user.id)}
                         >
-                          <svg xmlns='http://www.w3.org/2000/svg' width='23' height='23' viewBox='0 0 24 24'>
+                          <svg xmlns='http://www.w3.org/2000/svg' width='22' height='22' viewBox='0 0 24 24'>
                             <g
                               fill='none'
                               stroke='currentColor'

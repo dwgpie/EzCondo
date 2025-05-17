@@ -335,7 +335,7 @@ export default function ElectricityReading() {
                           className='text-blue-500 cursor-pointer bg-blue-100 p-1.5 rounded-full ml-2'
                           onClick={() => handleDetailClick(electric.electricReadingId || '')}
                         >
-                          <svg xmlns='http://www.w3.org/2000/svg' width='24' height='24' viewBox='0 0 48 48'>
+                          <svg xmlns='http://www.w3.org/2000/svg' width='22' height='22' viewBox='0 0 48 48'>
                             <g fill='none' stroke='currentColor' strokeLinejoin='round' strokeWidth='4'>
                               <rect width='36' height='36' x='6' y='6' rx='3' />
                               <path d='M13 13h8v8h-8z' />
