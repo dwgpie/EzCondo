@@ -462,11 +462,12 @@ export default function DashboardAdmin() {
                   </button>
                 </div>
               </div>
-              <div style={{ width: '100%', display: 'flex', justifyContent: 'center' }}>
+              <div style={{ width: '100%', height: '200px', display: 'flex', justifyContent: 'center' }}>
                 <GaugeComponent
                   value={totalTransactions}
                   minValue={0}
                   maxValue={500}
+                  type='radial'
                   arc={{
                     width: 0.3,
                     subArcs: [
@@ -476,6 +477,7 @@ export default function DashboardAdmin() {
                       { limit: 500, color: '#EA4228' }
                     ]
                   }}
+                  pointer={{ type: 'arrow' }}
                   labels={{
                     tickLabels: {
                       type: 'outer',
@@ -498,7 +500,7 @@ export default function DashboardAdmin() {
                   }}
                 />
               </div>
-              <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', marginTop: '1rem' }}>
+              <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', marginTop: '25px' }}>
                 <Typography variant='body2' style={{ color: '#6B7280' }}>
                   {t('dashboard.totalTransactionsInQuarter', { quarter: gaugeQuarter.replace('Q', '') })}
                 </Typography>
@@ -653,7 +655,7 @@ export default function DashboardAdmin() {
                   </Typography>
                 </div>
 
-                <div style={{ width: '200px', height: '200px' }}>
+                <div style={{ width: '200px', height: '232px' }}>
                   <ResponsiveContainer>
                     <PieChart>
                       <Pie
@@ -706,7 +708,7 @@ export default function DashboardAdmin() {
                       <Typography variant='body1' style={{ fontWeight: 500 }}>
                         {service.name}
                       </Typography>
-                      <Typography variant='body2' style={{ color: '#6B7280' }}>
+                      <Typography variant='body1' style={{ color: '#6B7280' }}>
                         {t('dashboard.usageRate')}
                       </Typography>
                     </div>
