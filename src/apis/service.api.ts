@@ -289,6 +289,10 @@ export const updateBillWater = (body: { waterBillId: string }[]) => {
 }
 
 //Parking
+export const getAllParkingLotDashboard = () => {
+  return http.get('/api/ParkingLot/parking-dashboard')
+}
+
 export const getAllParkingLot = () => {
   return http.get('/api/ParkingLot/Get-All-Parking-Lot')
 }

@@ -1,0 +1,39 @@
+{
+  "dashboard": {
+    "totalTransactionsTitle": "Total Transactions",
+    "quarter1Button": "Q1",
+    "quarter2Button": "Q2",
+    "quarter3Button": "Q3",
+    "quarter4Button": "Q4",
+    "totalTransactionsInQuarter": "Total transactions in Quarter {{quarter}}",
+    "paymentTitle": "Water and Electricity Payment",
+    "firstHalfYear": "First 6 months",
+    "secondHalfYear": "Last 6 months",
+    "month1To6Button": "Jan-Jun",
+    "month7To12Button": "Jul-Dec",
+    "paidText": "Paid",
+    "unpaidText": "Unpaid",
+    "bookingTitle": "Booking Quantity",
+    "totalServiceBookings": "Total service bookings",
+    "usageRate": "Usage rate",
+    "totalRevenueTitle": "Total Revenue"
+  },
+  "spa.name": "Steam Room",
+  "laundry.name": "Laundry",
+  "pool.name": "Pool",
+  "gym.name": "Gym",
+  "childCare.name": "Child Care",
+  "weather": {
+    "humidity": "Humidity",
+    "wind": "Wind",
+    "loading": "Loading...",
+    "no_data": "No data",
+    "error": "Error"
+  },
+  "start": {
+    "totalApartments": "Occupancy Rate",
+    "totalResidents": "Residents",
+    "totalIncidents": "Incidents",
+    "totalParking": "Parking Cards"
+  }
+}

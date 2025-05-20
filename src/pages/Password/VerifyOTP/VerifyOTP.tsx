@@ -62,21 +62,13 @@ export default function VerifyOTP() {
           </div>
           <div className='bg-white/70 p-6 rounded-lg shadow-lg'>
             <form className='rounded w-[350px]' noValidate onSubmit={onSubmit}>
-              <h2 className='text-[#1f5fa3] text-3xl font-bold mb-4 text-center'> Verify OTP</h2>
-              <Input
-                name='email'
-                type='email'
-                placeholder='Email'
-                register={register}
-                className='mt-7'
-                errorMessage={errors.email?.message}
-              />
+              <h2 className='text-[#1f5fa3] text-3xl font-bold mb-4 text-center'>Verify OTP</h2>
               <Input
                 name='code'
                 type='code'
                 placeholder='Code'
                 register={register}
-                className='mt-2'
+                className='mt-10'
                 errorMessage={errors.code?.message}
               />
               <div className='mt-3'>

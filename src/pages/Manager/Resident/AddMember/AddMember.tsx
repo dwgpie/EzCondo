@@ -69,6 +69,7 @@ export default function AddMember() {
   const {
     register,
     handleSubmit,
+    reset,
     formState: { errors }
   } = useForm<User>({
     resolver: yupResolver(addMemberSchema)
@@ -183,6 +184,7 @@ export default function AddMember() {
   // Xử lý submit form
   const onSubmit = handleSubmit((formData) => {
     handleCallAPI(formData)
+    reset()
   })
 
   return (

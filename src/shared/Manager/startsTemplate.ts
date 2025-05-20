@@ -1,7 +1,6 @@
-import { getAllUser } from '~/apis/user.api'
-import { getAllApartment } from '~/apis/apartment.api'
-import { getAllIncident } from '~/apis/incident.api'
-import { getAllParkingLot } from '~/apis/service.api'
+import { getAllApartmentDashboard } from '~/apis/apartment.api'
+import { getAllIncidentDashboard } from '~/apis/incident.api'
+import { getAllParkingLotDashboard } from '~/apis/service.api'
 import { getAllHouseHoldMember } from '~/apis/householdMember.api'
 
 export type StatItem = {
@@ -15,81 +14,81 @@ export type StatItem = {
 }
 
 export const getStatsTemplate = async (): Promise<StatItem[]> => {
-  let userCount = 0
-  let apartmentCount = 0
-  let incidentCount = 0
-  let parkingCount = 0
+  let totalAparments = 0
+  let growthRatePercentAparment = 0
+  let trendDescriptionAparment = ''
+  let totalIncidents = 0
+  let growthRatePercentIncident = 0
+  let trendDescriptionIncident = ''
   let totalResidents = 0
-  let growthRatePercent = 0
-  // let trendDescription = ''
+  let growthRatePercentResident = 0
+  let trendDescriptionResident = ''
+  let totalParking = 0
+  let growthRatePercentParking = 0
+  let trendDescriptionParking = ''
 
   try {
-    const [userRes, apartmentRes, incidentRes, parkingRes, householdMemberRes] = await Promise.all([
-      getAllUser(),
-      getAllApartment(),
-      getAllIncident(),
-      getAllParkingLot(),
+    const [apartmentRes, incidentRes, parkingRes, householdMemberRes] = await Promise.all([
+      getAllApartmentDashboard(),
+      getAllIncidentDashboard(),
+      getAllParkingLotDashboard(),
       getAllHouseHoldMember()
     ])
+    totalAparments = apartmentRes.data?.total || 0
+    growthRatePercentAparment = apartmentRes.data?.growthRatePercent || 0
+    trendDescriptionAparment = apartmentRes.data?.trendDescription || ''
 
-    const users = Array.isArray(userRes.data) ? userRes.data : userRes.data?.data || []
-    userCount = users.filter((u: any) => u.roleName === 'resident').length
+    totalIncidents = incidentRes.data?.total || 0
+    growthRatePercentIncident = incidentRes.data?.growthRatePercent || 0
+    trendDescriptionIncident = incidentRes.data?.trendDescription || ''
 
-    const apartments = Array.isArray(apartmentRes.data) ? apartmentRes.data : apartmentRes.data?.data || []
-    apartmentCount = apartments.length
-    console.log('apartmentCount', apartmentCount)
+    totalResidents = householdMemberRes.data?.total || 0
+    growthRatePercentResident = householdMemberRes.data?.growthRatePercent || 0
+    trendDescriptionResident = householdMemberRes.data?.trendDescription || ''
 
-    const incidents = Array.isArray(incidentRes.data) ? incidentRes.data : incidentRes.data?.data || []
-    incidentCount = incidents.length
-
-    const parkings = Array.isArray(parkingRes.data) ? parkingRes.data : parkingRes.data?.data || []
-    parkingCount = parkings.reduce((sum: number, p: any) => sum + (p.total || 0), 0)
-
-    totalResidents = householdMemberRes.data?.totalResidents || 0
-    growthRatePercent = householdMemberRes.data?.growthRatePercent || 0
-    // trendDescription = householdMemberRes.data?.trendDescription || ''
+    totalParking = parkingRes.data?.total || 0
+    growthRatePercentParking = parkingRes.data?.growthRatePercent || 0
+    trendDescriptionParking = parkingRes.data?.trendDescription || ''
   } catch (error) {
     console.error('Error fetching dashboard stats:', error)
   }
 
-  const occupancy = apartmentCount > 0 ? ((userCount / apartmentCount) * 100).toFixed(1) + '%' : '0%'
-
   return [
     {
-      title: 'Tỷ lệ lấp đầy',
-      value: occupancy,
+      title: 'start.totalApartments',
+      value: totalAparments,
       icon: 'Apartment',
       bg: 'bg-blue-100',
-      trend: 'up',
-      percent: 2.5,
-      compareText: 'Tăng so với tuần trước'
+      trend: growthRatePercentAparment > 0 ? 'up' : 'down',
+      percent: growthRatePercentAparment,
+      compareText: trendDescriptionAparment
     },
     {
-      title: 'Tổng số cư dân',
+      title: 'start.totalResidents',
       value: totalResidents,
       icon: 'Group',
       bg: 'bg-green-100',
-      trend: 'up',
-      percent: growthRatePercent,
-      compareText: 'Tăng so với tuần trước'
+      trend: growthRatePercentResident > 0 ? 'up' : 'down',
+      percent: growthRatePercentResident,
+      compareText: trendDescriptionResident
     },
     {
-      title: 'Sự cố',
-      value: incidentCount.toString(),
+      title: 'start.totalIncidents',
+      value: totalIncidents,
       icon: 'ReportProblem',
       bg: 'bg-red-100',
-      trend: 'down',
-      percent: 0.8,
-      compareText: 'Giảm so với tuần trước'
+      trend: growthRatePercentIncident > 0 ? 'up' : 'down',
+      percent: growthRatePercentIncident,
+      compareText: trendDescriptionIncident
     },
     {
-      title: 'Số vé xe',
-      value: parkingCount.toString(),
+      title: 'start.totalParking',
+      value: totalParking,
       icon: 'LocalParking',
       bg: 'bg-purple-100',
-      trend: 'up',
-      percent: 1.2,
-      compareText: 'Tăng so với tuần trước'
+      trend: growthRatePercentParking > 0 ? 'up' : 'down',
+      percent: growthRatePercentParking,
+      compareText: trendDescriptionParking
     }
   ]
 }

@@ -32,6 +32,8 @@ import headerEn from './locales/header/en.json'
 import headerVi from './locales/header/vi.json'
 import bookingEn from './locales/Manager/booking/en.json'
 import bookingVi from './locales/Manager/booking/vi.json'
+import dashboardEn from './locales/Dashboard/en.json'
+import dashboardVi from './locales/Dashboard/vi.json'
 
 i18n.use(initReactI18next).init({
   resources: {
@@ -51,7 +53,8 @@ i18n.use(initReactI18next).init({
       sidebarmanager: sidebarmanagerEn,
       profile: profileEn,
       header: headerEn,
-      booking: bookingEn
+      booking: bookingEn,
+      dashboard: dashboardEn
     },
     vi: {
       service: serviceVi,
@@ -69,7 +72,8 @@ i18n.use(initReactI18next).init({
       sidebarmanager: sidebarmanagerVi,
       profile: profileVi,
       header: headerVi,
-      booking: bookingVi
+      booking: bookingVi,
+      dashboard: dashboardVi
     }
   },
   lng: 'en',

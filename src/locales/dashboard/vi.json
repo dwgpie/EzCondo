@@ -1,0 +1,39 @@
+{
+  "dashboard": {
+    "totalTransactionsTitle": "Tổng giao dịch",
+    "quarter1Button": "Quý 1",
+    "quarter2Button": "Quý 2",
+    "quarter3Button": "Quý 3",
+    "quarter4Button": "Quý 4",
+    "totalTransactionsInQuarter": "Tổng giao dịch trong Quý {{quarter}}",
+    "paymentTitle": "Thanh toán phí điện nước",
+    "firstHalfYear": "6 tháng đầu năm",
+    "secondHalfYear": "6 tháng cuối năm",
+    "month1To6Button": "Tháng 1-6",
+    "month7To12Button": "Tháng 7-12",
+    "paidText": "Đã thanh toán",
+    "unpaidText": "Chưa thanh toán",
+    "bookingTitle": "Số lượng booking",
+    "totalServiceBookings": "Tổng số lượt đặt dịch vụ",
+    "usageRate": "Tỷ lệ sử dụng",
+    "totalRevenueTitle": "Tổng thu nhập"
+  },
+  "spa.name": "Phòng xông hơi",
+  "laundry.name": "Giặt ủi",
+  "pool.name": "Bể bơi",
+  "gym.name": "Gym",
+  "childCare.name": "Khu vui chơi trẻ em",
+  "weather": {
+    "humidity": "Độ ẩm",
+    "wind": "Gió",
+    "loading": "Đang tải...",
+    "no_data": "Không có dữ liệu",
+    "error": "Lỗi"
+  },
+  "start": {
+    "totalApartments": "Tỷ lệ lấp đầy",
+    "totalResidents": "Cư dân",
+    "totalIncidents": "Sự cố",
+    "totalParking": "Số thẻ xe"
+  }
+}

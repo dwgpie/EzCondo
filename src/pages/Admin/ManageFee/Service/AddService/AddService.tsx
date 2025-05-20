@@ -118,6 +118,7 @@ export default function AddService() {
       })
       setImages([])
       setFiles([])
+      reset()
     } catch (error) {
       console.error('API call failed:', error)
     } finally {
@@ -131,7 +132,6 @@ export default function AddService() {
   // Xử lý submit form
   const onSubmit = handleSubmit((formData) => {
     handleCallAPI(formData)
-    reset()
   })
 
   return (

@@ -58,6 +58,7 @@ export default function AddGeneralService() {
       toast.success(t('service_create_success'), {
         style: { width: 'fit-content' }
       })
+      reset()
     } catch (error) {
       console.error('API call failed:', error)
     } finally {
@@ -79,7 +80,6 @@ export default function AddGeneralService() {
   // Xử lý submit form
   const onSubmit = handleSubmit((formData) => {
     handleCallAPI(formData)
-    reset()
   })
 
   return (

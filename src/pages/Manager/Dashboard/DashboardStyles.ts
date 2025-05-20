@@ -39,7 +39,9 @@ export const styles = {
     marginBottom: '0.25rem'
   },
   value: {
-    fontWeight: 600,
+    fontWeight: 700,
+    fontSize: '2rem',
+    color: '#111827',
     display: 'flex',
     alignItems: 'center',
     gap: '0.5rem'
@@ -47,45 +49,55 @@ export const styles = {
   trendContainer: {
     display: 'inline-flex',
     alignItems: 'center',
-    marginLeft: '0.5rem'
+    marginLeft: '0.75rem'
   },
   arrowUp: {
     color: '#10B981',
-    fontSize: 20,
-    transform: 'rotate(45deg)',
+    fontSize: 28,
     animation: 'bounceUp 1.2s infinite'
   },
   arrowDown: {
     color: '#EF4444',
-    fontSize: 20,
-    transform: 'rotate(-45deg)',
+    fontSize: 28,
     animation: 'bounceDown 1.2s infinite'
   },
+
   trendValue: (isUp: boolean) => ({
     color: isUp ? '#10B981' : '#EF4444',
     marginLeft: '0.25rem',
-    fontSize: '0.75rem',
-    fontWeight: 500
+    fontSize: '1rem',
+    fontWeight: 700
   }),
   keyframes: `
   @keyframes bounceUp {
-    0%, 100% { transform: translateY(0) rotate(45deg); }
-    50% { transform: translateY(-6px) rotate(45deg); }
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(-3px); }
   }
   @keyframes bounceDown {
-    0%, 100% { transform: translateY(0) rotate(-45deg); }
-    50% { transform: translateY(6px) rotate(-45deg); }
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(3px); }
   }
   `,
   compareText: {
-    color: '#9CA3AF',
-    fontSize: '0.75rem',
+    color: '#6B7280',
+    fontSize: '0.875rem',
     marginTop: '0.25rem'
   },
   trendBox: {
     display: 'flex',
     alignItems: 'center',
-    gap: '0.5rem',
-    marginTop: '0.25rem'
-  }
+    gap: '0.2rem',
+    marginTop: '0.5rem'
+  },
+  arrowWrapper: (isUp: boolean) => ({
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'center',
+    width: '24px',
+    height: '24px',
+    borderRadius: '50%',
+    backgroundColor: isUp ? '#D1FAE5' : '#FEE2E2',
+    boxShadow: '0 1px 2px rgba(0, 0, 0, 0.05)',
+    flexShrink: 0
+  })
 }

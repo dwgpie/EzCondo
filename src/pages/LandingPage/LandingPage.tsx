@@ -248,15 +248,9 @@ export default function LandingPage() {
           <div className='flex items-center space-x-6'>
             <a
               href='/login'
-              className='text-[#1976d3] font-semibold text-lg hover:text-blue-800 transition-colors duration-200'
-            >
-              Sign In
-            </a>
-            <a
-              href='#signup'
               className='bg-[#1976d3] text-lg text-white font-semibold px-4 py-2 rounded-lg hover:bg-blue-800 transition-colors duration-200'
             >
-              Sign Up
+              Sign In
             </a>
           </div>
         </div>

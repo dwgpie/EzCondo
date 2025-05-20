@@ -42,7 +42,33 @@ export const login = async (body: { email: string; password: string }) => {
 }
 
 //Password
-export const forgotPassword = (body: { email: string }) => http.post('/api/Auth/forgot-password', body)
+export const forgotPassword = async (body: { email: string }) => {
+  try {
+    const response = await http.post('/api/Auth/forgot-password', body)
+    return response.data
+  } catch (error: unknown) {
+    if (error instanceof AxiosError && error.response) {
+      if (error.response.status === 404) {
+        toast.error('User not found', {
+          style: { width: 'fit-content' }
+        })
+        throw new Error('User not found')
+      }
+
+      if (error.response.status === 423) {
+        toast.error('Your account is blocked', {
+          style: { width: 'fit-content' }
+        })
+        throw new Error('Your account is blocked')
+      }
+
+      toast.error('Something went wrong', {
+        style: { width: 'fit-content' }
+      })
+      throw new Error(error.response.data?.message || 'Something went wrong')
+    }
+  }
+}
 
 export const verifyOTP = (body: { email: string; code: string }) => http.post(`/api/Auth/verify-otp`, body)
 
