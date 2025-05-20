@@ -25,7 +25,7 @@
   "grandchild": "Grandchild",
   "tenant": "Tenant",
   "relationship_to_head": "Relationship to household head",
-  "success_add": "Member created successfully!",
+  "success_add": "Member created successfully",
   "delete_confirm_title": "Are you sure you want to delete?",
   "delete_confirm_text": "This action cannot be undone!",
   "delete_success": "The member has been successfully deleted.",

@@ -1,3 +1,3 @@
-import Dashboard from './Dashboard'
+import DashboardAdmin from './DashboardAdmin'
 
-export default Dashboard
+export default DashboardAdmin

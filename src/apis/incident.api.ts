@@ -14,3 +14,7 @@ export const getImageIncidentById = (id: string) => {
 
 export const updateIncidentStatus = (body: { incidentId: string; status: string }) =>
   http.patch('/api/Incident/update-incident-status', body)
+
+export const getAllIncidentDashboard = () => {
+  return http.get('/api/Incident/incident-dash-board')
+}

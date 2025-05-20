@@ -11,7 +11,8 @@ import Paper from '@mui/material/Paper'
 import { getAllIncident } from '~/apis/incident.api'
 import Pagination from '@mui/material/Pagination'
 import { useTranslation } from 'react-i18next'
-
+import LinearProgress from '@mui/material/LinearProgress'
+import useBufferProgress from '~/components/useBufferProgress'
 interface Incident {
   id: string
   userId: string
@@ -55,6 +56,8 @@ const StyledTableRow = styled(TableRow)(() => ({
 export default function ListIncident() {
   const { t } = useTranslation('incidentManager')
   const [listIncident, setListIncident] = useState<Incident[]>([])
+  const [loading, setLoading] = useState(false)
+  const { progress, buffer } = useBufferProgress(loading)
 
   const [page, setPage] = useState(1)
   const pageSize = 6
@@ -62,11 +65,16 @@ export default function ListIncident() {
 
   const getAllIncidentMutation = useMutation({
     mutationFn: async () => {
+      setLoading(true)
       const response = await getAllIncident()
       return response.data
     },
     onSuccess: (data) => {
-      setListIncident(data)
+      const sortedData = [...data].sort((a, b) => new Date(b.reportedAt).getTime() - new Date(a.reportedAt).getTime())
+      setListIncident(sortedData)
+      setTimeout(() => {
+        setLoading(false)
+      }, 1000)
     },
     onError: (error) => {
       console.error('Lỗi khi hiển thị danh sách incident:', error)
@@ -101,6 +109,11 @@ export default function ListIncident() {
 
   return (
     <div className='mx-5 mt-5 mb-5 p-6 bg-gradient-to-br from-white via-white to-blue-100 drop-shadow-md rounded-xl'>
+      {loading && (
+        <div className='w-full px-6 fixed top-2 left-0 z-50'>
+          <LinearProgress variant='buffer' value={progress} valueBuffer={buffer} />
+        </div>
+      )}
       <div className='mb-[20px]'>
         <h2 className='text-2xl font-semibold text-gray-500 ml-1'>{t('incident_list')}</h2>
       </div>
@@ -111,9 +124,9 @@ export default function ListIncident() {
               <TableRow>
                 <StyledTableCell width='5%'>{t('id')}</StyledTableCell>
                 <StyledTableCell width='15%'>{t('full_name')}</StyledTableCell>
-                <StyledTableCell width='12%'>{t('apartment')}</StyledTableCell>
-                <StyledTableCell width='10%'>{t('type')}</StyledTableCell>
-                <StyledTableCell width='15%'>{t('title')}</StyledTableCell>
+                <StyledTableCell width='10%'>{t('apartment')}</StyledTableCell>
+                <StyledTableCell width='8%'>{t('type')}</StyledTableCell>
+                <StyledTableCell width='19%'>{t('title')}</StyledTableCell>
                 <StyledTableCell width='15%'>{t('date_of_report')}</StyledTableCell>
                 <StyledTableCell width='13%'>{t('status')}</StyledTableCell>
                 <StyledTableCell width='8%'>{t('detail')}</StyledTableCell>
@@ -128,8 +141,21 @@ export default function ListIncident() {
                     </StyledTableCell>
                     <StyledTableCell>{incident.fullName}</StyledTableCell>
                     <StyledTableCell>{incident.apartmentNumber}</StyledTableCell>
-                    <StyledTableCell>{incident.type}</StyledTableCell>
-                    <StyledTableCell>{incident.title}</StyledTableCell>
+                    <StyledTableCell>
+                      <span className='capitalize'>{t(incident.type)}</span>
+                    </StyledTableCell>
+                    <StyledTableCell
+                      sx={{
+                        color: 'black',
+                        textAlign: 'justify',
+                        maxWidth: 50,
+                        whiteSpace: 'nowrap',
+                        overflow: 'hidden',
+                        textOverflow: 'ellipsis'
+                      }}
+                    >
+                      {incident.title}
+                    </StyledTableCell>
                     <StyledTableCell>
                       {new Intl.DateTimeFormat('vi-VN', {
                         timeZone: 'Asia/Ho_Chi_Minh'

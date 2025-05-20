@@ -39,7 +39,8 @@ export default function AddUser() {
     handleSubmit,
     setValue,
     clearErrors,
-    formState: { errors }
+    formState: { errors },
+    reset
   } = useForm<FormData>({
     resolver: yupResolver(addUserSchema)
   })
@@ -143,6 +144,8 @@ export default function AddUser() {
       toast.success(t('user_create_success'), {
         style: { width: 'fit-content' }
       })
+
+      reset()
     } catch (error: any) {
       toast(error.message)
     } finally {

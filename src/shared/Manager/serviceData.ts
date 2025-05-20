@@ -8,11 +8,11 @@ export type ServiceItem = {
 }
 
 const SERVICE_MAP: Record<string, Omit<ServiceItem, 'value'>> = {
-  Spa: { name: 'Phòng xông hơi', color: '#4F46E5', icon: 'Spa' },
-  Laundry: { name: 'Giặt ủi', color: '#10b910', icon: 'LocalLaundryService' },
-  Pool: { name: 'Bể bơi', color: '#3bd1f6', icon: 'Pool' },
-  Gym: { name: 'Gym', color: '#F59E0B', icon: 'FitnessCenter' },
-  ChildCare: { name: 'Khu vui chơi trẻ em', color: '#EC4899', icon: 'ChildCare' }
+  Spa: { name: 'spa.name', color: '#4F46E5', icon: 'Spa' },
+  Laundry: { name: 'laundry.name', color: '#10b910', icon: 'LocalLaundryService' },
+  Pool: { name: 'pool.name', color: '#3bd1f6', icon: 'Pool' },
+  Gym: { name: 'gym.name', color: '#F59E0B', icon: 'FitnessCenter' },
+  ChildCare: { name: 'childCare.name', color: '#EC4899', icon: 'ChildCare' }
 }
 
 export const getServiceData = async (): Promise<ServiceItem[]> => {
