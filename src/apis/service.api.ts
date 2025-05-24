@@ -362,3 +362,7 @@ export const getAllOtherService = () => {
 export const deleteOtherService = (id: string) => {
   return http.delete(`/api/OtherService/delete-other-service?otherServiceId=${id}`)
 }
+
+export const getIncome = () => {
+  return http.get('/api/Payment/Payment-Dashboard')
+}

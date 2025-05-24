@@ -31,6 +31,8 @@ export default function SideBarManagerActive() {
   const PaymentHistoryPath = '/manager/payment-history'
   const BookingHistoryPath = '/manager/booking-history'
 
+  const FeedbackPath = '/manager/feedback'
+
   const [isOpenUser, setIsOpenUser] = useState(false)
   const [isOpenElectric, setIsOpenElectric] = useState(false)
   const [isOpenWater, setIsOpenWater] = useState(false)
@@ -38,6 +40,7 @@ export default function SideBarManagerActive() {
   const [isOpenIncident, setIsOpenIncident] = useState(false)
   const [isOpenParking, setIsOpenParking] = useState(false)
   const [isTransactionHistory, setIsTransactionHistory] = useState(false)
+  const [isOpenFeedback, setIsOpenFeedback] = useState(false)
 
   const handleClickUser = () => {
     setIsOpenUser(!isOpenUser)
@@ -60,6 +63,10 @@ export default function SideBarManagerActive() {
 
   const handleClickTransactionHistory = () => {
     setIsTransactionHistory(!isTransactionHistory)
+  }
+
+  const handleClickFeedback = () => {
+    setIsOpenFeedback(!isOpenFeedback)
   }
 
   return (
@@ -118,7 +125,7 @@ export default function SideBarManagerActive() {
         <div className='w-full'>
           {/* User */}
           <div
-            className={`flex justify-between px-2 pl-2.5 ml-5 mr-2 h-[45px] rounded-xl cursor-pointer hover:bg-blue-100 ripple ${path === ListUserPath ? 'bg-blue-100 text-blue-600' : 'hover:bg-blue-100 text-blue-900'}`}
+            className={`flex justify-between px-2 pl-2.5 ml-5 mr-2 h-[45px] mb-1 rounded-xl cursor-pointer hover:bg-blue-100 ripple ${path === ListUserPath ? 'bg-blue-100 text-blue-600' : 'hover:bg-blue-100 text-blue-900'}`}
             onClick={handleClickUser}
           >
             <div className='flex justify-center items-center gap-x-[5px]'>
@@ -136,7 +143,7 @@ export default function SideBarManagerActive() {
           <div className={`overflow-hidden transition-all duration-300 ${isOpenUser ? 'max-h-[100px]' : 'max-h-0'}`}>
             <Link to='/manager/list-resident'>
               <div
-                className={`flex justify-between px-4 mr-2 ml-15 h-[45px] mb-1 mt-1 rounded-xl cursor-pointer hover:bg-blue-100 ripple ${path === ListUserPath ? 'bg-blue-100 text-blue-600' : 'hover:bg-blue-100 text-blue-900'}`}
+                className={`flex justify-between px-4 mr-2 ml-15 h-[45px] mb-1 rounded-xl cursor-pointer hover:bg-blue-100 ripple ${path === ListUserPath ? 'bg-blue-100 text-blue-600' : 'hover:bg-blue-100 text-blue-900'}`}
               >
                 <div className='flex items-center gap-[14px]'>
                   <svg xmlns='http://www.w3.org/2000/svg' width='28' height='28' viewBox='0 0 250 250'>
@@ -153,7 +160,7 @@ export default function SideBarManagerActive() {
 
           {/* Electricity */}
           <div
-            className={`flex justify-between px-2 ml-5 mr-2 h-[45px] rounded-xl cursor-pointer hover:bg-blue-100 ripple ${path === ElectricMeterPath || path === ElectricicReadingPath || path === ElectricUnpaidPath ? 'bg-blue-100 text-blue-600' : 'hover:bg-blue-100 text-blue-900'}`}
+            className={`flex justify-between px-2 ml-5 mr-2 h-[45px] mb-1 rounded-xl cursor-pointer hover:bg-blue-100 ripple ${path === ElectricMeterPath || path === ElectricicReadingPath || path === ElectricUnpaidPath ? 'bg-blue-100 text-blue-600' : 'hover:bg-blue-100 text-blue-900'}`}
             onClick={handleClickElectric}
           >
             <div className='flex justify-center items-center gap-x-[3px]'>
@@ -175,7 +182,7 @@ export default function SideBarManagerActive() {
           >
             <Link to='/manager/add-electricity-meter'>
               <div
-                className={`flex justify-between px-4 mr-2 ml-15 h-[45px] mb-1 mt-1 rounded-xl cursor-pointer hover:bg-blue-100 ripple ${path === ElectricMeterPath ? 'bg-blue-100 text-blue-600' : 'hover:bg-blue-100 text-blue-900'}`}
+                className={`flex justify-between px-4 mr-2 ml-15 h-[45px] mb-1 rounded-xl cursor-pointer hover:bg-blue-100 ripple ${path === ElectricMeterPath ? 'bg-blue-100 text-blue-600' : 'hover:bg-blue-100 text-blue-900'}`}
               >
                 <div className='flex items-center gap-[8px]'>
                   <svg xmlns='http://www.w3.org/2000/svg' width='34' height='34' viewBox='0 0 24 24'>
@@ -207,7 +214,7 @@ export default function SideBarManagerActive() {
 
             <Link to='/manager/unpaid-electricity'>
               <div
-                className={`flex justify-between px-4 mr-2 ml-15 h-[45px] mb-1 mt-1 rounded-xl cursor-pointer hover:bg-blue-100 ripple ${path === ElectricUnpaidPath ? 'bg-blue-100 text-blue-600' : 'hover:bg-blue-100 text-blue-900'}`}
+                className={`flex justify-between px-4 mr-2 ml-15 h-[45px] mb-1 rounded-xl cursor-pointer hover:bg-blue-100 ripple ${path === ElectricUnpaidPath ? 'bg-blue-100 text-blue-600' : 'hover:bg-blue-100 text-blue-900'}`}
               >
                 <div className='flex items-center gap-[17px]'>
                   <svg xmlns='http://www.w3.org/2000/svg' width='25' height='25' viewBox='0 0 16 16'>
@@ -226,7 +233,7 @@ export default function SideBarManagerActive() {
 
           {/* Water */}
           <div
-            className={`flex justify-between px-2 ml-5 mr-2 h-[45px] rounded-xl cursor-pointer hover:bg-blue-100 ripple ${path === WaterMeterPath || path === WaterReadingPath || path === WaterUnpaidPath ? 'bg-blue-100 text-blue-600' : 'hover:bg-blue-100 text-blue-900'}`}
+            className={`flex justify-between px-2 ml-5 mr-2 h-[45px] mb-1 rounded-xl cursor-pointer hover:bg-blue-100 ripple ${path === WaterMeterPath || path === WaterReadingPath || path === WaterUnpaidPath ? 'bg-blue-100 text-blue-600' : 'hover:bg-blue-100 text-blue-900'}`}
             onClick={handleClickWater}
           >
             <div className='flex justify-center items-center gap-x-[11px]'>
@@ -255,7 +262,7 @@ export default function SideBarManagerActive() {
           <div className={`overflow-hidden transition-all duration-300 ${isOpenWater ? 'max-h-[150px]' : 'max-h-0'}`}>
             <Link to='/manager/add-water-meter'>
               <div
-                className={`flex justify-between px-4 mr-2 ml-15 h-[45px] mb-1 mt-1 rounded-xl cursor-pointer hover:bg-blue-100 ripple ${path === WaterMeterPath ? 'bg-blue-100 text-blue-600' : 'hover:bg-blue-100 text-blue-900'}`}
+                className={`flex justify-between px-4 mr-2 ml-15 h-[45px] mb-1 rounded-xl cursor-pointer hover:bg-blue-100 ripple ${path === WaterMeterPath ? 'bg-blue-100 text-blue-600' : 'hover:bg-blue-100 text-blue-900'}`}
               >
                 <div className='flex items-center gap-[13px]'>
                   <svg xmlns='http://www.w3.org/2000/svg' width='30' height='30' viewBox='0 0 24 24'>
@@ -286,7 +293,7 @@ export default function SideBarManagerActive() {
             </Link>
             <Link to='/manager/unpaid-water'>
               <div
-                className={`flex justify-between px-4 mr-2 ml-15 h-[45px] mb-1 mt-1 rounded-xl cursor-pointer hover:bg-blue-100 ripple ${path === WaterUnpaidPath ? 'bg-blue-100 text-blue-600' : 'hover:bg-blue-100 text-blue-900'}`}
+                className={`flex justify-between px-4 mr-2 ml-15 h-[45px] mb-1 rounded-xl cursor-pointer hover:bg-blue-100 ripple ${path === WaterUnpaidPath ? 'bg-blue-100 text-blue-600' : 'hover:bg-blue-100 text-blue-900'}`}
               >
                 <div className='flex items-center gap-[17px]'>
                   <svg xmlns='http://www.w3.org/2000/svg' width='25' height='25' viewBox='0 0 16 16'>
@@ -305,7 +312,7 @@ export default function SideBarManagerActive() {
 
           {/* Parking */}
           <div
-            className={`flex justify-between px-2 ml-7 mr-2 h-[45px] rounded-xl cursor-pointer hover:bg-blue-100 ripple ${path === ListParkingPath || path === RequestParkingPath || path === ParkingUnpaidPath ? 'bg-blue-100 text-blue-600' : 'hover:bg-blue-100 text-blue-900'}`}
+            className={`flex justify-between px-2 pl-4 ml-5 mr-2 h-[45px] mb-1 rounded-xl cursor-pointer hover:bg-blue-100 ripple ${path === ListParkingPath || path === RequestParkingPath || path === ParkingUnpaidPath ? 'bg-blue-100 text-blue-600' : 'hover:bg-blue-100 text-blue-900'}`}
             onClick={handleClickParking}
           >
             <div className='flex justify-center items-center gap-x-[13px]'>
@@ -320,7 +327,7 @@ export default function SideBarManagerActive() {
           <div className={`overflow-hidden transition-all duration-300 ${isOpenParking ? 'max-h-[150px]' : 'max-h-0'}`}>
             <Link to='/manager/list-parking'>
               <div
-                className={`flex justify-between px-4 mr-2 ml-15 h-[45px] mb-1 mt-1 rounded-xl cursor-pointer hover:bg-blue-100 ripple ${path === ListParkingPath ? 'bg-blue-100 text-blue-600' : 'hover:bg-blue-100 text-blue-900'}`}
+                className={`flex justify-between px-4 mr-2 ml-15 h-[45px] mb-1 rounded-xl cursor-pointer hover:bg-blue-100 ripple ${path === ListParkingPath ? 'bg-blue-100 text-blue-600' : 'hover:bg-blue-100 text-blue-900'}`}
               >
                 <div className='flex items-center gap-[15px]'>
                   <svg xmlns='http://www.w3.org/2000/svg' width='28' height='28' viewBox='0 0 15 15'>
@@ -350,7 +357,7 @@ export default function SideBarManagerActive() {
             </Link>
             <Link to='/manager/unpaid-parking'>
               <div
-                className={`flex justify-between px-4 mr-2 ml-15 h-[45px] mb-1 mt-1 rounded-xl cursor-pointer hover:bg-blue-100 ripple ${path === ParkingUnpaidPath ? 'bg-blue-100 text-blue-600' : 'hover:bg-blue-100 text-blue-900'}`}
+                className={`flex justify-between px-4 mr-2 ml-15 h-[45px] mb-1 rounded-xl cursor-pointer hover:bg-blue-100 ripple ${path === ParkingUnpaidPath ? 'bg-blue-100 text-blue-600' : 'hover:bg-blue-100 text-blue-900'}`}
               >
                 <div className='flex items-center gap-[17px]'>
                   <svg xmlns='http://www.w3.org/2000/svg' width='25' height='25' viewBox='0 0 16 16'>
@@ -369,7 +376,7 @@ export default function SideBarManagerActive() {
 
           {/* Incident */}
           <div
-            className={`flex justify-between px-2 ml-5 mr-2 h-[45px] rounded-xl cursor-pointer hover:bg-blue-100 ripple ${path === ListIncidentPath ? 'bg-blue-100 text-blue-600' : 'hover:bg-blue-100 text-blue-900'}`}
+            className={`flex justify-between px-2 ml-5 mr-2 h-[45px] mb-1 rounded-xl cursor-pointer hover:bg-blue-100 ripple ${path === ListIncidentPath ? 'bg-blue-100 text-blue-600' : 'hover:bg-blue-100 text-blue-900'}`}
             onClick={handleClickIncident}
           >
             <div className='flex justify-center items-center gap-x-[13px]'>
@@ -393,7 +400,7 @@ export default function SideBarManagerActive() {
           >
             <Link to='/manager/list-incident'>
               <div
-                className={`flex justify-between px-4 mr-2 ml-15 h-[45px] mt-1 rounded-xl cursor-pointer hover:bg-blue-100 ripple ${path === ListIncidentPath ? 'bg-blue-100 text-blue-600' : 'hover:bg-blue-100 text-blue-900'}`}
+                className={`flex justify-between px-4 mr-2 ml-15 h-[45px] mb-1 rounded-xl cursor-pointer hover:bg-blue-100 ripple ${path === ListIncidentPath ? 'bg-blue-100 text-blue-600' : 'hover:bg-blue-100 text-blue-900'}`}
               >
                 <div className='flex items-center gap-[15px]'>
                   <svg xmlns='http://www.w3.org/2000/svg' width='30' height='30' viewBox='0 0 24 24'>
@@ -410,7 +417,7 @@ export default function SideBarManagerActive() {
 
           {/* Notification */}
           <div
-            className={`flex justify-between mt-1 px-2 ml-5 mr-2 h-[45px] rounded-xl cursor-pointer hover:bg-blue-100 ripple ${path === HistoryNotificationPath || path === AddNotificationPath ? 'bg-blue-100 text-blue-600' : 'hover:bg-blue-100 text-blue-900'}`}
+            className={`flex justify-between px-2 ml-5 mr-2 h-[45px] mb-1 rounded-xl cursor-pointer hover:bg-blue-100 ripple ${path === HistoryNotificationPath || path === AddNotificationPath ? 'bg-blue-100 text-blue-600' : 'hover:bg-blue-100 text-blue-900'}`}
             onClick={handleClickNotification}
           >
             <div className='flex justify-center items-center gap-x-[13px]'>
@@ -442,7 +449,7 @@ export default function SideBarManagerActive() {
           >
             <Link to='/manager/history-notification'>
               <div
-                className={`flex justify-between px-4 mr-2 ml-15 h-[45px] mb-1 mt-1 rounded-xl cursor-pointer hover:bg-blue-100 ripple ${path === HistoryNotificationPath ? 'bg-blue-100 text-blue-600' : 'hover:bg-blue-100 text-blue-900'}`}
+                className={`flex justify-between px-4 mr-2 ml-15 h-[45px] mb-1 rounded-xl cursor-pointer hover:bg-blue-100 ripple ${path === HistoryNotificationPath ? 'bg-blue-100 text-blue-600' : 'hover:bg-blue-100 text-blue-900'}`}
               >
                 <div className='flex items-center gap-[15px]'>
                   <svg xmlns='http://www.w3.org/2000/svg' width='30' height='30' viewBox='0 0 24 24'>
@@ -464,7 +471,7 @@ export default function SideBarManagerActive() {
             </Link>
             <Link to='/manager/add-notification'>
               <div
-                className={`flex justify-between px-4 mr-2 ml-15 h-[45px] mt-1 rounded-xl cursor-pointer hover:bg-blue-100 ripple ${path === AddNotificationPath ? 'bg-blue-100 text-blue-600' : 'hover:bg-blue-100 text-blue-900'}`}
+                className={`flex justify-between px-4 mr-2 ml-15 h-[45px] mt-1 mb-1 rounded-xl cursor-pointer hover:bg-blue-100 ripple ${path === AddNotificationPath ? 'bg-blue-100 text-blue-600' : 'hover:bg-blue-100 text-blue-900'}`}
               >
                 <div className='flex items-center gap-[15px]'>
                   <svg xmlns='http://www.w3.org/2000/svg' width='30' height='30' viewBox='0 0 24 24'>
@@ -481,10 +488,10 @@ export default function SideBarManagerActive() {
 
           {/* Transaction History */}
           <div
-            className={`flex justify-between mt-1 px-2 ml-7 mr-2 h-[45px] rounded-xl cursor-pointer hover:bg-blue-100 ripple ${path === PaymentHistoryPath || path === BookingHistoryPath ? 'bg-blue-100 text-blue-600' : 'hover:bg-blue-100 text-blue-900'}`}
+            className={`flex justify-between px-2 pl-4 ml-5 mr-2 h-[45px] mb-1 rounded-xl cursor-pointer hover:bg-blue-100 ripple ${path === PaymentHistoryPath || path === BookingHistoryPath ? 'bg-blue-100 text-blue-600' : 'hover:bg-blue-100 text-blue-900'}`}
             onClick={handleClickTransactionHistory}
           >
-            <div className='flex justify-center items-center gap-x-[13px]'>
+            <div className='flex justify-center items-center gap-x-[10px]'>
               <svg xmlns='http://www.w3.org/2000/svg' width='30' height='30' viewBox='0 0 48 48'>
                 <g fill='none' stroke='currentColor' strokeLinejoin='round' strokeWidth='4'>
                   <rect width='30' height='36' x='9' y='8' rx='2' />
@@ -503,7 +510,7 @@ export default function SideBarManagerActive() {
           >
             <Link to='/manager/payment-history'>
               <div
-                className={`flex justify-between px-4 mr-2 ml-15 h-[45px] mb-1 mt-1 rounded-xl cursor-pointer hover:bg-blue-100 ripple ${path === PaymentHistoryPath ? 'bg-blue-100 text-blue-600' : 'hover:bg-blue-100 text-blue-900'}`}
+                className={`flex justify-between px-4 mr-2 ml-15 h-[45px] mb-1 rounded-xl cursor-pointer hover:bg-blue-100 ripple ${path === PaymentHistoryPath ? 'bg-blue-100 text-blue-600' : 'hover:bg-blue-100 text-blue-900'}`}
               >
                 <div className='flex items-center gap-[15px]'>
                   <svg xmlns='http://www.w3.org/2000/svg' width='30' height='30' viewBox='0 0 24 24'>
@@ -518,7 +525,7 @@ export default function SideBarManagerActive() {
             </Link>
             <Link to='/manager/booking-history'>
               <div
-                className={`flex justify-between px-4 mr-2 ml-16 h-[45px] mt-1 mb-10 rounded-xl cursor-pointer hover:bg-blue-100 ripple ${path === BookingHistoryPath ? 'bg-blue-100 text-blue-600' : 'hover:bg-blue-100 text-blue-900'}`}
+                className={`flex justify-between px-4 mr-2 ml-16 h-[45px] mt-1 mb-1 rounded-xl cursor-pointer hover:bg-blue-100 ripple ${path === BookingHistoryPath ? 'bg-blue-100 text-blue-600' : 'hover:bg-blue-100 text-blue-900'}`}
               >
                 <div className='flex items-center gap-[17px]'>
                   <svg xmlns='http://www.w3.org/2000/svg' width='24' height='24' viewBox='0 0 2048 2048'>
@@ -528,6 +535,47 @@ export default function SideBarManagerActive() {
                     />
                   </svg>
                   <p className='text-[15px]'>{t('booking_history')}</p>
+                </div>
+              </div>
+            </Link>
+          </div>
+
+          {/* Feedback */}
+          <div
+            className={`flex justify-between px-2 pl-4 ml-5 mr-2 h-[45px] mb-1 rounded-xl cursor-pointer hover:bg-blue-100 ripple ${path === FeedbackPath ? 'bg-blue-100 text-blue-600' : 'hover:bg-blue-100 text-blue-900'}`}
+            onClick={handleClickFeedback}
+          >
+            <div className='flex justify-center items-center gap-x-[11px]'>
+              <svg xmlns='http://www.w3.org/2000/svg' width='29' height='29' viewBox='0 0 16 16'>
+                <g fill='currentColor'>
+                  <path d='m4.5 1l-.5.5v1.527a4.6 4.6 0 0 1 1 0V2h9v5h-1.707L11 8.293V7H8.973a4.6 4.6 0 0 1 0 1H10v1.5l.854.354L12.707 8H14.5l.5-.5v-6l-.5-.5z' />
+                  <path
+                    fill-rule='evenodd'
+                    d='M6.417 10.429a3.5 3.5 0 1 0-3.834 0A4.5 4.5 0 0 0 0 14.5v.5h1v-.5a3.502 3.502 0 0 1 7 0v.5h1v-.5a4.5 4.5 0 0 0-2.583-4.071M4.5 10a2.5 2.5 0 1 1 0-5a2.5 2.5 0 0 1 0 5'
+                    clip-rule='evenodd'
+                  />
+                </g>
+              </svg>
+              <p className='text-[15px]'>{t('feedback')}</p>
+            </div>
+            <div className='flex items-center justify-center'>{isOpenFeedback ? <ExpandLess /> : <ExpandMore />}</div>
+          </div>
+
+          <div
+            className={`overflow-hidden transition-all duration-300 ${isOpenFeedback ? 'max-h-[100px]' : 'max-h-0'}`}
+          >
+            <Link to='/manager/feedback'>
+              <div
+                className={`flex justify-between px-4 mr-2 ml-15 h-[45px] mb-10 rounded-xl cursor-pointer hover:bg-blue-100 ripple ${path === FeedbackPath ? 'bg-blue-100 text-blue-600' : 'hover:bg-blue-100 text-blue-900'}`}
+              >
+                <div className='flex items-center gap-[15px]'>
+                  <svg xmlns='http://www.w3.org/2000/svg' width='30' height='30' viewBox='0 0 24 24'>
+                    <path
+                      fill='currentColor'
+                      d='M8 17q.425 0 .713-.288T9 16t-.288-.712T8 15t-.712.288T7 16t.288.713T8 17m0-4q.425 0 .713-.288T9 12t-.288-.712T8 11t-.712.288T7 12t.288.713T8 13m0-4q.425 0 .713-.288T9 8t-.288-.712T8 7t-.712.288T7 8t.288.713T8 9m4 8h4q.425 0 .713-.288T17 16t-.288-.712T16 15h-4q-.425 0-.712.288T11 16t.288.713T12 17m0-4h4q.425 0 .713-.288T17 12t-.288-.712T16 11h-4q-.425 0-.712.288T11 12t.288.713T12 13m0-4h4q.425 0 .713-.288T17 8t-.288-.712T16 7h-4q-.425 0-.712.288T11 8t.288.713T12 9M5 21q-.825 0-1.412-.587T3 19V5q0-.825.588-1.412T5 3h14q.825 0 1.413.588T21 5v14q0 .825-.587 1.413T19 21zm0-2h14V5H5zM5 5v14z'
+                    />
+                  </svg>
+                  <p className='text-[15px]'>{t('feedback_history')}</p>
                 </div>
               </div>
             </Link>

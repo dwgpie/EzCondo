@@ -51,6 +51,7 @@ import PaymentHistory from './pages/Manager/PaymentHistory'
 import UnpaidParking from './pages/Manager/Parking/UnpaidParking'
 import AddGeneralService from './pages/Admin/GeneralService/AddGeneralService'
 import ListGeneralService from './pages/Admin/GeneralService/ListGeneralService'
+import Feedback from './pages/Manager/Feedback'
 
 export default function useRouteElements() {
   const { userRole } = useContext(AppContext)
@@ -400,6 +401,14 @@ export default function useRouteElements() {
                 element: (
                   <DashboardManagerLayout>
                     <PaymentHistory />
+                  </DashboardManagerLayout>
+                )
+              },
+              {
+                path: '/manager/feedback',
+                element: (
+                  <DashboardManagerLayout>
+                    <Feedback />
                   </DashboardManagerLayout>
                 )
               },

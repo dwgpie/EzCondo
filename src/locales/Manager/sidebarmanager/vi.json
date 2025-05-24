@@ -24,5 +24,7 @@
   "slogan": "Sống tiện nghi, quản lý thông minh",
   "transaction_history": "Giao dịch",
   "payment_history": "Lịch sử thanh toán",
-  "booking_history": "Lịch sử đặt dịch vụ"
+  "booking_history": "Lịch sử đặt dịch vụ",
+  "feedback": "Phản hồi",
+  "feedback_history": "Lịch sử phản hồi"
 }

@@ -38,6 +38,8 @@ export default function SideBarManagerInactive() {
   const PaymentHistoryPath = '/manager/payment-history'
   const BookingHistoryPath = '/manager/booking-history'
 
+  const FeedbackPath = '/manager/feedback'
+
   const userMenuTimer = useRef<NodeJS.Timeout | null>(null)
   const electricMenuTimer = useRef<NodeJS.Timeout | null>(null)
   const waterMenuTimer = useRef<NodeJS.Timeout | null>(null)
@@ -337,7 +339,7 @@ export default function SideBarManagerInactive() {
             onMouseLeave={() => {
               transactionMenuTimer.current = setTimeout(() => setIsTransactionActive(false), 100)
             }}
-            className={`flex justify-center px-[8px] py-2 mt-1 mb-5 h-[80px] rounded-xl cursor-pointer hover:bg-blue-100 ripple ${path === PaymentHistoryPath || path === BookingHistoryPath ? 'bg-blue-100 text-blue-600' : 'hover:bg-blue-100'}`}
+            className={`flex justify-center px-[8px] py-2 mt-1 h-[80px] rounded-xl cursor-pointer hover:bg-blue-100 ripple ${path === PaymentHistoryPath || path === BookingHistoryPath ? 'bg-blue-100 text-blue-600' : 'hover:bg-blue-100'}`}
             style={
               i18n.language === 'vi'
                 ? {
@@ -354,6 +356,40 @@ export default function SideBarManagerInactive() {
                 </g>
               </svg>
               <p className='text-[13px]'>{t('transaction_history')}</p>
+            </div>
+          </div>
+
+          {/* Feedback */}
+          <div
+            onMouseEnter={(e) => {
+              handleMouseEnter(e.currentTarget)
+              if (incidentMenuTimer.current) clearTimeout(incidentMenuTimer.current)
+              setIsIncidentActive(true)
+            }}
+            onMouseLeave={() => {
+              incidentMenuTimer.current = setTimeout(() => setIsIncidentActive(false), 100)
+            }}
+            className={`flex justify-center px-[12px] py-2 mt-1 h-[80px] mb-6 rounded-xl cursor-pointer hover:bg-blue-100 ripple ${path === FeedbackPath ? 'bg-blue-100 text-blue-600' : 'hover:bg-blue-100'}`}
+            style={
+              i18n.language === 'vi'
+                ? {
+                    padding: '0 17px'
+                  }
+                : undefined
+            }
+          >
+            <div className='flex flex-col justify-center items-center text-center gap-[2px]'>
+              <svg xmlns='http://www.w3.org/2000/svg' width='29' height='29' viewBox='0 0 16 16'>
+                <g fill='currentColor'>
+                  <path d='m4.5 1l-.5.5v1.527a4.6 4.6 0 0 1 1 0V2h9v5h-1.707L11 8.293V7H8.973a4.6 4.6 0 0 1 0 1H10v1.5l.854.354L12.707 8H14.5l.5-.5v-6l-.5-.5z' />
+                  <path
+                    fill-rule='evenodd'
+                    d='M6.417 10.429a3.5 3.5 0 1 0-3.834 0A4.5 4.5 0 0 0 0 14.5v.5h1v-.5a3.502 3.502 0 0 1 7 0v.5h1v-.5a4.5 4.5 0 0 0-2.583-4.071M4.5 10a2.5 2.5 0 1 1 0-5a2.5 2.5 0 0 1 0 5'
+                    clip-rule='evenodd'
+                  />
+                </g>
+              </svg>
+              <p className='text-[13px]'>{t('feedback')}</p>
             </div>
           </div>
         </div>
@@ -751,6 +787,44 @@ export default function SideBarManagerInactive() {
                     />
                   </svg>
                   <li className='flex items-center h-[30px] pl-[10px]'>{t('booking_history')}</li>
+                </div>
+              </div>
+            </Link>
+          </ul>
+        </div>
+      )}
+
+      {/* Hover Menu Feedback */}
+      {isIncidentActive && (
+        <div
+          className='hover-menu-inactive'
+          onMouseEnter={() => {
+            if (incidentMenuTimer.current) clearTimeout(incidentMenuTimer.current)
+            setIsIncidentActive(true)
+          }}
+          onMouseLeave={() => {
+            incidentMenuTimer.current = setTimeout(() => setIsIncidentActive(false), 100)
+          }}
+          style={{
+            top: `${menuPosition.top}px`,
+            left: `${menuPosition.left}px`,
+            position: 'absolute',
+            width: '230px'
+          }}
+        >
+          <ul>
+            <Link to='/manager/feedback'>
+              <div
+                className={`flex justify-between h-[40px] pl-[20px] pr-[20px] text-[13px] rounded-2xl hover:bg-blue-100 ripple ${path === FeedbackPath ? 'bg-blue-100 text-blue-600' : 'hover:bg-blue-100'}`}
+              >
+                <div className='flex items-center gap-[10px]'>
+                  <svg xmlns='http://www.w3.org/2000/svg' width='24' height='24' viewBox='0 0 24 24'>
+                    <path
+                      fill='currentColor'
+                      d='M8 17q.425 0 .713-.288T9 16t-.288-.712T8 15t-.712.288T7 16t.288.713T8 17m0-4q.425 0 .713-.288T9 12t-.288-.712T8 11t-.712.288T7 12t.288.713T8 13m0-4q.425 0 .713-.288T9 8t-.288-.712T8 7t-.712.288T7 8t.288.713T8 9m4 8h4q.425 0 .713-.288T17 16t-.288-.712T16 15h-4q-.425 0-.712.288T11 16t.288.713T12 17m0-4h4q.425 0 .713-.288T17 12t-.288-.712T16 11h-4q-.425 0-.712.288T11 12t.288.713T12 13m0-4h4q.425 0 .713-.288T17 8t-.288-.712T16 7h-4q-.425 0-.712.288T11 8t.288.713T12 9M5 21q-.825 0-1.412-.587T3 19V5q0-.825.588-1.412T5 3h14q.825 0 1.413.588T21 5v14q0 .825-.587 1.413T19 21zm0-2h14V5H5zM5 5v14z'
+                    />
+                  </svg>
+                  <li className='flex items-center h-[30px] pl-[10px]'>{t('feedback_history')}</li>
                 </div>
               </div>
             </Link>

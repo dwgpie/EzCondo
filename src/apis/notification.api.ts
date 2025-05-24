@@ -56,3 +56,6 @@ export const receiveNotification = (body: { type: string; page: number; pageSize
 
 export const markAsRead = (body: { notificationIds: string[] }) =>
   http.post('/api/Notification/notifications/mark-as-read', body)
+
+export const getFeedback = (body: { day: number }) =>
+  http.get(`/api/Notification/admin-or-manager-get-notifications?type=feedback&day=${body.day}&pageSize=1000`)

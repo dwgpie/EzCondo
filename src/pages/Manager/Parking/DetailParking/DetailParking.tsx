@@ -11,7 +11,7 @@ import Paper from '@mui/material/Paper'
 import Pagination from '@mui/material/Pagination'
 import LinearProgress from '@mui/material/LinearProgress'
 import useBufferProgress from '~/components/useBufferProgress'
-import { getParkingById, deleteParkingLot, updateParkingLot } from '~/apis/service.api'
+import { getParkingById, deleteParkingLot, updateParkingLot, getAllParkingLot } from '~/apis/service.api'
 import Swal from 'sweetalert2'
 import { toast } from 'react-toastify'
 import { Button, DialogContent, DialogTitle, Dialog } from '@mui/material'
@@ -31,6 +31,12 @@ interface EditParking {
   parkingLotDetailId: string
   status: string
   checking: string
+}
+
+interface ParkingLot {
+  parkingId: string
+  name: string
+  apartment: string
 }
 
 const StyledTableCell = styled(TableCell)(({ theme }) => ({
@@ -71,6 +77,7 @@ export default function DetailParking() {
   const [openEditDialog, setOpenEditDialog] = useState(false)
   const [editingItem, setEditingItem] = useState<EditParking | null>(null)
   const { t } = useTranslation('parkingManager')
+  const [parking, setParking] = useState<ParkingLot | null>(null)
 
   const geParkingIdFromURL = () => {
     const params = new URLSearchParams(window.location.search)
@@ -82,12 +89,14 @@ export default function DetailParking() {
   const getAllParkingMutation = useMutation({
     mutationFn: async (parkingId: string) => {
       setLoading(true)
-      const response = await getParkingById(parkingId)
-      return response.data
+      const response1 = await getParkingById(parkingId)
+      const response2 = await getAllParkingLot()
+      return { parkingDetail: response1.data, allParkingLots: response2.data }
     },
     onSuccess: (data) => {
-      setListParkingDetail(data)
-
+      setListParkingDetail(data.parkingDetail)
+      const currentParkingLot = data.allParkingLots.find((item: ParkingLot) => item.parkingId === parkingLotId)
+      setParking(currentParkingLot || null)
       setTimeout(() => {
         setLoading(false)
       }, 1000)
@@ -199,8 +208,13 @@ export default function DetailParking() {
           <LinearProgress variant='buffer' value={progress} valueBuffer={buffer} />
         </div>
       )}
-      <div className='flex gap-4 mb-6 justify-between font-bold '>
-        <h2 className='text-2xl font-semibold text-gray-500'>{t('parking_list') + ' ' + t('detail')}</h2>
+      <div className='flex gap-[100px] w-full h-[60px] rounded-t-xl bg-[#94cde7] items-center '>
+        <h2 className='text-[20px] text-[#344050] font-semibold ml-[24px]'>
+          {t('name')}: {parking?.name}
+        </h2>
+        <h2 className='text-[20px] text-[#344050] font-semibold ml-[24px]'>
+          {t('apartment')}: {parking?.apartment}
+        </h2>
       </div>
       <Paper elevation={4} sx={{ borderRadius: '12px', overflow: 'hidden' }}>
         <TableContainer>
