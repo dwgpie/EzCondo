@@ -18,11 +18,11 @@
     "usageRate": "Usage rate",
     "totalRevenueTitle": "Total Revenue"
   },
-  "spa.name": "Steam Room",
+  "steamRoom.name": "Steam room",
   "laundry.name": "Laundry",
   "pool.name": "Pool",
-  "gym.name": "Gym",
-  "childCare.name": "Child Care",
+  "gym.name": "Fitness center",
+  "childCare.name": "Children playground",
   "weather": {
     "humidity": "Humidity",
     "wind": "Wind",
@@ -34,7 +34,9 @@
     "totalApartments": "Occupancy Rate",
     "totalResidents": "Residents",
     "totalIncidents": "Incidents",
-    "totalParking": "Parking Cards"
+    "totalParking": "Parking Cards",
+    "increase": "Increased compared to last week",
+    "decrease": "Decreased compared to last week"
   },
   "months": {
     "jan": "Jan",

@@ -139,12 +139,15 @@ export default function BookingHistory() {
             <Select
               value={search}
               onChange={(e) => setSearch(e.target.value)}
-              sx={{ width: '180px', height: '40px' }}
+              sx={{ width: '220px', height: '40px' }}
               displayEmpty
             >
               <MenuItem value=''>{t('all')}</MenuItem>
-              <MenuItem value='Gym'>{t('gym')}</MenuItem>
-              <MenuItem value='Pool'>{t('pool')}</MenuItem>
+              <MenuItem value='Laundry'>{t('Laundry')}</MenuItem>
+              <MenuItem value='Pool'>{t('Pool')}</MenuItem>
+              <MenuItem value='Fitness center'>{t('Fitness center')}</MenuItem>
+              <MenuItem value='Children playground'>{t('Children playground')}</MenuItem>
+              <MenuItem value='Steam room'>{t('Steam room')}</MenuItem>
             </Select>
           </div>
           <div>

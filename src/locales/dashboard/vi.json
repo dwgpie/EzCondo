@@ -13,15 +13,15 @@
     "month7To12Button": "Tháng 7-12",
     "paidText": "Đã thanh toán",
     "unpaidText": "Chưa thanh toán",
-    "bookingTitle": "Số lượng booking",
+    "bookingTitle": "Số lượng đặt dịch vụ",
     "totalServiceBookings": "Tổng số lượt đặt dịch vụ",
     "usageRate": "Tỷ lệ sử dụng",
     "totalRevenueTitle": "Tổng thu nhập"
   },
-  "spa.name": "Phòng xông hơi",
+  "steamRoom.name": "Phòng xông hơi",
   "laundry.name": "Giặt ủi",
   "pool.name": "Bể bơi",
-  "gym.name": "Gym",
+  "gym.name": "Phòng tập thể dục",
   "childCare.name": "Khu vui chơi trẻ em",
   "weather": {
     "humidity": "Độ ẩm",
@@ -34,7 +34,9 @@
     "totalApartments": "Tỷ lệ lấp đầy",
     "totalResidents": "Cư dân",
     "totalIncidents": "Sự cố",
-    "totalParking": "Số thẻ xe"
+    "totalParking": "Số thẻ xe",
+    "increase": "Tăng so với tuần trước",
+    "decrease": "Giảm so với tuần trước"
   },
   "months": {
     "jan": "Tháng 1",

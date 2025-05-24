@@ -70,7 +70,26 @@ export const forgotPassword = async (body: { email: string }) => {
   }
 }
 
-export const verifyOTP = (body: { email: string; code: string }) => http.post(`/api/Auth/verify-otp`, body)
+export const verifyOTP = async (body: { email: string; code: string }) => {
+  try {
+    const response = await http.post(`/api/Auth/verify-otp`, body)
+    return response.data
+  } catch (error: unknown) {
+    if (error instanceof AxiosError && error.response) {
+      if (error.response.status === 409) {
+        toast.error('Confirmation code is not valid or expired', {
+          style: { width: 'fit-content' }
+        })
+        throw new Error('Incorrect password')
+      }
+
+      toast.error('Something went wrong', {
+        style: { width: 'fit-content' }
+      })
+      throw new Error(error.response.data?.message || 'Something went wrong')
+    }
+  }
+}
 
 export const resetPassword = (body: { tokenMemory: string; newPassword: string }) =>
   http.post('/api/Auth/reset-password', body)
