@@ -8,14 +8,14 @@ export type ServiceItem = {
 }
 
 const SERVICE_MAP: Record<string, Omit<ServiceItem, 'value'>> = {
-  Spa: { name: 'spa.name', color: '#4F46E5', icon: 'Spa' },
   Laundry: { name: 'laundry.name', color: '#10b910', icon: 'LocalLaundryService' },
   Pool: { name: 'pool.name', color: '#3bd1f6', icon: 'Pool' },
-  Gym: { name: 'gym.name', color: '#F59E0B', icon: 'FitnessCenter' },
-  ChildCare: { name: 'childCare.name', color: '#EC4899', icon: 'ChildCare' }
+  'Fitness center': { name: 'gym.name', color: '#F59E0B', icon: 'FitnessCenter' },
+  'Children playground': { name: 'childCare.name', color: '#EC4899', icon: 'ChildCare' },
+  'Steam room': { name: 'steamRoom.name', color: '#4F46E5', icon: 'Spa' }
 }
 
-export const getServiceData = async (): Promise<ServiceItem[]> => {
+export const getServiceData = async (): Promise<{ serviceItems: ServiceItem[]; totalBookings: number }> => {
   try {
     const now = new Date()
     const month = (now.getMonth() + 1).toString()
@@ -28,11 +28,14 @@ export const getServiceData = async (): Promise<ServiceItem[]> => {
 
     for (const booking of bookings) {
       const service = booking.serviceName
-      serviceCount[service] = (serviceCount[service] || 0) + 1
-      totalBookings++
+      if (SERVICE_MAP[service]) {
+        // Only count if the service name is in our map
+        serviceCount[service] = (serviceCount[service] || 0) + 1
+        totalBookings++
+      }
     }
 
-    const result: ServiceItem[] = Object.entries(SERVICE_MAP).map(([serviceKey, serviceInfo]) => {
+    const serviceItems: ServiceItem[] = Object.entries(SERVICE_MAP).map(([serviceKey, serviceInfo]) => {
       const count = serviceCount[serviceKey] || 0
       const percentage = totalBookings > 0 ? (count / totalBookings) * 100 : 0
 
@@ -42,12 +45,15 @@ export const getServiceData = async (): Promise<ServiceItem[]> => {
       }
     })
 
-    return result
+    return { serviceItems, totalBookings }
   } catch (err) {
     console.error('Error fetching booking data:', err)
-    return Object.values(SERVICE_MAP).map((service) => ({
-      ...service,
-      value: 0
-    }))
+    return {
+      serviceItems: Object.values(SERVICE_MAP).map((service) => ({
+        ...service,
+        value: 0
+      })),
+      totalBookings: 0
+    }
   }
 }

@@ -1,12 +1,13 @@
 import { useForm } from 'react-hook-form'
 import { Link, useNavigate, useLocation } from 'react-router-dom'
-import Input from '~/components/Input'
 import { yupResolver } from '@hookform/resolvers/yup'
 import { verifySchema, VerifyOtpSchema } from '~/utils/rules'
 import { useMutation } from '@tanstack/react-query'
 import { verifyOTP } from '~/apis/auth.api'
 import Button from '@mui/material/Button'
 import { toast } from 'react-toastify'
+import OtpInput from 'react-otp-input'
+import { useState, useEffect } from 'react'
 
 type FormData = VerifyOtpSchema
 
@@ -16,19 +17,40 @@ export default function VerifyOTP() {
   const emailFromState = location.state?.email
 
   const {
-    register,
     handleSubmit,
+    setValue,
     formState: { errors }
   } = useForm<FormData>({
     resolver: yupResolver(verifySchema),
     defaultValues: {
-      email: emailFromState
+      email: emailFromState,
+      code: ''
     }
   })
-
   const loginMutation = useMutation({
     mutationFn: (body: FormData) => verifyOTP(body)
   })
+
+  const [otp, setOtp] = useState('')
+  const [timeLeft, setTimeLeft] = useState(300)
+  const [isTimerExpired, setIsTimerExpired] = useState(false)
+
+  useEffect(() => {
+    if (timeLeft === 0) {
+      setIsTimerExpired(true)
+      return
+    }
+
+    const timerId = setInterval(() => {
+      setTimeLeft((prevTime) => prevTime - 1)
+    }, 1000)
+
+    return () => clearInterval(timerId)
+  }, [timeLeft])
+
+  const minutes = Math.floor(timeLeft / 60)
+  const seconds = timeLeft % 60
+  const formattedTime = `${minutes}:${seconds < 10 ? '0' : ''}${seconds}`
 
   const onSubmit = handleSubmit((data) => {
     loginMutation.mutate(data, {
@@ -36,7 +58,7 @@ export default function VerifyOTP() {
         toast.success('Verify OTP successfully', {
           style: { width: 'fit-content' }
         })
-        navigate('/reset-password', { state: { tokenMemory: response.data } })
+        navigate('/reset-password', { state: { tokenMemory: response } })
       },
       onError: (error) => {
         console.log(error)
@@ -59,19 +81,48 @@ export default function VerifyOTP() {
             <img src='/imgs/logo/lo23-Photoroom.png' className='w-50 h-50 object-cover' />
             <h1 className='text-[#1f5fa3] font-bold text-5xl mt-5'> Verify OTP !</h1>
             <p className='text-[#1f5fa3] text-3xl mt-7 w-[460px] text-center'>Enter your OTP.</p>
+            <div className='mt-6 text-center'>
+              {isTimerExpired ? (
+                <p className='text-red-600 font-semibold text-xl'>Time has expired. Please request a new OTP.</p>
+              ) : (
+                <p className='text-[#1f5fa3] font-semibold text-2xl'>Time left: {formattedTime}</p>
+              )}
+            </div>
           </div>
           <div className='bg-white/70 p-6 rounded-lg shadow-lg'>
             <form className='rounded w-[350px]' noValidate onSubmit={onSubmit}>
               <h2 className='text-[#1f5fa3] text-3xl font-bold mb-4 text-center'>Verify OTP</h2>
-              <Input
-                name='code'
-                type='code'
-                placeholder='Code'
-                register={register}
-                className='mt-10'
-                errorMessage={errors.code?.message}
+              <OtpInput
+                value={otp}
+                onChange={(value) => {
+                  setOtp(value)
+                  setValue('code', value)
+                }}
+                numInputs={6}
+                renderInput={(props, index) => (
+                  <input
+                    {...props}
+                    style={{
+                      width: '40px',
+                      height: '40px',
+                      margin: '0 5px',
+                      fontSize: '18px',
+                      borderRadius: '8px',
+                      backgroundColor: '#fff',
+                      textAlign: 'center',
+                      outline: 'none',
+                      border: errors.code ? '2px solid #e53e3e' : otp[index] ? '2px solid #006eff' : '1px solid #ccc',
+                      transition: 'border-color 0.3s ease'
+                    }}
+                    disabled={isTimerExpired}
+                  />
+                )}
+                containerStyle={{ justifyContent: 'center', marginTop: '40px' }}
               />
-              <div className='mt-3'>
+              <div className='min-h-[20px] mt-2 text-center'>
+                <p className='text-red-500 text-sm mt-2 text-center'>{errors.code?.message}</p>
+              </div>
+              <div className='mt-4'>
                 <Button
                   type='submit'
                   variant='contained'

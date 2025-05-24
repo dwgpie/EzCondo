@@ -53,13 +53,15 @@ export default function DashboardAdmin() {
     totalRevenue: 0,
     percentChange: 0
   })
+  const [totalServiceBookings, setTotalServiceBookings] = useState<number>(0)
 
   useEffect(() => {
     getStatsTemplate().then((data) => {
       setStats(
         data.map((item) => ({
           ...item,
-          title: t(item.title)
+          title: t(item.title),
+          compareText: t(item.compareText)
         }))
       )
     })
@@ -68,12 +70,13 @@ export default function DashboardAdmin() {
   useEffect(() => {
     getServiceData().then((data) => {
       setServiceData(
-        data.map((item) => ({
+        data.serviceItems.map((item) => ({
           ...item,
           name: t(item.name),
           icon: iconMap[item.icon] || null
         }))
       )
+      setTotalServiceBookings(data.totalBookings)
     })
   }, [t])
 
@@ -676,10 +679,7 @@ export default function DashboardAdmin() {
                     {t('dashboard.bookingTitle')}
                   </Typography>
                   <Typography variant='h2' style={{ fontWeight: 600, color: '#111827' }}>
-                    100%
-                  </Typography>
-                  <Typography variant='body1' style={{ color: '#6B7280', marginTop: '10px' }}>
-                    {t('dashboard.totalServiceBookings')}
+                    {totalServiceBookings}
                   </Typography>
                 </div>
 
@@ -763,10 +763,10 @@ export default function DashboardAdmin() {
                   <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
                     <Typography variant='h3' style={{ fontWeight: 600, color: '#111827' }}>
                       {totalRevenueStats.totalRevenue >= 1000000
-                        ? `$${(totalRevenueStats.totalRevenue / 1000000).toFixed(1)}M`
+                        ? `${(totalRevenueStats.totalRevenue / 1000000).toFixed(1)}M₫`
                         : totalRevenueStats.totalRevenue >= 1000
-                          ? `$${(totalRevenueStats.totalRevenue / 1000).toFixed(1)}K`
-                          : `$${totalRevenueStats.totalRevenue}`}
+                          ? `${(totalRevenueStats.totalRevenue / 1000).toFixed(1)}K₫`
+                          : `${totalRevenueStats.totalRevenue}₫`}
                     </Typography>
                     <span
                       style={{
