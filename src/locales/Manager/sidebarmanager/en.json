@@ -24,5 +24,7 @@
   "slogan": "Live Comfortably, Manage Smartly",
   "transaction_history": "Transaction",
   "payment_history": "Payment History",
-  "booking_history": "Booking History"
+  "booking_history": "Booking History",
+  "feedback": "Feedback",
+  "feedback_history": "Feedback History"
 }

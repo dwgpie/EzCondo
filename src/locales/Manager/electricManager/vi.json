@@ -89,5 +89,6 @@
   "end_date": "Ngày kết thúc",
   "amount": "Số tiền",
   "no_parkings_found": "Không tìm thấy dữ liệu gửi xe nào",
-  "APT_number": "Số căn hộ"
+  "APT_number": "Số căn hộ",
+  "cancel": "Hủy"
 }

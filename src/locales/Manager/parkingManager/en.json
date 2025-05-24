@@ -20,5 +20,6 @@
   "submit_save": "Save",
   "parking_request_list": "Parking Request List",
   "accept": "Accept",
-  "reject": "Reject"
+  "reject": "Reject",
+  "name": "Full Name"
 }

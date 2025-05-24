@@ -30,13 +30,14 @@ import {
 } from '@mui/icons-material'
 import { styles } from '~/pages/Manager/Dashboard/DashboardStyles'
 import { useState, useEffect } from 'react'
-import { getStatsTemplate, StatItem } from '~/shared/Manager/startsTemplate'
+import { getStatsTemplate, StatItem } from '~/shared/startsTemplate'
 import type { JSX } from 'react'
-import { getServiceData } from '~/shared/Manager/serviceData'
-import { getPaymentData, PaymentItem } from '~/shared/Manager/paymentData'
-import { getTotalTransactionsByMonth } from '~/shared/Manager/transactionData'
+import { getServiceData } from '~/shared/serviceData'
+import { getPaymentData, PaymentItem } from '~/shared/paymentData'
+import { getTotalTransactionsByMonth } from '~/shared/transactionData'
 import GaugeComponent from 'react-gauge-component'
 import { useTranslation } from 'react-i18next'
+import { getMonthlyIncomeData, IncomeItem, getTotalRevenueStats } from '~/shared/incomeData'
 
 export default function DashboardManager() {
   const { t } = useTranslation('dashboard')
@@ -47,6 +48,11 @@ export default function DashboardManager() {
   const [gaugeQuarter, setGaugeQuarter] = useState<'Q1' | 'Q2' | 'Q3' | 'Q4'>('Q1')
   const [hoveredIndex, setHoveredIndex] = useState<number | null>(null)
   const [totalTransactions, setTotalTransactions] = useState<number>(0)
+  const [monthlyIncomeData, setMonthlyIncomeData] = useState<IncomeItem[]>([])
+  const [totalRevenueStats, setTotalRevenueStats] = useState<{ totalRevenue: number; percentChange: number }>({
+    totalRevenue: 0,
+    percentChange: 0
+  })
 
   useEffect(() => {
     getStatsTemplate().then((data) => {
@@ -76,8 +82,8 @@ export default function DashboardManager() {
       monthGroup === 'firstHalf' ? ['01', '02', '03', '04', '05', '06'] : ['07', '08', '09', '10', '11', '12']
     const monthNames =
       monthGroup === 'firstHalf'
-        ? ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun']
-        : ['Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec']
+        ? [t('months.jan'), t('months.feb'), t('months.mar'), t('months.apr'), t('months.may'), t('months.jun')]
+        : [t('months.jul'), t('months.aug'), t('months.sep'), t('months.oct'), t('months.nov'), t('months.dec')]
     Promise.all(months.map((month) => getPaymentData(month))).then((results) => {
       const dataWithMonthNames = results.flat().map((item, idx) => ({
         ...item,
@@ -85,7 +91,7 @@ export default function DashboardManager() {
       }))
       setPaymentData(dataWithMonthNames)
     })
-  }, [monthGroup])
+  }, [monthGroup, t])
 
   useEffect(() => {
     const fetchTransactions = async () => {
@@ -109,6 +115,18 @@ export default function DashboardManager() {
     fetchTransactions()
   }, [gaugeQuarter])
 
+  useEffect(() => {
+    getMonthlyIncomeData().then((data) => {
+      setMonthlyIncomeData(data)
+    })
+  }, [])
+
+  useEffect(() => {
+    getTotalRevenueStats().then((data) => {
+      setTotalRevenueStats(data)
+    })
+  }, [])
+
   // Map tên icon sang component
   const iconMap: Record<string, JSX.Element> = {
     Apartment: <Apartment className='text-blue-600' fontSize='large' />,
@@ -121,21 +139,6 @@ export default function DashboardManager() {
     FitnessCenter: <FitnessCenter style={{ color: '#F59E0B' }} fontSize='large' />,
     ChildCare: <ChildCare style={{ color: '#EC4899' }} fontSize='large' />
   }
-
-  const monthlyData = [
-    { name: 'Jan', value: 85 },
-    { name: 'Feb', value: 92 },
-    { name: 'Mar', value: 32 },
-    { name: 'Apr', value: 95 },
-    { name: 'May', value: 37 },
-    { name: 'Jun', value: 87 },
-    { name: 'Jul', value: 19 },
-    { name: 'Aug', value: 18 },
-    { name: 'Sep', value: 91 },
-    { name: 'Oct', value: 93 },
-    { name: 'Nov', value: 96 },
-    { name: 'Dec', value: 10 }
-  ]
 
   const CustomTooltip = ({ active, payload }: any) => {
     if (active && payload && payload.length) {
@@ -205,12 +208,37 @@ export default function DashboardManager() {
     return null
   }
 
-  const sampleTrendData = [
-    [{ value: 10 }, { value: 20 }, { value: 15 }, { value: 25 }, { value: 30 }, { value: 35 }],
-    [{ value: 30 }, { value: 25 }, { value: 28 }, { value: 22 }, { value: 18 }, { value: 15 }],
-    [{ value: 5 }, { value: 10 }, { value: 12 }, { value: 18 }, { value: 25 }, { value: 30 }],
-    [{ value: 20 }, { value: 22 }, { value: 21 }, { value: 25 }, { value: 23 }, { value: 28 }]
-  ]
+  const RevenueTooltip = ({ active, payload, label }: any) => {
+    if (active && payload && payload.length) {
+      const value = payload[0].value
+      let formattedValue = ''
+      if (value >= 1000000) {
+        formattedValue = `${(value / 1000000).toFixed(1)}M`
+      } else if (value >= 1000) {
+        formattedValue = `${(value / 1000).toFixed(1)}K`
+      } else {
+        formattedValue = `${value}`
+      }
+      return (
+        <div
+          style={{
+            backgroundColor: 'white',
+            padding: '12px',
+            border: 'none',
+            borderRadius: '8px',
+            boxShadow: '0 2px 8px rgba(0,0,0,0.15)'
+          }}
+        >
+          <p style={{ color: '#111827', margin: '0 0 8px 0', fontWeight: 600 }}>{label}</p>
+          <p style={{ color: '#4F46E5', margin: '4px 0', display: 'flex', justifyContent: 'space-between' }}>
+            <span>Revenue:</span>
+            <span style={{ fontWeight: 600 }}>{formattedValue}</span>
+          </p>
+        </div>
+      )
+    }
+    return null
+  }
 
   return (
     <div className='mx-5 mt-5 mb-5 '>
@@ -292,7 +320,7 @@ export default function DashboardManager() {
                       </div>
                       <div style={{ width: '180px', height: '100px', flexShrink: 0 }}>
                         <ResponsiveContainer width='100%' height='100%'>
-                          <AreaChart data={sampleTrendData[index]}>
+                          <AreaChart data={[{ value: item.lastWeek }, { value: item.thisWeek }]}>
                             <defs>
                               <linearGradient id={`trendGradient-${index}`} x1='0' y1='0' x2='0' y2='1'>
                                 <stop offset='5%' stopColor={glowColor} stopOpacity={0.8} />
@@ -647,10 +675,10 @@ export default function DashboardManager() {
                   <Typography variant='h6' style={{ color: '#111827', marginBottom: '0.5rem' }}>
                     {t('dashboard.bookingTitle')}
                   </Typography>
-                  <Typography variant='h3' style={{ fontWeight: 600, color: '#111827' }}>
+                  <Typography variant='h2' style={{ fontWeight: 600, color: '#111827' }}>
                     100%
                   </Typography>
-                  <Typography variant='body2' style={{ color: '#6B7280' }}>
+                  <Typography variant='body1' style={{ color: '#6B7280', marginTop: '10px' }}>
                     {t('dashboard.totalServiceBookings')}
                   </Typography>
                 </div>
@@ -729,31 +757,39 @@ export default function DashboardManager() {
             <CardContent style={{ padding: '1.5rem' }}>
               <div style={{ display: 'flex', alignItems: 'center', marginBottom: '1rem' }}>
                 <div style={{ marginRight: '1rem' }}>
-                  <Typography variant='body2' style={{ color: '#6B7280', marginBottom: '0.25rem' }}>
+                  <Typography variant='h6' style={{ color: '#6B7280', marginBottom: '0.25rem' }}>
                     {t('dashboard.totalRevenueTitle')}
                   </Typography>
                   <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
-                    <Typography variant='h4' style={{ fontWeight: 600, color: '#111827' }}>
-                      $459.1k
+                    <Typography variant='h3' style={{ fontWeight: 600, color: '#111827' }}>
+                      {totalRevenueStats.totalRevenue >= 1000000
+                        ? `$${(totalRevenueStats.totalRevenue / 1000000).toFixed(1)}M`
+                        : totalRevenueStats.totalRevenue >= 1000
+                          ? `$${(totalRevenueStats.totalRevenue / 1000).toFixed(1)}K`
+                          : `$${totalRevenueStats.totalRevenue}`}
                     </Typography>
                     <span
                       style={{
-                        color: '#10B981',
+                        color: totalRevenueStats.percentChange >= 0 ? '#10B981' : '#EF4444',
                         fontSize: '0.875rem',
                         fontWeight: 500,
                         display: 'flex',
                         alignItems: 'center'
                       }}
                     >
-                      <ArrowUpward style={{ fontSize: '1rem', marginRight: '2px' }} />
-                      65%
+                      {totalRevenueStats.percentChange >= 0 ? (
+                        <ArrowUpward style={{ fontSize: '1rem', marginRight: '2px' }} />
+                      ) : (
+                        <ArrowDownward style={{ fontSize: '1rem', marginRight: '2px' }} />
+                      )}
+                      {Math.abs(totalRevenueStats.percentChange)}%
                     </span>
                   </div>
                 </div>
               </div>
               <div style={{ height: '300px', width: '100%' }}>
                 <ResponsiveContainer width='100%' height='100%'>
-                  <AreaChart data={monthlyData}>
+                  <AreaChart data={monthlyIncomeData}>
                     <defs>
                       <linearGradient id='colorRevenue' x1='0' y1='0' x2='0' y2='1'>
                         <stop offset='0%' stopColor='#4F46E5' stopOpacity={0.3} />
@@ -763,7 +799,7 @@ export default function DashboardManager() {
                     </defs>
                     <CartesianGrid strokeDasharray='3 3' vertical={false} stroke='#E5E7EB' />
                     <XAxis
-                      dataKey='name'
+                      dataKey='month'
                       axisLine={false}
                       tickLine={false}
                       tick={{ fill: '#9CA3AF', fontSize: 12 }}
@@ -774,9 +810,16 @@ export default function DashboardManager() {
                       tickLine={false}
                       tick={{ fill: '#9CA3AF', fontSize: 12 }}
                       dx={-10}
-                      tickFormatter={(value) => `$${value}k`}
+                      tickFormatter={(value) => {
+                        if (value >= 1000000) {
+                          return `${(value / 1000000).toFixed(1)}M`
+                        } else if (value >= 1000) {
+                          return `${(value / 1000).toFixed(1)}K`
+                        }
+                        return value
+                      }}
                     />
-                    <Tooltip content={<CustomTooltip />} />
+                    <Tooltip content={<RevenueTooltip />} />
                     <Area
                       type='monotone'
                       dataKey='value'

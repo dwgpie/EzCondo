@@ -197,7 +197,7 @@ export default function AddMember() {
       <div>
         <div className='flex gap-[100px] w-full h-[60px] rounded-t-xl bg-[#94cde7] items-center '>
           <h2 className='text-[20px] text-[#344050] font-semibold ml-[24px]'>
-            {t('name')}: {resident?.fullName}
+            {t('full_name')}: {resident?.fullName}
           </h2>
           <h2 className='text-[20px] text-[#344050] font-semibold ml-[24px]'>
             {t('apartment')}: {apartmentNumber}

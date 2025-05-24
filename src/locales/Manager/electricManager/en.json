@@ -89,5 +89,6 @@
   "end_date": "End Date",
   "amount": "Amount",
   "no_parkings_found": "No parking data found",
-  "APT_number": "Apartment"
+  "APT_number": "Apartment",
+  "cancel": "Cancel"
 }
