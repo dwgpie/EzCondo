@@ -198,12 +198,17 @@ export default function DashboardAdmin() {
         >
           <p style={{ color: '#111827', margin: '0 0 8px 0', fontWeight: 600 }}>{label}</p>
           <p style={{ color: '#6366F1', margin: '4px 0', display: 'flex', justifyContent: 'space-between' }}>
-            <span>Đã thanh toán:</span>
-            <span style={{ fontWeight: 600 }}>{payload[0].value} căn</span>
+            <span>{t('dashboard.paid')}:</span>
+            <span style={{ fontWeight: 600 }}>
+              {payload[0].value} {t(payload[0].value === 1 ? 'dashboard.apartment' : 'dashboard.apartments')}
+            </span>
           </p>
           <p style={{ color: '#60A5FA', margin: '4px 0', display: 'flex', justifyContent: 'space-between' }}>
-            <span>Chưa thanh toán:</span>
-            <span style={{ fontWeight: 600 }}>{Math.abs(payload[1].value)} căn</span>
+            <span>{t('dashboard.unpaid')}:</span>
+            <span style={{ fontWeight: 600 }}>
+              {Math.abs(payload[1].value)}{' '}
+              {t(Math.abs(payload[1].value) === 1 ? 'dashboard.apartment' : 'dashboard.apartments')}
+            </span>
           </p>
         </div>
       )
@@ -690,9 +695,9 @@ export default function DashboardAdmin() {
                         data={serviceData}
                         cx='50%'
                         cy='50%'
-                        innerRadius={60}
-                        outerRadius={80}
-                        paddingAngle={5}
+                        innerRadius={55}
+                        outerRadius={90}
+                        paddingAngle={2}
                         dataKey='value'
                       >
                         {serviceData.map((entry, index) => (

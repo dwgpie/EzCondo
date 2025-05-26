@@ -90,5 +90,6 @@
   "amount": "Số tiền",
   "no_parkings_found": "Không tìm thấy dữ liệu gửi xe nào",
   "APT_number": "Số căn hộ",
-  "cancel": "Hủy"
+  "cancel": "Hủy",
+  "something_went_wrong": "Đã có lỗi xảy ra"
 }
