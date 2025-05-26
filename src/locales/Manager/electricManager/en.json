@@ -90,5 +90,6 @@
   "amount": "Amount",
   "no_parkings_found": "No parking data found",
   "APT_number": "Apartment",
-  "cancel": "Cancel"
+  "cancel": "Cancel",
+  "something_went_wrong": "Something went wrong"
 }

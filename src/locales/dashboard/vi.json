@@ -16,7 +16,11 @@
     "bookingTitle": "Số lượng đặt dịch vụ",
     "totalServiceBookings": "Tổng số lượt đặt dịch vụ",
     "usageRate": "Tỷ lệ sử dụng",
-    "totalRevenueTitle": "Tổng thu nhập"
+    "totalRevenueTitle": "Tổng thu nhập",
+    "paid": "Đã thanh toán",
+    "unpaid": "Chưa thanh toán",
+    "apartment": "căn hộ",
+    "apartments": "căn hộ"
   },
   "steamRoom.name": "Phòng xông hơi",
   "laundry.name": "Giặt ủi",

@@ -16,7 +16,11 @@
     "bookingTitle": "Booking Quantity",
     "totalServiceBookings": "Total service bookings",
     "usageRate": "Usage rate",
-    "totalRevenueTitle": "Total Revenue"
+    "totalRevenueTitle": "Total Revenue",
+    "paid": "Paid",
+    "unpaid": "Unpaid",
+    "apartments": "apartments",
+    "apartment": "apartment"
   },
   "steamRoom.name": "Steam room",
   "laundry.name": "Laundry",
