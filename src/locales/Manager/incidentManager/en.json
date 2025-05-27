@@ -20,5 +20,9 @@
   "cancel": "Cancel",
   "update": "Update",
   "data_loading": "Data loading...",
-  "priority": "Priority"
+  "priority": "Priority",
+  "high": "High",
+  "medium": "Medium",
+  "low": "Low",
+  "all": "All"
 }

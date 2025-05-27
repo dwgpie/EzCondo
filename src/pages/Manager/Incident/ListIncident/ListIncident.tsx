@@ -61,7 +61,13 @@ export default function ListIncident() {
 
   const [page, setPage] = useState(1)
   const pageSize = 6
-  const totalPages = Math.ceil(listIncident.length / pageSize)
+  const [selectedPriority, setSelectedPriority] = useState<number | null>(null)
+
+  const filteredIncidents = selectedPriority
+    ? listIncident.filter((incident) => incident.priority === selectedPriority)
+    : listIncident
+
+  const totalPages = Math.ceil(filteredIncidents.length / pageSize)
 
   const getAllIncidentMutation = useMutation({
     mutationFn: async () => {
@@ -111,9 +117,6 @@ export default function ListIncident() {
     }
   }
 
-  // Hàm lấy user theo trang hiện tại
-  const paginatedIncidents = listIncident.slice((page - 1) * pageSize, page * pageSize)
-
   const handlePageChange = (_event: React.ChangeEvent<unknown>, newPage: number) => {
     setPage(newPage)
   }
@@ -125,8 +128,27 @@ export default function ListIncident() {
           <LinearProgress variant='buffer' value={progress} valueBuffer={buffer} />
         </div>
       )}
-      <div className='mb-[20px]'>
-        <h2 className='text-2xl font-semibold text-gray-500 ml-1'>{t('incident_list')}</h2>
+      <div className='flex items-center justify-between'>
+        <div className='mb-[20px]'>
+          <h2 className='text-2xl font-semibold text-gray-500 ml-1'>{t('incident_list')}</h2>
+        </div>
+        <div className='mb-4 flex space-x-2 ml-1'>
+          <button
+            className={`px-3 py-1 rounded-md text-sm font-medium cursor-pointer ${selectedPriority === null ? 'bg-blue-500 text-white' : 'bg-gray-200 text-gray-700 hover:bg-gray-300'}`}
+            onClick={() => setSelectedPriority(null)}
+          >
+            {t('all')}
+          </button>
+          {[1, 2, 3].map((priority) => (
+            <button
+              key={priority}
+              className={`px-4 py-2 rounded-md text-sm font-medium cursor-pointer ${selectedPriority === priority ? getPriorityColor(priority) : 'bg-gray-200 text-gray-700 hover:bg-gray-300'}`}
+              onClick={() => setSelectedPriority(priority)}
+            >
+              {priority === 1 ? t('high') : priority === 2 ? t('medium') : t('low')}
+            </button>
+          ))}
+        </div>
       </div>
       <Paper elevation={4} sx={{ borderRadius: '12px', overflow: 'hidden' }}>
         <TableContainer>
@@ -145,8 +167,8 @@ export default function ListIncident() {
               </TableRow>
             </TableHead>
             <TableBody>
-              {paginatedIncidents.length > 0 ? (
-                paginatedIncidents.map((incident, index) => (
+              {filteredIncidents.length > 0 ? (
+                filteredIncidents.slice((page - 1) * pageSize, page * pageSize).map((incident, index) => (
                   <StyledTableRow key={incident.id}>
                     <StyledTableCell sx={{ color: 'black', fontWeight: '600' }}>
                       {(page - 1) * pageSize + index + 1}
@@ -184,7 +206,7 @@ export default function ListIncident() {
                       <span
                         className={`${getPriorityColor(incident.priority)} capitalize px-2 py-1 rounded-full text-sm font-semibold`}
                       >
-                        {incident.priority}
+                        {incident.priority === 1 ? t('high') : incident.priority === 2 ? t('medium') : t('low')}
                       </span>
                     </StyledTableCell>
                     <StyledTableCell colSpan={1}>

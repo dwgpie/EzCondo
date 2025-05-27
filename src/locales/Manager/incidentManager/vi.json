@@ -20,5 +20,9 @@
   "cancel": "Hủy",
   "update": "Cập nhật",
   "data_loading": "Đang tải dữ liệu...",
-  "priority": "Độ ưu tiên"
+  "priority": "Độ ưu tiên",
+  "high": "Cao",
+  "medium": "Trung bình",
+  "low": "Thấp",
+  "all": "Tất cả"
 }
