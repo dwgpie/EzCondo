@@ -100,6 +100,17 @@ export default function ListIncident() {
     }
   }
 
+  const getPriorityColor = (priority: number) => {
+    switch (priority) {
+      case 1:
+        return 'bg-gradient-to-r from-red-200 to-red-300 text-red-700 font-semibold rounded-lg shadow-sm'
+      case 2:
+        return 'bg-gradient-to-r from-yellow-200 to-yellow-300 text-yellow-700 font-semibold rounded-lg shadow-sm'
+      case 3:
+        return 'bg-gradient-to-r from-green-200 to-green-300 text-green-700 font-semibold rounded-lg shadow-sm'
+    }
+  }
+
   // Hàm lấy user theo trang hiện tại
   const paginatedIncidents = listIncident.slice((page - 1) * pageSize, page * pageSize)
 
@@ -127,8 +138,9 @@ export default function ListIncident() {
                 <StyledTableCell width='10%'>{t('apartment')}</StyledTableCell>
                 <StyledTableCell width='8%'>{t('type')}</StyledTableCell>
                 <StyledTableCell width='19%'>{t('title')}</StyledTableCell>
-                <StyledTableCell width='15%'>{t('date_of_report')}</StyledTableCell>
-                <StyledTableCell width='13%'>{t('status')}</StyledTableCell>
+                <StyledTableCell width='13%'>{t('date_of_report')}</StyledTableCell>
+                <StyledTableCell width='10%'>{t('status')}</StyledTableCell>
+                <StyledTableCell width='8%'>{t('priority')}</StyledTableCell>
                 <StyledTableCell width='8%'>{t('detail')}</StyledTableCell>
               </TableRow>
             </TableHead>
@@ -166,6 +178,13 @@ export default function ListIncident() {
                         className={`${getStatusColor(incident.status)} capitalize px-2 py-1 rounded-full text-sm font-semibold`}
                       >
                         {incident.status}
+                      </span>
+                    </StyledTableCell>
+                    <StyledTableCell>
+                      <span
+                        className={`${getPriorityColor(incident.priority)} capitalize px-2 py-1 rounded-full text-sm font-semibold`}
+                      >
+                        {incident.priority}
                       </span>
                     </StyledTableCell>
                     <StyledTableCell colSpan={1}>

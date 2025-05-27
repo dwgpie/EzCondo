@@ -285,7 +285,7 @@ export default function ElectricityReading() {
                 <StyledTableCell width='19%'>{t('reading_current_date')}</StyledTableCell>
                 <StyledTableCell width='8%'>{t('consumption')}</StyledTableCell>
                 <StyledTableCell width='0%'>{t('status')}</StyledTableCell>
-                <StyledTableCell width='7%'>{t('detail')}</StyledTableCell>
+                <StyledTableCell width='7%'>{t('bill')}</StyledTableCell>
               </TableRow>
             </TableHead>
             <TableBody>
