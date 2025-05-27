@@ -142,7 +142,6 @@ export default function Header() {
 
   const fetchIsReadAllNotification = async () => {
     try {
-      console.log('đọc')
       await markAsRead({
         notificationIds: isReadAll
       })
@@ -209,6 +208,8 @@ export default function Header() {
         return 'bg-gradient-to-r from-green-200 to-green-300 text-green-700 font-semibold rounded-lg shadow-sm'
       case 'new':
         return 'bg-gradient-to-r from-green-200 to-green-300 text-green-700 font-semibold rounded-lg shadow-sm'
+      case 'feedback':
+        return 'bg-gradient-to-r from-yellow-200 to-yellow-300 text-yellow-700 font-semibold rounded-lg shadow-sm'
       case 'incident':
         return 'bg-gradient-to-r from-red-200 to-red-300 text-red-700 font-semibold rounded-lg shadow-sm'
     }

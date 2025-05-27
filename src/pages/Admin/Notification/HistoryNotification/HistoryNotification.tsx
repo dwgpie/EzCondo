@@ -82,7 +82,9 @@ export default function HistoryNotification() {
         type,
         day
       })
-      setListNotification(res.data.notifications || res.data)
+      const notifications = res.data.notifications || res.data
+      const filteredNotifications = notifications.filter((notification: FormData) => notification.type !== 'feedback')
+      setListNotification(filteredNotifications)
       setPage(1) // reset lại page về 1 khi lọc
     }
     setTimeout(() => {

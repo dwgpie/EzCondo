@@ -19,5 +19,6 @@
   "phone_number": "Phone Number",
   "cancel": "Cancel",
   "update": "Update",
-  "data_loading": "Data loading..."
+  "data_loading": "Data loading...",
+  "priority": "Priority"
 }
