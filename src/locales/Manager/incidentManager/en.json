@@ -19,5 +19,10 @@
   "phone_number": "Phone Number",
   "cancel": "Cancel",
   "update": "Update",
-  "data_loading": "Data loading..."
+  "data_loading": "Data loading...",
+  "priority": "Priority",
+  "high": "High",
+  "medium": "Medium",
+  "low": "Low",
+  "all": "All"
 }
