@@ -295,8 +295,8 @@ export default function UnpaidElectricity() {
                 <StyledTableCell width='16%'>{t('name')}</StyledTableCell>
                 <StyledTableCell width='16%'>{t('apartment_number')}</StyledTableCell>
                 <StyledTableCell width='11%'>{t('phone')}</StyledTableCell>
-                <StyledTableCell width='19%'>{t('reading_pre_date')}</StyledTableCell>
-                <StyledTableCell width='18%'>{t('reading_current_date')}</StyledTableCell>
+                <StyledTableCell width='17%'>{t('reading_pre_date')}</StyledTableCell>
+                <StyledTableCell width='17%'>{t('reading_current_date')}</StyledTableCell>
                 <StyledTableCell width='8%'>{t('consumption')}</StyledTableCell>
                 <StyledTableCell width='10%'>{t('status')}</StyledTableCell>
               </TableRow>
@@ -319,7 +319,6 @@ export default function UnpaidElectricity() {
                       {new Intl.DateTimeFormat('vi-VN', {
                         hour: '2-digit',
                         minute: '2-digit',
-                        second: '2-digit',
                         year: 'numeric',
                         month: '2-digit',
                         day: '2-digit',
@@ -330,7 +329,6 @@ export default function UnpaidElectricity() {
                       {new Intl.DateTimeFormat('vi-VN', {
                         hour: '2-digit',
                         minute: '2-digit',
-                        second: '2-digit',
                         year: 'numeric',
                         month: '2-digit',
                         day: '2-digit',

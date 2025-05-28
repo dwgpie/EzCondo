@@ -281,11 +281,11 @@ export default function WaterReading() {
                 <StyledTableCell width='16%'>{t('name')}</StyledTableCell>
                 <StyledTableCell width='9%'>{t('APT_number')}</StyledTableCell>
                 <StyledTableCell width='12%'>{t('phone')}</StyledTableCell>
-                <StyledTableCell width='19%'>{t('reading_pre_date')}</StyledTableCell>
-                <StyledTableCell width='19%'>{t('reading_current_date')}</StyledTableCell>
+                <StyledTableCell width='17%'>{t('reading_pre_date')}</StyledTableCell>
+                <StyledTableCell width='17%'>{t('reading_current_date')}</StyledTableCell>
                 <StyledTableCell width='8%'>{t('consumption')}</StyledTableCell>
                 <StyledTableCell width='8%'>{t('status')}</StyledTableCell>
-                <StyledTableCell width='7%'>{t('bill')}</StyledTableCell>
+                <StyledTableCell width='8%'>{t('bill')}</StyledTableCell>
               </TableRow>
             </TableHead>
             <TableBody>
@@ -300,7 +300,6 @@ export default function WaterReading() {
                       {new Intl.DateTimeFormat('vi-VN', {
                         hour: '2-digit',
                         minute: '2-digit',
-                        second: '2-digit',
                         year: 'numeric',
                         month: '2-digit',
                         day: '2-digit',
@@ -311,7 +310,6 @@ export default function WaterReading() {
                       {new Intl.DateTimeFormat('vi-VN', {
                         hour: '2-digit',
                         minute: '2-digit',
-                        second: '2-digit',
                         year: 'numeric',
                         month: '2-digit',
                         day: '2-digit',
@@ -331,7 +329,7 @@ export default function WaterReading() {
                     <StyledTableCell>
                       <div className=''>
                         <button
-                          className='text-blue-500 cursor-pointer bg-blue-100 p-1.5 rounded-full ml-2'
+                          className='text-blue-500 cursor-pointer bg-blue-100 p-1.5 rounded-full'
                           onClick={() => handleDetailClick(water.id || '')}
                         >
                           <svg xmlns='http://www.w3.org/2000/svg' width='22' height='22' viewBox='0 0 48 48'>
